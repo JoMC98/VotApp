@@ -1,7 +1,7 @@
 <button (click)=alterna()>Cambia</button>
 
-<footer class="footer">
-  <div class="row" [ngClass] = "admin ? 'row5' : 'row3'">
+<footer class="footer" [ngClass] = "admin ? 'row5' : 'row3'">
+  <div class="row">
     <div class="item" *ngFor="let opt of options">
       <span *ngIf='opt == 6'></span>
       <img routerLink="listadoVotaciones" id="icon{{opt}}" class="icon-footer-size" 
