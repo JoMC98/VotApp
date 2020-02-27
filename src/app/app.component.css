@@ -1,0 +1,11 @@
+.bodyHeight {
+    min-height: 90%;
+    max-height: 90%;
+    border: 0.5px solid #272343;
+    /*border: 0.5px solid white;*/
+}
+
+.bodyBox{
+    height: 155vw;
+    border: 1px #272343 solid;
+}

@@ -1,7 +1,13 @@
 .rowPuntos {
     width: 100%; 
-    position: fixed;
-    bottom: 10%;
+    margin-top: 3%;
+    /*position: fixed; 
+    bottom: 12%; */
+}
+
+.contentNewVotacion{
+    height: 103vw;
+    border: 1px #272343 solid;
 }
 
 .rowPuntos2 {
@@ -32,7 +38,7 @@
 
 .titlePanel {
     margin-bottom: 0px;
-    padding-top: 5%;
+    padding-top: 3%;
     padding-left: 15%;
 }
 
@@ -84,4 +90,17 @@
   /* underline border color on focused */
 ::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
     background-color:  #D1967D !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #272343;
+  transition: background-color 5000s ease-in-out 0s;
 }
