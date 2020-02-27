@@ -19,6 +19,10 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { DatosComponent } from './components/nueva-votacion/datos/datos.component';
+import { OpcionesComponent } from './components/nueva-votacion/opciones/opciones.component';
+import { ParticipantesComponent } from './components/nueva-votacion/participantes/participantes.component';
+import { ResumenComponent } from './components/nueva-votacion/resumen/resumen.component';
 
 
 @NgModule({
@@ -33,6 +37,10 @@ import { MatSelectModule } from '@angular/material/select';
     NuevoUserComponent,
     PasswdComponent,
     PageNotFoundComponent,
+    DatosComponent,
+    OpcionesComponent,
+    ParticipantesComponent,
+    ResumenComponent,
   ],
   imports: [
     BrowserModule,

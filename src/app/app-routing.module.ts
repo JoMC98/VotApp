@@ -5,6 +5,7 @@ import { NuevaVotacionComponent } from '../app/components/nueva-votacion/nueva-v
 import { UsersComponent } from '../app/components/users/users.component';
 import { NuevoUserComponent } from './components/nuevo-user/nuevo-user.component';
 import { PasswdComponent } from '../app/components/passwd/passwd.component';
+import { HomeComponent } from '../app/components/home/home.component';
 import { PageNotFoundComponent } from '../app/components/page-not-found/page-not-found.component';
 
 
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'listadoVotaciones', component: ListadoVotacionesComponent },
   { path: 'nuevaVotacion', component: NuevaVotacionComponent },
   { path: 'users', component: UsersComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'nuevoUser', component: NuevoUserComponent },
   { path: 'passwd', component: PasswdComponent },
   { path: '', redirectTo: '/listadoVotaciones', pathMatch: 'full' },

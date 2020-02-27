@@ -1,20 +1,11 @@
-<button (click)=alterna()>Cambia</button>
+<!--<button (click)=alterna()>Cambia</button>-->
 
-<footer class="footer" [ngClass] = "admin ? 'row5' : 'row3'">
-  <div class="row">
+<footer class="footer" [ngClass] = "admin ? '' : 'rowFooter3'">
+  <div class="rowFooter">
     <div class="item" *ngFor="let opt of options">
       <span *ngIf='opt == 6'></span>
-      <img routerLink="listadoVotaciones" id="icon{{opt}}" class="icon-footer-size" 
-      (click)=change(opt) *ngIf="opt == 0" src="assets/icons/selected/{{opt}}.png"/>
-      <img routerLink="{{pages[opt]}}" id="icon{{opt}}" class="icon-footer-size" 
-      (click)=change(opt) *ngIf="opt != 6 && opt != 0"  src="assets/icons/{{opt}}.png"/>
+      <img *ngIf='opt != 6' routerLink="{{pages[opt]}}" id="icon{{opt}}" [ngClass] = "admin ? 'icon-footer-size' : 'icon-footer-size3'" 
+      (click)="page = opt" [src]="page == opt ? 'assets/icons/selected/' + opt + '.png' : 'assets/icons/' + opt + '.png'"/>
     </div>
   </div>
-  <!--<div class="row rowHr">
-    <div *ngFor="let opt of options">
-      <span *ngIf='opt == 6'></span>
-      <div id="hr{{opt}}" class="hr-footer" *ngIf="opt == 0"><br></div>
-      <div id="hr{{opt}}" class="hr-footer" *ngIf="opt != 6 && opt != 0" hidden><br></div>
-    </div>
-  </div>-->
 </footer>

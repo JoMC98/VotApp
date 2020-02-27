@@ -1,0 +1,13 @@
+<div class="scrollOptions">
+    <div class="formContainer" *ngFor="let opt of [].constructor(opciones); let i = index" >
+        <mat-form-field class="fieldForm">
+            <div class="divMinusForm">
+                <input id="inputFormOption{{i}}" class="inputForm" [class]="i > 1 ? 'inputFormMinus' : ''" matInput placeholder="Opción {{i + 1}}">
+                <i *ngIf="i > 1" (click)="deleteOption(i)" class="fas fa-minus minusIcon"></i>
+            </div>
+        </mat-form-field>
+    </div>
+    <div class="plusButtonDiv">
+        <i (click)="newOption()" class="fas fa-plus plusButton"></i>
+    </div>
+</div>

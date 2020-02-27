@@ -1,17 +1,20 @@
-<label>Nueva votación</label>
-<div class="example-container">
-    <mat-form-field>
-      <input matInput placeholder="Input">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-        <textarea matInput placeholder="Textarea"></textarea>
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <mat-select placeholder="Select">
-        <mat-option value="option">Option</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <br>
+<div class="titlePanel">
+  <label class="titlePanelH2">Nueva votación</label><br>
+  <label class="subtitlePanelH3" *ngIf="sect == 1">Datos básicos</label>
+  <label class="subtitlePanelH3" *ngIf="sect == 2">Opciones</label>
+  <label class="subtitlePanelH3" *ngIf="sect == 3">Participantes</label>
+    <label class="subtitlePanelH3" *ngIf="sect == 4">Resumen</label>
+</div>
+
+<app-datos *ngIf="sect == 1"></app-datos>
+<app-opciones *ngIf="sect == 2"></app-opciones>
+<app-participantes *ngIf="sect == 3"></app-participantes>
+<app-resumen *ngIf="sect == 4"></app-resumen>
+
+<div class="rowPuntos">
+  <div class="rowPuntos2">
+    <i (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
+    <div *ngFor="let opt of points" (click)="sect = opt" class="circulo" [ngClass] = "sect == opt ? 'circuloSelected' : ''"></div>
+    <i (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
   </div>
+</div>

@@ -4,24 +4,18 @@
     width: 100%;
 }
 
-.row {
+.rowFooter {
     margin: auto;
     display: grid;
     width: 100%;
     height: 100%;
     grid-template-columns: repeat( auto-fit, minmax(20%, 1fr) );    
     margin-bottom: 10px;
-    border: 1px yellow solid;
 }
 
-.row3 {
+.rowFooter3 {
     padding-left: 10%;
     padding-right: 10%;
-}
-
-.rowHr {
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .item {
@@ -30,13 +24,10 @@
 
 .icon-footer-size {
     width: 50%;
-    border: 0px;
     outline: 0;
 }
 
-.hr-footer {
-    width: 60%;
-    height: 2px;
-    margin: auto;
-    border-bottom: 2px solid #e3f6f5;
+.icon-footer-size3 {
+    width: 62.5%;
+    outline: 0;
 }

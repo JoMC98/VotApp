@@ -1,0 +1,87 @@
+.rowPuntos {
+    width: 100%; 
+    position: fixed;
+    bottom: 10%;
+}
+
+.rowPuntos2 {
+    display: grid;
+    margin: auto;
+    width: 50%;
+    grid-template-columns: repeat( auto-fit, minmax(16%, 1fr) );    
+}
+
+.circulo {
+    background-color: #D1967D;
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    margin: auto;
+}
+
+.circuloSelected {
+    background-color: #DCF4F4;
+}
+
+.flecha {
+    font-size: 30px;
+    color: #D1967D;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.titlePanel {
+    margin-bottom: 0px;
+    padding-top: 5%;
+    padding-left: 15%;
+}
+
+.titlePanelH2 {
+    color: #D1967D;
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 8%;
+    margin-bottom: 6%;
+}
+
+.subtitlePanelH3 {
+    color: white;
+    font-size: 1.5em;
+    margin-bottom: 12%;
+}
+
+.formContainer {
+    width: 100%;
+}
+
+/* input color class */
+::ng-deep .mat-input-element {
+    /*color: #e6e1dc !important;*/
+    color: white !important;
+}
+
+::ng-deep .mat-select-arrow {
+    color: white !important;
+}
+
+::ng-deep .mat-select-value-text {
+    color: white !important;
+}
+
+::ng-deep .mat-form-field-label {
+    color: #B9B9B9 !important;
+}
+  
+::ng-deep .mat-form-field-underline {
+    background-color: #B9B9B9 !important;
+}
+  
+  /* Change label color on focused */
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color:  #D1967D !important;
+}
+  
+  /* underline border color on focused */
+::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+    background-color:  #D1967D !important;
+}
