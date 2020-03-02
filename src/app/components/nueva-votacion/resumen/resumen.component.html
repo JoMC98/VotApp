@@ -1,1 +1,26 @@
-<p>resumen works!</p>
+<div class="scrollOptions">
+    <div class="formContainer fieldForm">
+        <label class="resumenShow resumenBig resumenWhite"><label class="resumenOrange sublabel">Pregunta: </label> {{pregunta}}</label>
+        <label class="resumenShow resumenLittle resumenWhite"><label class="resumenOrange sublabel">Descripción: </label> {{descripcion}}</label>
+        <label class="resumenShow resumenMiddle resumenWhite"><label class="resumenOrange sublabel">Departamento: </label> {{dpto}}</label><br>
+        <label class="resumenShow resumenMiddle resumenWhite"><label class="resumenOrange sublabel">Ámbito: </label> {{ambito}} -- {{ambitoDescripcion[ambito]}}</label>
+        <label class="resumenShow resumenMiddle resumenWhite">
+            <label class="resumenOrange sublabel">Opciones: </label>
+            <br>
+            <div class="optionsContainer">
+                <div class="optionIndividualDiv" *ngFor="let opt of opciones; let i = index;">
+                    <label>{{i + 1}}. {{opt}}</label>
+                </div>
+            </div>
+        </label>
+        <label class="resumenShow resumenMiddle resumenWhite">
+            <label class="resumenOrange sublabel">Participantes: </label>
+            <br>
+            <div>
+                <div *ngFor="let opt of participantes; let i = index;">
+                    <label class="participanteIndividual">{{i + 1}}. {{opt}}</label>
+                </div>
+            </div>
+        </label>
+    </div>
+</div>

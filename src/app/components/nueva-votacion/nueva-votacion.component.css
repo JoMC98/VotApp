@@ -1,12 +1,29 @@
 .rowPuntos {
     width: 100%; 
     margin-top: 3%;
-    /*position: fixed; 
-    bottom: 12%; */
+}
+
+.fieldForm {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100% !important;
+    border: 1px green solid !important;
+}
+
+.inputForm {
+    border: 1px white solid !important;
+    width: 100% !important;
+}
+
+.allContent {
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
 }
 
 .contentNewVotacion{
-    height: 103vw;
+    height: 108vw;
+    width: 100%;
     border: 1px #272343 solid;
 }
 
@@ -39,7 +56,6 @@
 .titlePanel {
     margin-bottom: 0px;
     padding-top: 3%;
-    padding-left: 15%;
 }
 
 .titlePanelH2 {
@@ -53,11 +69,12 @@
 .subtitlePanelH3 {
     color: white;
     font-size: 1.5em;
-    margin-bottom: 12%;
+    margin-bottom: 7%;
 }
 
 .formContainer {
     width: 100%;
+    border: 1px white solid;
 }
 
 /* input color class */
@@ -90,6 +107,11 @@
   /* underline border color on focused */
 ::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
     background-color:  #D1967D !important;
+}
+
+::ng-deep .mat-select-panel {
+    background-color: #B9B9B9 !important;
+    margin-top: 45px;
 }
 
 input:-webkit-autofill,

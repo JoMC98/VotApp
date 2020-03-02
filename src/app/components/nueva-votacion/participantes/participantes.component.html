@@ -1,1 +1,15 @@
-<p>participantes works!</p>
+<label class="fieldForm totalParticipantes">Total participantes: {{total}}</label>
+<div class="scrollOptions">
+    <div class="formContainer fieldForm" *ngFor="let item of participantes | keyvalue">
+        <div class="containerDptoNewParticipante" (click)="mostrarOcultar(item.key)">
+            <i class="fas flechaNewParticipante fa-chevron-right" id="flecha{{item.key}}"></i>
+            <label class="dptoNewParticipante">Departamento de {{item.key}}</label>
+            <label class="dptoCounter">{{item.value.selected}} / {{item.value.values.length}}</label>
+        </div>
+        <div style="display: none" id="dpto{{item.key}}" >
+            <div class="checkboxContainer" *ngFor="let val of item.value.values; let i = index">
+                <mat-checkbox class="checkboxParticipantes" id="checkbox-{{item.key}}-{{i}}" (change)="selection($event.checked, item.key, i)">{{val}}</mat-checkbox>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,10 +19,14 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { DatosComponent } from './components/nueva-votacion/datos/datos.component';
 import { OpcionesComponent } from './components/nueva-votacion/opciones/opciones.component';
 import { ParticipantesComponent } from './components/nueva-votacion/participantes/participantes.component';
 import { ResumenComponent } from './components/nueva-votacion/resumen/resumen.component';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -50,7 +54,10 @@ import { ResumenComponent } from './components/nueva-votacion/resumen/resumen.co
     AngularSvgIconModule.forRoot(),
     MatFormFieldModule, 
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule,
+    NgSelectModule, 
+    FormsModule
   ],
   entryComponents: [FooterComponent, ListadoVotacionesComponent, NuevaVotacionComponent],
   providers: [],

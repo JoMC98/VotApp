@@ -1,0 +1,64 @@
+.scrollOptions {
+    width: 100%; 
+    height: 90vw; 
+    overflow-x: hidden;
+    overflow-x: auto; 
+    text-align: justify;
+}
+
+.flechaNewParticipante{
+    color: #B9B9B9; 
+    font-size: 15px;
+    width: 8%;
+
+}
+
+.dptoNewParticipante {
+    color: #B9B9B9;
+    font-weight: normal;
+    font-size: 15px;
+}
+
+.totalParticipantes {
+    color: #B9B9B9;
+    font-size: 18px;
+    margin-bottom: 5%;
+}
+
+.checkboxParticipantes {
+    font-weight: normal;
+    font-size: 13px;
+    color: white;
+}
+
+.checkboxContainer{
+    position: relative;
+    margin-left: 15%;
+    margin-right: 5%;
+}
+
+.containerDptoNewParticipante {
+    position: relative;
+    margin-right: -3%;
+}
+
+.dptoCounter{
+    position: absolute !important;
+    right: 0;
+    color: #B9B9B9;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+    position: absolute !important;
+    right: 0;
+    top: 4px;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background,
+::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: #D1967D !important;
+}
+
+::ng-deep .mat-checkbox-frame {
+    border: 1px solid white !important;
+}
