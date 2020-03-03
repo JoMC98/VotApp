@@ -1,0 +1,30 @@
+<div class="scrollOptions">
+    <div class="formContainer">
+      <mat-form-field class="fieldFormAncho">
+        <mat-label>Nombre</mat-label>
+        <input class="inputForm" matInput>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="fieldFormAncho">
+        <mat-label>Apellidos</mat-label>
+        <input class="inputForm" matInput>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="fieldFormAncho">
+        <mat-label>Nombre de usuario</mat-label>
+        <input class="inputForm" matInput>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="fieldFormPasswd">   
+        <mat-label>Contraseña temporal</mat-label>
+        <div class="divPasswdForm">
+            <input type="password" id="inputPasswd" class="inputForm inputFormMinus" matInput>
+            <i class="fas fa-eye eyeIcon" (click)="showHidePasswd()"></i>
+        </div> 
+      </mat-form-field>
+      <div class="passwdDescrip">
+        <span>La contraseña será usada por el usuario solo para el primer acceso.</span>
+      </div>
+      <br>
+    </div>
+  </div>

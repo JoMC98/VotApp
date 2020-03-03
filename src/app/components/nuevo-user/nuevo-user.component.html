@@ -1,0 +1,22 @@
+<div class="allContent">
+    <div class="titlePanel">
+      <label class="titlePanelH2">Nuevo usuario</label><br>
+      <label class="subtitlePanelH3" *ngIf="sect == 1">Datos personales</label>
+      <label class="subtitlePanelH3" *ngIf="sect == 2">Datos de contacto</label>
+      <label class="subtitlePanelH3-Res" *ngIf="sect == 3">Comprueba que los datos sean correctos</label><br>
+    </div>
+    
+    <div class="contentNewVotacion">
+      <app-datos-personales *ngIf="sect == 1"></app-datos-personales>
+      <app-datos-contacto *ngIf="sect == 2"></app-datos-contacto>
+      <app-resumen-user *ngIf="sect == 3"></app-resumen-user>
+    </div>
+    
+    <div class="rowPuntos-3">
+      <i (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
+      <div class="rowPuntos2-3">
+        <div *ngFor="let opt of points" (click)="sect = opt" class="circulo" [ngClass] = "sect == opt ? 'circuloSelected' : ''"></div>
+      </div>
+      <i (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
+    </div>
+  </div>

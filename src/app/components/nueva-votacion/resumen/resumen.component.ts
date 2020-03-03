@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResumenComponent implements OnInit {
   pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?"
-  descripcion: string = "Lorem ipsum dolor sit amet consectetur adipiscing, elit pellentesque pulvinar phasellus id, feugiat himenaeos mattis interdum magna. Tortor hendrerit massa senectus dui auctor neque, mauris in blandit.";
   dpto: string = "Marketing";
   ambito: string = "Privada";
   ambitoDescripcion = {"none": "", "Publica": "La votación será visible para todos", 
@@ -15,10 +14,12 @@ export class ResumenComponent implements OnInit {
   "Privada": "La votación solo será visible para los participantes", 
   "Oculta": "La votación no será visible para nadie"};
   //opciones: string[] = ["Sí", "No"];
-   //opciones: string[] = ["Sí, deberiamos abrirla ", "No, que va, no te ralles"];
-  //opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol"];
+  //opciones: string[] = ["Sí, deberiamos abrirla ", "No, que va, no te ralles"];
+  //opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol", "Pero que cojones dices?"];
   opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol", "Pero que cojones dices?", "No LOL"];
-  participantes: string[] = ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles"];
+  participantes: string[] = ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles", "Paco Rodriguez Garcia", "Manolo Fuentes Lopez"];
+  fecha: Date = new Date();
+  color: string = "blue";
 
   constructor() { }
 

@@ -1,4 +1,5 @@
-<div class="formContainer">
+<div class="scrollOptions">
+  <div class="formContainer">
     <mat-form-field class="fieldForm">
       <textarea class="inputForm" style="resize: none;" matInput placeholder="Pregunta" rows=2></textarea>
     </mat-form-field>
@@ -13,6 +14,13 @@
       </mat-select>
     </mat-form-field>
     <br>
+    <mat-form-field class="fieldForm">
+      <mat-label>Fecha de votación</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <br>
     <mat-form-field class="fieldForm fieldFormAmbito">
       <mat-select class="inputForm" [(value)]="selected" placeholder="Ámbito">
         <mat-option value="Publica">Pública</mat-option>
@@ -25,7 +33,8 @@
       <span>{{ambitoDescripcion[selected]}}</span>
     </div>
     <mat-form-field class="fieldForm">
-      <textarea class="inputForm" style="resize: none;" matInput placeholder="Descripción" rows=6></textarea>
+      <textarea class="inputForm" style="resize: none;" matInput placeholder="Descripción" rows=5></textarea>
     </mat-form-field>
     <br>
+  </div>
 </div>

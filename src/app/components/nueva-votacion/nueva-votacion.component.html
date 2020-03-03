@@ -4,7 +4,7 @@
     <label class="subtitlePanelH3" *ngIf="sect == 1">Datos básicos</label>
     <label class="subtitlePanelH3" *ngIf="sect == 2">Opciones</label>
     <label class="subtitlePanelH3" *ngIf="sect == 3">Participantes</label>
-      <label class="subtitlePanelH3" *ngIf="sect == 4">Resumen</label>
+    <label class="subtitlePanelH3-Res" *ngIf="sect == 4">Comprueba que los datos sean correctos</label><br>
   </div>
   
   <div class="contentNewVotacion">
@@ -15,11 +15,11 @@
   </div>
   
   <div class="rowPuntos">
+    <i (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
     <div class="rowPuntos2">
-      <i (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
       <div *ngFor="let opt of points" (click)="sect = opt" class="circulo" [ngClass] = "sect == opt ? 'circuloSelected' : ''"></div>
-      <i (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
     </div>
+    <i (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
   </div>
 </div>
 

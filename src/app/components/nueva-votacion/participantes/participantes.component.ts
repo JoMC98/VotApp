@@ -6,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./participantes.component.css']
 })
 export class ParticipantesComponent implements OnInit {
-  participantes = {"Administración" : {values: ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles"], selected : 0},
-                   "Marketing" : {values: ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles", "Paco Rodriguez Garcia", "Manolo Fuentes Lopez"], selected : 0},
-                   "Finanzas" : {values: ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles"], selected : 0},
-                   "Dirección" : {values: ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles", "Paco Rodriguez Garcia", "Manolo Fuentes Lopez"], selected : 0},
+  participantes = {"Administración" : {values: [["Paco Rodriguez", "Jefe de Abastecimiento"], ["Manolo Fuentes", "Secretario general de Administración"], ["Lorenzo Fernandez", "CCO"]], selected : 0},
+                   "Marketing" : {values: [["Paco Rodriguez", "Jefe de Comerciales"], ["Manolo Fuentes", "Secretario general de Marketing"], ["Lorenzo Fernandez", "CCO"], ["Paco Rodrigue Garcia", "CMO"], ["Manolo Fuentes", "CTO"]], selected : 0},
+                   "Finanzas" : {values: [["Paco Rodriguez", "Jefe de Prensa"], ["Manolo Fuentes", "Secretario general de Administración"], ["Lorenzo Fernandez", "CCO"]], selected : 0},
+                   "Dirección" : {values: [["Paco Rodriguez", "Jefe de Abastecimiento"], ["Manolo Fuentes", "CEO"], ["Lorenzo Fernandez", "CCO"], ["Paco Rodriguez", "CMO"], ["Manolo Fuentes", "CTO"]], selected : 0},
                   }
 
   total: number = 0;

@@ -9,3 +9,249 @@
     height: 155vw;
     border: 1px #272343 solid;
 }
+
+::ng-deep .rowPuntos {
+    width: 60%; 
+    margin-top: 3%;
+    display: flex;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+::ng-deep .rowPuntos2 {
+    width: 60%;
+    display: grid;
+    margin: auto;
+    grid-template-columns: repeat( auto-fit, minmax(16%, 1fr) );    
+}
+
+::ng-deep .rowPuntos-3 {
+    width: 50%; 
+    margin-top: 3%;
+    display: flex;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+::ng-deep .rowPuntos2-3 {
+    width: 50%;
+    display: grid;
+    margin: auto;
+    grid-template-columns: repeat( auto-fit, minmax(20%, 1fr) );    
+}
+
+::ng-deep .circulo {
+    background-color: #D1967D;
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    margin: auto;
+}
+
+::ng-deep .circuloSelected {
+    background-color: #DCF4F4;
+}
+
+::ng-deep .flecha {
+    font-size: 30px;
+    color: #D1967D;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+::ng-deep .titlePanel {
+    margin-bottom: 0px;
+    padding-top: 3%;
+}
+
+::ng-deep .titlePanelH2 {
+    color: #D1967D;
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 8%;
+    margin-bottom: 6%;
+}
+
+::ng-deep .subtitlePanelH3 {
+    color: white;
+    font-size: 1.5em;
+    margin-bottom: 7%;
+}
+
+::ng-deep .subtitlePanelH3-Res{
+    color: white;
+    font-size: 1em;
+    margin-bottom: 7%;
+}
+
+::ng-deep .fieldForm {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    width: 100% !important;
+}
+
+::ng-deep .fieldFormAncho {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 100% !important;
+}
+
+::ng-deep .fieldFormMedio {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100% !important;  
+}
+
+::ng-deep .inputFormMinus {
+    width: 92% !important;
+}
+
+::ng-deep .allContent {
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+}
+
+::ng-deep .contentNewVotacion{
+    height: 108vw;
+    width: 100%;
+    border: 1px #272343 solid;
+}
+
+::ng-deep .scrollOptions {
+    width: 100%; 
+    height: 105vw; 
+    overflow-x: hidden;
+    overflow-x: auto; 
+    text-align: justify;
+}
+
+/* input color class */
+::ng-deep .mat-input-element {
+    /*color: #e6e1dc !important;*/
+    color: white !important;
+}
+
+::ng-deep .mat-select-arrow {
+    color: white !important;
+}
+
+::ng-deep .mat-datepicker-toggle-default-icon {
+    color: white !important;
+}
+
+::ng-deep .mat-select-value-text {
+    color: white !important;
+}
+
+::ng-deep .mat-form-field-label {
+    color: #B9B9B9 !important;
+}
+  
+::ng-deep .mat-form-field-underline {
+    background-color: #B9B9B9 !important;
+}
+  
+  /* Change label color on focused */
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color:  #D1967D !important;
+}
+  
+  /* underline border color on focused */
+::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+    background-color:  #D1967D !important;
+}
+
+::ng-deep .mat-select-panel {
+    background-color: #B9B9B9 !important;
+    margin-top: 45px;
+}
+
+::ng-deep .mat-datepicker-content {
+    background-color: #B9B9B9 !important;
+    position: fixed;
+    height: 55% !important;
+    width: 80% !important;
+    left: 10%;
+    top: 27.5%;
+    text-align: center;
+}
+
+::ng-deep .mat-calendar {
+    width: 80% !important;
+    height: 80% !important;
+    margin: 10% !important;
+}
+
+::ng-deep input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #272343;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+::ng-deep .rowResumen {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+::ng-deep .textResumen {
+    font-size: 14px;
+    color: #B9B9B9; 
+}
+
+::ng-deep .fieldResumen {
+    text-align: left;
+    width: 25%;
+}
+
+::ng-deep .fieldResumenGrande {
+    text-align: left;
+    width: 40%;
+}
+
+::ng-deep .valueResumen {
+    text-align: right;
+    width: 75%;
+    font-weight: bold;
+} 
+
+::ng-deep .valueResumenGrande {
+    text-align: right;
+    width: 60%;
+    font-weight: bold;
+} 
+
+::ng-deep .lineaResumen{
+    border: 0.5px solid #B9B9B9 !important;
+    opacity: 0.2 !important;
+}
+
+::ng-deep .rowOpciones {
+    padding-left: 5%;
+    padding-right: 5%;
+    color: #B9B9B9; 
+    font-size: 13px;
+}
+
+::ng-deep .buttonConfirm{
+    width: 40% !important;
+    margin-top: 20px !important;
+    margin-left: 30% !important;
+    margin-right: 30% !important;
+    color: #D1967D !important;
+    border: 1px solid #D1967D !important;
+}
+
+::ng-deep .buttonConfirm:focus {
+    outline: 0;
+}

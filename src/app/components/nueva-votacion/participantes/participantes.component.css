@@ -1,16 +1,7 @@
-.scrollOptions {
-    width: 100%; 
-    height: 90vw; 
-    overflow-x: hidden;
-    overflow-x: auto; 
-    text-align: justify;
-}
-
 .flechaNewParticipante{
     color: #B9B9B9; 
     font-size: 15px;
     width: 8%;
-
 }
 
 .dptoNewParticipante {
@@ -33,18 +24,17 @@
 
 .checkboxContainer{
     position: relative;
-    margin-left: 15%;
+    margin-left: 5%;
     margin-right: 5%;
 }
 
 .containerDptoNewParticipante {
     position: relative;
-    margin-right: -3%;
 }
 
 .dptoCounter{
     position: absolute !important;
-    right: 0;
+    right: 1%;
     color: #B9B9B9;
 }
 
@@ -61,4 +51,8 @@
 
 ::ng-deep .mat-checkbox-frame {
     border: 1px solid white !important;
+}
+
+.scrollOptions90 {
+    height: 90vw !important; 
 }

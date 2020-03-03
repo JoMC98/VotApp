@@ -1,5 +1,3 @@
-
-
 .divMinusForm {
     position: relative;
 }
@@ -7,7 +5,7 @@
 .minusIcon {
     position: absolute;
     top: 0;
-    padding-left: 10px;
+    right: 0;
     font-size: 20px;
     color: #B9B9B9;
 }
@@ -19,12 +17,4 @@
 
 .plusButtonDiv {
     text-align: center;
-}
-
-.scrollOptions {
-    width: 100%; 
-    height: 97vw; 
-    overflow-x: hidden;
-    overflow-x: auto; 
-    text-align: justify;
 }
