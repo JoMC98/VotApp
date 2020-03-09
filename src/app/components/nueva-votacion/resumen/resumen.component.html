@@ -9,7 +9,6 @@
             <label class="textResumen fieldResumen">Departamento</label>
             <label class="textResumen valueResumen">{{dpto}}</label>
         </div>
-        <hr class="lineaResumen"/>
         <div class="rowResumen">
             <label class="textResumen fieldResumen">Ámbito</label>
             <label class="textResumen valueResumen">{{ambito}}</label>
@@ -19,7 +18,6 @@
             <label class="textResumen fieldResumen">Participantes</label>
             <label class="textResumen valueResumen">{{participantes.length}}</label>
         </div>
-        <hr class="lineaResumen"/>
         <div class="rowResumen">
             <label class="textResumen fieldResumen">Fecha</label>
             <label class="textResumen valueResumen">{{fecha | date: 'fullDate'}}</label>
@@ -31,7 +29,7 @@
         </div>
         <div class="rowOpciones2">
             <label *ngFor="let opt of opciones; let i = index;" class="opcionBox">
-                {{i + 1}}. {{opt}}
+                {{opt}}
             </label>
         </div>
         <button mat-stroked-button color="warn" class="buttonConfirm">Confirmar</button>

@@ -38,6 +38,15 @@ import { DatosPersonalesComponent } from './components/nuevo-user/datos-personal
 import { DatosContactoComponent } from './components/nuevo-user/datos-contacto/datos-contacto.component';
 import { ResumenUserComponent } from './components/nuevo-user/resumen-user/resumen-user.component';
 
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { OrderByPipe } from './order-by.pipe';
+
+import {MatSidenavModule} from '@angular/material/sidenav';
+
+
+
 registerLocaleData(localeEs, 'es')
 
 @NgModule({
@@ -59,6 +68,7 @@ registerLocaleData(localeEs, 'es')
     DatosPersonalesComponent,
     DatosContactoComponent,
     ResumenUserComponent,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,
@@ -74,11 +84,12 @@ registerLocaleData(localeEs, 'es')
     MatRippleModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSidenavModule,
     NgSelectModule, 
-    FormsModule
+    FormsModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [FooterComponent, ListadoVotacionesComponent, NuevaVotacionComponent],
-  providers: [ { provide: LOCALE_ID, useValue: 'es' }, MatNativeDateModule ],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' }, MatNativeDateModule, {provide: LocationStrategy, useClass: HashLocationStrategy} ],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

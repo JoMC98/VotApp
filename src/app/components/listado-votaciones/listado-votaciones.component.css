@@ -1,0 +1,174 @@
+.elementoListaVotacion {
+    width: 98%;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    background-color: white;
+    color: #272343;
+    margin-bottom: 15px;
+}
+
+.elementoListaVotacionActiva {
+    border-left: 5px solid #9BC8A4; 
+}
+
+.elementoListaVotacionEn {
+    border-left: 5px solid #E6E697; ; 
+}
+
+.elementoListaVotacionFinalizada {
+    border-left: 5px solid #C98987; 
+}
+
+.preguntaListaVotacion {
+    width: 62%;
+    margin: auto;
+    text-align: left;
+    padding-left: 3%;
+    font-size: 15px;
+    line-height: 23px;
+}
+
+.datosListaVotacion {
+    width: 38%;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 13px;
+    display: inline-block;
+    border-left: 22px solid white;
+    font-weight: bold;
+    color: #535654;
+
+    height: 0; 
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    line-height: 23px;
+
+}
+
+.dptoListaVotacion {
+    padding-top: 7px;
+    margin-bottom: 0px;
+}
+
+.datosListaVotacionActiva {
+    border-bottom: 60px solid #9BC8A4; 
+}
+
+.datosListaVotacionEn {
+    border-bottom: 60px solid #E6E697; 
+}
+
+.datosListaVotacionFinalizada {
+    border-bottom: 60px solid #C98987; 
+}
+
+.scrollOptions110 {
+    height: 110vw !important; 
+}
+
+.mesListaVotacion {
+    color: white;
+}
+
+.flechaNewParticipante{
+    color: #B9B9B9; 
+    font-size: 15px;
+    width: 8%;
+}
+
+.menuZonaFiltro {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.menuOrden {
+    width: 50%;
+}
+
+.menuFiltro {
+    color: #B9B9B9; 
+    font-size: 16px;
+    text-align: right;
+    padding-right: 10px;
+    width: 50%;
+    margin: auto;
+}
+
+.filterIcon{
+    padding-left: 5px;
+}
+
+.panelFiltro {
+    width: 70%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #DCD6D3;
+    padding: 5px 0px;
+}
+
+.sidenavContainer{
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.grupoFiltro {
+    padding: 6px 0px;
+}
+
+.labelFiltro{
+    background-color: #D1967D;
+    width: 100%;
+    padding: 4px 10px;
+    margin-left: 2px !important;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.checkboxFiltro{
+    padding: 0px 5% !important;
+
+}
+
+.inputFiltro{
+    width: 90% !important;
+    margin-left: 5% !important;
+    color: black;
+}
+
+.mat-input-element {
+    color: black !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color:  #272343 !important;
+}
+  
+::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+    background-color:  #272343 !important;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: #272343 !important;
+}
+
+::ng-deep .mat-checkbox-frame {
+    border: 1px solid #272343 !important;
+}
+
+::ng-deep .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #D1967D !important;
+  }
+
+  ::ng-deep .mat-form-field-label {
+    color: black !important;
+}

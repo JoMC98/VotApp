@@ -15,11 +15,11 @@
   </div>
   
   <div class="rowPuntos">
-    <i (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
+    <i [ngStyle]="sect == 1 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
     <div class="rowPuntos2">
       <div *ngFor="let opt of points" (click)="sect = opt" class="circulo" [ngClass] = "sect == opt ? 'circuloSelected' : ''"></div>
     </div>
-    <i (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
+    <i [ngStyle]="sect == 4 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
   </div>
 </div>
 

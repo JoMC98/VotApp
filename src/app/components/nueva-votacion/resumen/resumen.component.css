@@ -12,4 +12,7 @@
     margin-right: 2%;
     padding: 5%;
     border: 0.5px solid #B9B9B9 !important;
+    border-radius: 10%;
+    background-color: #B9B9B9;
+    color: #272343;
 }

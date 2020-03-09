@@ -1,1 +1,84 @@
-<p>listado-votaciones works!</p>
+<mat-sidenav-container class="sidenavContainer">
+  <mat-sidenav class="panelFiltro" #sidenav [mode]="mode" position="end">
+    <div class="grupoFiltro">
+      <label class="labelFiltro">PREGUNTA</label><br>
+      <mat-form-field class="inputFiltro">
+        <mat-label>Búsqueda por palabras</mat-label>
+        <input class="inputForm" matInput>
+      </mat-form-field>
+    </div>
+    <div class="grupoFiltro">
+      <label class="labelFiltro">ESTADO</label>
+      <div>
+        <mat-checkbox class="checkboxFiltro">Activa</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">En proceso</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">Finalizada</mat-checkbox>
+      </div>  
+    </div>
+    <div class="grupoFiltro">
+      <label class="labelFiltro">DEPARTAMENTO</label>
+      <div>
+        <mat-checkbox class="checkboxFiltro">Administración</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">Dirección</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">Marketing</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">Finanzas</mat-checkbox>
+      </div>  
+    </div>
+    <div class="grupoFiltro">
+      <label class="labelFiltro">ÁMBITO</label>
+      <div>
+        <mat-checkbox class="checkboxFiltro">Pública</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">Privada</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">Departamento</mat-checkbox><br>
+        <mat-checkbox class="checkboxFiltro">Oculta</mat-checkbox>
+      </div>  
+    </div>
+    
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="allContent">
+      <div class="titlePanel">
+        <label class="titlePanelH2">Listado de votaciones</label><br>
+      </div>
+    </div>
+    <div class="allContent85">
+        <div class="formContainer menuZonaFiltro">
+            <div class="menuOrden">
+                <mat-form-field class="fieldForm">
+                  <mat-select class="inputForm" placeholder="Orden" [(value)]="order">
+                    <mat-option value="Descendente">Descendente</mat-option>
+                    <mat-option value="Ascendente">Ascendente</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="menuFiltro" (click)="sidenav.toggle()">
+                Filtrar <i class="fas fa-filter filterIcon"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="allContent90">
+        <div class="contentNewVotacion">
+            <div class="scrollOptions scrollOptions110">
+                <div class="formContainer" *ngFor="let mes of votaciones | keyvalue | orderBy:order:false">
+                    <div class="containerDptoNewParticipante" (click)="mostrarOcultar(mes.key)">
+                        <i class="fas flechaNewParticipante fa-chevron-down" id="flecha{{mes.key}}"></i>
+                        <label class="mesListaVotacion">{{mes.key | date: 'MMMM yyyy' | titlecase}}</label>
+                    </div>
+                    <div id="votacionesMes{{mes.key}}">
+                        <div *ngFor="let vot of mes.value | orderBy:order:true:'fecha'" class="elementoListaVotacion" [class]="'elementoListaVotacion' + vot.estado.split(' ')[0]"> 
+                            <div class="preguntaListaVotacion">
+                                {{vot.pregunta}}
+                            </div>
+                            <div class="datosListaVotacion" [class]="'datosListaVotacion' + vot.estado.split(' ')[0]">
+                                <label class="dptoListaVotacion">{{vot.departamento}}</label><br>
+                                {{vot.fecha | date: 'EEEE dd' | titlecase}}
+                            </div><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

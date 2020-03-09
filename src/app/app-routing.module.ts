@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'passwd', component: PasswdComponent },
   { path: 'nuevoUser', component: NuevoUserComponent },
-  { path: '', redirectTo: '/listadoVotaciones', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
