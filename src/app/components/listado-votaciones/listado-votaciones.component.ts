@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-listado-votaciones',
   templateUrl: './listado-votaciones.component.html',
   styleUrls: ['./listado-votaciones.component.css']
 })
+
 export class ListadoVotacionesComponent implements OnInit {
   votaciones = { "2020-04-01" : [
                   {pregunta: "¿Deberíamos abrir otra sucursal en La Vall?", estado: "Activa", departamento: "Administración", ambito: "Oculta", fecha: new Date("2020-04-16")},
@@ -22,7 +24,7 @@ export class ListadoVotacionesComponent implements OnInit {
   order = 'Descendente';
   mode = "over";
 
-  constructor() { }
+  constructor(private _bottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
   }
@@ -42,5 +44,21 @@ export class ListadoVotacionesComponent implements OnInit {
       document.getElementById('flecha' + key).classList.add("fa-chevron-down");
     }
   }
+
+  openDialog(): void {
+    this._bottomSheet.open(FiltroVotaciones);
+  }
+}
+
+@Component({
+  selector: 'filtro-votaciones',
+  templateUrl: './filtro-votaciones.html',
+})
+
+export class FiltroVotaciones implements OnInit {
+
+  constructor(private _bottomSheetRef: MatBottomSheetRef<FiltroVotaciones>) {}
+
+  ngOnInit() {}
 
 }

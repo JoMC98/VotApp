@@ -102,13 +102,26 @@
     padding-left: 5px;
 }
 
-.panelFiltro {
-    width: 70%;
+::ng-deep .mat-dialog-container {
     position: fixed;
-    top: 0;
-    right: 0;
+    left:0;
+    right:0;
+    top: 30%;
+}
+
+/*
+.panelFiltro {
+    width: 100%;
+    top: 100%;
+    height: 50%;
+    left: 0;
+    position: absolute;
     background-color: #DCD6D3;
     padding: 5px 0px;
+}
+
+.mat-drawer-opened {
+    top: 50%;
 }
 
 .sidenavContainer{
@@ -169,6 +182,7 @@
     background-color: #D1967D !important;
   }
 
-  ::ng-deep .mat-form-field-label {
+  ::ng-deep .grupoFiltro .mat-form-field-label {
     color: black !important;
 }
+*/

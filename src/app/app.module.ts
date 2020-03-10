@@ -45,6 +45,8 @@ import { OrderByPipe } from './order-by.pipe';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
 
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+
 
 
 registerLocaleData(localeEs, 'es')
@@ -71,11 +73,6 @@ registerLocaleData(localeEs, 'es')
     OrderByPipe
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule, 
-    AngularSvgIconModule.forRoot(),
     MatFormFieldModule, 
     MatInputModule,
     MatSelectModule,
@@ -85,6 +82,12 @@ registerLocaleData(localeEs, 'es')
     MatDatepickerModule,
     MatNativeDateModule,
     MatSidenavModule,
+    MatBottomSheetModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule, 
+    AngularSvgIconModule.forRoot(),
     NgSelectModule, 
     FormsModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
