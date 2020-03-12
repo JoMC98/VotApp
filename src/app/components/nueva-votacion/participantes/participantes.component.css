@@ -22,12 +22,6 @@
     color: #B9B9B9;
 }
 
-/*::ng-deep .mat-checkbox-inner-container {
-    position: absolute !important;
-    right: 0;
-    top: 4px;
-}*/
-
 .scrollOptions90 {
     height: 90vw !important; 
 }
@@ -37,7 +31,7 @@
     height: 50px;
     text-align: center;
     vertical-align: middle;
-    border-radius: 5px;
+    border-radius: 15px;
     margin-right: 0px;
 }
 
@@ -101,3 +95,20 @@
 ::ng-deep .containerValores .mat-checkbox-checkmark-path {
     stroke: white !important;
 }
+
+/*
+::ng-deep .iconDptFinanzasSelected {
+    background-color: rgba(120, 139, 44, 0.9);
+}
+
+::ng-deep .iconDptAdministraciónSelected {
+    background-color: rgba(194,200,211,0.9);
+}
+
+::ng-deep .iconDptDirecciónSelected {
+    background-color: rgba(218,171,96,0.9);
+}
+
+::ng-deep .iconDptMarketingSelected {
+    background-color: rgba(209,132,220,0.9);
+}*/

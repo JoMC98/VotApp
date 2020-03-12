@@ -1,0 +1,79 @@
+<div class="allContent90">
+    <div class="encabezadoVotante">
+        <div class="iconDptDiv">
+            <div class="iconDptSquareVotante" [class]="'iconDpt' + usuarios[dni].departamento">
+                <i *ngIf="usuarios[dni].departamento == 'Finanzas'" class="fas fa-euro-sign iconDptVotante"></i>
+                <i *ngIf="usuarios[dni].departamento == 'Marketing'" class="fas fa-chart-line iconDptVotante"></i>
+                <i *ngIf="usuarios[dni].departamento == 'Administración'" class="fas fa-tasks iconDptVotante"></i>
+                <i *ngIf="usuarios[dni].departamento == 'Dirección'" class="fas fa-user-tie iconDptVotante"></i>
+            </div>
+        </div>
+        <div class="nombreVotante">
+            {{usuarios[dni].nombre}} {{usuarios[dni].apellido}}
+        </div>
+    </div>
+    <div class="divBotonConfirmarModify" [routerLink]="['/user',dni]">
+        <i class="fas fa-check botonEditarVotante"></i>
+    </div>
+    <div class="divBotonCancelarModify" [routerLink]="['/user',dni]">
+        <i class="fas fa-times botonEditarVotante"></i>
+    </div>
+    <div class="scrollOptions scrollOptions110">
+        <form>
+            <label class="headerDatosVotante">Datos</label>
+            <div class="datosVotante">
+                <div class="elementoVotante">
+                    <i class="fas fa-id-card iconVotante"></i>
+                    <input class="inputModifyUser" value="{{usuarios[dni].nombre}}" required/>
+                </div>
+                <hr class="hrVotante"/>
+                <div class="elementoVotante">
+                    <i class="fas fa-font iconVotante"></i>
+                    <input class="inputModifyUser" value="{{usuarios[dni].apellido}}" required/>
+                </div>
+                <hr class="hrVotante"/>
+                <div class="elementoVotante">
+                    <i class="fas fa-phone iconVotante"></i>
+                    <input type="number" class="inputModifyUser" value="{{usuarios[dni].telefono}}" required/>
+                </div>
+                <hr class="hrVotante"/>
+                <div class="elementoVotante">
+                    <i class="fas fa-envelope iconVotante"></i>
+                    <input type="mail" class="inputModifyUser" value="{{usuarios[dni].correo}}" required/>
+                </div>
+                <hr class="hrVotante"/>
+                <div class="elementoVotante">
+                    <i class="fas fa-building iconVotante"></i>
+                    <mat-form-field id="selectModifyUser" class="inputModifyUser selectModifyUser">
+                        <mat-select [(value)]="usuarios[dni].departamento" required>  
+                            <mat-option *ngFor="let dpt of departamentos" [value]="dpt">{{dpt}}</mat-option>
+                        </mat-select>    
+                    </mat-form-field>
+                </div>
+                <hr class="hrVotante"/>
+                <div class="elementoVotante">
+                    <i class="fas fa-sitemap iconVotante"></i>
+                    <input class="inputModifyUser" value="{{usuarios[dni].cargo}}" required/>
+                </div>
+            </div>
+    
+            <label class="headerDatosVotante">Contraseña</label>
+            <div class="datosVotante">
+                <div class="elementoVotante">
+                    <i class="fas fa-lock iconVotante"></i>
+                    <input type="password" class="inputModifyUser" value="{{actual}}" required placeholder="Contraseña actual"/>
+                </div>
+                <hr class="hrVotante"/>
+                <div class="elementoVotante">
+                    <i class="fas fa-unlock iconVotante"></i>
+                    <input type="password" class="inputModifyUser" value="{{nueva}}" required placeholder="Nueva contraseña"/>
+                </div>
+                <hr class="hrVotante"/>
+                <div class="elementoVotante">
+                    <i class="fas fa-lock-open iconVotante"></i>
+                    <input type="password" class="inputModifyUser" value="{{repetir}}" required placeholder="Repetir contraseña"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

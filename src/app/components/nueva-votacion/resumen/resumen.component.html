@@ -28,17 +28,12 @@
             <label class="textResumen valueResumen"></label>
         </div>
         <div class="rowOpciones2">
-            <label *ngFor="let opt of opciones; let i = index;" class="opcionBox">
-                {{opt}}
+            <label *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'opcionBox' + (i % 6)">
+                <div class="opcionText">
+                    <label class="textoLabelOpcion">{{opt}}</label>
+                </div>
             </label>
         </div>
         <button mat-stroked-button color="warn" class="buttonConfirm">Confirmar</button>
     </div>
 </div>
-
-<!--
-<div *ngFor="let opt of opciones; let i = index;" class="rowOpciones">
-            {{i + 1}}. {{opt}}
-        </div>
-
--->

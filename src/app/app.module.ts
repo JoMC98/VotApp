@@ -48,6 +48,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { FiltroVotacionesComponent } from './components/listado-votaciones/filtro-votaciones/filtro-votaciones.component';
 import { FiltroUsersComponent } from './components/filtro-users/filtro-users.component';
+import { VotacionComponent } from './components/votacion/votacion.component';
+import { UserComponent } from './components/user/user.component';
+import { ModifyUserComponent } from './components/modify-user/modify-user.component';
 
 
 
@@ -74,7 +77,10 @@ registerLocaleData(localeEs, 'es')
     ResumenUserComponent,
     OrderByPipe,
     FiltroVotacionesComponent,
-    FiltroUsersComponent
+    FiltroUsersComponent,
+    VotacionComponent,
+    UserComponent,
+    ModifyUserComponent
   ],
   imports: [
     MatFormFieldModule, 

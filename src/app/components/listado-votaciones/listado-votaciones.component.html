@@ -28,7 +28,8 @@
                     <label class="mesListaVotacion">{{mes.key | date: 'MMMM yyyy' | titlecase}}</label>
                 </div>
                 <div id="votacionesMes{{mes.key}}">
-                    <div *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" [class]="'elementoListaVotacion' + vot.estado.split(' ')[0]"> 
+                    <div *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
+                    [class]="'elementoListaVotacion' + vot.estado.split(' ')[0]" [routerLink]="['/votacion', vot.id]">
                         <div class="preguntaListaVotacion">
                             {{vot.pregunta}}
                         </div>

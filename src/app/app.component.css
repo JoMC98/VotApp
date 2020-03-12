@@ -154,6 +154,10 @@
     color: white !important;
 }
 
+::ng-deep .mat-datepicker-toggle .cdk-focused {
+    outline: none !important;
+}
+
 ::ng-deep .mat-select-value-text {
     color: white !important;
 }
@@ -627,4 +631,69 @@ select:-webkit-autofill:focus {
 ::ng-deep .containerBotonNuevoUser {
     position: absolute;
     width: 100%;
+}
+
+
+::ng-deep .encabezadoVotante {
+    margin-top: 30px;
+}
+
+::ng-deep .iconDptSquareVotante {
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 20px;
+}
+
+::ng-deep .iconDptVotante {
+    font-size: 40px;
+    padding-top: 15px;
+    color: black;
+}
+
+::ng-deep .nombreVotante{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 23px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+::ng-deep .datosVotante {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    background-color: rgba(246,246,246,0.8);
+    border-radius: 10px;
+}
+
+::ng-deep .headerDatosVotante {
+    margin-top: 5px;
+    color: rgba(246,246,246,0.8);
+    padding-left: 10px;
+}
+
+::ng-deep .hrVotante {
+    width: 95%;
+    border: 0.5px solid #272343;
+    margin-left: 2.5%;
+}
+
+::ng-deep .elementoVotante {
+    padding: 8px 2.5%;
+    width: 100%;
+}
+
+::ng-deep .iconVotante {
+    /*color: #D1967D;*/
+    color: #272343;
+    margin-left: 2px !important;
+    width: 10%;
+}
+
+::ng-deep .botonEditarVotante {
+    font-size: 15px;
+    padding-top: 12.5px;
+    color: #272343;
 }

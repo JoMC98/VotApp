@@ -1,0 +1,12 @@
+
+
+.divBotonEditarVotante {
+    background-color: rgba(246,246,246,0.8);
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+}

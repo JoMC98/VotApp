@@ -28,14 +28,14 @@ export class ListadoVotacionesComponent implements OnInit {
 
   constructor(private _bottomSheet: MatBottomSheet) {
     this.votes = [
-      {pregunta: "¿Deberíamos abrir otra sucursal en Alicante?", estado: "Finalizada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-01-20")},
-      {pregunta: "¿Deberíamos abrir otra sucursal en La Vall?", estado: "Activa", departamento: "Administración", ambito: "Oculta", fecha: new Date("2020-04-16")},
-      {pregunta: "¿Deberíamos abrir otra sucursal en Barcelona?", estado: "Activa", departamento: "Dirección", ambito: "Departamento", fecha: new Date("2020-04-18")},
-      {pregunta: "¿Deberíamos abrir otra sucursal en Castellon?", estado: "Activa", departamento: "Marketing", ambito: "Departamento", fecha: new Date("2020-03-8")},
-      {pregunta: "¿Deberíamos abrir otra sucursal en Valencia?", estado: "Activa", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-03-16")},
-      {pregunta: "¿Deberíamos abrir otra sucursal en Zaragoza?", estado: "En proceso", departamento: "Administración", ambito: "Publica", fecha: new Date("2020-03-4")}, 
-      {pregunta: "¿Deberíamos abrir otra sucursal en Madrid?", estado: "Finalizada", departamento: "Administración", ambito: "Pública", fecha: new Date("2020-02-18")},
-      {pregunta: "¿Deberíamos abrir otra sucursal en Galicia?", estado: "Finalizada", departamento: "Finanzas", ambito: "Privada", fecha: new Date("2020-02-01")}];
+      {id: 1, pregunta: "¿Deberíamos abrir otra sucursal en Alicante?", estado: "Finalizada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-01-20")},
+      {id: 2, pregunta: "¿Deberíamos abrir otra sucursal en La Vall?", estado: "Activa", departamento: "Administración", ambito: "Oculta", fecha: new Date("2020-04-16")},
+      {id: 3, pregunta: "¿Deberíamos abrir otra sucursal en Barcelona?", estado: "Activa", departamento: "Dirección", ambito: "Departamento", fecha: new Date("2020-04-18")},
+      {id: 4, pregunta: "¿Deberíamos abrir otra sucursal en Castellon?", estado: "Activa", departamento: "Marketing", ambito: "Departamento", fecha: new Date("2020-03-8")},
+      {id: 5, pregunta: "¿Deberíamos abrir otra sucursal en Valencia?", estado: "Activa", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-03-16")},
+      {id: 6, pregunta: "¿Deberíamos abrir otra sucursal en Zaragoza?", estado: "En proceso", departamento: "Administración", ambito: "Publica", fecha: new Date("2020-03-4")}, 
+      {id: 7, pregunta: "¿Deberíamos abrir otra sucursal en Madrid?", estado: "Finalizada", departamento: "Administración", ambito: "Pública", fecha: new Date("2020-02-18")},
+      {id: 8, pregunta: "¿Deberíamos abrir otra sucursal en Galicia?", estado: "Finalizada", departamento: "Finanzas", ambito: "Privada", fecha: new Date("2020-02-01")}];
     this.generarListado(this.votes);
   }
 

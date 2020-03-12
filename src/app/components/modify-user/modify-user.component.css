@@ -1,0 +1,66 @@
+.inputModifyUser {
+    background-color: transparent;
+    outline: none;
+    border: 0px;
+    margin: 0px !important;
+    padding: 0px !important;
+    width: 85%;
+}
+
+.selectModifyUser {
+    height: 1px !important;
+}
+
+::ng-deep .selectModifyUser .mat-form-field-wrapper {
+    padding: 0px !important;
+}
+
+::ng-deep .selectModifyUser .mat-form-field-infix {
+    border: 0px !important;
+}
+
+::ng-deep .selectModifyUser .mat-select-arrow {
+    color: transparent !important;
+}
+
+::ng-deep .selectModifyUser .mat-select-value-text {
+    color:  #272343 !important;
+}
+
+::ng-deep .mat-select-panel .selectPanelModify {
+    margin-top: 60px;
+}
+
+::ng-deep .selectModifyUser .mat-form-field-label {
+    display: none !important;
+}
+
+::ng-deep .selectModifyUser .mat-select-placeholder {
+    display: none !important;
+}
+
+::ng-deep .selectModifyUser .mat-form-field-underline {
+    display: none !important;
+}
+
+.divBotonConfirmarModify {
+    background-color: rgba(175, 222, 164,0.8);
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+}
+
+.divBotonCancelarModify {
+    background-color: rgba(222, 172, 164,0.8);
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+}

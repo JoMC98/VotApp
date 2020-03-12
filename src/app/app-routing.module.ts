@@ -7,6 +7,9 @@ import { PasswdComponent } from '../app/components/passwd/passwd.component';
 import { NuevoUserComponent } from '../app/components//nuevo-user/nuevo-user.component';
 import { HomeComponent } from '../app/components/home/home.component';
 import { PageNotFoundComponent } from '../app/components/page-not-found/page-not-found.component';
+import { VotacionComponent } from './components/votacion/votacion.component';
+import { UserComponent } from './components/user/user.component';
+import { ModifyUserComponent } from './components/modify-user/modify-user.component';
 
 
 const routes: Routes = [
@@ -16,6 +19,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'passwd', component: PasswdComponent },
   { path: 'nuevoUser', component: NuevoUserComponent },
+  { path: 'votacion/:id', component: VotacionComponent },
+  { path: 'user/:dni', component: UserComponent },
+  { path: 'modifyUser/:dni', component: ModifyUserComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
