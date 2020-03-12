@@ -1,1 +1,58 @@
-<button routerLink="/nuevoUser">Nuevo user</button>
+<div class="allContent">
+    <div class="titlePanel">
+      <label class="titlePanelH2">Listado de votantes</label><br>
+    </div>
+</div>
+<div class="allContent85">
+    <div class="formContainer menuZonaFiltro">
+        <div class="menuOrden">
+            <mat-form-field class="fieldForm">
+              <mat-select class="inputForm" placeholder="Orden" [(value)]="order">
+                <mat-option value="Descendente">Descendente</mat-option>
+                <mat-option value="Ascendente">Ascendente</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="menuFiltro">
+            <i class="fas fa-sliders-h filterIcon" (click)="openDialog()"></i>
+        </div>
+    </div>
+</div>
+
+<div class="allContent90">
+    <div class="contentNewVotacion">
+        <div class="scrollOptions scrollOptions105">
+            <div class="formContainer divLetra" *ngFor="let inicial of users | keyvalue | orderBy:order:false:false">
+                <div class="containerDptoNewParticipante">
+                    <label class="inicialListaUsers">{{inicial.key}}</label>
+                </div>
+                <div id="usersDpt{{inicial.key}}">
+                    <div *ngFor="let user of inicial.value" class="userDiv"> 
+                        <div class="iconDptDiv">
+                            <div class="iconDptSquare" [class]="'iconDpt' + user.departamento">
+                                <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDpt"></i>
+                                <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDpt"></i>
+                                <i *ngIf="user.departamento == 'Administración'" class="fas fa-sitemap iconDpt"></i>
+                                <i *ngIf="user.departamento == 'Dirección'" class="fas fa-user-tie iconDpt"></i>
+                            </div>
+                        </div>
+                        <div class="datosDiv">
+                            <div class="nameUser">
+                                {{user.nombre}} {{user.apellido}}
+                            </div>
+                            <div class="cargoUser">
+                                {{user.cargo}}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="containerBotonNuevoUser">
+    <div class="divBotonNuevoUser" routerLink="/nuevoUser" [class.mat-elevation-z4]="true">
+        <i class="fas fa-plus botonNuevoUser"></i>
+    </div>
+</div>

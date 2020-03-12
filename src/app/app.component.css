@@ -267,3 +267,364 @@ select:-webkit-autofill:focus {
 ::ng-deep .buttonConfirm:focus {
     outline: 0;
 }
+
+::ng-deep .elementoListaVotacion {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    background-color: white;
+    color: #272343;
+    margin-bottom: 15px;
+}
+
+::ng-deep .elementoListaVotacionActiva {
+    border-left: 5px solid #9BC8A4; 
+}
+
+::ng-deep .elementoListaVotacionEn {
+    border-left: 5px solid #E6E697; ; 
+}
+
+::ng-deep .elementoListaVotacionFinalizada {
+    border-left: 5px solid #C98987; 
+}
+
+::ng-deep .preguntaListaVotacion {
+    width: 62%;
+    margin: auto;
+    text-align: left;
+    padding-left: 3%;
+    font-size: 15px;
+    line-height: 23px;
+}
+
+::ng-deep .datosListaVotacion {
+    width: 38%;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 13px;
+    display: inline-block;
+    border-left: 22px solid white;
+    font-weight: bold;
+    color: #535654;
+
+    height: 0; 
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    line-height: 23px;
+
+}
+
+::ng-deep .dptoListaVotacion {
+    padding-top: 7px;
+    margin-bottom: 0px;
+}
+
+::ng-deep .datosListaVotacionActiva {
+    border-bottom: 60px solid #9BC8A4; 
+}
+
+::ng-deep .datosListaVotacionEn {
+    border-bottom: 60px solid #E6E697; 
+}
+
+::ng-deep .datosListaVotacionFinalizada {
+    border-bottom: 60px solid #C98987; 
+}
+
+::ng-deep .scrollOptions110 {
+    height: 110vw !important; 
+}
+
+::ng-deep .scrollOptions105 {
+    height: 105vw !important; 
+}
+
+::ng-deep .mesListaVotacion {
+    color: white;
+}
+
+::ng-deep .flechaNewParticipante{
+    color: #B9B9B9; 
+    font-size: 15px;
+    width: 8%;
+}
+
+::ng-deep .menuZonaFiltro {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+::ng-deep .menuOrden {
+    width: 50%;
+}
+
+::ng-deep .menuOrdenNewVotacion {
+    width: 60%;
+}
+
+::ng-deep .menuFiltro {
+    color: #B9B9B9; 
+    font-size: 16px;
+    text-align: right;
+
+    width: 50%;
+    margin: auto;
+}
+
+::ng-deep .menuFiltroNewVotacion {
+    color: #B9B9B9; 
+    font-size: 16px;
+    text-align: right;
+    padding-right: 10px;
+    width: 40%;
+    margin: auto;
+}
+
+::ng-deep .filterIcon{
+    font-size: 25px;
+}
+
+::ng-deep .menuFiltroUsers {
+    color: #B9B9B9; 
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+::ng-deep .mat-bottom-sheet-container {
+    background-color: #F6F6F6 !important;
+    padding: 5px 0px !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    min-width: 0px !important;
+}
+
+::ng-deep .cdk-overlay-pane .mat-bottom-sheet-container {
+    width: 100% !important;
+    margin-right: 5% !important;
+    margin-left: 5% !important;
+}
+
+::ng-deep .dialogoFiltro {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    height: 94%;
+}
+
+::ng-deep .titleFiltro{
+    text-align: center;
+    font-size: 16px;
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 10px;
+    line-height: 16px;
+}
+
+::ng-deep .grupoFiltro {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+::ng-deep .hrFiltro {
+    width: 90%;
+    margin-left: 5%;
+    margin-bottom: 10px;
+    border: #272343 0.5px solid;
+}
+
+::ng-deep .labelFiltro{
+    color: #707272;
+    font-size: 15px;
+}
+
+::ng-deep .inputFiltro{
+    color: black;
+    width: 100%;
+}
+
+::ng-deep .gridFiltro {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+::ng-deep .elementGridFiltro {
+    width: 50%;
+}
+
+::ng-deep .elementGridFiltro2 {
+    width: 50%;
+    padding-left: 30px;
+}
+
+::ng-deep .dialogoFiltro .mat-input-element {
+    color: #272343 !important;
+}
+
+::ng-deep .dialogoFiltro .mat-form-field.mat-focused .mat-form-field-label {
+    color:  #272343 !important;
+}
+  
+::ng-deep .dialogoFiltro .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+    background-color:  #272343 !important;
+}
+
+::ng-deep .dialogoFiltro .mat-checkbox-checked .mat-checkbox-background,
+.dialogoFiltro .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: #D1967D !important;
+}
+
+::ng-deep .dialogoFiltro .mat-checkbox-frame {
+    border: 1px solid #272343 !important;
+}
+
+::ng-deep .dialogoFiltro .mat-checkbox-checked .mat-checkbox-frame,
+.dialogoFiltro .mat-checkbox-indeterminate .mat-checkbox-frame {
+    border: 1px solid #D1967D !important;
+}
+
+::ng-deep .dialogoFiltro .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #D1967D !important;
+    /*background-color: #272343;*/
+}
+
+::ng-deep .grupoFiltro .mat-form-field-hide-placeholder .mat-form-field-label {
+    color: black !important;
+}
+
+::ng-deep .grupoFiltro .mat-form-field-label {
+    color: #272343 !important;
+}
+
+::ng-deep .dialogoFiltro .mat-checkbox-checkmark-path {
+    stroke: #272343 !important;
+}
+
+::ng-deep .buttonFiltro{
+    width: 40% !important;
+    margin-left: 30% !important;
+    margin-right: 30% !important;
+    margin-bottom: 20px !important;
+    color: #D9D9D9 !important;
+    background-color: #272343;
+    border: 1px solid #272343 !important;
+}
+
+::ng-deep .buttonFiltro:focus {
+    outline: 0;
+}
+
+::ng-deep .userDiv {
+    color: white;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+}
+
+::ng-deep .iconDptDiv {
+    width: 20%;
+    margin: auto;
+}
+
+::ng-deep .iconDpt {
+    font-size: 30px;
+    padding-top: 10px;
+    color: black;
+}
+
+::ng-deep .iconDptFinanzas {
+    background-color: rgba(208,216,176,0.7);
+}
+
+::ng-deep .iconDptAdministración {
+    background-color: rgba(201,199,210,0.7);
+}
+
+::ng-deep .iconDptDirección {
+    background-color: rgba(226,197,151,0.7);
+}
+
+::ng-deep .iconDptMarketing {
+    background-color: rgba(204,176,208,0.7);
+}
+
+::ng-deep .iconDptSquare {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 15px;
+    margin-left: 50%;
+    margin-right: 0px;
+}
+
+::ng-deep .datosDiv {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 30px;
+}
+
+::ng-deep .nameUser {
+    width: 100%;
+    font-weight: bold;
+    
+}
+
+::ng-deep .cargoUser {
+    width: 100%;
+    font-size: 14px;
+    color: #999696;
+}
+
+::ng-deep .inicialListaUsers {
+    /*color: #D1967D;
+    border: 0.5px solid #D1967D;*/
+    background-color: #D1967D;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 18px;
+    width: 28px;
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
+}
+
+::ng-deep .divLetra {
+    margin-bottom: 10px;
+}
+
+::ng-deep .botonNuevoUser{
+    font-size: 20px;
+    padding-top: 15px;
+    color: #272343;
+}
+
+::ng-deep .divBotonNuevoUser {
+    background-color: #D1967D;
+    /*box-shadow: 0px 0px 5px 1px rgba(209,150,125,0.7);
+    box-shadow: 0px 2px 4px -1px rgba(209,150,125, 0.2), 0px 4px 5px 0px rgba(209,150,125, 0.14), 0px 1px 10px 0px rgba(209,150,125, 0.12);*/
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    position: absolute;
+    right: 30px;
+    top: -40px;
+}
+
+::ng-deep .containerBotonNuevoUser {
+    position: absolute;
+    width: 100%;
+}

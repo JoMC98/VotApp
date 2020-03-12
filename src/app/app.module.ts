@@ -46,6 +46,8 @@ import { OrderByPipe } from './order-by.pipe';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { FiltroVotacionesComponent } from './components/listado-votaciones/filtro-votaciones/filtro-votaciones.component';
+import { FiltroUsersComponent } from './components/filtro-users/filtro-users.component';
 
 
 
@@ -70,7 +72,9 @@ registerLocaleData(localeEs, 'es')
     DatosPersonalesComponent,
     DatosContactoComponent,
     ResumenUserComponent,
-    OrderByPipe
+    OrderByPipe,
+    FiltroVotacionesComponent,
+    FiltroUsersComponent
   ],
   imports: [
     MatFormFieldModule, 

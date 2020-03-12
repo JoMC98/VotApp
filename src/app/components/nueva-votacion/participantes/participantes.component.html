@@ -1,4 +1,4 @@
-<label class="fieldForm totalParticipantes">Total participantes: {{total}}</label>
+<!--<label class="fieldForm totalParticipantes">Total participantes: {{total}}</label>
 <div class="scrollOptions scrollOptions90">
     <div class="formContainer fieldForm" *ngFor="let item of participantes | keyvalue">
         <div class="containerDptoNewParticipante" (click)="mostrarOcultar(item.key)">
@@ -14,4 +14,51 @@
             </div>
         </div>
     </div>
+</div>-->
+
+
+<div class="scrollOptions scrollOptions100">
+    <div class="allContent85">
+        <div class="formContainer menuZonaFiltro">
+            <div class="menuOrdenNewVotacion">
+                <label class="fieldForm totalParticipantes">Total participantes: {{total}}</label>
+            </div>
+            <div class="menuFiltroNewVotacion" (click)="openDialog()">
+                <i class="fas fa-sliders-h filterIcon" (click)="openDialog()"></i>
+            </div>
+        </div>
+    </div>
+    <div class="allContent90 prueba">
+        <div class="formContainer divLetra" *ngFor="let inicial of users | keyvalue">
+            <div class="containerDptoNewParticipante">
+                <label class="inicialListaUsers">{{inicial.key}}</label>
+            </div>
+            <div class="containerValores" id="usersDpt{{inicial.key}}">
+                <div *ngFor="let user of inicial.value; let i = index">
+                    <mat-checkbox id="checkbox-{{inicial.key}}-{{i}}"
+                    class="userDivVotacion" (click)="selection(user)">
+                        <div class="userData">
+                            <div class="iconDptVotacion">
+                                <div class="iconDptSquareVotacion " [class]="'iconDpt' + user.departamento">
+                                    <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDpt"></i>
+                                    <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDpt"></i>
+                                    <i *ngIf="user.departamento == 'Administración'" class="fas fa-sitemap iconDpt"></i>
+                                    <i *ngIf="user.departamento == 'Dirección'" class="fas fa-user-tie iconDpt"></i>
+                                </div>
+                            </div>
+                            <div class="datosDivVotacion">
+                                <div class="nameUser">
+                                    {{user.nombre}} {{user.apellido}}
+                                </div>
+                                <div class="cargoUser">
+                                    {{user.cargo}}
+                                </div>
+                            </div>
+                        </div>
+                   </mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

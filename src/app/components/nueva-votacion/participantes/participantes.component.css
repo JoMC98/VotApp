@@ -16,43 +16,88 @@
     margin-bottom: 5%;
 }
 
-.checkboxParticipantes {
-    font-weight: normal;
-    font-size: 13px;
-    color: white;
-}
-
-.checkboxContainer{
-    position: relative;
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
-.containerDptoNewParticipante {
-    position: relative;
-}
-
 .dptoCounter{
     position: absolute !important;
     right: 1%;
     color: #B9B9B9;
 }
 
-::ng-deep .mat-checkbox-inner-container {
+/*::ng-deep .mat-checkbox-inner-container {
     position: absolute !important;
     right: 0;
     top: 4px;
-}
-
-::ng-deep .mat-checkbox-checked .mat-checkbox-background,
-::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background {
-    background-color: #D1967D !important;
-}
-
-::ng-deep .mat-checkbox-frame {
-    border: 1px solid white !important;
-}
+}*/
 
 .scrollOptions90 {
     height: 90vw !important; 
+}
+
+::ng-deep .iconDptSquareVotacion {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 5px;
+    margin-right: 0px;
+}
+
+.userDivVotacion {
+    color: white;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-left: 5px !important;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+::ng-deep .containerValores .mat-checkbox-layout {
+    width: 100% !important;
+}
+
+::ng-deep .containerValorese .mat-checkbox-label {
+    width: 90% !important;
+}
+
+.userData {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+::ng-deep .iconDptVotacion {
+    padding-left: 10px;
+}
+
+::ng-deep .datosDivVotacion {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+}
+
+::ng-deep .containerValores .mat-checkbox-inner-container {
+    margin-left: 0px !important;
+}
+
+::ng-deep .containerValores .mat-checkbox-checked .mat-checkbox-background,
+.containerValores .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: transparent !important;
+}
+
+::ng-deep .containerValores .mat-checkbox-frame {
+    border: 1px solid white !important;
+    border-radius: 5px !important;
+}
+
+::ng-deep .containerValores .mat-checkbox-checked .mat-checkbox-frame,
+.userDivVotacion .mat-checkbox-indeterminate .mat-checkbox-frame {
+    border: 1px solid white !important;
+}
+
+::ng-deep .containerValores .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #D1967D !important;
+    /*background-color: #272343;*/
+}
+
+::ng-deep .containerValores .mat-checkbox-checkmark-path {
+    stroke: white !important;
 }

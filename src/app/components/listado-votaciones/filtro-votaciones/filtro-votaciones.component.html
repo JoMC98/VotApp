@@ -1,0 +1,39 @@
+<div class="dialogoFiltro">
+    <button mat-stroked-button color="warn" class="buttonFiltro" (click)="filtrar()">Filtrar</button>
+    <div class="grupoFiltro">
+        <mat-form-field class="inputFiltro">
+          <mat-label>Búsqueda por palabras</mat-label>
+          <input class="inputForm" matInput [(ngModel)]="data.pregunta.pregunta">
+        </mat-form-field>
+    </div>
+    <hr class="hrFiltro"/>
+    <div class="grupoFiltro">
+        <label class="labelFiltro">Estado</label>
+        <div class="gridFiltro">
+            <mat-checkbox *ngFor="let estado of data.estados | keyvalue; let i = index;" class="checkboxFiltro" 
+            [ngClass]="i % 2 == 0 ? 'elementGridFiltro' : 'elementGridFiltro2'" [(ngModel)]="data.estados[estado.key]">
+                {{estado.key}}
+            </mat-checkbox>
+        </div>  
+    </div>
+    <hr class="hrFiltro"/>
+    <div class="grupoFiltro">
+        <label class="labelFiltro">Ámbito</label>
+        <div class="gridFiltro">
+            <mat-checkbox *ngFor="let ambito of data.ambitos | keyvalue; let i = index;" class="checkboxFiltro" 
+            [ngClass]="i % 2 == 0 ? 'elementGridFiltro' : 'elementGridFiltro2'" [(ngModel)]="data.ambitos[ambito.key]">
+                {{ambito.key}}
+            </mat-checkbox>
+        </div>  
+    </div>
+    <hr class="hrFiltro"/>
+    <div class="grupoFiltro">
+        <label class="labelFiltro">Departamento</label>
+        <div class="gridFiltro" >
+          <mat-checkbox *ngFor="let departamento of data.departamentos | keyvalue; let i = index;" class="checkboxFiltro" 
+          [ngClass]="i % 2 == 0 ? 'elementGridFiltro' : 'elementGridFiltro2'" [(ngModel)]="data.departamentos[departamento.key]">
+              {{departamento.key}}
+            </mat-checkbox>
+        </div>  
+    </div>
+</div>

@@ -6,14 +6,18 @@
     <label class="subtitlePanelH3" *ngIf="sect == 3">Participantes</label>
     <label class="subtitlePanelH3-Res" *ngIf="sect == 4">Comprueba que los datos sean correctos</label><br>
   </div>
-  
+</div>
+
+<div [class]="sect == 3 ? 'allContent100' : 'allContent'">
   <div class="contentNewVotacion">
     <app-datos *ngIf="sect == 1"></app-datos>
     <app-opciones *ngIf="sect == 2"></app-opciones>
     <app-participantes *ngIf="sect == 3"></app-participantes>
     <app-resumen *ngIf="sect == 4"></app-resumen>
   </div>
+</div>
   
+<div class="allContent">
   <div class="rowPuntos">
     <i [ngStyle]="sect == 1 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
     <div class="rowPuntos2">
@@ -22,4 +26,3 @@
     <i [ngStyle]="sect == 4 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
   </div>
 </div>
-
