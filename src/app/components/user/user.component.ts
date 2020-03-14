@@ -8,7 +8,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserComponent implements OnInit, OnDestroy {
   dni: string;
+  profile: boolean;
+  
   private sub: any;
+  private subQ: any;
 
   usuarios = {"12345678X" : {dni:"12345678X", nombre: "Paco", apellido: "Gonzalez Lopez", telefono : 666666666, correo : "paco@gmail.com",departamento: "Administración", cargo:"Jefe de Abastecimiento",fechaRegistro: new Date("2020-01-20")},
               "12345679X" : {dni:"12345679X", nombre: "Mario", apellido: "Mir Dos", telefono : 666666666, correo : "paco@gmail.com", departamento: "Administración", cargo:"Jefe de Suministros",fechaRegistro: new Date("2020-01-20")},
@@ -21,16 +24,22 @@ export class UserComponent implements OnInit, OnDestroy {
               "96856678X" : {dni:"96856678X", nombre: "Jordi", apellido: "Villa Parejo", telefono : 666666666, correo : "paco@gmail.com", departamento: "Marketing", cargo:"Secretario General",fechaRegistro: new Date("2020-01-20")},
               "16456678X" : {dni:"16456678X", nombre: "Manolo", apellido: "Betis Balompie", telefono : 666666666, correo : "paco@gmail.com", departamento: "Finanzas", cargo:"Asesor financiero",fechaRegistro: new Date("2020-01-20")}};
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) { 
+    this.profile;
+  }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.dni = params['dni']; 
    });
+    this.subQ = this.route.queryParams.subscribe(params => {
+      this.profile = JSON.parse(params['profile']); 
+    });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.subQ.unsubscribe();
   }
 
 }

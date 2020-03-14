@@ -27,7 +27,7 @@
                     <label class="inicialListaUsers">{{inicial.key}}</label>
                 </div>
                 <div id="usersDpt{{inicial.key}}">
-                    <div *ngFor="let user of inicial.value" class="userDiv" [routerLink]="['/user', user.dni]"> 
+                    <div *ngFor="let user of inicial.value" class="userDiv" [routerLink]="['/user', user.dni]" [queryParams]="{profile: false}"> 
                         <div class="iconDptDiv">
                             <div class="iconDptSquare" [class]="'iconDpt' + user.departamento">
                                 <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDpt"></i>

@@ -1,0 +1,18 @@
+.cardVotacion {
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background-color: rgba(224,222,237,1);
+    color: #272343;
+    text-align: center;
+    font-size: 30px !important;
+}
+
+.preguntaVotacion {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin: auto !important;
+    vertical-align: middle !important;
+    line-height: 40px;
+}

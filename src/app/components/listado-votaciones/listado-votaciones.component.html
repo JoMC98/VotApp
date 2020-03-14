@@ -28,7 +28,7 @@
                     <label class="mesListaVotacion">{{mes.key | date: 'MMMM yyyy' | titlecase}}</label>
                 </div>
                 <div id="votacionesMes{{mes.key}}">
-                    <div *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
+                    <!-- <div *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
                     [class]="'elementoListaVotacion' + vot.estado.split(' ')[0]" [routerLink]="['/votacion', vot.id]">
                         <div class="preguntaListaVotacion">
                             {{vot.pregunta}}
@@ -37,7 +37,17 @@
                             <label class="dptoListaVotacion">{{vot.departamento}}</label><br>
                             {{vot.fecha | date: 'EEEE dd' | titlecase}}
                         </div><br>
-                    </div>
+                    </div> -->
+                    <mat-card *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
+                    [class]="'elementoListaVotacion' + vot.estado.split(' ')[0]" [routerLink]="['/votacion', vot.id]">
+                        <div class="preguntaListaVotacion">
+                            {{vot.pregunta}}
+                        </div>
+                        <div class="datosListaVotacion" [class]="'datosListaVotacion' + vot.estado.split(' ')[0]">
+                            <label class="dptoListaVotacion">{{vot.departamento}}</label><br>
+                            {{vot.fecha | date: 'EEEE dd' | titlecase}}
+                        </div><br>
+                    </mat-card>
                 </div>
             </div>
         </div>

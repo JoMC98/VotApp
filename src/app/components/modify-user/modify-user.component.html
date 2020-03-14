@@ -11,13 +11,14 @@
         <div class="nombreVotante">
             {{usuarios[dni].nombre}} {{usuarios[dni].apellido}}
         </div>
+        <div class="divBotonModify divBotonConfirmarModify" [routerLink]="['/user',dni]" [queryParams]="{profile: profile}">
+            <i class="fas fa-check botonEditarVotante"></i>
+        </div>
+        <div class="divBotonModify divBotonCancelarModify" [routerLink]="['/user',dni]" [queryParams]="{profile: profile}">
+            <i class="fas fa-times botonEditarVotante"></i>
+        </div>
     </div>
-    <div class="divBotonConfirmarModify" [routerLink]="['/user',dni]">
-        <i class="fas fa-check botonEditarVotante"></i>
-    </div>
-    <div class="divBotonCancelarModify" [routerLink]="['/user',dni]">
-        <i class="fas fa-times botonEditarVotante"></i>
-    </div>
+    
     <div class="scrollOptions scrollOptions110">
         <form>
             <label class="headerDatosVotante">Datos</label>

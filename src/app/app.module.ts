@@ -52,6 +52,9 @@ import { VotacionComponent } from './components/votacion/votacion.component';
 import { UserComponent } from './components/user/user.component';
 import { ModifyUserComponent } from './components/modify-user/modify-user.component';
 
+import {MatCardModule} from '@angular/material/card';
+
+
 
 
 registerLocaleData(localeEs, 'es')
@@ -93,6 +96,7 @@ registerLocaleData(localeEs, 'es')
     MatNativeDateModule,
     MatSidenavModule,
     MatBottomSheetModule,
+    MatCardModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

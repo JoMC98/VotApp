@@ -8,21 +8,22 @@
 
 .opcionBox {
     width: 46%;
+    height: 75px !important;
     margin-left: 2%;
     margin-right: 2%;
-    height: 60px;
+    margin-bottom: 10px;
     line-height: 20px;
     font-size: 13px;
     padding: 0px 5px;
-    /*box-shadow: 2px 2px 5px 1px rgba(185,185,185,0.61);*/
     border-radius: 15px;
     color: #272343;
     text-align: center;
 }
 
+
 .opcionText{
     text-align: center;
-    height: 50px;
+    height: 75px;
     margin-top: 5px;
     margin-bottom: 5px; 
     display: flex;
@@ -34,11 +35,14 @@
 
 .opcionBox0 {
     background-color: rgba(208,216,176,0.7);
+    /* background-color: #D5982D; */
 }
 .opcionBox1 {
     background-color: rgba(204,176,208,0.7);
+    /* background-color: #E05359; */
 }
 .opcionBox2 {
+    /* background-color: #5B9EB1; */
     background-color: rgba(226,197,151,0.7);
 }
 .opcionBox3 {

@@ -1,13 +1,12 @@
 .bodyHeight {
     min-height: 90%;
     max-height: 90%;
-    border: 0.5px solid #272343;
-    /*border: 0.5px solid white;*/
+    /* border: 0.5px #272343 solid; */
 }
 
 .bodyBox{
     height: 155vw;
-    border: 1px #272343 solid;
+    /* border: 0.5px #272343 solid; */
 }
 
 ::ng-deep .rowPuntos {
@@ -127,8 +126,10 @@
 ::ng-deep .contentNewVotacion{
     height: 108vw;
     width: 100%;
-    border: 1px #272343 solid;
+    border: 0.5px solid transparent;
 }
+
+
 
 ::ng-deep .scrollOptions {
     width: 100%; 
@@ -274,29 +275,31 @@ select:-webkit-autofill:focus {
 
 ::ng-deep .elementoListaVotacion {
     width: 100%;
-    display: flex;
+    display: flex !important;
     flex-wrap: wrap;
-    border-radius: 5px;
-    background-color: white;
+    border-radius: 10px !important;
+    /* background-color: white; */
+    background-color: rgba(224,222,237,1);
     color: #272343;
     margin-bottom: 15px;
+    padding: 0px !important;
 }
 
 ::ng-deep .elementoListaVotacionActiva {
-    border-left: 5px solid #9BC8A4; 
+    border-left: 10px solid #9BC8A4; 
 }
 
 ::ng-deep .elementoListaVotacionEn {
-    border-left: 5px solid #E6E697; ; 
+    border-left: 10px solid #E6E697;
 }
 
 ::ng-deep .elementoListaVotacionFinalizada {
-    border-left: 5px solid #C98987; 
+    border-left: 10px solid #C98987; 
 }
 
 ::ng-deep .preguntaListaVotacion {
     width: 62%;
-    margin: auto;
+    margin: auto !important;
     text-align: left;
     padding-left: 3%;
     font-size: 15px;
@@ -309,32 +312,30 @@ select:-webkit-autofill:focus {
     padding-right: 10px;
     font-size: 13px;
     display: inline-block;
-    border-left: 22px solid white;
+    border-left: 23px solid rgba(224,222,237,1);
     font-weight: bold;
     color: #535654;
-
     height: 0; 
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     line-height: 23px;
-
 }
 
 ::ng-deep .dptoListaVotacion {
-    padding-top: 7px;
+    padding-top: 9.5px;
     margin-bottom: 0px;
 }
 
 ::ng-deep .datosListaVotacionActiva {
-    border-bottom: 60px solid #9BC8A4; 
+    border-bottom: 65px solid #9BC8A4; 
 }
 
 ::ng-deep .datosListaVotacionEn {
-    border-bottom: 60px solid #E6E697; 
+    border-bottom: 65px solid #E6E697; 
 }
 
 ::ng-deep .datosListaVotacionFinalizada {
-    border-bottom: 60px solid #C98987; 
+    border-bottom: 65px solid #C98987; 
 }
 
 ::ng-deep .scrollOptions110 {
@@ -633,9 +634,9 @@ select:-webkit-autofill:focus {
     width: 100%;
 }
 
-
 ::ng-deep .encabezadoVotante {
-    margin-top: 30px;
+    position: relative;
+    margin-top: 50px !important;
 }
 
 ::ng-deep .iconDptSquareVotante {
@@ -644,6 +645,11 @@ select:-webkit-autofill:focus {
     text-align: center;
     vertical-align: middle;
     border-radius: 20px;
+}
+
+::ng-deep .iconDptDivVotante {
+    width: 20%;
+    margin: auto;  
 }
 
 ::ng-deep .iconDptVotante {
@@ -683,17 +689,48 @@ select:-webkit-autofill:focus {
 ::ng-deep .elementoVotante {
     padding: 8px 2.5%;
     width: 100%;
+    font-size: 16px;
+    color: #272343;
 }
 
 ::ng-deep .iconVotante {
-    /*color: #D1967D;*/
     color: #272343;
-    margin-left: 2px !important;
-    width: 10%;
+    margin: auto !important;
+    width: 35px;
+    text-align: center;
+    padding-right: 10px !important;
 }
 
 ::ng-deep .botonEditarVotante {
     font-size: 15px;
     padding-top: 12.5px;
     color: #272343;
+}
+
+::ng-deep .divBotonModify {
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: absolute;
+    top: -20px;
+}
+
+::ng-deep .divBotonConfirmarModify {
+    background-color: rgba(175, 222, 164,0.8);
+    right: 0px !important;
+}
+
+::ng-deep .divBotonCancelarModify {
+    background-color: rgba(222, 172, 164,0.8);
+    left: 0px !important;
+}
+
+::ng-deep .divBotonEditarVotante {
+    background-color: rgba(246,246,246,0.8);
+    right: 0px !important;
+}
+::ng-deep .divBotonBackModify {
+    background-color: rgba(246,246,246,0.8);
+    left: 0px !important;
 }

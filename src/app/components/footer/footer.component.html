@@ -5,7 +5,9 @@
   <div class="rowFooter">
     <div class="item" *ngFor="let opt of options">
       <span *ngIf='opt == 6'></span>
-      <img *ngIf='opt != 6' routerLink="{{pages[opt]}}" id="icon{{opt}}" [ngClass] = "admin ? 'icon-footer-size' : 'icon-footer-size3'" 
+      <img *ngIf='opt == 4' [routerLink]="['/user', dni]" id="icon4"  [queryParams]="{profile: true}" [ngClass] = "admin ? 'icon-footer-size' : 'icon-footer-size3'" 
+      (click)="page = opt" [src]="page == opt ? 'assets/icons/selected/' + opt + '.png' : 'assets/icons/' + opt + '.png'"/>
+      <img *ngIf='opt != 6 && opt != 4' routerLink="{{pages[opt]}}" id="icon{{opt}}" [ngClass] = "admin ? 'icon-footer-size' : 'icon-footer-size3'" 
       (click)="page = opt" [src]="page == opt ? 'assets/icons/selected/' + opt + '.png' : 'assets/icons/' + opt + '.png'"/>
     </div>
   </div>

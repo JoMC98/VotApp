@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ModifyUserComponent implements OnInit, OnDestroy {
   dni: string;
   private sub: any;
+  private subQ: any;
 
   departamentos = ["Administración","Dirección","Marketing","Finanzas"];
 
@@ -26,6 +27,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   actual: string;
   nueva: string;
   repetir: string;
+  profile: boolean;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -33,11 +35,15 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.dni = params['dni']; 
    });
-  }
+   this.subQ = this.route.queryParams.subscribe(params => {
+    this.profile = JSON.parse(params['profile']); 
+  });
+}
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+ngOnDestroy() {
+  this.sub.unsubscribe();
+  this.subQ.unsubscribe();
+}
 
 
 }
