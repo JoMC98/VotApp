@@ -45,13 +45,30 @@
 }
 
 ::ng-deep .iconDptDivDialogoDesplegable {
-    width: 20%;
+    width: 20% !important;
     margin: auto;
     padding-left: 10px;
 }
 
 ::ng-deep .datosDivDialogoDesplegable {
-    width: 80%;
+    width: 80% !important;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+}
+
+::ng-deep .iconDptDivDialogoDesplegableAddUser {
+    width: 50px !important;
+    margin: auto;
+    padding-left: 10px;
+}
+
+::ng-deep .datosDivDialogoDesplegableAddUser {
+    margin-left: 10px;
+}
+
+::ng-deep .datosDivDialogoDesplegableEditar {
+    width: 65%;
     display: flex;
     flex-wrap: wrap;
     padding-left: 10px;
@@ -72,12 +89,9 @@
     margin-right: 0px;
 }
 
-
-
 ::ng-deep .nameUser {
     width: 100%;
     font-weight: bold;
-    
 }
 
 ::ng-deep .cargoUser {
@@ -146,4 +160,65 @@
     width: 100%;
     max-height: 400px;
     overflow: scroll;
+}
+
+.contentOptionDialogoDesplegableAddUser {
+    width: 100%;
+    max-height: 380px;
+    overflow: scroll;
+}
+
+
+.plusButtonDialogoDesplegable {
+    font-size: 15px;
+    padding-top: 12.5px;
+    color: white;
+}
+
+.plusButtonDivDialogoDesplegable {
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #272343;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.nameUserModifyVotacion {
+    width: 100%;
+    font-weight: bold;
+    color: black !important;
+}
+
+.cargoUserModifyVotacion {
+    width: 100%;
+    font-size: 14px;
+    color: #999696;
+}
+
+::ng-deep .divOpcionDialogoDesplegable .mat-checkbox-label {
+    width: 90% !important;
+    display: flex;
+}
+
+::ng-deep .divOpcionDialogoDesplegable .mat-checkbox-layout {
+    margin-bottom: 0px !important;
+}
+
+::ng-deep .divOpcionDialogoDesplegable .mat-checkbox-inner-container {
+    margin-left: 5px !important;
+}
+
+::ng-deep .nameUserAddUser {
+    width: 100%;
+    font-weight: bold;
+    height: 20px !important;
+}
+
+::ng-deep .cargoUserAddUser {
+    width: 100%;
+    font-size: 14px;
+    color: #999696;
+    height: 20px !important;
 }

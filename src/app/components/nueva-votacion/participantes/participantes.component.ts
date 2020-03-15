@@ -53,21 +53,6 @@ export class ParticipantesComponent implements OnInit {
     }
   }
 
-  mostrarOcultar(key) {
-    let valActual = document.getElementById('dpto' + key).style.display;
-    let valNuevo = (valActual == 'none' ? 'block' : 'none');
-    document.getElementById('dpto' + key).style.display = valNuevo;
-
-    let icon = document.getElementById('flecha' + key).classList[2];;
-
-    if (valNuevo == 'none' && icon == "fa-chevron-down") {
-      document.getElementById('flecha' + key).classList.remove("fa-chevron-down");
-      document.getElementById('flecha' + key).classList.add("fa-chevron-right");
-    } else if (valNuevo == 'block' && icon == "fa-chevron-right") {
-      document.getElementById('flecha' + key).classList.remove("fa-chevron-right");
-      document.getElementById('flecha' + key).classList.add("fa-chevron-down");
-    }
-  }
 
   selection(inicial, user) {
     var actual = this.users[inicial][this.users[inicial].indexOf(user)].selected;
@@ -94,16 +79,4 @@ export class ParticipantesComponent implements OnInit {
   metodo() {
     console.log("he");
   }
-
-  /*selection(checked, key, id) {
-    if (checked) {
-      this.participantes[key].selected += 1;
-      this.total += 1;
-      document.getElementById("checkbox-" + key + "-" + id).style.color = "#D1967D";
-    } else {
-      this.participantes[key].selected -= 1;
-      this.total -= 1;
-      document.getElementById("checkbox-" + key + "-" + id).style.color = "white";
-    }
-  }*/
 }

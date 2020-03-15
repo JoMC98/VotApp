@@ -14,6 +14,8 @@ export class VotacionComponent implements OnInit, OnDestroy {
   admin: boolean = true;
   // admin: boolean = false;
 
+  objectKeys = Object.keys;
+
   private sub: any;
 
   pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?";
@@ -38,13 +40,22 @@ export class VotacionComponent implements OnInit, OnDestroy {
 
   //opciones: string[] = ["Sí", "No"];
   //opciones: string[] = ["Sí, deberiamos abrirla ", "No, que va, no te ralles"];
-  opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol te ralles jajajaj xd lol", "Pero que cojones dices?", "A", "B", "C"];
+  opciones = {"opcion1": "Sí, deberiamos abrirla jajajaj xd lol", 
+              "opcion2": "No, que va, no te ralles jajajaj xd lol te ralles jajajaj xd lol", 
+              "opcion3": "Pero que cojones dices?", 
+              "opcion4": "A", 
+              "opcion5": "B", 
+              "opcion6": "C"};
+
   //opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol", "Pero que cojones dices?", "No LOL"];
-  participantes = [{dni:"12345678X", nombre: "Paco", apellido: "Gonzalez Lopez", departamento: "Administración", cargo:"Jefe de Abastecimiento"},
-                   {dni:"12345679X", nombre: "Mario", apellido: "Mir Dos", departamento: "Administración", cargo:"Jefe de Suministros"},
-                   {dni:"12345670X", nombre: "Luis", apellido: "Alvarez Lopez", departamento: "Dirección", cargo:"CEO"},
-                   {dni:"12345623X", nombre: "Ana", apellido: "Garcia Fernandez", departamento: "Marketing", cargo:"CMO"},
-                   {dni:"12345643A", nombre: "Juan", apellido: "Comins Garcia", departamento: "Finanzas", cargo:"Jefe de Ventas"}];
+  participantes = {"12345678X": {dni:"12345678X", nombre: "Paco", apellido: "Gonzalez Lopez", departamento: "Administración", cargo:"Jefe de Abastecimiento"},
+                   "12345679X": {dni:"12345679X", nombre: "Mario", apellido: "Mir Dos", departamento: "Administración", cargo:"Jefe de Suministros"},
+                   "12345670X": {dni:"12345670X", nombre: "Luis", apellido: "Alvarez Lopez", departamento: "Dirección", cargo:"CEO"},
+                   "12345623X": {dni:"12345623X", nombre: "Ana", apellido: "Garcia Fernandez", departamento: "Marketing", cargo:"CMO"},
+                   "12345643A": {dni:"12345643A", nombre: "Juan", apellido: "Comins Garcia", departamento: "Finanzas", cargo:"Jefe de Ventas"}};
+
+  
+
   fecha: Date = new Date();
 
   opcion: number = 0;
@@ -89,7 +100,6 @@ export class VotacionComponent implements OnInit, OnDestroy {
       {data: datos});
 
     filterRef.afterDismissed().subscribe(result => {
-      console.log(this.descripcion);
     })
   }
 

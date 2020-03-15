@@ -1,4 +1,4 @@
-<div class="dialogoFiltro">
+<div class="dialogoFiltro" *ngIf="!addingUser">
     <div class="titleDialogoDesplegable">
         <label *ngIf="data.page == 'descripcion' || data.page == 'editarDescripcion'">Descripción</label>
         <label *ngIf="data.page == 'opciones' || data.page == 'editarOpciones'">Opciones</label>
@@ -6,10 +6,10 @@
         <label *ngIf="data.page == 'participantes' || data.page == 'editarParticipantes'">Participantes</label>
         <label *ngIf="data.page == 'editarAmbito'">Ámbito</label>
         <label *ngIf="data.page == 'editarDepartamento'">Departamento</label>
-        <div *ngIf="data.page != 'descripcion' && data.page != 'opciones' && data.page != 'participantes'" class="divBotonModifyVotacion divBotonConfirmarModifyVotacion" (click)="cancelar()">
+        <div *ngIf="data.page != 'descripcion' && data.page != 'opciones' && data.page != 'participantes'" class="divBotonModifyVotacion divBotonConfirmarModifyVotacion" (click)="guardar()">
             <i class="fas fa-check botonEditarVotante"></i>
         </div>
-        <div *ngIf="data.page != 'descripcion' && data.page != 'opciones' && data.page != 'participantes'" class="divBotonModifyVotacion divBotonCancelarModifyVotacion" (click)="guardar()">
+        <div *ngIf="data.page != 'descripcion' && data.page != 'opciones' && data.page != 'participantes'" class="divBotonModifyVotacion divBotonCancelarModifyVotacion" (click)="cancelar()">
             <i class="fas fa-times botonEditarVotante"></i>
         </div>
     </div>
@@ -32,74 +32,116 @@
              [value]="amb">{{amb}}</mat-radio-button>
         </mat-radio-group>
         <div *ngIf="data.page == 'opciones'" class="contentOptionDialogoDesplegable">
-            <div class="divOpcionDialogoDesplegable" *ngFor="let opcion of data.opciones; let i = index">
+            <div class="divOpcionDialogoDesplegable" *ngFor="let opcion of data.opciones | keyvalue; let i = index">
                 <div class="opcionDialogoDesplegable">
                     <b class="numeroOpcionDialogoDesplegable">{{i + 1}}. </b>
-                    <label class="textoOpcionDialogoDesplegable">{{opcion}}</label>
+                    <label class="textoOpcionDialogoDesplegable">{{opcion.value}}</label>
                 </div>
-                <hr *ngIf="i != (data.opciones.length - 1)" class="hrDialogoDesplegable"/>
+                <hr *ngIf="i != (objectKeys(data.opciones).length - 1)" class="hrDialogoDesplegable"/>
             </div>
         </div>
         <div *ngIf="data.page == 'editarOpciones'" class="contentOptionDialogoDesplegable">
-            <div class="divOpcionDialogoDesplegable" *ngFor="let opcion of data.opciones; let i = index">
-                <div class="opcionDialogoDesplegable" id="opcionDialogoDesplegable{{i}}">
+            <div class="divOpcionDialogoDesplegable" *ngFor="let opcion of data.opciones | keyvalue; let i = index;">
+                <div class="opcionDialogoDesplegable" id="{{opcion.key}}DialogoDesplegable">
                     <b class="numeroOpcionDialogoDesplegable">{{i + 1}}. </b>
                     <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="2" 
-                    class="inputOpcionDialogoDesplegableModify" value="{{opcion}}"></textarea>
+                    class="inputOpcionDialogoDesplegableModify" [(value)]="data.opciones[opcion.key]"></textarea>
                     <div class="botonEliminarOpcionDialogoDesplegable">
-                        <i class="fas fa-minus iconMinusDialogoDesplegable" (click)="deleteOption(i)"></i>
+                        <i class="fas fa-minus iconMinusDialogoDesplegable" (click)="deleteOption(opcion.key)"></i>
                     </div>
                 </div>
-                <hr *ngIf="i != (data.opciones.length - 1)" class="hrDialogoDesplegable"/>
+                <hr *ngIf="i != (objectKeys(data.opciones).length - 1)" class="hrDialogoDesplegable"/>
             </div>
-            <div class="plusButtonDiv">
-                <i (click)="addOption()" class="fas fa-plus plusButton"></i>
+            <div class="plusButtonDivDialogoDesplegable">
+                <i (click)="addOption()" class="fas fa-plus plusButtonDialogoDesplegable"></i>
             </div>
         </div>
-        <div *ngIf="data.page == 'participantes'">
-            <div class="divOpcionDialogoDesplegable" *ngFor="let user of data.participantes; let i = index">
+        <div *ngIf="data.page == 'participantes'" class="contentOptionDialogoDesplegable">
+            <div class="divOpcionDialogoDesplegable" *ngFor="let user of data.participantes | keyvalue; let i = index">
                 <div class="opcionDialogoDesplegable">
                     <div class="iconDptDivDialogoDesplegable">
-                        <div class="iconDptSquareDialogoDesplegable" [class]="'iconDpt' + user.departamento">
-                            <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDptDialogoDesplegable"></i>
-                            <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDptDialogoDesplegable"></i>
-                            <i *ngIf="user.departamento == 'Administración'" class="fas fa-tasks iconDptDialogoDesplegable"></i>
-                            <i *ngIf="user.departamento == 'Dirección'" class="fas fa-user-tie iconDptDialogoDesplegable"></i>
+                        <div class="iconDptSquareDialogoDesplegable" [class]="'iconDpt' + user.value.departamento">
+                            <i *ngIf="user.value.departamento == 'Finanzas'" class="fas fa-euro-sign iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Marketing'" class="fas fa-chart-line iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Administración'" class="fas fa-tasks iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Dirección'" class="fas fa-user-tie iconDptDialogoDesplegable"></i>
                         </div>
                     </div>
                     <div class="datosDivDialogoDesplegable">
                         <div class="nameUser">
-                            {{user.nombre}} {{user.apellido}}
+                            {{user.value.nombre}} {{user.value.apellido}}
                         </div>
                         <div class="cargoUser">
-                            {{user.cargo}}
+                            {{user.value.cargo}}
                         </div>
                     </div>
                 </div>
-                <hr *ngIf="i != (data.participantes.length - 1)" class="hrDialogoDesplegable"/>
+                <hr *ngIf="i != (objectKeys(data.participantes).length - 1)" class="hrDialogoDesplegable"/>
             </div>
         </div>
-        <div *ngIf="data.page == 'editarParticipantes'">
-            <div class="divOpcionDialogoDesplegable" *ngFor="let user of data.participantes; let i = index">
+        <div *ngIf="data.page == 'editarParticipantes'" class="contentOptionDialogoDesplegable">
+            <div class="divOpcionDialogoDesplegable" *ngFor="let user of data.participantes | keyvalue; let i = index">
                 <div class="opcionDialogoDesplegable">
                     <div class="iconDptDivDialogoDesplegable">
-                        <div class="iconDptSquareDialogoDesplegable" [class]="'iconDpt' + user.departamento">
-                            <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDptDialogoDesplegable"></i>
-                            <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDptDialogoDesplegable"></i>
-                            <i *ngIf="user.departamento == 'Administración'" class="fas fa-tasks iconDptDialogoDesplegable"></i>
-                            <i *ngIf="user.departamento == 'Dirección'" class="fas fa-user-tie iconDptDialogoDesplegable"></i>
+                        <div class="iconDptSquareDialogoDesplegable" [class]="'iconDpt' + user.value.departamento">
+                            <i *ngIf="user.value.departamento == 'Finanzas'" class="fas fa-euro-sign iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Marketing'" class="fas fa-chart-line iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Administración'" class="fas fa-tasks iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Dirección'" class="fas fa-user-tie iconDptDialogoDesplegable"></i>
                         </div>
                     </div>
-                    <div class="datosDivDialogoDesplegable">
+                    <div class="datosDivDialogoDesplegableEditar">
                         <div class="nameUser">
-                            {{user.nombre}} {{user.apellido}}
+                            {{user.value.nombre}} {{user.value.apellido}}
                         </div>
                         <div class="cargoUser">
-                            {{user.cargo}}
+                            {{user.value.cargo}}
                         </div>
                     </div>
+                    <div class="botonEliminarOpcionDialogoDesplegable">
+                        <i class="fas fa-minus iconMinusDialogoDesplegable" (click)="deleteUser(user.key)"></i>
+                    </div>
                 </div>
-                <hr *ngIf="i != (data.participantes.length - 1)" class="hrDialogoDesplegable"/>
+                <hr *ngIf="i != (objectKeys(data.participantes).length - 1)" class="hrDialogoDesplegable"/>
+            </div>
+            <div class="plusButtonDivDialogoDesplegable">
+                <i (click)="addUser()" class="fas fa-plus plusButtonDialogoDesplegable"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dialogoFiltro" *ngIf="addingUser">
+    <div class="titleDialogoDesplegable">
+        <label>Añadir participante</label>
+        <div class="divBotonModifyVotacion divBotonConfirmarModifyVotacion" (click)="confirmAddingUser()">
+            <i class="fas fa-check botonEditarVotante"></i>
+        </div>
+        <div class="divBotonModifyVotacion divBotonCancelarModifyVotacion" (click)="cancelAddingUser()">
+            <i class="fas fa-times botonEditarVotante"></i>
+        </div>
+    </div>
+    <div class="contentDialogoDesplegable">
+        <div class="contentOptionDialogoDesplegableAddUser">
+            <div class="divOpcionDialogoDesplegable" *ngFor="let user of usuarios | keyvalue ; let i = index">
+                <mat-checkbox class="opcionDialogoDesplegable" (click)="selection(user.key)">
+                    <div class="iconDptDivDialogoDesplegableAddUser">
+                        <div class="iconDptSquareDialogoDesplegable" [class]="'iconDpt' + user.value.departamento">
+                            <i *ngIf="user.value.departamento == 'Finanzas'" class="fas fa-euro-sign iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Marketing'" class="fas fa-chart-line iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Administración'" class="fas fa-tasks iconDptDialogoDesplegable"></i>
+                            <i *ngIf="user.value.departamento == 'Dirección'" class="fas fa-user-tie iconDptDialogoDesplegable"></i>
+                        </div>
+                    </div>
+                    <div class="datosDivDialogoDesplegableAddUser">
+                        <div class="nameUserAddUser">
+                            {{user.value.nombre}} {{user.value.apellido}}
+                        </div>
+                        <div class="cargoUserAddUser">
+                            {{user.value.cargo}}
+                        </div>
+                    </div>
+                </mat-checkbox>
+                <hr *ngIf="i != (objectKeys(usuarios).length - 1)" class="hrDialogoDesplegable"/>
             </div>
         </div>
     </div>
