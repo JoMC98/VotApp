@@ -1,12 +1,157 @@
-<mat-card class="cardVotacion">
-    <label class="preguntaVotacion">{{votes[id].pregunta}}</label>
-</mat-card>
+<div class="allContent100">
+    <div class="contentVotacion">
+        <div class="panelVotacion">
+            <div class="panelSuperiorVotacion">
+                <div class="panelBotonesVotacion">
+                    <div class="divBotonBackVotacion" routerLink="/listadoVotaciones">
+                        <i class="fas fa-angle-left botonBackVotacion"></i>
+                    </div>
+                    <div *ngIf="admin && estado == 'Creada'" class="divBotonPlayVotacion" routerLink="/listadoVotaciones">
+                        <i class="fas fa-play botonPlayVotacion"></i>
+                    </div>
+                </div>
+                <mat-card class="panelPreguntaVotacion">
+                    <label class="preguntaVotacion">{{pregunta}}</label>
+                </mat-card>
+            </div>
+            <mat-card class="panelInferiorVotacion">
+                <mat-card class="panelFechaVotacion">
+                    <label class="fechaVotacion">{{fecha | date: 'mediumDate'}}</label>
+                </mat-card>
+                <mat-card *ngIf="admin" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + estado">
+                    <label class="fechaVotacion">{{estado}}</label>
+                </mat-card>
+                <mat-card *ngIf="!admin" class="panelBotonParticiparVotacion btnNormal btn-2 btn-2d">
+                    <label class="fechaVotacion">Participar</label>
+                </mat-card>
+                <div class="separadorVotacion"></div>
+                <div class="elementoVotacion">
+                    <div class="iconElementoVotacion" (click)="openDialog('descripcion')">
+                        <div class="iconDivElementoVotacion">
+                            <i class="fas fa-info-circle iconVotacion"></i>
+                        </div>
+                    </div>
+                    <div class="textElementoVotacion" (click)="openDialog('descripcion')">
+                        <div class="firstTextElementoVotacion">
+                            Descripción
+                        </div>
+                        <div class="secondTextElementoVotacionDescripcion">
+                            {{descripcion.descripcion}}
+                        </div>
+                    </div>
+                    <div class="actionElementoVotacion">
+                        <div *ngIf="!admin || estado != 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('descripcion')">
+                            <i class="fas fa-angle-right actionVotacion"></i>
+                        </div>
+                        <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarDescripcion')">
+                            <i class="fas fa-pen actionVotacionPen"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="elementoVotacion">
+                    <div class="iconElementoVotacion">
+                        <div class="iconDivElementoVotacion" [class]="'iconDpt' + departamento.departamento">
+                            <i *ngIf="departamento.departamento == 'Finanzas'" class="fas fa-euro-sign iconVotacion"></i>
+                            <i *ngIf="departamento.departamento == 'Marketing'" class="fas fa-chart-line iconVotacionAmbito"></i>
+                            <i *ngIf="departamento.departamento == 'Administración'" class="fas fa-tasks iconVotacionAmbito"></i>
+                            <i *ngIf="departamento.departamento == 'Dirección'" class="fas fa-user-tie iconVotacion"></i>
+                        </div>
+                    </div>
+                    <div class="textElementoVotacion">
+                        <div class="firstTextElementoVotacion">
+                            Departamento
+                        </div>
+                        <div class="secondTextElementoVotacion">
+                            {{departamento.departamento}}
+                        </div>
+                    </div>
+                    <div class="actionElementoVotacion">
+                        <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarDepartamento')">
+                            <i class="fas fa-pen actionVotacionPen"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="elementoVotacion">
+                    <div class="iconElementoVotacion">
+                        <div class="iconDivElementoVotacion" [class]="'iconDpt' + ambito.ambito">
+                            <i *ngIf="ambito.ambito == 'Pública'"  class="fas fa-users iconVotacionAmbito"></i>
+                            <i *ngIf="ambito.ambito == 'Privada'" class="fas fa-lock iconVotacionAmbito"></i>
+                            <i *ngIf="ambito.ambito == 'Departamento'" class="fas fa-sitemap iconVotacionAmbito"></i>
+                            <i *ngIf="ambito.ambito == 'Oculta'" class="fas fa-eye-slash iconVotacionAmbito"></i>
+                        </div>
+                    </div>
+                    <div class="textElementoVotacion">
+                        <div class="firstTextElementoVotacion">
+                            Ámbito
+                        </div>
+                        <div class="secondTextElementoVotacion">
+                            {{ambito.ambito}}
+                        </div>
+                    </div>
+                    <div class="actionElementoVotacion">
+                        <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarAmbito')">
+                            <i class="fas fa-pen actionVotacionPen"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="elementoVotacion">
+                    <div class="iconElementoVotacion" (click)="openDialog('opciones')">
+                        <div class="iconDivElementoVotacion">
+                            <i class="fas fa-question-circle iconVotacion"></i>
+                        </div>
+                    </div>
+                    <div class="textElementoVotacion" (click)="openDialog('opciones')">
+                        <div *ngIf="estado != 'Finalizada'" class="firstTextElementoVotacion">
+                            Opciones
+                        </div>
+                        <div *ngIf="estado == 'Finalizada'" class="firstTextElementoVotacion">
+                            Resultados
+                        </div>
+                        <div class="secondTextElementoVotacion">
+                            {{opciones.length}} opciones
+                        </div>
+                    </div>
+                    <div class="actionElementoVotacion">
+                        <div *ngIf="!admin || estado == 'Activa'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
+                            <i class="fas fa-angle-right actionVotacion"></i>
+                        </div>
+                        <div *ngIf="!admin || estado == 'Finalizada'" class="actionDivElementoVotacion" (click)="openDialog('resultados')">
+                            <i class="fas fa-angle-right actionVotacion"></i>
+                        </div>
+                        <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion">
+                            <i class="fas fa-pen actionVotacionPen" (click)="openDialog('editarOpciones')"></i>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="elementoVotacion">
+                    <div class="iconElementoVotacion" (click)="openDialog('participantes')">
+                        <div class="iconDivElementoVotacion">
+                            <i class="fas fa-user-friends iconVotacionAmbito"></i>
+                        </div>
+                    </div>
+                    <div class="textElementoVotacion" (click)="openDialog('participantes')">
+                        <div class="firstTextElementoVotacion">
+                            Participantes
+                        </div>
+                        <div class="secondTextElementoVotacion">
+                            {{participantes.length}} participantes
+                        </div>
+                    </div>
+                    <div class="actionElementoVotacion">
+                        <div *ngIf="!admin || estado != 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('participantes')">
+                            <i class="fas fa-angle-right actionVotacion"></i>
+                        </div>
+                        <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarParticipantes')">
+                            <i class="fas fa-pen actionVotacionPen"></i>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+        
+    </div>
+</div>
 
-
-
-<p>{{votes[id].id}}</p>
-
-<p>{{votes[id].estado}}</p>
-<p>{{votes[id].ambito}}</p>
-<p>{{votes[id].departamento}}</p>
-<p>{{votes[id].fecha}}</p>
+    

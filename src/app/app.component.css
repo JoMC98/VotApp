@@ -129,7 +129,11 @@
     border: 0.5px solid transparent;
 }
 
-
+::ng-deep .contentVotacion{
+    height: 150vw;
+    width: 100%;
+    border: 0.5px solid transparent;
+}
 
 ::ng-deep .scrollOptions {
     width: 100%; 
@@ -278,27 +282,15 @@ select:-webkit-autofill:focus {
     display: flex !important;
     flex-wrap: wrap;
     border-radius: 10px !important;
-    /* background-color: white; */
     background-color: rgba(224,222,237,1);
+    /* background-color: rgba(246,246,246,0.8); */
     color: #272343;
     margin-bottom: 15px;
     padding: 0px !important;
 }
 
-::ng-deep .elementoListaVotacionActiva {
-    border-left: 10px solid #9BC8A4; 
-}
-
-::ng-deep .elementoListaVotacionEn {
-    border-left: 10px solid #E6E697;
-}
-
-::ng-deep .elementoListaVotacionFinalizada {
-    border-left: 10px solid #C98987; 
-}
-
 ::ng-deep .preguntaListaVotacion {
-    width: 62%;
+    width: 65%;
     margin: auto !important;
     text-align: left;
     padding-left: 3%;
@@ -307,14 +299,14 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .datosListaVotacion {
-    width: 38%;
+    width: 35%;
     text-align: right;
     padding-right: 10px;
     font-size: 13px;
     display: inline-block;
     border-left: 23px solid rgba(224,222,237,1);
     font-weight: bold;
-    color: #535654;
+    color: #272343;
     height: 0; 
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -326,16 +318,33 @@ select:-webkit-autofill:focus {
     margin-bottom: 0px;
 }
 
-::ng-deep .datosListaVotacionActiva {
-    border-bottom: 65px solid #9BC8A4; 
+
+::ng-deep .elementoListaVotacionActiva {
+    border-left: 10px solid #7FDC91;
 }
 
-::ng-deep .datosListaVotacionEn {
-    border-bottom: 65px solid #E6E697; 
+::ng-deep .elementoListaVotacionCreada {
+    /* border-left: 10px solid #E6E697; */
+    border-left: 10px solid #EEBF5D;
+}
+
+::ng-deep .elementoListaVotacionFinalizada {
+    /* border-left: 10px solid #C98987;  */
+    border-left: 10px solid #F4664D;
+}
+
+::ng-deep .datosListaVotacionActiva {
+    /* border-bottom: 65px solid #8FDE9F; */
+    border-bottom: 65px solid #7FDC91;
+}
+
+::ng-deep .datosListaVotacionCreada {
+    /* border-bottom: 65px solid #E6E697;  */
+    border-bottom: 65px solid #EEBF5D; 
 }
 
 ::ng-deep .datosListaVotacionFinalizada {
-    border-bottom: 65px solid #C98987; 
+    border-bottom: 65px solid #F4664D;
 }
 
 ::ng-deep .scrollOptions110 {
@@ -344,6 +353,10 @@ select:-webkit-autofill:focus {
 
 ::ng-deep .scrollOptions105 {
     height: 105vw !important; 
+}
+
+::ng-deep .scrollOptions95 {
+    height: 95vw !important; 
 }
 
 ::ng-deep .mesListaVotacion {
@@ -413,7 +426,7 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .cdk-overlay-pane .mat-bottom-sheet-container {
-    width: 100% !important;
+    width: 600px !important;
     margin-right: 5% !important;
     margin-left: 5% !important;
 }
@@ -549,19 +562,39 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .iconDptFinanzas {
-    background-color: rgba(208,216,176,0.7);
+    background-color: rgba(208,216,176,0.7) !important;
 }
 
 ::ng-deep .iconDptAdministración {
-    background-color: rgba(201,199,210,0.7);
+    background-color: rgba(201,199,210,0.7) !important;
 }
 
 ::ng-deep .iconDptDirección {
-    background-color: rgba(226,197,151,0.7);
+    background-color: rgba(226,197,151,0.7) !important;
 }
 
 ::ng-deep .iconDptMarketing {
-    background-color: rgba(204,176,208,0.7);
+    background-color: rgba(204,176,208,0.7) !important;
+}
+
+::ng-deep .iconDptPública {
+    /* background-color: rgba(168,224,187,0.7); */
+    background-color: rgba(168,224,187,1) !important;
+}
+
+::ng-deep .iconDptPrivada {
+    /* background-color: rgba(226,218,163,0.7); */
+    background-color: rgba(226,218,163,1) !important;
+}
+
+::ng-deep .iconDptOculta {
+    /* background-color: rgba(226,178,163,0.7); */
+    background-color: rgba(226,178,163,1) !important;
+}
+
+::ng-deep .iconDptDepartamento {
+    /* background-color: rgba(177,179,178,0.7); */
+    background-color: rgba(177,179,178,1) !important;
 }
 
 ::ng-deep .iconDptSquare {
@@ -636,7 +669,8 @@ select:-webkit-autofill:focus {
 
 ::ng-deep .encabezadoVotante {
     position: relative;
-    margin-top: 50px !important;
+    padding: 50px !important;
+    padding-bottom: 20px !important;
 }
 
 ::ng-deep .iconDptSquareVotante {
@@ -670,7 +704,8 @@ select:-webkit-autofill:focus {
 ::ng-deep .datosVotante {
     margin-top: 5px;
     margin-bottom: 10px;
-    background-color: rgba(246,246,246,0.8);
+    /* background-color: rgba(246,246,246,0.8); */
+    background-color: rgba(224,222,237,1);
     border-radius: 10px;
 }
 
@@ -687,7 +722,7 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .elementoVotante {
-    padding: 8px 2.5%;
+    padding: 8.5px 2.5%;
     width: 100%;
     font-size: 16px;
     color: #272343;
@@ -696,14 +731,21 @@ select:-webkit-autofill:focus {
 ::ng-deep .iconVotante {
     color: #272343;
     margin: auto !important;
-    width: 35px;
+    width: 45px;
     text-align: center;
     padding-right: 10px !important;
+    padding-left: 7.5px;
 }
 
 ::ng-deep .botonEditarVotante {
     font-size: 15px;
     padding-top: 12.5px;
+    color: #272343;
+}
+
+::ng-deep .botonBackVotante {
+    font-size: 18px;
+    padding-top: 11px;
     color: #272343;
 }
 
@@ -713,7 +755,7 @@ select:-webkit-autofill:focus {
     height: 40px;
     border-radius: 20px;
     position: absolute;
-    top: -20px;
+    top: 30px;
 }
 
 ::ng-deep .divBotonConfirmarModify {
@@ -727,10 +769,47 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .divBotonEditarVotante {
-    background-color: rgba(246,246,246,0.8);
+    background-color: rgba(224,222,237,1);
     right: 0px !important;
 }
+
 ::ng-deep .divBotonBackModify {
-    background-color: rgba(246,246,246,0.8);
+    background-color: rgba(224,222,237,1);
     left: 0px !important;
+}
+
+::ng-deep .divBotonBackVotacion {
+    background-color: #272343;
+    color: white;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: absolute;
+    top: 12.5px;
+    left: 12.5px;
+}
+
+::ng-deep .divBotonPlayVotacion {
+    background-color: #80BD23;
+    color: white;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: absolute;
+    top: 12.5px;
+    right: 12.5px;
+}
+
+::ng-deep .botonBackVotacion {
+    font-size: 18px;
+    padding-top: 11px;
+    color: rgba(224,222,237,1);
+}
+
+::ng-deep .botonPlayVotacion {
+    font-size: 15px;
+    padding-top: 12.5px;
+    color: #272343;
 }

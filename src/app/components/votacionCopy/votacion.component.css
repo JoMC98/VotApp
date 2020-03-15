@@ -1,0 +1,193 @@
+.marginTopVotacion {
+    height: 10px;
+}
+
+/* .cardVotacion {
+    margin: 0px 10px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-radius: 25px;
+    height: 190px;
+    background-color: rgba(224,222,237,1);
+    color: #272343;
+    text-align: center;
+    font-size: 28px !important;
+    padding: 0px;
+    margin-bottom: 30px;
+} */
+
+.cardVotacion {
+    background-color: transparent;
+    border: none;
+    margin: 0px 10px;
+    text-align: center;
+    font-size: 28px !important;
+    padding: 0px;
+    margin-bottom: 30px;
+}
+
+.divPreguntaVotacion {
+    height: 150px;
+    display: flex;
+}
+
+.preguntaVotacion {
+    margin: auto !important;
+    line-height: 40px;
+    padding: 0px 5px;
+}
+
+.divIconosPreguntaVotacion {
+    display: flex;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+
+.divIconoOpciones {
+    width: 29.5%;
+}
+
+.divIconoFecha {
+    width: 40%;
+}
+
+.cardVotacionBase {
+    background-color: rgba(255,255,255,0.5);
+    color: white;
+}
+
+.cardDescripcionVotacion {
+    width: 60%;
+    margin-left: 30%;
+    margin-right: 10%;
+    border-radius: 40px;
+    height: 120px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.divDescripcionVotacion {
+    overflow: scroll;
+    text-align: justify;
+    height: 80px;
+}
+
+.cardOrganizacionVotacion {
+    width: 65%;
+    margin-left: 10%;
+    margin-right: 25%;
+    border-radius: 40px;
+    height: 120px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.divOrganizacionVotacion {
+    display: flex;
+    height: 80px;
+}
+
+.divDepartamentoVotacion {
+    width: 50%;
+}
+
+.textDepartamentoVotacion{
+    padding-top: 10px;
+    text-align: center;
+}
+
+.iconDptVotacion {
+    font-size: 30px;
+    padding-top: 10px;
+    color: black;
+}
+
+.iconAmbitoVotacion {
+    font-size: 26px;
+    padding-top: 12px;
+    color: black;
+}
+
+.iconDptSquareVotacion {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.divAmbitoVotacion {
+    width: 50%;
+}
+
+.cardOpcionesVotacion {
+    width: 60%;
+    margin-left: 30%;
+    margin-right: 10%;
+    border-radius: 40px;
+    height: 150px;
+    padding: 20px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.titleOpcionesVotacion {
+    text-align: center;
+    font-weight: bold;
+    height: 35px;
+}
+
+
+.divOpcionesVotacion {
+    overflow: scroll;
+    text-align: justify;
+    height: 75px;
+    padding: 0px 20px;
+}
+
+.divBotonChangeVotacion {
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    text-align: center;
+    position: absolute;
+    top: 55px;
+}
+
+.divPrevVotacion {
+    position: absolute;
+    left: -20px;
+}
+
+.divNextVotacion {
+    position: absolute;
+    right: -20px;
+}
+
+.iconChangeVotacion {
+    font-size: 15px;
+    padding-top: 12.5px;
+    color: #272343;
+}
+
+.cardParticipantesVotacion {
+    width: 60%;
+    margin-left: 10%;
+    margin-right: 30%;
+    border-radius: 40px;
+    height: 150px;
+    padding: 20px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.labelVotacionParticipanteName {
+    font-size: 15px;
+}
+
+.labelVotacionParticipanteCargo {
+
+}

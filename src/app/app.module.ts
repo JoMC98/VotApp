@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 import { DatosComponent } from './components/nueva-votacion/datos/datos.component';
 import { OpcionesComponent } from './components/nueva-votacion/opciones/opciones.component';
 import { ParticipantesComponent } from './components/nueva-votacion/participantes/participantes.component';
@@ -53,6 +54,7 @@ import { UserComponent } from './components/user/user.component';
 import { ModifyUserComponent } from './components/modify-user/modify-user.component';
 
 import {MatCardModule} from '@angular/material/card';
+import { DesplegableVotacionComponent } from './components/votacion/desplegable-votacion/desplegable-votacion.component';
 
 
 
@@ -83,7 +85,8 @@ registerLocaleData(localeEs, 'es')
     FiltroUsersComponent,
     VotacionComponent,
     UserComponent,
-    ModifyUserComponent
+    ModifyUserComponent,
+    DesplegableVotacionComponent
   ],
   imports: [
     MatFormFieldModule, 
@@ -97,6 +100,7 @@ registerLocaleData(localeEs, 'es')
     MatSidenavModule,
     MatBottomSheetModule,
     MatCardModule,
+    MatRadioModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

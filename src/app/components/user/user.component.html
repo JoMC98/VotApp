@@ -1,4 +1,4 @@
-<div class="allContent90">
+<div class="allContent85">
     <div class="contentNewVotacion">
         <div class="encabezadoVotante">
             <div class="iconDptDiv">
@@ -13,7 +13,7 @@
                 {{usuarios[dni].nombre}} {{usuarios[dni].apellido}}
             </div>
             <div *ngIf="!profile" class="divBotonModify divBotonBackModify" routerLink="/users">
-                <i class="fas fa-arrow-left botonEditarVotante"></i>
+                <i class="fas fa-angle-left botonBackVotante"></i>
             </div>
             <div class="divBotonModify divBotonEditarVotante" [routerLink]="['/modifyUser',dni]" [queryParams]="{profile: profile}">
                 <i class="fas fa-pen botonEditarVotante"></i>

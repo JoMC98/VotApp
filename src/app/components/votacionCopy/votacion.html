@@ -1,0 +1,84 @@
+<div class="marginTopVotacion"></div>
+<!-- <mat-card class="cardVotacion"> -->
+<div class="cardVotacion">
+    <div class="divPreguntaVotacion">
+        <label class="preguntaVotacion">{{pregunta}}</label>
+    </div>
+    <div class="divIconosPreguntaVotacion">
+        <div class="divIconoOpciones">
+            <i class="fas fa-user-friends"></i>
+            {{participantes.length}}
+        </div>
+        <div class="divIconoOpciones">
+            <i class="fas fa-question-circle"></i>
+            {{opciones.length}}
+        </div>
+        <div class="divIconoFecha">
+            <i class="fas fa-clock"></i>
+            {{fecha | date: 'shortDate'}}
+        </div>
+    </div>
+</div>
+<!-- </mat-card> -->
+
+<div class="scrollOptions scrollOptions95">
+    <mat-card class="cardDescripcionVotacion cardVotacionBase">
+        <div class="divDescripcionVotacion">
+            {{descripcion}}
+        </div>
+    </mat-card>
+
+    <mat-card class="cardOrganizacionVotacion cardVotacionBase">
+        <div class="divOrganizacionVotacion">
+            <div class="divDepartamentoVotacion">
+                <div class="iconDptSquareVotacion" [class]="'iconDpt' + departamento">
+                    <i *ngIf="departamento == 'Finanzas'" class="fas fa-euro-sign iconDptVotacion"></i>
+                    <i *ngIf="departamento == 'Marketing'" class="fas fa-chart-line iconDptVotacion"></i>
+                    <i *ngIf="departamento == 'Administración'" class="fas fa-tasks iconDptVotacion"></i>
+                    <i *ngIf="departamento == 'Dirección'" class="fas fa-user-tie iconDptVotacion"></i>
+                </div>
+                <div class="textDepartamentoVotacion">
+                    {{departamento}}
+                </div>
+            </div>
+            <div class="divAmbitoVotacion">
+                <div class="iconDptSquareVotacion" [class]="'iconDpt' + ambito">
+                    <i *ngIf="ambito == 'Publica'"  class="fas fa-users iconAmbitoVotacion"></i>
+                    <i *ngIf="ambito == 'Privada'" class="fas fa-lock iconAmbitoVotacion"></i>
+                    <i *ngIf="ambito == 'Departamento'" class="fas fa-sitemap iconAmbitoVotacion"></i>
+                    <i *ngIf="ambito == 'Oculta'" class="fas fa-eye-slash iconAmbitoVotacion"></i>
+                </div>
+                <div class="textDepartamentoVotacion">
+                    {{ambito}}
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="cardOpcionesVotacion cardVotacionBase">
+        <div class="titleOpcionesVotacion">Opciones</div>
+        <div class="divOpcionesVotacion">
+            {{opciones[opcion]}}
+        </div>
+        <div class="divBotonChangeVotacion divPrevVotacion" (click)="prevOpcion()">
+            <i class="fas fa-angle-left iconChangeVotacion"></i>
+        </div>
+        <div class="divBotonChangeVotacion divNextVotacion" (click)="nextOpcion()">
+            <i class="fas fa-angle-right iconChangeVotacion"></i>
+        </div>
+    </mat-card>
+
+    <mat-card class="cardParticipantesVotacion cardVotacionBase">
+        <div class="titleOpcionesVotacion">Participantes</div>
+        <div class="divOpcionesVotacion">
+            <label class="labelVotacionParticipanteName">{{participantes[participante].nombre}} {{participantes[participante].apellido}}</label><br>
+            <label class="labelVotacionParticipanteCargo">{{participantes[participante].cargo}}</label>
+        </div>
+        <div class="divBotonChangeVotacion divPrevVotacion" (click)="prevParticipante()">
+            <i class="fas fa-angle-left iconChangeVotacion"></i>
+        </div>
+        <div class="divBotonChangeVotacion divNextVotacion" (click)="nextParticipante()">
+            <i class="fas fa-angle-right iconChangeVotacion"></i>
+        </div>
+    </mat-card>
+</div>

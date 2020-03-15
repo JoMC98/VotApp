@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet'
+import { DesplegableVotacionComponent } from './desplegable-votacion/desplegable-votacion.component';
 
 @Component({
   selector: 'app-votacion',
@@ -8,18 +10,47 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class VotacionComponent implements OnInit, OnDestroy {
   id: number;
+
+  admin: boolean = true;
+  // admin: boolean = false;
+
   private sub: any;
 
-  votes = {1 : {id:1, pregunta: "¿Deberíamos abrir otra sucursal en Alicante?", estado: "Finalizada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-01-20")},
-           2 : {id: 2, pregunta: "¿Deberíamos abrir otra sucursal en La Vall?", estado: "Activa", departamento: "Administración", ambito: "Oculta", fecha: new Date("2020-04-16")},
-           3 : {id: 3, pregunta: "¿Deberíamos abrir otra sucursal en Barcelona?", estado: "Activa", departamento: "Dirección", ambito: "Departamento", fecha: new Date("2020-04-18")},
-           4 : {id: 4, pregunta: "¿Deberíamos abrir otra sucursal en Castellon?", estado: "Activa", departamento: "Marketing", ambito: "Departamento", fecha: new Date("2020-03-8")},
-           5 : {id: 5, pregunta: "¿Deberíamos abrir otra sucursal en Valencia?", estado: "Activa", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-03-16")},
-           6 : {id: 6, pregunta: "¿Deberíamos abrir otra sucursal en Zaragoza?", estado: "En proceso", departamento: "Administración", ambito: "Publica", fecha: new Date("2020-03-4")}, 
-           7 : {id: 7, pregunta: "¿Deberíamos abrir otra sucursal en Madrid?", estado: "Finalizada", departamento: "Administración", ambito: "Pública", fecha: new Date("2020-02-18")},
-           8 : {id: 8, pregunta: "¿Deberíamos abrir otra sucursal en Galicia?", estado: "Finalizada", departamento: "Finanzas", ambito: "Privada", fecha: new Date("2020-02-01")}};
+  pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?";
+  
+  descripcion = {"descripcion": 
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id fringilla mi. Duis gravida, quam ac hendrerit pharetra, ante ex commodo erat, in lacinia nibh velit eu enim. Ut vitae aliquam urna. Duis eu fringilla arcu, quis rutrum ex. Aliquam non urna lectus. In hac habitasse platea dictumst. Maecenas nec orci purus. Nulla id aliquam eros. Sed aliquet, velit ac porta posuere, dui mi egestas ex, vel pulvinar risus lectus in quam. Cras id elit porta, fermentum lacus eu, varius est. Pellentesque ultricies efficitur neque id laoreet. Donec porta rutrum odio et iaculis. Pellentesque sed tortor ornare, pharetra libero eget, dictum sapien. Morbi lorem velit, porta sit amet justo id, tincidunt porttitor ligula. "
+  };
 
-  constructor(private route: ActivatedRoute) { }
+  departamento = {"departamento": "Finanzas"}; 
+  // departamento = {"departamento": "Marketing"}; 
+  // departamento = {"departamento": "Administración"};
+  // departamento = {"departamento": "Dirección"};
+
+  estado: string = "Creada";
+  // estado: string = "Activa";
+  // estado: string = "Finalizada";
+
+  //  ambito = {"ambito": "Departamento"}; 
+  //  ambito = {"ambito": "Pública"}; 
+  ambito = {"ambito": "Privada"}; 
+  //  ambito = {"ambito": "Oculta"}; 
+
+  //opciones: string[] = ["Sí", "No"];
+  //opciones: string[] = ["Sí, deberiamos abrirla ", "No, que va, no te ralles"];
+  opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol te ralles jajajaj xd lol", "Pero que cojones dices?", "A", "B", "C"];
+  //opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol", "Pero que cojones dices?", "No LOL"];
+  participantes = [{dni:"12345678X", nombre: "Paco", apellido: "Gonzalez Lopez", departamento: "Administración", cargo:"Jefe de Abastecimiento"},
+                   {dni:"12345679X", nombre: "Mario", apellido: "Mir Dos", departamento: "Administración", cargo:"Jefe de Suministros"},
+                   {dni:"12345670X", nombre: "Luis", apellido: "Alvarez Lopez", departamento: "Dirección", cargo:"CEO"},
+                   {dni:"12345623X", nombre: "Ana", apellido: "Garcia Fernandez", departamento: "Marketing", cargo:"CMO"},
+                   {dni:"12345643A", nombre: "Juan", apellido: "Comins Garcia", departamento: "Finanzas", cargo:"Jefe de Ventas"}];
+  fecha: Date = new Date();
+
+  opcion: number = 0;
+  participante: number = 0;
+
+  constructor(private route: ActivatedRoute, private _bottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
@@ -29,6 +60,37 @@ export class VotacionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  openDialog(page) {
+    var datos = {page: page};
+    switch (page) {
+      case "descripcion":
+      case "editarDescripcion":
+        datos["descripcion"] = this.descripcion
+        break;
+      case "opciones":
+      case "editarOpciones":
+      case "resultados":
+        datos["opciones"] = this.opciones 
+        break;
+      case "participantes":
+      case "editarParticipantes":
+        datos["participantes"] = this.participantes
+        break;
+      case "editarAmbito":
+        datos["ambito"] = this.ambito
+        break;
+      case "editarDepartamento":
+        datos["departamento"] = this.departamento
+        break;
+    }
+    const filterRef = this._bottomSheet.open(DesplegableVotacionComponent, 
+      {data: datos});
+
+    filterRef.afterDismissed().subscribe(result => {
+      console.log(this.descripcion);
+    })
   }
 
 }
