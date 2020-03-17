@@ -1,0 +1,60 @@
+<div class="allContent100">
+    <div class="contentVotacion">
+        <div class="panelVotacion">
+            <div class="panelSuperiorVotacion">
+                <div class="panelBotonesVotacion">
+                    <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]">
+                        <i class="fas fa-angle-left botonBackVotacion"></i>
+                    </div>
+                    <div class="divBotonPlayVotacion" (click)="results()">
+                        <i class="fas fa-play botonPlayVotacion"></i>
+                    </div>
+                    <div class="divBotonPlayVotacion" (click)="cambiarOpciones()" style="top: 60px;">
+                        <i class="fas fa-pen botonPlayVotacion"></i>
+                    </div>
+                </div>
+                <mat-card class="panelPreguntaVotacion">
+                    <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
+                    class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
+                </mat-card>
+            </div>
+            <mat-card class="panelInferiorVotacion">
+                <div class="containerTituloResultados">
+                    Resultados de la votación
+                </div>
+                <div class="containerDivSpinner" *ngIf="!resultados">
+                    <div class="divTextSpinner">
+                        <label class="textSpinner">Se está gestionando<br>la votación</label>
+                    </div>
+                    <div class="containerSpinner">
+                        <mat-progress-spinner class="spinner" [mode]="'indeterminate'" diameter="120"></mat-progress-spinner>
+                    </div>
+                    <div class="divTextSpinner">
+                        <label class="textSpinner2">Tenga paciencia</label>
+                    </div>
+                </div>
+                <div  class="containerDivResultados" *ngIf="resultados">
+                    <div id="subcontainerDivResultados" class="subcontainerDivResultados" [ngClass]="'containerDivResultados' + totalOpciones">
+                        <div *ngFor="let opt of opciones; let i = index" class="divResultVotacion">
+                            <div class="containerPreguntaResultVotacion">
+                                <label [ngClass]="opt.total == maximo ? 'preguntaResultVotacionWinner' : 'preguntaResultVotacion'">{{opt.pregunta}}</label>
+                                <div class="votosResultVotacion">
+                                    <label class="cuadradoVotosResultVotacion">{{opt.total}}</label>
+                                </div>
+                            </div>
+                            <div class="containerBarraResultVotacion">
+                                <div [style.width]="opt.width + '%'" class="subcontainerBarraResultVotacion">
+                                    <div [ngClass]="opt.total == maximo ? 'barraResultVotacionWinner' : 'barraResultVotacion'"></div>
+                                </div>
+                                <div class="subcontainerBarraResultVotacionInversa">
+                                    <div class="barraResultVotacionInversa"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

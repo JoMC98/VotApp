@@ -1,0 +1,185 @@
+::ng-deep .mat-progress-spinner circle {
+    stroke: #DCF6F5;
+}
+
+.containerSpinner {
+    width: 100% !important;
+    height: 33% !important;
+    margin: auto !important;
+    display: flex;
+}
+
+.containerDivSpinner {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 85%;
+}
+
+.containerDivResultados {
+    display: flex;
+    width: 90%;
+    height: 85%;
+    margin: 0% 5% !important;
+    /* border: 1px solid white; */
+}
+
+.containerTituloResultados {
+    height: 15%;
+    font-size: 23px;
+    text-align: center;
+    color: #DCF6F5;
+    padding-top: 10px;
+}
+
+.subcontainerDivResultados {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+} 
+
+.containerDivResultados6 {
+    padding: 0px !important;
+    height: 100%;
+}
+
+.containerDivResultados5 {
+    height: 90%;
+}   
+
+.containerDivResultados4 {
+    height: 72%;
+}   
+
+.containerDivResultados3 {
+    height: 55%;
+}
+
+.containerDivResultados2 { 
+    height: 45%;
+}
+
+.divGrupoVotos {
+    width: 100%;
+    height: 0px;
+    margin: 0px;
+}
+
+.divResultVotacion {
+    width: 100% !important;
+    margin: auto;
+}
+
+.containerPreguntaResultVotacion {
+    width: 100%;
+    display: flex;
+}
+
+.preguntaResultVotacion {
+    color: #DCF6F5;
+    margin-bottom: 0px;
+    width: 85%;
+}
+
+.preguntaResultVotacionWinner {
+    color: #D1967D;
+    margin-bottom: 0px;
+    width: 85%;
+}
+
+.votosResultVotacion {
+    color: #DCF6F5;
+    margin-bottom: 0px;
+    width: 15%;
+    text-align: right;
+}
+
+.cuadradoVotosResultVotacion {
+    margin-bottom: 0px;
+    line-height: 16px;
+    height: 24px;
+    margin: 2.5px 0px;
+    padding: 4px 4px !important;
+    background-color: rgba(89, 98, 111, 0.7);
+    border-radius: 10px;
+}
+
+.containerBarraResultVotacion {
+    width: 100%;
+    height: 5px;
+    display: flex;
+    position: relative;
+}
+
+.subcontainerBarraResultVotacion {
+    height: 5px;
+    position: absolute;
+    z-index: 2;
+}
+
+.subcontainerBarraResultVotacionInversa {
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.barraResultVotacion {
+    margin-top: 4px;
+    background-color: #DCF6F5;
+    height: 5px;
+    width: 100%;
+    animation: carga 1s ease-in-out 1s backwards;
+}
+
+.barraResultVotacionWinner {
+    margin-top: 4px;
+    background-color: #D1967D;
+    height: 5px;
+    width: 100%;
+    animation: carga 1s ease-in-out 1s backwards;
+}
+
+.barraResultVotacionInversa{
+    margin-top: 4px;
+    background-color: rgba(89, 98, 111, 0.7);
+    height: 5px;
+    width: 100%;
+    animation: descarga 1s ease-in-out 1s backwards;
+}
+
+@keyframes carga {
+    0% {width: 0px;}
+    100% {width: 100%}
+}
+
+@keyframes descarga {
+    0% {width: 100%}
+    100% {width: 100%}
+}
+
+.spinner {
+    margin: auto !important;
+}
+
+.divTextSpinner {
+    height: 33% !important;
+    width: 100% !important;
+    display: flex;
+}
+
+.textSpinner {
+    color: #DCF6F5;
+    font-size: 22px;
+    line-height: 30px !important;
+    margin: auto !important;
+    text-align: center;
+}
+
+.textSpinner2 {
+    color: #DCF6F5;
+    font-size: 18px;
+    margin: auto !important;
+    text-align: center;
+}

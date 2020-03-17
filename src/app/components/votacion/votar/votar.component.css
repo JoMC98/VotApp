@@ -1,0 +1,243 @@
+.votarOpcionPanel {
+    margin: 25px;
+    display: flex;
+}
+
+.votarOpcionBoton {
+    /* width: 50% !important; */
+    margin: 0 5% !important;
+
+    /* color: black !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    text-align: center !important;
+    padding: 0px !important;
+    background: #cb4e4e !important;
+    box-shadow: 0 8px #ab3c3c !important;
+    border: none !important;
+    outline: none !important;
+    -webkit-transition: all 0.3s !important;
+	-moz-transition: all 0.3s !important;
+    transition: all 0.3s !important;
+    border-radius: 10px !important; */
+}
+
+.votarOpcionBoton:after {
+	-webkit-transition: all 0.3s !important;
+	-moz-transition: all 0.3s !important;
+	transition: all 0.3s !important;
+}
+
+.votarOpcionBoton:before {
+	-webkit-font-smoothing: antialiased !important;
+}
+
+.votarOpcionBoton:active {
+    box-shadow: none !important;
+}
+
+.pruebaVotar {
+    width: 400px !important;
+}
+
+.botonVotar {
+    width: 30% !important;
+    margin-left: 35%;
+    height: 43px !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    text-align: center !important;
+
+    outline: none;
+
+    color: #D9D9D9 !important;
+    background-color: transparent;
+    border: 1px solid #DCF6F5;
+
+    padding: 0px !important;
+    border-radius: 40px !important;
+}
+
+::ng-deep .botonVotar:focus {
+    outline: 0;
+}
+
+.rowOpcionesVotar {
+    margin-top: 25px !important;
+    width: 100% !important;
+    height: 85% !important;
+    font-size: 13px !important;
+}
+
+.containerOpcionesVotar {
+    display: flex !important;
+    flex-wrap: wrap;
+    margin-left: 5%;
+    width: 90%;
+    height: 95%;
+    margin-top: 2.5%;
+}
+
+.textCardOpciones {
+    margin: auto !important;
+    padding-top: 10px;
+}
+
+.lineaCardOpciones {
+    background-color: rgba(39, 35, 67, 0.9);
+    height: 6px;
+    border-radius: 30px;
+    width: 40%;
+    position: absolute;
+    top: 10px;
+    right: 30%;
+}
+
+.cardFilas {
+    width: 45% !important;
+    color: #272343;
+    border-radius: 20px !important;
+    display: flex;
+    text-align: center;
+    padding: 10px;
+    font-size: 17px;
+    line-height: 25px;
+    position: relative;
+    box-shadow: 0px 5px 1px -1px rgba(0, 0, 0, 0.2), 0px 5px 1px 0px rgba(0, 0, 0, 0.14), 0px 5px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.card2filasArriba {
+    height: 30% !important;
+    margin-top: 15%;
+    margin-bottom: 5%;
+}
+
+.card2filasAbajo {
+    height: 30% !important;
+    margin-top: 5%;
+    margin-bottom: 15%;
+}
+
+.card2filas {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.card2filasCenter {
+    margin-left: 27.5%;
+    margin-right: 27.5%;
+}
+
+.card2filasCenterVertical {
+    height: 30% !important;
+    margin: 35% 2.5%;
+}
+
+.card3filas {
+    height: 28.3% !important;
+    margin: 2.5%;
+}
+
+.card3filasCenter {
+    height: 28.3% !important;
+    margin: 2.5% 27.5%;
+}
+
+.divCheckVotar {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    background-color: transparent;
+    color: white;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.iconCheckVotar {
+    font-size: 13px;
+    padding-top: 8.5px;
+}
+
+.cardFilasSelected {
+    /* border: 3px solid gray; */
+    box-shadow: none;
+}
+
+.cardFilasSelected .lineaCardOpciones {
+    background-color: white;
+}
+
+.divBordeVotar {
+    position: absolute;
+    background-color: transparent;
+    border-radius: 20px !important;
+    border: 3px solid white;
+    top: -1px;
+    right: -1px;
+    left: -1px;
+    bottom: -1px;
+}
+
+.divCheckVotar2 {  
+    position: absolute;
+    z-index: 100;
+    top: -15px;
+    right: -15px;
+}
+
+
+  /*Tick animacion*/
+  
+.animation-ctn{
+    height: 40px;
+}
+
+@keyframes checkmark {
+    0% {stroke-dashoffset: 100px}
+    100% {stroke-dashoffset: 0px}
+}
+@-ms-keyframes checkmark {
+    0% {stroke-dashoffset: 100px}
+    100% {stroke-dashoffset: 0px}
+}
+@-webkit-keyframes checkmark {
+    0% {stroke-dashoffset: 100px}
+    100% {stroke-dashoffset: 0px}
+}
+
+@keyframes checkmark-circle {
+    0% {stroke-dashoffset: 480px}
+    100% {stroke-dashoffset: 960px}
+}
+@-ms-keyframes checkmark-circle {
+    0% {stroke-dashoffset: 480px}
+    100% {stroke-dashoffset: 960px}
+}
+@-webkit-keyframes checkmark-circle {
+    0% {stroke-dashoffset: 480px}
+    100% {stroke-dashoffset: 960px}
+}
+@keyframes colored-circle { 
+    0% {opacity:0}
+    100% {opacity:100}
+}
+  
+.inlinesvg .svg svg {
+    display: inline
+}
+
+.icon--order-success svg polyline {
+    -webkit-animation: checkmark 0.25s ease-in-out 0.7s backwards;
+    animation: checkmark 0.25s ease-in-out 0.7s backwards
+}
+  
+.icon--order-success svg circle {
+    -webkit-animation: checkmark-circle 0.6s ease-in-out backwards;
+    animation: checkmark-circle 0.6s ease-in-out backwards;
+}
+.icon--order-success svg circle#colored {
+    -webkit-animation: colored-circle 0.6s ease-in-out 0.7s backwards;
+    animation: colored-circle 0.6s ease-in-out 0.7s backwards;
+} 

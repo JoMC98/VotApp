@@ -33,6 +33,7 @@
                     <label class="textoLabelOpcion">{{opt}}</label>
                 </div> -->
                 <mat-card *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'opcionBox' + (i % 6)">
+                <!-- <mat-card *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'cardColorOpcion' + i"> -->
                     <div class="opcionText">
                         <label class="textoLabelOpcion">{{opt}}</label>
                     </div>

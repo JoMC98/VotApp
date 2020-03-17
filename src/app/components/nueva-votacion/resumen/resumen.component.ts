@@ -15,7 +15,7 @@ export class ResumenComponent implements OnInit {
   "Oculta": "La votación no será visible para nadie"};
   //opciones: string[] = ["Sí", "No"];
   //opciones: string[] = ["Sí, deberiamos abrirla ", "No, que va, no te ralles"];
-  opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol", "Pero que cojones dices?", "A", "B", "C"];
+  opciones = ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre", "Ande esta er beti"];
   //opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol", "Pero que cojones dices?", "No LOL"];
   participantes: string[] = ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles", "Paco Rodriguez Garcia", "Manolo Fuentes Lopez"];
   fecha: Date = new Date();

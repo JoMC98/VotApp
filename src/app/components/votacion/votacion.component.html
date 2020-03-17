@@ -6,22 +6,41 @@
                     <div class="divBotonBackVotacion" routerLink="/listadoVotaciones">
                         <i class="fas fa-angle-left botonBackVotacion"></i>
                     </div>
-                    <div *ngIf="admin && estado == 'Creada'" class="divBotonPlayVotacion" routerLink="/listadoVotaciones">
+                    <!-- <div class="divBotonPlayVotacion" (click)="cambiaEstado()">
+                        <i class="fas fa-play botonPlayVotacion"></i>
+                    </div> -->
+                    <div *ngIf="admin && estado == 'Creada'" class="divBotonPlayVotacion" [routerLink]="['/iniciarVotacion', id]">
                         <i class="fas fa-play botonPlayVotacion"></i>
                     </div>
                 </div>
                 <mat-card class="panelPreguntaVotacion">
-                    <label class="preguntaVotacion">{{pregunta}}</label>
+                    <textarea *ngIf="!modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
+                    class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
+                    <textarea *ngIf="modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
+                    class="preguntaVotacion" [(ngModel)]="copyPregunta"></textarea>
+                    <div *ngIf="admin && estado == 'Creada' && !modificarPregunta" class="modifyPreguntaVotacion" (click)="modifyPregunta()">
+                        <i class="fas fa-pen actionVotacionPen"></i>
+                    </div>
+                    <div *ngIf="admin && estado == 'Creada' && modificarPregunta" class="confirmPreguntaVotacion" (click)="guardarPregunta()">
+                        <i class="fas fa-check fechaVotacionPen"></i>
+                    </div>
+                    <div *ngIf="admin && estado == 'Creada' && modificarPregunta" class="cancelPreguntaVotacion" (click)="cancelarPregunta()">
+                        <i class="fas fa-times fechaVotacionPen"></i>
+                    </div>
                 </mat-card>
             </div>
             <mat-card class="panelInferiorVotacion">
                 <mat-card class="panelFechaVotacion">
-                    <label class="fechaVotacion">{{fecha | date: 'mediumDate'}}</label>
+                    <label class="fechaVotacion">{{fecha.fecha | date: 'mediumDate'}}</label>
+                    <div *ngIf="admin && estado == 'Creada'" class="modifyFechaVotacion" (click)="openDialog('editarFecha')">
+                        <i class="fas fa-pen fechaVotacionPen"></i>
+                    </div>
                 </mat-card>
                 <mat-card *ngIf="admin" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + estado">
                     <label class="fechaVotacion">{{estado}}</label>
                 </mat-card>
-                <mat-card *ngIf="!admin" class="panelBotonParticiparVotacion btnNormal btn-2 btn-2d">
+                <mat-card *ngIf="!admin && estado == 'Creada' && objectKeys(participantes).includes(dni)" 
+                class="panelBotonParticiparVotacion" (click)="rutar()">
                     <label class="fechaVotacion">Participar</label>
                 </mat-card>
                 <div class="separadorVotacion"></div>
@@ -96,16 +115,19 @@
                     </div>
                 </div>
                 <div class="elementoVotacion">
-                    <div class="iconElementoVotacion" (click)="openDialog('opciones')">
-                        <div class="iconDivElementoVotacion">
+                    <div class="iconElementoVotacion">
+                        <div *ngIf="estado != 'Finalizada'" class="iconDivElementoVotacion" (click)="openDialog('opciones')">
+                            <i class="fas fa-question-circle iconVotacion"></i>
+                        </div>
+                        <div *ngIf="estado == 'Finalizada'" class="iconDivElementoVotacion" [routerLink]="['/resultados', id]">
                             <i class="fas fa-question-circle iconVotacion"></i>
                         </div>
                     </div>
-                    <div class="textElementoVotacion" (click)="openDialog('opciones')">
-                        <div *ngIf="estado != 'Finalizada'" class="firstTextElementoVotacion">
+                    <div class="textElementoVotacion">
+                        <div *ngIf="estado != 'Finalizada'" class="firstTextElementoVotacion" (click)="openDialog('opciones')">
                             Opciones
                         </div>
-                        <div *ngIf="estado == 'Finalizada'" class="firstTextElementoVotacion">
+                        <div *ngIf="estado == 'Finalizada'" class="firstTextElementoVotacion" [routerLink]="['/resultados', id]">
                             Resultados
                         </div>
                         <div class="secondTextElementoVotacion">
@@ -113,10 +135,13 @@
                         </div>
                     </div>
                     <div class="actionElementoVotacion">
-                        <div *ngIf="!admin || estado == 'Activa'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
+                        <div *ngIf="!admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
                             <i class="fas fa-angle-right actionVotacion"></i>
                         </div>
-                        <div *ngIf="!admin || estado == 'Finalizada'" class="actionDivElementoVotacion" (click)="openDialog('resultados')">
+                        <div *ngIf="estado == 'Activa'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
+                            <i class="fas fa-angle-right actionVotacion"></i>
+                        </div>
+                        <div *ngIf="estado == 'Finalizada'" class="actionDivElementoVotacion" [routerLink]="['/resultados', id]">
                             <i class="fas fa-angle-right actionVotacion"></i>
                         </div>
                         <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion">

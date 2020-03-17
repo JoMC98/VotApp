@@ -43,6 +43,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { OrderByPipe } from './order-by.pipe';
+import { SortPipe } from './sort.pipe';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
 
@@ -55,6 +56,10 @@ import { ModifyUserComponent } from './components/modify-user/modify-user.compon
 
 import {MatCardModule} from '@angular/material/card';
 import { DesplegableVotacionComponent } from './components/votacion/desplegable-votacion/desplegable-votacion.component';
+import { VotarComponent } from './components/votacion/votar/votar.component';
+import { ResultadosComponent } from './components/votacion/resultados/resultados.component';
+import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
+import { StartComponent } from './components/votacion/start/start.component';
 
 
 
@@ -81,12 +86,16 @@ registerLocaleData(localeEs, 'es')
     DatosContactoComponent,
     ResumenUserComponent,
     OrderByPipe,
+    SortPipe,
     FiltroVotacionesComponent,
     FiltroUsersComponent,
     VotacionComponent,
     UserComponent,
     ModifyUserComponent,
-    DesplegableVotacionComponent
+    DesplegableVotacionComponent,
+    VotarComponent,
+    ResultadosComponent,
+    StartComponent
   ],
   imports: [
     MatFormFieldModule, 
@@ -101,6 +110,7 @@ registerLocaleData(localeEs, 'es')
     MatBottomSheetModule,
     MatCardModule,
     MatRadioModule,
+    MatProgressSpinnerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

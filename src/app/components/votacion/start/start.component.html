@@ -1,0 +1,25 @@
+<div class="allContent100">
+    <div class="contentVotacion">
+        <div class="panelVotacion">
+            <div class="panelSuperiorVotacion">
+                <div class="panelBotonesVotacion">
+                    <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]">
+                        <i class="fas fa-angle-left botonBackVotacion"></i>
+                    </div>
+                </div>
+                <mat-card class="panelPreguntaVotacion">
+                    <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
+                    class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
+                </mat-card>
+            </div>
+            <mat-card class="panelInferiorVotar">
+                <div class="rowOpcionesVotar">
+                    <div class="containerOpcionesVotar">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <i class="fas fa-person-booth"></i>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

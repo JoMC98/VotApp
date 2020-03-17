@@ -190,6 +190,10 @@
     margin-top: 45px;
 }
 
+::ng-deep .cdk-overlay-backdrop {
+    background-color: rgba(0,0,0,.32) !important;
+}
+
 ::ng-deep .mat-datepicker-content {
     background-color: #B9B9B9 !important;
     position: fixed;
@@ -198,6 +202,7 @@
     padding-bottom: 40px !important;
     padding-top: 10px;
     width: 86% !important;
+    border-radius: 30px !important;
 }
 
 ::ng-deep .mat-calendar {
@@ -812,4 +817,673 @@ select:-webkit-autofill:focus {
     font-size: 15px;
     padding-top: 12.5px;
     color: #272343;
+}
+
+::ng-deep .titleDialogoDesplegable {
+    font-size: 23px;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+::ng-deep .contentDialogoDesplegable {
+    padding: 20px 40px 20px 40px !important;
+    text-align: justify;
+}
+
+::ng-deep .opcionDialogoDesplegable {
+    padding: 15px 5px;
+    display: flex;
+}
+
+::ng-deep .numeroOpcionDialogoDesplegable {
+    width: 10%;
+}
+
+::ng-deep .textoOpcionDialogoDesplegable {
+    width: 90%;
+    margin: 0px;
+}
+
+::ng-deep .inputOpcionDialogoDesplegableModify {
+    width: 75%;
+    margin: 0px;
+    outline: 0;
+    background-color: transparent;
+    border: none;
+}
+
+::ng-deep .botonEliminarOpcionDialogoDesplegable {
+    width: 15%;
+    margin: 0px;
+    padding-left: 25px;
+    display: flex;
+}
+
+::ng-deep .iconMinusDialogoDesplegable {
+    margin: auto;
+}
+
+::ng-deep .iconDptDivDialogoDesplegable {
+    width: 20% !important;
+    margin: auto;
+    padding-left: 10px;
+}
+
+::ng-deep .datosDivDialogoDesplegable {
+    width: 80% !important;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+}
+
+::ng-deep .iconDptDivDialogoDesplegableAddUser {
+    width: 50px !important;
+    margin: auto;
+    padding-left: 10px;
+}
+
+::ng-deep .datosDivDialogoDesplegableAddUser {
+    margin-left: 10px;
+}
+
+::ng-deep .datosDivDialogoDesplegableEditar {
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+}
+
+::ng-deep .iconDptDialogoDesplegable {
+    font-size: 15px;
+    padding-top: 10px;
+    color: black;
+}
+
+::ng-deep .iconDptSquareDialogoDesplegable {
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 15px;
+    margin-right: 0px;
+}
+
+::ng-deep .nameUser {
+    width: 100%;
+    font-weight: bold;
+}
+
+::ng-deep .cargoUser {
+    width: 100%;
+    font-size: 14px;
+    color: #999696;
+}
+
+::ng-deep .modifyDescripcionVotacion {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-align: justify;
+    outline: none;
+    /* position: absolute;
+    top: 0; */
+    resize: none;
+}
+
+::ng-deep .divBotonModifyVotacion {
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+::ng-deep .divBotonConfirmarModifyVotacion {
+    background-color: rgba(175, 222, 164,0.8);
+    right: 20px !important;
+}
+
+::ng-deep .divBotonCancelarModifyVotacion {
+    background-color: rgba(222, 172, 164,0.8);
+    left: 20px !important;
+}
+
+::ng-deep .gridRadioButtonsVotacion {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+::ng-deep .elementGridRadioButtonsVotacion {
+    width: 50%;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+
+::ng-deep .elementGridRadioButtonsVotacion2 {
+    width: 50%;
+    padding-left: 40px;
+    padding-top: 10px;
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #D1967D !important;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: #D1967D !important;
+}
+
+::ng-deep .contentOptionDialogoDesplegable {
+    width: 100%;
+    max-height: 400px;
+    overflow: scroll;
+}
+
+::ng-deep .contentOptionDialogoDesplegableAddUser {
+    width: 100%;
+    max-height: 400px;
+    overflow: scroll;
+}
+
+
+::ng-deep .plusButtonDialogoDesplegable {
+    font-size: 15px;
+    padding-top: 12.5px;
+    color: white;
+}
+
+::ng-deep .plusButtonDivDialogoDesplegable {
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #272343;
+    margin: auto;
+    margin-top: 10px;
+}
+
+::ng-deep .nameUserModifyVotacion {
+    width: 100%;
+    font-weight: bold;
+    color: black !important;
+}
+
+::ng-deep .cargoUserModifyVotacion {
+    width: 100%;
+    font-size: 14px;
+    color: #999696;
+}
+
+::ng-deep .divOpcionDialogoDesplegable .mat-checkbox-label {
+    width: 90% !important;
+    display: flex;
+}
+
+::ng-deep .divOpcionDialogoDesplegable .mat-checkbox-layout {
+    margin-bottom: 0px !important;
+}
+
+::ng-deep .divOpcionDialogoDesplegable .mat-checkbox-frame {
+    border: 1px solid #272343 !important;
+}
+
+::ng-deep .nameUserAddUser {
+    width: 100%;
+    font-weight: bold;
+    height: 20px !important;
+}
+
+::ng-deep .cargoUserAddUser {
+    width: 100%;
+    font-size: 14px;
+    color: #999696;
+    height: 20px !important;
+}
+
+::ng-deep .dialogoAddUser {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    height: 94%;
+}
+
+::ng-deep .dialogoAddUser .mat-checkbox-checked .mat-checkbox-background,
+.dialogoAddUser .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: #272343 !important;
+}
+
+::ng-deep .dialogoAddUser .mat-checkbox-frame {
+    border: 1px solid #272343 !important;
+}
+
+::ng-deep .dialogoAddUser .mat-checkbox-checked .mat-checkbox-frame,
+.dialogoAddUser .mat-checkbox-indeterminate .mat-checkbox-frame {
+    border: 1px solid #272343 !important;
+}
+
+::ng-deep .dialogoAddUser .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #D1967D !important;
+}
+
+::ng-deep .flechaNewParticipante{
+    color: #B9B9B9; 
+    font-size: 15px;
+    width: 8%;
+}
+
+::ng-deep .dptoNewParticipante {
+    color: #B9B9B9;
+    font-weight: normal;
+    font-size: 15px;
+}
+
+::ng-deep .totalParticipantes {
+    color: #B9B9B9;
+    font-size: 18px;
+    margin-bottom: 5%;
+}
+
+::ng-deep .dptoCounter{
+    position: absolute !important;
+    right: 1%;
+    color: #B9B9B9;
+}
+
+::ng-deep .scrollOptions90 {
+    height: 90vw !important; 
+}
+
+::ng-deep .iconDptSquareVotacion {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 15px;
+    margin-right: 0px;
+}
+
+::ng-deep .userDivVotacion {
+    color: white;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-left: 5px !important;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+::ng-deep .containerValores .mat-checkbox-label {
+    width: 90% !important;
+}
+
+::ng-deep .userData {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+::ng-deep .iconDptVotacion {
+    padding-left: 10px;
+}
+
+::ng-deep .datosDivVotacion {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+}
+
+::ng-deep .containerValores .mat-checkbox-inner-container {
+    margin-left: 0px !important;
+}
+
+::ng-deep .containerValores .mat-checkbox-checked .mat-checkbox-background,
+.containerValores .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: transparent !important;
+}
+
+::ng-deep .containerValores .mat-checkbox-frame {
+    border: 1px solid white !important;
+    border-radius: 5px !important;
+}
+
+::ng-deep .containerValores .mat-checkbox-checked .mat-checkbox-frame,
+.userDivVotacion .mat-checkbox-indeterminate .mat-checkbox-frame {
+    border: 1px solid white !important;
+}
+
+::ng-deep .containerValores .mat-checkbox:not(.mat-checkbox-disabled) .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #D1967D !important;
+    /*background-color: #272343;*/
+}
+
+::ng-deep .containerValores .mat-checkbox-checkmark-path {
+    stroke: white !important;
+}
+
+::ng-deep .panelVotacion {
+    height: 100%;
+    background-color: #DCF6F5;
+}
+
+::ng-deep .panelSuperiorVotacion {
+    height: 32%;
+    position: relative;
+}
+
+::ng-deep .panelInferiorVotacion {
+    height: 69%;
+    background-color: #272343;
+    border: 0px solid black !important;
+    border-radius: 0px;
+    border-top-right-radius: 30px !important;
+    box-shadow: none !important;
+    position: relative;
+}
+
+::ng-deep .panelInferiorVotar {
+    height: 85%;
+    background-color: #272343;
+    border: 0px solid black !important;
+    border-radius: 0px;
+    border-top-right-radius: 30px !important;
+    box-shadow: none !important;
+    position: relative;
+}
+
+::ng-deep .panelBotonesVotacion {
+    height: 20%;
+}
+
+::ng-deep .panelPreguntaVotacion {
+    height: 60%;
+    background-color: #272343;
+    width: 70%;
+    margin-left: 15%;
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 30px !important;
+    border-bottom-right-radius: 30px !important;
+    border-bottom-left-radius: 0px !important;   
+    /* border-top-right-radius: 30px !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 30px !important; */
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    position: relative;
+}
+
+::ng-deep .preguntaVotacion {
+    margin: auto !important;
+    line-height: 30px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    text-align: center;
+}
+
+
+::ng-deep .modifyPreguntaVotacion {
+    position: absolute;
+    /* bottom: -15px;
+    right: -15px; */
+    /* bottom: -15px;
+    left: -15px; */
+    bottom: -7px;
+    left: -7px;
+    background-color: #DCF6F5;
+    border: 0.5px solid #272343;
+    color: #272343;
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+::ng-deep .confirmPreguntaVotacion {
+    position: absolute;
+    bottom: -7px;
+    left: -7px;
+    background-color: rgba(175, 222, 164,1);
+    border: 0.5px solid #272343;
+    color: #272343;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+::ng-deep .cancelPreguntaVotacion {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background-color: rgba(222, 172, 164,1);
+    border: 0.5px solid #272343;
+    color: #272343;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+::ng-deep .modifyFechaVotacion {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background-color: #272343;
+    color: #DCF6F5 !important;
+    /* bottom: -15px;
+    left: -15px;
+    background-color: #DCF6F5;
+    color: #272343; */
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+::ng-deep .modificarFechaVotacion .mat-datepicker-toggle-default-icon {
+    color: #272343 !important;
+}
+
+::ng-deep .fechaVotacionPen {
+    font-size: 13px;
+    padding-top: 8.5px;
+}
+
+::ng-deep .panelBotonParticiparVotacion {
+    width: 33% !important;
+    color: black !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    text-align: center !important;
+    display: flex !important;
+    position: absolute !important;
+    top: -21.5px !important;
+    left: 30px !important;
+    padding: 0px !important;
+    background: #cb4e4e !important;
+    box-shadow: 0 8px #ab3c3c !important;
+    border: none !important;
+    outline: none !important;
+    -webkit-transition: all 0.3s !important;
+	-moz-transition: all 0.3s !important;
+    transition: all 0.3s !important;
+    border-radius: 10px !important;
+}
+
+::ng-deep .panelBotonParticiparVotacion:after {
+	-webkit-transition: all 0.3s !important;
+	-moz-transition: all 0.3s !important;
+	transition: all 0.3s !important;
+}
+
+::ng-deep .panelBotonParticiparVotacion:before {
+	-webkit-font-smoothing: antialiased !important;
+}
+
+::ng-deep .panelBotonParticiparVotacion:active {
+    top: -13.5px !important;
+    box-shadow: none !important;
+}
+
+::ng-deep .fechaVotacion {
+    padding: 8px !important;
+    margin: auto !important;
+}
+
+::ng-deep .separadorVotacion {
+    height: 10px;
+}
+
+::ng-deep .elementoVotacion {
+    margin: 25px;
+    height: 50px;
+    display: flex;
+}
+
+::ng-deep .iconElementoVotacion {
+    height: 100%;
+    width: 20%;
+}
+
+::ng-deep .textElementoVotacion {
+    height: 100%;
+    width: 65%;
+    position: flex;
+}
+
+::ng-deep .actionElementoVotacion {
+    height: 100%;
+    width: 15%;
+    position: relative;
+}
+
+::ng-deep .iconDivElementoVotacion {
+    text-align: center;
+    height: 40px;
+    width: 40px;
+    background-color: #DCF6F5;
+    border-radius: 15px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+::ng-deep .iconVotacion {
+    font-size: 25px;
+    padding-top: 7.5px;
+    color: #272343; 
+}
+
+
+::ng-deep .firstTextElementoVotacion {
+    width: 100% !important;
+    height: 60%;
+    color: white;
+    font-size: 20px;
+}
+
+::ng-deep .secondTextElementoVotacion {
+    width: 100% !important;
+    height: 40%;
+    color: gray;
+    font-size: 16px;
+}
+
+::ng-deep .secondTextElementoVotacionDescripcion {
+    width: 100% !important;
+    height: 60%;
+    color: gray;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+::ng-deep .actionDivElementoVotacion {
+    position: absolute;
+    right: 0;
+    margin-top: 10px;
+    height: 30px;
+    width: 30px;
+    background-color: #DCF6F5;
+    border-radius: 10px;
+    text-align: center;
+}
+
+::ng-deep .rowOpciones2 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    color: #B9B9B9 !important; 
+    font-size: 13px !important;
+}
+
+::ng-deep .opcionBox {
+    width: 46% !important;
+    height: 75px !important;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+    margin-bottom: 10px !important;
+    line-height: 20px !important;
+    font-size: 13px !important;
+    padding: 0px 15px !important;
+    border-radius: 15px !important;
+    color: #272343 !important;
+    text-align: center !important;
+}
+
+
+::ng-deep .opcionText{
+    text-align: center !important;
+    height: 75px !important;
+    margin-top: 0px !important;
+    margin-bottom: 5px !important;
+    display: flex !important;
+}
+
+::ng-deep .textoLabelOpcion {
+    margin: auto !important;
+}
+
+::ng-deep .opcionBox0 {
+    background-color: rgba(208,216,176,0.7);
+}
+::ng-deep .opcionBox1 {
+    background-color: rgba(204,176,208,0.7);
+}
+::ng-deep .opcionBox2 {
+    background-color: rgba(226,197,151,0.7);
+}
+::ng-deep .opcionBox3 {
+    background-color: rgba(201,199,210,0.7);
+}
+::ng-deep .opcionBox4 {
+    background-color: rgba(220,164,177,0.7);
+}
+::ng-deep .opcionBox5 {
+    background-color: rgba(237,234,181,0.7);
+}
+
+::ng-deep .cardColorOpcion0 {
+    background-color: #B4AEE5;
+}
+::ng-deep .cardColorOpcion1 {
+    background-color: #88AD45;
+}
+::ng-deep .cardColorOpcion2 {
+    background-color: #FF99AA;
+}
+::ng-deep .cardColorOpcion3 {
+    background-color: #F3CA40;
+}
+::ng-deep .cardColorOpcion4 {
+    background-color: #7C9EB2;
+}
+::ng-deep .cardColorOpcion5 {
+    background-color: #CE6C47;
 }
