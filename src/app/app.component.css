@@ -712,6 +712,7 @@ select:-webkit-autofill:focus {
     /* background-color: rgba(246,246,246,0.8); */
     background-color: rgba(224,222,237,1);
     border-radius: 10px;
+    box-shadow: 0px 5px 1px -1px rgba(0, 0, 0, 0.2), 0px 5px 1px 0px rgba(0, 0, 0, 0.14), 0px 5px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
 ::ng-deep .headerDatosVotante {
@@ -776,6 +777,11 @@ select:-webkit-autofill:focus {
 ::ng-deep .divBotonEditarVotante {
     background-color: rgba(224,222,237,1);
     right: 0px !important;
+}
+
+::ng-deep .divBotonEditarVotanteLeft {
+    background-color: rgba(224,222,237,1);
+    left: 0px !important;
 }
 
 ::ng-deep .divBotonBackModify {
@@ -1487,4 +1493,3 @@ select:-webkit-autofill:focus {
 ::ng-deep .cardColorOpcion5 {
     background-color: #CE6C47;
 }
-/*patata*/

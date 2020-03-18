@@ -6,6 +6,12 @@
                     <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]">
                         <i class="fas fa-angle-left botonBackVotacion"></i>
                     </div>
+                    <div class="divBotonPlayVotacion" (click)="cambiarParticipantes()">
+                        <i class="fas fa-pen botonPlayVotacion"></i>
+                    </div>
+                    <div class="divBotonPlayVotacion" (click)="changeColor()" style="top: 60px;">
+                        <i class="fas fa-play botonPlayVotacion"></i>
+                    </div>
                 </div>
                 <mat-card class="panelPreguntaVotacion">
                     <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
@@ -13,10 +19,45 @@
                 </mat-card>
             </div>
             <mat-card class="panelInferiorVotar">
-                <div class="rowOpcionesVotar">
-                    <div class="containerOpcionesVotar">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <i class="fas fa-person-booth"></i>
+                <div class="containerStartVotacion">
+                    <div class="divTitleStartVotacion">
+                        <label class="titleStartVotacion">Estado de los participantes</label>
+                    </div>
+                    <div class="subcontainerStartVotacion">
+                        <div class="encabezadoStartVotacion">
+                            <div class="divNameStartVotacion">
+                                <label class="centerHorizontalStartVotacion">Nombre</label>
+                            </div>
+                            <div class="divVPNStartVotacion">
+                                <label class="centerStartVotacion">VPN & App</label>
+                            </div>
+                            <div class="divVotacionStartVotacion">
+                                <label class="centerStartVotacion">Votación</label>
+                            </div>
+                        </div>
+                        <div class="panelParticipantesStartVotacion">
+                            <div *ngFor="let user of participantes | keyvalue" class="divParticipanteStartVotacion" [ngClass]="heightClass">
+                                <div class="divNameStartVotacion">
+                                    <label class="centerHorizontalStartVotacion">{{user.value.nombre}} {{user.value.apellido}}</label>
+                                </div>
+                                <div class="divVPNStartVotacion">
+                                    <div class="centerStartVotacion divIconStartVotacion" [ngClass]="user.value.vpn ? 'divIconStartVotacionGreen' : 'divIconStartVotacionRed'">
+                                        <i class="fas fa-sign-in-alt centerStartVotacion"></i>
+                                    </div>
+                                </div>
+                                <div class="divVotacionStartVotacion">
+                                    <div class="centerStartVotacion divIconStartVotacion" [ngClass]="user.value.votacion ? 'divIconStartVotacionGreen' : 'divIconStartVotacionRed'">
+                                        <i class="fas fa-person-booth centerStartVotacion"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div  class="divBotonStartVotacion">
+                            
+                        </div> -->
+                        <div *ngIf="conexions == totalConexions" class="divBotonStartVotacion">
+                            
+                        </div>
                     </div>
                 </div>
             </mat-card>

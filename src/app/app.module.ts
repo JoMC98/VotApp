@@ -60,6 +60,7 @@ import { VotarComponent } from './components/votacion/votar/votar.component';
 import { ResultadosComponent } from './components/votacion/resultados/resultados.component';
 import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
 import { StartComponent } from './components/votacion/start/start.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 
@@ -95,7 +96,8 @@ registerLocaleData(localeEs, 'es')
     DesplegableVotacionComponent,
     VotarComponent,
     ResultadosComponent,
-    StartComponent
+    StartComponent,
+    LoginComponent
   ],
   imports: [
     MatFormFieldModule, 

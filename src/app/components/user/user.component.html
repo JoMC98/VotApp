@@ -15,8 +15,14 @@
             <div *ngIf="!profile" class="divBotonModify divBotonBackModify" routerLink="/users">
                 <i class="fas fa-angle-left botonBackVotante"></i>
             </div>
-            <div class="divBotonModify divBotonEditarVotante" [routerLink]="['/modifyUser',dni]" [queryParams]="{profile: profile}">
+            <div *ngIf="!profile" class="divBotonModify divBotonEditarVotante" [routerLink]="['/modifyUser',dni]" [queryParams]="{profile: profile}">
                 <i class="fas fa-pen botonEditarVotante"></i>
+            </div>
+            <div *ngIf="profile" class="divBotonModify divBotonEditarVotanteLeft" [routerLink]="['/modifyUser',dni]" [queryParams]="{profile: profile}">
+                <i class="fas fa-pen botonEditarVotante"></i>
+            </div>
+            <div *ngIf="profile" class="divBotonModify divBotonEditarVotante">
+                <i class="fas fa-power-off botonBackVotante"></i>
             </div>
         </div>
         

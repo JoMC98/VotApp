@@ -13,6 +13,7 @@ import { ModifyUserComponent } from './components/modify-user/modify-user.compon
 import { VotarComponent } from './components/votacion/votar/votar.component';
 import { ResultadosComponent } from './components/votacion/resultados/resultados.component';
 import { StartComponent } from './components/votacion/start/start.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'nuevaVotacion', component: NuevaVotacionComponent },
   { path: 'users', component: UsersComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'passwd', component: PasswdComponent },
   { path: 'nuevoUser', component: NuevoUserComponent },
   { path: 'votacion/:id', component: VotacionComponent },
