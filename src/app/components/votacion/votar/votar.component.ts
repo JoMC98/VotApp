@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-votar',
@@ -24,8 +24,9 @@ export class VotarComponent implements OnInit, OnDestroy {
   card: string = "";
   center = [];
 
+  activarBoton: boolean = false;
 
-  constructor(private route: ActivatedRoute) { 
+  constructor(private route: ActivatedRoute, private router: Router) { 
     this.total = this.opciones.length;
 
     if (this.total < 5) {
@@ -89,5 +90,15 @@ export class VotarComponent implements OnInit, OnDestroy {
       this.seleccion = id;
       this.options[id]["selected"] = "cardFilasSelected";
     }
+  }
+
+  rutar() {
+    this.activarBoton = true
+    new Promise((res) => {
+      setTimeout(() => {
+        this.router.navigate(['/resultados', this.id]);
+        res();
+      }, 3000);
+    })
   }
 }

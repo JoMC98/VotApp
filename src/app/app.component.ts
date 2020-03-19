@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FooterComponent } from './components/footer/footer.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,19 @@ import { FooterComponent } from './components/footer/footer.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  rootPage:any = FooterComponent;
-  title = 'Ejemplo';
-  constructor() {}
+  
+  // footer:boolean = true;
+  footer:boolean = true;
+
+  constructor(private router: Router ) {
+  }
+  
+  cambiaRuta() {
+    var pagina = this.router.url;
+    if (pagina == "/login" || pagina == "/changePasswd") {
+      this.footer = false;
+    } else {
+      this.footer = true;
+    }
+  }
 }

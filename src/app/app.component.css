@@ -1,3 +1,36 @@
+::ng-deep .body {
+    width: 100%;
+    height: 100%;
+}
+
+::ng-deep .bodyContainerAll {
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .bodyContainerFooter {
+  width: 100%;
+  height: 90%;
+}
+
+@media (max-height: 500px) {
+    ::ng-deep .bodyContainerFooter {
+        width: 100%;
+        height: 100%;
+    }
+  }
+
+::ng-deep .bodySubcontainer {
+  width: 100%;
+  height: 97%;
+  margin-bottom: 3%;
+}
+
+::ng-deep .bodySubcontainerAll {
+    width: 100%;
+    height: 100%;
+  }
+
 .bodyHeight {
     min-height: 90%;
     max-height: 90%;
@@ -60,15 +93,23 @@
 
 ::ng-deep .titlePanel {
     margin-bottom: 0px;
-    padding-top: 3%;
+    height: 13%;
+    display: flex;
 }
 
 ::ng-deep .titlePanelH2 {
+    margin: auto 0px;
     color: #D1967D;
     font-size: 2em;
     font-weight: bold;
-    margin-top: 8%;
-    margin-bottom: 6%;
+}
+
+::ng-deep .subtitlePanel {
+    height: 12%;
+}
+
+::ng-deep .subtitlePanelSmall {
+    height: 7%;
 }
 
 ::ng-deep .subtitlePanelH3 {
@@ -81,6 +122,51 @@
     color: white;
     font-size: 1em;
     margin-bottom: 7%;
+}
+
+::ng-deep .listadoPanel {
+    height: 75%;
+    overflow: scroll;
+}
+
+::ng-deep .addPanel {
+    height: 80%;
+}
+
+::ng-deep .addDatosPanelVotacion {
+    border: 1px solid transparent;
+    overflow: scroll;
+    height: 87%;
+}
+
+::ng-deep .addDatosPanelParticipantes {
+    border: 1px solid transparent;
+    height: 87%;
+}
+
+::ng-deep .addDatosPanelParticipantesFiltro {
+    height: 12%;
+}
+
+::ng-deep .addDatosPanelParticipantesLista {
+    border: 1px solid transparent;
+    overflow: scroll;
+    height: 88%;
+}
+
+::ng-deep .addDatosPanelUser {
+    overflow: scroll;
+    margin-top: 10%;
+    height: 82%;
+}
+
+::ng-deep .panelResumenAddUser {
+    margin-top: 2%;
+}
+
+::ng-deep .addPointsPanel {
+    margin-top: 7%;
+    height: 5%;
 }
 
 ::ng-deep .fieldForm {
@@ -130,9 +216,8 @@
 }
 
 ::ng-deep .contentVotacion{
-    height: 150vw;
+    height: 100%;
     width: 100%;
-    border: 0.5px solid transparent;
 }
 
 ::ng-deep .scrollOptions {
@@ -560,6 +645,22 @@ select:-webkit-autofill:focus {
     margin: auto;
 }
 
+::ng-deep .iconDptDivUser {
+    width: 20%;
+    margin: auto;
+}
+
+::ng-deep .containerDivIconUser {
+    width: 100%;
+    margin-top: 10%;
+    height: 50%;
+}
+
+::ng-deep .containerNombreUser {
+    width: 100%;
+    height: 30%;
+}
+
 ::ng-deep .iconDpt {
     font-size: 30px;
     padding-top: 10px;
@@ -664,7 +765,7 @@ select:-webkit-autofill:focus {
     border-radius: 25px;
     position: absolute;
     right: 30px;
-    top: -40px;
+    top: -50px;
 }
 
 ::ng-deep .containerBotonNuevoUser {
@@ -674,8 +775,16 @@ select:-webkit-autofill:focus {
 
 ::ng-deep .encabezadoVotante {
     position: relative;
-    padding: 50px !important;
-    padding-bottom: 20px !important;
+    /* padding: 50px !important;
+    padding-bottom: 20px !important; */
+    display: flex;
+    flex-wrap: wrap;
+    height: 27.5%;
+}
+
+::ng-deep .panelUserDatos{
+    height: 72.5%;
+    overflow: scroll;
 }
 
 ::ng-deep .iconDptSquareVotante {
@@ -1179,20 +1288,18 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .panelInferiorVotacion {
-    height: 69%;
+    height: 72%;
     background-color: #272343;
-    border: 0px solid black !important;
-    border-radius: 0px;
+    border-radius: 0px !important;
     border-top-right-radius: 30px !important;
     box-shadow: none !important;
     position: relative;
 }
 
 ::ng-deep .panelInferiorVotar {
-    height: 85%;
+    height: 82%;
     background-color: #272343;
-    border: 0px solid black !important;
-    border-radius: 0px;
+    border-radius: 0px !important;
     border-top-right-radius: 30px !important;
     box-shadow: none !important;
     position: relative;
@@ -1342,13 +1449,21 @@ select:-webkit-autofill:focus {
     margin: auto !important;
 }
 
-::ng-deep .separadorVotacion {
-    height: 10px;
+::ng-deep .containerElementosVotacion {
+    width: 100%;
+    height: 90%;
+    margin-top: 10%;
+    overflow: scroll;
+}
+
+::ng-deep .divElementoVotacion {
+    display: flex;
+    height: 20%;
 }
 
 ::ng-deep .elementoVotacion {
-    margin: 25px;
-    height: 50px;
+    margin: auto;
+    width: 80%;
     display: flex;
 }
 
@@ -1493,3 +1608,126 @@ select:-webkit-autofill:focus {
 ::ng-deep .cardColorOpcion5 {
     background-color: #CE6C47;
 }
+
+
+  ::ng-deep .pageLogin {
+    height: 100%;
+    background-color: #173446;
+    position: relative;
+    overflow: hidden;
+  }
+
+  ::ng-deep .pageChangePasswd {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+
+  ::ng-deep .panelBotonLogin {
+    width: 100%;
+    height: 30% !important;
+    display: flex;
+    position: relative;
+    /* z-index: 100; */
+  }
+  
+  ::ng-deep .botonLogin {
+    margin: auto;
+    width: 80%;
+    height: 50px;
+    background-color: #DCF6F5;
+    border-radius: 25px;
+    display: flex;
+    position: relative;
+  }
+  
+  ::ng-deep .activeBotonLogin {
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: #DCF6F5;
+    animation: activeBoton 0.5s ease-in-out 0.5s backwards;
+  }
+  
+  @keyframes activeBoton {
+    0% {  width: 80%;}
+    100% {width: 50px;}
+  }
+  
+  ::ng-deep .divExplosionBotonLogin {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 15%;
+    top: 75%;
+    animation: activeExplosionDiv 0.8s ease-in-out 0s backwards;
+  }
+  
+  @keyframes activeExplosionDiv {
+    0% {
+      height: 15%;
+      top: 75%;
+      left: 0%;
+      width: 100%;
+    }
+    100% {
+      height: 165%;
+      top: 0%;
+      left: -50%;
+      width: 200%;
+    }
+  }
+  
+  ::ng-deep .explosionBotonLogin {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    background-color: #DCF6F5;
+    margin: auto;
+    animation: activeExplosion 0.8s ease-in-out 0s backwards;
+  }
+  
+  @keyframes activeExplosion {
+    0% {
+      width: 50px;
+      height: 50px;
+    }
+    100% {
+      width: 800px;
+      height: 800px;
+      border-radius: 400px;
+    }
+  }
+  
+  ::ng-deep .buttonLabelDiv {
+    width: 100% !important;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+  }
+  
+  ::ng-deep .buttonLabel {
+    margin: auto;
+    font-weight: bold;
+    color: #272343;
+  }
+  
+  ::ng-deep .divSpinnerLogin {
+    margin: 2.5px;
+    height: 45px;
+    width: 45px;
+  }
+  
+  ::ng-deep .spinnerLogin {
+    opacity: 0;
+  }
+  
+  ::ng-deep .activeSpinnerLogin {
+    opacity: 1;
+    transition:opacity 0.5s linear;
+    transition-delay: 0.75s;
+  }

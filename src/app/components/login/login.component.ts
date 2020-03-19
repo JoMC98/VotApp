@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,19 +8,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  variable: boolean = false;
-  vari: boolean = false;
+  activarBoton: boolean = false;
+  activarExplosion: boolean = false;
+  showPasswd: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  metodo() {
-    this.variable = true;
-    setTimeout(function() {
-      this.vari = true;
-    }, 500);
+  showHidePasswd() {
+    this.showPasswd = !this.showPasswd;
+    if (this.showPasswd) {
+      (<HTMLInputElement>document.getElementById("inputPasswd")).type = "text";
+    } else {
+      (<HTMLInputElement>document.getElementById("inputPasswd")).type = "password";
+    }
+  }
+
+  rutar() {
+    this.activarBoton = true
+    new Promise((res) => {
+      setTimeout(() => {
+        this.activarExplosion = true;
+      }, 3000);
+    })
+    new Promise((res) => {
+      setTimeout(() => {
+        // this.router.navigate(['/home']);
+        this.router.navigate(['/changePasswd']);
+        res();
+      }, 3800);
+    })
   }
 
 }

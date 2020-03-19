@@ -1,45 +1,43 @@
-<div class="scrollOptions">
-    <div class="formContainer fieldForm">
-        <div class="rowResumen">
-            <label class="textResumen fieldResumen">Pregunta</label>
-            <label class="textResumen valueResumen">{{pregunta}}</label>
-        </div>
-        <hr class="lineaResumen"/>
-        <div class="rowResumen">
-            <label class="textResumen fieldResumen">Departamento</label>
-            <label class="textResumen valueResumen">{{dpto}}</label>
-        </div>
-        <div class="rowResumen">
-            <label class="textResumen fieldResumen">Ámbito</label>
-            <label class="textResumen valueResumen">{{ambito}}</label>
-        </div>
-        <hr class="lineaResumen"/>
-        <div class="rowResumen">
-            <label class="textResumen fieldResumen">Participantes</label>
-            <label class="textResumen valueResumen">{{participantes.length}}</label>
-        </div>
-        <div class="rowResumen">
-            <label class="textResumen fieldResumen">Fecha</label>
-            <label class="textResumen valueResumen">{{fecha | date: 'fullDate'}}</label>
-        </div>
-        <hr class="lineaResumen"/>
-        <div class="rowResumen">
-            <label class="textResumen fieldResumen">Opciones</label>
-            <label class="textResumen valueResumen"></label>
-        </div>
-        <div class="rowOpciones2">
-            <!-- <label *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'opcionBox' + (i % 6)"> -->
-                <!-- <div class="opcionText">
-                    <label class="textoLabelOpcion">{{opt}}</label>
-                </div> -->
-                <mat-card *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'opcionBox' + (i % 6)">
-                <!-- <mat-card *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'cardColorOpcion' + i"> -->
-                    <div class="opcionText">
-                        <label class="textoLabelOpcion">{{opt}}</label>
-                    </div>
-                </mat-card>
-            <!-- </label> -->
-        </div>
-        <button mat-stroked-button color="warn" class="buttonConfirm">Confirmar</button>
+<div class="formContainer fieldForm">
+    <div class="rowResumen">
+        <label class="textResumen fieldResumen">Pregunta</label>
+        <label class="textResumen valueResumen">{{pregunta}}</label>
     </div>
+    <hr class="lineaResumen"/>
+    <div class="rowResumen">
+        <label class="textResumen fieldResumen">Departamento</label>
+        <label class="textResumen valueResumen">{{dpto}}</label>
+    </div>
+    <div class="rowResumen">
+        <label class="textResumen fieldResumen">Ámbito</label>
+        <label class="textResumen valueResumen">{{ambito}}</label>
+    </div>
+    <hr class="lineaResumen"/>
+    <div class="rowResumen">
+        <label class="textResumen fieldResumen">Participantes</label>
+        <label class="textResumen valueResumen">{{participantes.length}}</label>
+    </div>
+    <div class="rowResumen">
+        <label class="textResumen fieldResumen">Fecha</label>
+        <label class="textResumen valueResumen">{{fecha | date: 'fullDate'}}</label>
+    </div>
+    <hr class="lineaResumen"/>
+    <div class="rowResumen">
+        <label class="textResumen fieldResumen">Opciones</label>
+        <label class="textResumen valueResumen"></label>
+    </div>
+    <div class="rowOpciones2">
+        <!-- <label *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'opcionBox' + (i % 6)"> -->
+            <!-- <div class="opcionText">
+                <label class="textoLabelOpcion">{{opt}}</label>
+            </div> -->
+            <mat-card *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'opcionBox' + (i % 6)">
+            <!-- <mat-card *ngFor="let opt of opciones; let i = index;" class="opcionBox" [class]="'cardColorOpcion' + i"> -->
+                <div class="opcionText">
+                    <label class="textoLabelOpcion">{{opt}}</label>
+                </div>
+            </mat-card>
+        <!-- </label> -->
+    </div>
+    <button mat-stroked-button color="warn" class="buttonConfirm">Confirmar</button>
 </div>

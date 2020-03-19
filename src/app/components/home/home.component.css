@@ -1,0 +1,162 @@
+.homePanel {
+    width: 100%;
+    height: 100%;
+}
+
+.panelEncabezadoHome {
+    width: 100%;
+    height: 20%;
+    display: flex;
+}
+
+.panelLogoHome {
+    width: 30%;
+    height: 100%;
+    display: flex;
+}
+
+.logoHome {
+    width: 95px;
+    height: 95px;
+    margin: auto;
+}
+
+.panelWelcomeHome {
+    width: 70%;
+    height: 100%;
+    display: flex;
+}
+
+.welcomeHome {
+    margin: auto;
+    font-size: 30px;
+    color: #DCF6F5;
+}
+
+.hrHome {
+    margin: 10px 5%;
+    border: 0.5px solid #DCF6F5;
+}
+
+.panelCardsHome {
+    width: 100%;
+    height: 80%;
+}
+
+.panelAddHome {
+    width: 90%;
+    margin: 5%;
+    height: 24.8%;
+    display: flex;
+}
+
+.divTitleCardsHomeAdmin {
+    width: 90%;
+    margin: 5%;
+    margin-bottom: 0px;
+    height: 10%;
+    font-weight: bold;
+    font-size: 25px;
+    color: #DCF6F5;
+    display: flex;
+}
+
+.titleCardsHomeAdmin {
+    margin: auto 0px;
+    margin-left: 5px;
+}
+
+.divCardsHomeAdmin {
+    width: 90%;
+    margin: 5%;
+    margin-top: 0px;
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.subdivCardsHomeAdmin {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cardHomeAdmin {
+    width: 46%;
+    height: 90%;
+    margin: 2%;
+    border-radius: 10px;
+    box-shadow: 0px 5px 1px -1px rgba(0, 0, 0, 0.2), 0px 5px 1px 0px rgba(0, 0, 0, 0.14), 0px 5px 3px 0px rgba(0, 0, 0, 0.12);
+    position: relative;
+}
+
+.cardHomeAdd {
+    background-color: rgba(81, 77, 104, 0.8);
+}
+
+.divIconAddHome {
+    position: absolute;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #272343;
+    top: 10px;
+    left: 10px;
+}
+
+.botonAddHome {
+    margin: auto;
+}
+
+.labelAddHome {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    /* font-weight: bold; */
+    font-size: 16px;
+    color: #DCF6F5;
+}
+
+.preguntaAdminHome {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    padding: 10px;
+    font-size: 15px;
+    line-height: 23px;
+    font-weight: bold;
+    color: #272343;
+}
+
+.fechaAdminHome {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    padding: 10px;
+    text-align: right;
+    font-size: 13px;
+}
+
+.cardNotDisplay {
+    display: none;
+}
+
+
+.divCardsHomeVotante {
+    width: 90%;
+    margin: 5%;
+    margin-top: 0px;
+    height: 81%;
+    display: flex;
+}
+
+.subdivCardsHomeVotante {
+    width: 100%;
+    height: 33%;
+    display: flex;
+    flex-wrap: wrap;
+}

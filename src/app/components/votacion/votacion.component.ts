@@ -13,8 +13,8 @@ export class VotacionComponent implements OnInit, OnDestroy {
   // dni: string = "96856678X";
   id: number;
 
-  admin: boolean = true;
-  // admin: boolean = false;
+  // admin: boolean = true;
+  admin: boolean = false;
 
   objectKeys = Object.keys;
 

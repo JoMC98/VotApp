@@ -7,7 +7,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -17,7 +16,6 @@ import { ListadoVotacionesComponent } from './components/listado-votaciones/list
 import { NuevaVotacionComponent } from './components/nueva-votacion/nueva-votacion.component';
 import { UsersComponent } from './components/users/users.component';
 import { NuevoUserComponent } from './components/nuevo-user/nuevo-user.component';
-import { PasswdComponent } from './components/passwd/passwd.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -61,6 +59,7 @@ import { ResultadosComponent } from './components/votacion/resultados/resultados
 import {MatProgressSpinnerModule, MatSpinner} from '@angular/material/progress-spinner';
 import { StartComponent } from './components/votacion/start/start.component';
 import { LoginComponent } from './components/login/login.component';
+import { ChangePasswordFirstComponent } from './components/user/change-password-first/change-password-first.component';
 
 
 
@@ -71,13 +70,11 @@ registerLocaleData(localeEs, 'es')
   declarations: [
     AppComponent,
     HomeComponent,
-    NavbarComponent,
     FooterComponent,
     ListadoVotacionesComponent,
     NuevaVotacionComponent,
     UsersComponent,
     NuevoUserComponent,
-    PasswdComponent,
     PageNotFoundComponent,
     DatosComponent,
     OpcionesComponent,
@@ -97,7 +94,8 @@ registerLocaleData(localeEs, 'es')
     VotarComponent,
     ResultadosComponent,
     StartComponent,
-    LoginComponent
+    LoginComponent,
+    ChangePasswordFirstComponent
   ],
   imports: [
     MatFormFieldModule, 

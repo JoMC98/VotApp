@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ListadoVotacionesComponent } from '../app/components/listado-votaciones/listado-votaciones.component';
 import { NuevaVotacionComponent } from '../app/components/nueva-votacion/nueva-votacion.component';
 import { UsersComponent } from '../app/components/users/users.component';
-import { PasswdComponent } from '../app/components/passwd/passwd.component';
 import { NuevoUserComponent } from '../app/components//nuevo-user/nuevo-user.component';
 import { HomeComponent } from '../app/components/home/home.component';
 import { PageNotFoundComponent } from '../app/components/page-not-found/page-not-found.component';
@@ -14,6 +13,7 @@ import { VotarComponent } from './components/votacion/votar/votar.component';
 import { ResultadosComponent } from './components/votacion/resultados/resultados.component';
 import { StartComponent } from './components/votacion/start/start.component';
 import { LoginComponent } from './components/login/login.component';
+import { ChangePasswordFirstComponent } from './components/user/change-password-first/change-password-first.component';
 
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'passwd', component: PasswdComponent },
+  { path: 'changePasswd', component: ChangePasswordFirstComponent },
   { path: 'nuevoUser', component: NuevoUserComponent },
   { path: 'votacion/:id', component: VotacionComponent },
   { path: 'votar/:id', component: VotarComponent },
@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'iniciarVotacion/:id', component: StartComponent },
   { path: 'user/:dni', component: UserComponent },
   { path: 'modifyUser/:dni', component: ModifyUserComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

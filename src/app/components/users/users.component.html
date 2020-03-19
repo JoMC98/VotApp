@@ -1,9 +1,7 @@
-<div class="allContent">
-    <div class="titlePanel">
-      <label class="titlePanelH2">Listado de votantes</label><br>
-    </div>
-</div>
-<div class="allContent85">
+<div class="titlePanel allContent">
+    <label class="titlePanelH2">Listado de votantes</label>
+  </div>
+<div class="subtitlePanel allContent85">
     <div class="formContainer menuZonaFiltro">
         <div class="menuOrden">
             <mat-form-field class="fieldForm">
@@ -19,34 +17,30 @@
     </div>
 </div>
 
-<div class="allContent">
-    <div class="contentNewVotacion">
-        <div class="scrollOptions scrollOptions105">
-            <div class="formContainer divLetra" *ngFor="let inicial of users | keyvalue | orderBy:order:false:false">
-                <div class="containerDptoNewParticipante">
-                    <label class="inicialListaUsers">{{inicial.key}}</label>
-                </div>
-                <div id="usersDpt{{inicial.key}}">
-                    <div *ngFor="let user of inicial.value" class="userDiv" [routerLink]="['/user', user.dni]" [queryParams]="{profile: false}"> 
-                        <div class="iconDptDiv">
-                            <div class="iconDptSquare" [class]="'iconDpt' + user.departamento">
-                                <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDpt"></i>
-                                <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDpt"></i>
-                                <i *ngIf="user.departamento == 'Administración'" class="fas fa-tasks iconDpt"></i>
-                                <i *ngIf="user.departamento == 'Dirección'" class="fas fa-user-tie iconDpt"></i>
-                            </div>
-                        </div>
-                        <div class="datosDiv">
-                            <div class="nameUser">
-                                {{user.nombre}} {{user.apellido}}
-                            </div>
-                            <div class="cargoUser">
-                                {{user.cargo}}
-                            </div>
-                        </div>
-                        
+<div class="listadoPanel allContent">
+    <div class="formContainer divLetra" *ngFor="let inicial of users | keyvalue | orderBy:order:false:false">
+        <div class="containerDptoNewParticipante">
+            <label class="inicialListaUsers">{{inicial.key}}</label>
+        </div>
+        <div id="usersDpt{{inicial.key}}">
+            <div *ngFor="let user of inicial.value" class="userDiv" [routerLink]="['/user', user.dni]" [queryParams]="{profile: false}"> 
+                <div class="iconDptDiv">
+                    <div class="iconDptSquare" [class]="'iconDpt' + user.departamento">
+                        <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDpt"></i>
+                        <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDpt"></i>
+                        <i *ngIf="user.departamento == 'Administración'" class="fas fa-tasks iconDpt"></i>
+                        <i *ngIf="user.departamento == 'Dirección'" class="fas fa-user-tie iconDpt"></i>
                     </div>
                 </div>
+                <div class="datosDiv">
+                    <div class="nameUser">
+                        {{user.nombre}} {{user.apellido}}
+                    </div>
+                    <div class="cargoUser">
+                        {{user.cargo}}
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>

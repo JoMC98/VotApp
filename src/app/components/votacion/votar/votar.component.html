@@ -1,40 +1,50 @@
-<div class="allContent100">
-    <div class="contentVotacion">
-        <div class="panelVotacion">
-            <div class="panelSuperiorVotacion">
-                <div class="panelBotonesVotacion">
-                    <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]">
-                        <i class="fas fa-angle-left botonBackVotacion"></i>
-                    </div>
+<div class="contentVotacion allContent100">
+    <div class="panelVotacion">
+        <div class="panelSuperiorVotacion">
+            <div class="panelBotonesVotacion">
+                <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]">
+                    <i class="fas fa-angle-left botonBackVotacion"></i>
                 </div>
-                <mat-card class="panelPreguntaVotacion">
-                    <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
-                    class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
-                </mat-card>
             </div>
-            <mat-card class="panelInferiorVotar">
-                <div class="rowOpcionesVotar">
-                    <div class="containerOpcionesVotar">
-                        <mat-card *ngFor="let opt of options; let i = index;" class="cardFilas" [ngClass]="[opt.color, opt.card, opt.cardZona, opt.selected]" (click)="select(i)">
-                            <label class="textCardOpciones">{{opt.pregunta}}</label>
-                            <div class="lineaCardOpciones"></div>
-                            <div *ngIf="selected && seleccion == i" class="animation-ctn divCheckVotar2 ">
-                                <div class="icon icon--order-success svg">
-                                     <svg width="40px" height="40px">  
-                                        <g fill="none" stroke="#DCF6F5" stroke-width="2"> 
-                                        <circle cx="20" cy="20" r="18" style="stroke-dasharray:480px, 480px; stroke-dashoffset: 960px;"></circle>
-                                        <circle id="colored" fill="#DCF6F5" cx="20" cy="20" r="18" style="stroke-dasharray:480px, 480px; stroke-dashoffset: 960px;"></circle>
-                                        <polyline class="st0" stroke="#272343" stroke-width="5" points="8,21 18,29 31,11 " style="stroke-dasharray:100px, 100px; stroke-dashoffset: 200px;"/>   
-                                       </g> 
-                                  </svg>
-                               </div>
-                             </div>
-                            <div *ngIf="selected && seleccion == i" class="divBordeVotar"></div>
-                        </mat-card>
-                    </div>
-                </div>
-                <button mat-stroked-button color="warn" class="botonVotar" [routerLink]="['/resultados', id]">Votar</button>
+            <mat-card class="panelPreguntaVotacion">
+                <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
+                class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
             </mat-card>
         </div>
+        <mat-card class="panelInferiorVotar">
+            <div class="rowOpcionesVotar">
+                <div class="containerOpcionesVotar">
+                    <mat-card *ngFor="let opt of options; let i = index;" class="cardFilas" [ngClass]="[opt.color, opt.card, opt.cardZona, opt.selected]" (click)="select(i)">
+                        <label class="textCardOpciones">{{opt.pregunta}}</label>
+                        <div class="lineaCardOpciones"></div>
+                        <div *ngIf="selected && seleccion == i" class="animation-ctn divCheckVotar2 ">
+                            <div class="icon icon--order-success svg">
+                                 <svg width="40px" height="40px">  
+                                    <g fill="none" stroke="#DCF6F5" stroke-width="2"> 
+                                    <circle cx="20" cy="20" r="18" style="stroke-dasharray:480px, 480px; stroke-dashoffset: 960px;"></circle>
+                                    <circle id="colored" fill="#DCF6F5" cx="20" cy="20" r="18" style="stroke-dasharray:480px, 480px; stroke-dashoffset: 960px;"></circle>
+                                    <polyline class="st0" stroke="#272343" stroke-width="5" points="8,21 18,29 31,11 " style="stroke-dasharray:100px, 100px; stroke-dashoffset: 200px;"/>   
+                                   </g> 
+                              </svg>
+                           </div>
+                         </div>
+                        <div *ngIf="selected && seleccion == i" class="divBordeVotar"></div>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="panelBotonVotar">
+                <div (click)="rutar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
+                  <div class="buttonLabelDiv" *ngIf="!activarBoton">
+                    <div class="buttonLabel">
+                      Votar
+                    </div>
+                  </div>
+                  <div class="divSpinnerLogin">
+                    <mat-progress-spinner class="spinnerLogin" [mode]="'indeterminate'" diameter="45" strokeWidth="2" [ngClass]="activarBoton ? 'activeSpinnerLogin' : ''"></mat-progress-spinner>
+                  </div>
+                </div>
+              </div>
+            <!-- <button mat-stroked-button color="warn" class="botonVotar" [routerLink]="['/resultados', id]">Votar</button> -->
+        </mat-card>
     </div>
 </div>

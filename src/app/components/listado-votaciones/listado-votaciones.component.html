@@ -1,9 +1,7 @@
-<div class="allContent">
-  <div class="titlePanel">
-    <label class="titlePanelH2">Listado de votaciones</label><br>
-  </div>
+<div class="titlePanel allContent">
+    <label class="titlePanelH2">Listado de votaciones</label>
 </div>
-<div class="allContent85">
+<div class="subtitlePanel allContent85">
     <div class="formContainer menuZonaFiltro">
         <div class="menuOrden">
             <mat-form-field class="fieldForm">
@@ -19,27 +17,23 @@
     </div>
 </div>
 
-<div class="allContent90">
-    <div class="contentNewVotacion">
-        <div class="scrollOptions scrollOptions110">
-            <div class="formContainer" *ngFor="let mes of votaciones | keyvalue | orderBy:order:true:false">
-                <div class="containerDptoNewParticipante" (click)="mostrarOcultar(mes.key)">
-                    <i class="fas flechaNewParticipante fa-chevron-down" id="flecha{{mes.key}}"></i>
-                    <label class="mesListaVotacion">{{mes.key | date: 'MMMM yyyy' | titlecase}}</label>
+<div class="listadoPanel allContent90">
+    <div class="formContainer" *ngFor="let mes of votaciones | keyvalue | orderBy:order:true:false">
+        <div class="containerDptoNewParticipante" (click)="mostrarOcultar(mes.key)">
+            <i class="fas flechaNewParticipante fa-chevron-down" id="flecha{{mes.key}}"></i>
+            <label class="mesListaVotacion">{{mes.key | date: 'MMMM yyyy' | titlecase}}</label>
+        </div>
+        <div id="votacionesMes{{mes.key}}">
+            <mat-card *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
+            [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.id]">
+                <div class="preguntaListaVotacion">
+                    {{vot.pregunta}}
                 </div>
-                <div id="votacionesMes{{mes.key}}">
-                    <mat-card *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
-                    [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.id]">
-                        <div class="preguntaListaVotacion">
-                            {{vot.pregunta}}
-                        </div>
-                        <div class="datosListaVotacion" [class]="'datosListaVotacion' + vot.estado">
-                            <label class="dptoListaVotacion">{{vot.departamento}}</label><br>
-                            {{vot.fecha | date: 'EEEE dd' | titlecase}}
-                        </div><br>
-                    </mat-card>
-                </div>
-            </div>
+                <div class="datosListaVotacion" [class]="'datosListaVotacion' + vot.estado">
+                    <label class="dptoListaVotacion">{{vot.departamento}}</label><br>
+                    {{vot.fecha | date: 'EEEE dd' | titlecase}}
+                </div><br>
+            </mat-card>
         </div>
     </div>
 </div>

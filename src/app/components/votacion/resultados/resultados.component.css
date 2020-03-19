@@ -13,23 +13,22 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    height: 85%;
+    height: 100%;
 }
 
 .containerDivResultados {
     display: flex;
     width: 90%;
-    height: 85%;
+    height: 100%;
     margin: 0% 5% !important;
-    /* border: 1px solid white; */
 }
 
 .containerTituloResultados {
-    height: 15%;
+    margin: 20px;
+    width: 100%;
     font-size: 23px;
     text-align: center;
     color: #DCF6F5;
-    padding-top: 10px;
 }
 
 .subcontainerDivResultados {
@@ -49,15 +48,15 @@
 }   
 
 .containerDivResultados4 {
-    height: 72%;
+    height: 80%;
 }   
 
 .containerDivResultados3 {
-    height: 55%;
+    height: 70%;
 }
 
 .containerDivResultados2 { 
-    height: 45%;
+    height: 60%;
 }
 
 .divGrupoVotos {

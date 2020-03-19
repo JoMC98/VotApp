@@ -22,7 +22,7 @@ export class ResultadosComponent implements OnInit, OnDestroy {
   opciones = [];
   opt = 0;
 
-  resultados: boolean = true;
+  resultados: boolean = false;
 
   constructor(private route: ActivatedRoute) {
     this.options = [

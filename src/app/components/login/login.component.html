@@ -1,9 +1,42 @@
-<div class="background">
-    <input type="checkbox" id="button" />
-    <label for="button" class="button" (click)="metodo()" [ngClass]="variable ? 'button2' : ''">
-      Finish<i class="fas fa-check" [ngClass]="variable ? 'fas2' : ''"></i>
-  </label>
-    <svg class="circle" [ngClass]="variable ? 'circle2' : ''">
-        <circle cx="35" cy="32" r="30"/>
-    </svg>
+<div class="pageLogin">
+  <div class="backgroundLoginImage">
+  </div>
+  <div class="panelLogoLogin">
+    <img alt="Icono login" class="logoLogin" src="assets\icons\logo.svg" />
+  </div>
+  <div class="panelDatosLogin">
+    <div class="panelInputsLogin">
+      <mat-form-field class="divInputsLogin divUsernameLogin">
+        <mat-label>
+          DNI
+        </mat-label>
+        <input class="inputForm" matInput>
+      </mat-form-field>
+      <mat-form-field class="divInputsLogin PasswordLogin">   
+        <mat-label>Contraseña</mat-label>
+        <div class="divPasswdForm">
+            <input type="password" id="inputPasswd" class="inputForm inputFormMinus" matInput>
+            <i class="fas fa-eye eyeIcon" (click)="showHidePasswd()"></i>
+        </div> 
+      </mat-form-field>
     </div>
+    <div class="panelBotonLogin">
+      <div *ngIf="!activarExplosion" id="botonLogin" (click)="rutar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
+        <div class="buttonLabelDiv" *ngIf="!activarBoton">
+          <div class="buttonLabel">
+            Iniciar sesión
+          </div>
+        </div>
+        <div class="divSpinnerLogin">
+          <mat-progress-spinner *ngIf="!activarExplosion" class="spinnerLogin" [mode]="'indeterminate'" diameter="45" strokeWidth="2" [ngClass]="activarBoton ? 'activeSpinnerLogin' : ''"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+    <div class="panelForgetLogin">
+      <div class="divForgetLogin">¿Olvidaste la contraseña?</div>
+    </div>
+  </div>
+  <div *ngIf="activarExplosion" class="divExplosionBotonLogin">
+    <div class="explosionBotonLogin"></div>
+  </div>
+</div>

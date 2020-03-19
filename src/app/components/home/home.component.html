@@ -1,1 +1,64 @@
-<p>home works!</p>
+<div class="homePanel">
+    <div class="panelEncabezadoHome">
+        <div class="panelLogoHome" (click)="change()">
+            <img alt="Logo Home" class="logoHome" src="assets\icons\logo-reduced.svg" />
+        </div>
+        <div class="panelWelcomeHome">
+            <div class="welcomeHome">
+                Bienvenido, {{nombre}}
+            </div>
+        </div>
+    </div>
+    <div class="panelCardsHome" *ngIf="admin">
+        <hr class="hrHome"/>
+        <div class="panelAddHome">
+            <mat-card class="cardHomeAdmin cardHomeAdd" routerLink="/nuevaVotacion">
+                <div class="divIconAddHome">
+                    <i class="fas fa-plus botonAddHome"></i>
+                </div>
+                <div class="labelAddHome">
+                    Crear una votación
+                </div>
+            </mat-card>
+            <mat-card class="cardHomeAdmin cardHomeAdd" routerLink="/nuevoUser">
+                <div class="divIconAddHome">
+                    <i class="fas fa-plus botonAddHome"></i>
+                </div>
+                <div class="labelAddHome">
+                    Registrar un votante
+                </div>
+            </mat-card>
+        </div>
+        <hr class="hrHome"/>
+        <div class="divTitleCardsHomeAdmin">
+            <div class="titleCardsHomeAdmin">
+                Votaciones cercanas
+            </div>
+        </div>
+        <div class="divCardsHomeAdmin">
+            <div class="subdivCardsHomeAdmin">
+                <mat-card *ngFor="let vot of votacionesAdmin; let i = index" class="cardHomeAdmin" 
+                [ngClass]="votacionesAdmin[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.id]">
+                    <div class="preguntaAdminHome">{{vot.pregunta}}</div>
+                    <div class="fechaAdminHome">{{vot.fecha | date: 'd MMMM'}}</div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    <div class="panelCardsHome" *ngIf="!admin">
+        <div class="divTitleCardsHomeAdmin">
+            <div class="titleCardsHomeAdmin">
+                Tus votaciones
+            </div>
+        </div>
+        <div class="divCardsHomeVotante">
+            <div class="subdivCardsHomeVotante">
+                <mat-card *ngFor="let vot of votacionesVotante; let i = index" class="cardHomeAdmin" 
+                [ngClass]="votacionesVotante[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.id]">
+                    <div class="preguntaAdminHome">{{vot.pregunta}}</div>
+                    <div class="fechaAdminHome">{{vot.fecha | date: 'd MMMM'}}</div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
