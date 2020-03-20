@@ -1,7 +1,6 @@
 ::ng-deep .body {
     width: 100%;
     height: 100%;
-    border: 1px solid orange;
 }
 
 ::ng-deep .bodyContainerAll {
