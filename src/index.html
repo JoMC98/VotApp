@@ -16,17 +16,60 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
   <meta name="apple-mobile-web-app-title" content="VotApp">
   <link rel="apple-touch-icon" href="/assets/icons/icon-152x152.png">
   <meta name="description" content="Aplicación de votación">
   <meta name="theme-color" content="#2F3BA2"/>
 </head>
 <body class="igx-typography mat-typography">
+  <div id="notLandscape" class="notLandscape">
+    <div class="containerImgLandscape">
+      <div class="divLandscape">
+        <img src="/assets/icons/landscape.png" class="imgLandscape"/>
+      </div>
+      <div class="txtLandscape">
+        Gira la pantalla para visualizar el contenido
+      </div>
+    </div>
+  </div>
+  <div id="portrait" class="backgroundNotLandscape">
+  </div>
   <app-root></app-root>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
+  <script type="text/javascript">
+    var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+    if(isAndroid) {
+        document.write('<meta name="viewport" content="width=device-width,height='+window.innerHeight+', initial-scale=1.0">');
+    }
+
+    var isIos = navigator.userAgent.toLowerCase().indexOf("iPhone") > -1;
+    if(isIos) {
+        document.write('<meta name="viewport" content="width=device-width,height='+window.innerHeight+', initial-scale=1.0">');
+    }
+
+    if (window.orientation == 0) {
+        document.getElementById("notLandscape").style.zIndex = -2;
+        document.getElementById("portrait").style.zIndex = -1;
+    } else {
+        document.getElementById("notLandscape").style.zIndex = 100;
+        document.getElementById("portrait").style.zIndex = -1;
+    }
+
+    window.addEventListener("orientationchange", function() {
+      if (window.orientation == 0) {
+        document.getElementById("notLandscape").style.zIndex = -2;
+        document.getElementById("portrait").style.zIndex = -1;
+    } else {
+        document.getElementById("notLandscape").style.zIndex = 100;
+        document.getElementById("portrait").style.zIndex = -1;
+    }
+    });
+
+  </script> 
+  
 </body>
 </html>

@@ -1,9 +1,10 @@
 {
-  "name": "Ejemplo",
-  "short_name": "Ejemplo",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
-  "display": "standalone",
+  "name": "VotApp",
+  "short_name": "VotApp",
+  "theme_color": "#272343",
+  "background_color": "#272343",
+  "display": "fullscreen",
+  "orientation": "portrait",
   "scope": "./",
   "start_url": "./",
   "icons": [
