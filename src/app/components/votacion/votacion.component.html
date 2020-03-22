@@ -11,6 +11,9 @@
                 <div *ngIf="admin && estado == 'Creada'" class="divBotonPlayVotacion" [routerLink]="['/iniciarVotacion', id]">
                     <i class="fas fa-play botonPlayVotacion"></i>
                 </div>
+                <div class="divBotonPlayVotacion" (click)="cambiarAdmin()" style="top: 60px;">
+                    <i class="fas fa-pen botonPlayVotacion"></i>
+                </div>
             </div>
             <mat-card class="panelPreguntaVotacion">
                 <textarea *ngIf="!modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 

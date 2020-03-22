@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { FooterComponent } from './components/footer/footer.component';
 import { Router } from '@angular/router';
 
@@ -23,4 +23,6 @@ export class AppComponent {
       this.footer = true;
     }
   }
+
+  
 }

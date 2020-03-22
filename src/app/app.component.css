@@ -88,6 +88,8 @@
 ::ng-deep .titlePanel {
     margin-bottom: 0px;
     height: 13%;
+    width: 90%;
+    margin-left: 10%;
     display: flex;
 }
 
@@ -120,6 +122,8 @@
 
 ::ng-deep .listadoPanel {
     height: 75%;
+    width: 90%;
+    margin-left: 10%;
     overflow: scroll;
 }
 
@@ -143,7 +147,8 @@
 }
 
 ::ng-deep .addDatosPanelParticipantesLista {
-    border: 1px solid transparent;
+    width: 90%;
+    margin-left: 10%;
     overflow: scroll;
     height: 88%;
 }
@@ -159,7 +164,7 @@
 }
 
 ::ng-deep .addPointsPanel {
-    margin-top: 7%;
+    margin-top: 10%;
     height: 5%;
 }
 
@@ -941,6 +946,13 @@ select:-webkit-autofill:focus {
     text-align: justify;
 }
 
+::ng-deep .contentDialogoDesplegableAdd {
+    padding: 20px 0px !important;
+    width: 90%;
+    margin-left: 10%;
+    text-align: justify;
+}
+
 ::ng-deep .opcionDialogoDesplegable {
     padding: 15px 5px;
     display: flex;
@@ -1291,7 +1303,7 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .panelInferiorVotar {
-    height: 82%;
+    height: 71%;
     background-color: #272343;
     border-radius: 0px !important;
     border-top-right-radius: 30px !important;

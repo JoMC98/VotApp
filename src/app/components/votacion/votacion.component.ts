@@ -71,6 +71,10 @@ export class VotacionComponent implements OnInit, OnDestroy {
     })
   }
 
+  cambiarAdmin() {
+    this.admin = !this.admin;
+  }
+
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id']; 

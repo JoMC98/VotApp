@@ -1,32 +1,33 @@
-<div class="titlePanel allContent">
-  <label class="titlePanelH2">Nueva votación</label>
-</div>
-<div class="subtitlePanelSmall allContent">
-  <label class="subtitlePanelH3" *ngIf="sect == 1">Datos básicos</label>
-  <label class="subtitlePanelH3" *ngIf="sect == 2">Opciones</label>
-  <label class="subtitlePanelH3" *ngIf="sect == 3">Participantes</label>
-  <label class="subtitlePanelH3-Res" *ngIf="sect == 4">Comprueba que los datos sean correctos</label><br>
-</div>
-
-<div class="addPanel">
-  <div *ngIf="sect != 3" class="addDatosPanelVotacion allContent">
-    <app-datos *ngIf="sect == 1"></app-datos>
-    <app-opciones *ngIf="sect == 2"></app-opciones>
-    <app-resumen *ngIf="sect == 4"></app-resumen>
+<div class="allBodyNuevaVotacion" id="allBodyNuevaVotacion">
+  <div class="titlePanel">
+    <label class="titlePanelH2">Nueva votación</label>
   </div>
-
-  <div *ngIf="sect == 3" class="addDatosPanelParticipantes allContent100">
-    <app-participantes></app-participantes>
-  </div>
-    
-  <div class="addPointsPanel allContent">
-    <div class="rowPuntos">
-      <i [ngStyle]="sect == 1 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
-      <div class="rowPuntos2">
-        <div *ngFor="let opt of points" (click)="sect = opt" class="circulo" [ngClass] = "sect == opt ? 'circuloSelected' : ''"></div>
-      </div>
-      <i [ngStyle]="sect == 4 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
-    </div>
+  <div class="subtitlePanelSmall allContent">
+    <label class="subtitlePanelH3" *ngIf="sect[0] == 1">Datos básicos</label>
+    <label class="subtitlePanelH3" *ngIf="sect[0] == 2">Opciones</label>
+    <label class="subtitlePanelH3" *ngIf="sect[0] == 3">Participantes</label>
+    <label class="subtitlePanelH3-Res" *ngIf="sect[0] == 4">Comprueba que los datos sean correctos</label><br>
   </div>
   
+  <div class="addPanel">
+    <div *ngIf="sect[0] != 3" class="addDatosPanelVotacion allContent">
+      <app-datos *ngIf="sect[0] == 1"></app-datos>
+      <app-opciones *ngIf="sect[0] == 2"></app-opciones>
+      <app-resumen *ngIf="sect[0] == 4"></app-resumen>
+    </div>
+  
+    <div *ngIf="sect[0] == 3" class="addDatosPanelParticipantes allContent100">
+      <app-participantes></app-participantes>
+    </div>
+      
+    <div class="addPointsPanel allContent">
+      <div class="rowPuntos">
+        <i [ngStyle]="sect[0] == 1 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
+        <div class="rowPuntos2">
+          <div *ngFor="let opt of points" (click)="sect[0] = opt" class="circulo" [ngClass] = "sect[0] == opt ? 'circuloSelected' : ''"></div>
+        </div>
+        <i [ngStyle]="sect[0] == 4 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
+      </div>
+    </div>
+  </div>
 </div>

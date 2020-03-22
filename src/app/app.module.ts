@@ -1,7 +1,7 @@
 import localeEs from '@angular/common/locales/es';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule} from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -61,8 +61,19 @@ import { StartComponent } from './components/votacion/start/start.component';
 import { LoginComponent } from './components/login/login.component';
 import { ChangePasswordFirstComponent } from './components/user/change-password-first/change-password-first.component';
 
+import {HammerGestureConfig,HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
 
+import * as Hammer from "hammerjs";
 
+export class MyHammerConfig extends HammerGestureConfig {
+  overrides = <any>{
+    swipe: { 
+      direction: Hammer.DIRECTION_ALL,
+      velocity: 0.1,
+      threshold: 5,
+    }
+  };
+}
 
 registerLocaleData(localeEs, 'es')
 
@@ -120,7 +131,12 @@ registerLocaleData(localeEs, 'es')
     FormsModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [FooterComponent, ListadoVotacionesComponent, NuevaVotacionComponent],
-  providers: [ { provide: LOCALE_ID, useValue: 'es' }, MatNativeDateModule, {provide: LocationStrategy, useClass: HashLocationStrategy} ],
+  providers: [ 
+    { provide: LOCALE_ID, useValue: 'es' }, 
+    MatNativeDateModule, 
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    {provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig}
+  ],
   bootstrap: [AppComponent],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

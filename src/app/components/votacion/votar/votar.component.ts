@@ -11,11 +11,15 @@ export class VotarComponent implements OnInit, OnDestroy {
   private sub: any;
 
   pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?";
-  // opciones = ["Sí, deberiamos abrirla", "No, que va, no te ralles"];
-  // opciones = ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?"];
-  // opciones = ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea"];
-  // opciones = ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre"];
-  opciones = ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre", "Ande esta er beti"];
+  
+  opciones = [];
+  opt = 0;
+
+  optList = [["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre", "Ande esta er beti"],
+             ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre"],
+             ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea"],
+             ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?"],
+             ["Sí, deberiamos abrirla", "No, que va, no te ralles"]];
 
   seleccion = null;
   selected = false;
@@ -27,7 +31,13 @@ export class VotarComponent implements OnInit, OnDestroy {
   activarBoton: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) { 
+    this.opciones = this.optList[this.opt];
+    this.generateOptions();
+  }
+
+  generateOptions() {
     this.total = this.opciones.length;
+    this.options = [];
 
     if (this.total < 5) {
       this.card = "card2filas";
@@ -53,9 +63,7 @@ export class VotarComponent implements OnInit, OnDestroy {
         dict["card"] = this.card + "Center";
       } else if (this.total == 5 && (i == 2)) {
         dict["card"] = this.card + "Center";
-      } else if (this.total == 7 && (i == 6)) {
-        dict["card"] = this.card + "Center";
-      }
+      } 
 
       if ((this.total == 3 || this.total == 4) && (i < 2)) {
         dict["cardZona"] = "card2filasArriba";
@@ -76,6 +84,15 @@ export class VotarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  cambiarOpciones() {
+    this.opt += 1;
+    if (this.opt == this.optList.length) {
+      this.opt = 0;
+    }
+    this.opciones = this.optList[this.opt];
+    this.generateOptions();
   }
 
   select(id) {
