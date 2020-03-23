@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NuevaVotacionComponent } from '../nueva-votacion.component';
 
 @Component({
   selector: 'app-resumen',
@@ -21,9 +23,31 @@ export class ResumenComponent implements OnInit {
   fecha: Date = new Date();
   color: string = "blue";
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  confirmVotacion() {
+    new Promise((res) => {
+      setTimeout(() => {
+        this.router.navigate(['/listadoVotaciones']);
+        res();
+      }, 1500);
+    })
+  }
+
+  cancelVotacion() {
+    new Promise((res) => {
+      setTimeout(() => {
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+          this.router.navigate(['/nuevaVotacion']));
+        res();
+      }, 1500);
+    })
+  }
+
+  redirectTo(uri:string){
+    
+ }
 }

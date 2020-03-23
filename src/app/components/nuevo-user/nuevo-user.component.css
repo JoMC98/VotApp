@@ -2,3 +2,14 @@
     width: 100%;
     height: 100%;
 }
+
+.cancelMessageNewUser {
+    position: absolute;
+    right: 6%;
+    top: 30%;
+    color: #272343;
+    background-color: white;
+    border: 0.5px solid white;
+    padding: 2px 5px;
+    border-radius: 10px;
+}

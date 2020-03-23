@@ -30,8 +30,7 @@ export class FooterComponent implements OnInit {
         } else if (pagina.startsWith("/user") || 
                    pagina.startsWith("/modifyUser") || 
                    pagina.startsWith("/users") || 
-                   pagina == "/nuevoUser"
-        ) {
+                   pagina == "/nuevoUser") {
           this.page = 3;
         } else {
           this.page = 1;

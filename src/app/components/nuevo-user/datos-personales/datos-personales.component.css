@@ -19,6 +19,17 @@
     text-align: justify;
 }
 
+@media only screen and (max-height: 700px) { 
+    .passwdDescrip{
+        margin-top: -15px;
+        margin-bottom: 2%;
+        display: block;
+        color: #B9B9B9;
+        font-size: 10px;
+        text-align: justify;
+    }
+}
+
 ::ng-deep .fieldFormPasswd {
     margin-top: 4% !important;
     margin-bottom: 1%;

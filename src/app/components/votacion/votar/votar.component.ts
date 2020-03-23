@@ -25,6 +25,7 @@ export class VotarComponent implements OnInit, OnDestroy {
   selected = false;
   options = [];
   total: number = 0;
+  row2: boolean = false;
   card: string = "";
   center = [];
 
@@ -37,6 +38,7 @@ export class VotarComponent implements OnInit, OnDestroy {
 
   generateOptions() {
     this.total = this.opciones.length;
+    this.row2 = this.total < 3 ? true : false;
     this.options = [];
 
     if (this.total < 5) {

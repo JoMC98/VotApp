@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   
-  // footer:boolean = true;
   footer:boolean = true;
 
   constructor(private router: Router ) {
@@ -17,7 +16,11 @@ export class AppComponent {
   
   cambiaRuta() {
     var pagina = this.router.url;
-    if (pagina == "/login" || pagina == "/changePasswd") {
+    if (pagina == "/login") {
+      this.footer = false;
+    } else if (pagina == "/changePasswd") {
+      this.footer = false;
+    } else if (pagina.includes("/votar")) {
       this.footer = false;
     } else {
       this.footer = true;

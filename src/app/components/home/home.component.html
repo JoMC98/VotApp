@@ -38,7 +38,7 @@
         <div class="divCardsHomeAdmin">
             <div class="subdivCardsHomeAdmin">
                 <mat-card *ngFor="let vot of votacionesAdmin; let i = index" class="cardHomeAdmin" 
-                [ngClass]="votacionesAdmin[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.id]">
+                [ngClass]="votacionesAdmin[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.id]" [queryParams]="{home: true}">
                     <div class="preguntaAdminHome">{{vot.pregunta}}</div>
                     <div class="fechaAdminHome">{{vot.fecha | date: 'd MMMM'}}</div>
                 </mat-card>
@@ -54,7 +54,7 @@
         <div class="divCardsHomeVotante">
             <div class="subdivCardsHomeVotante">
                 <mat-card *ngFor="let vot of votacionesVotante; let i = index" class="cardHomeAdmin" 
-                [ngClass]="votacionesVotante[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.id]">
+                [ngClass]="votacionesVotante[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.id]" [queryParams]="{home: true}">
                     <div class="preguntaAdminHome">{{vot.pregunta}}</div>
                     <div class="fechaAdminHome">{{vot.fecha | date: 'd MMMM'}}</div>
                 </mat-card>

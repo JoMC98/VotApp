@@ -25,7 +25,7 @@
         </div>
         <div id="votacionesMes{{mes.key}}">
             <mat-card *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
-            [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.id]">
+            [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.id]" [queryParams]="{home: false}">
                 <div class="preguntaListaVotacion">
                     {{vot.pregunta}}
                 </div>

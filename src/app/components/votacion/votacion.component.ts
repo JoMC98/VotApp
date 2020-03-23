@@ -12,6 +12,7 @@ export class VotacionComponent implements OnInit, OnDestroy {
   dni: string = "12345678X";
   // dni: string = "96856678X";
   id: number;
+  home: boolean;
 
   // admin: boolean = true;
   admin: boolean = false;
@@ -19,6 +20,7 @@ export class VotacionComponent implements OnInit, OnDestroy {
   objectKeys = Object.keys;
 
   private sub: any;
+  private subQ: any;
 
   pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?";
   modificarPregunta: boolean = false;
@@ -79,11 +81,15 @@ export class VotacionComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id']; 
    });
-  }
+   this.subQ = this.route.queryParams.subscribe(params => {
+   this.home = JSON.parse(params['home']); 
+  });
+}
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+ngOnDestroy() {
+  this.sub.unsubscribe();
+  this.subQ.unsubscribe();
+}
 
   // cambiaEstado() {
   //   this.st += 1;

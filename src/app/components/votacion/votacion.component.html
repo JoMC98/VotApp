@@ -2,7 +2,10 @@
     <div class="panelVotacion">
         <div class="panelSuperiorVotacion">
             <div class="panelBotonesVotacion">
-                <div class="divBotonBackVotacion" routerLink="/listadoVotaciones">
+                <div *ngIf="!home" class="divBotonBackVotacion" routerLink="/listadoVotaciones">
+                    <i class="fas fa-angle-left botonBackVotacion"></i>
+                </div>
+                <div *ngIf="home" class="divBotonBackVotacion" routerLink="/home">
                     <i class="fas fa-angle-left botonBackVotacion"></i>
                 </div>
                 <!-- <div class="divBotonPlayVotacion" (click)="cambiaEstado()">

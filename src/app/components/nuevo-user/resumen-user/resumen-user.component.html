@@ -33,5 +33,12 @@
         <label class="textResumen fieldResumen">Cargo</label>
         <label class="textResumen valueResumen">{{cargo}}</label>
     </div>
-    <button mat-stroked-button color="warn" class="buttonConfirm">Confirmar</button>
+    <div class="rowBotones">
+        <div class="columnBoton">
+            <button mat-stroked-button color="warn" class="buttonConfirmUser" (click)="confirmUser()">Confirmar</button>
+        </div>
+        <div class="columnBoton">
+            <button mat-stroked-button color="warn" class="buttonCancelUser" (click)="cancelUser()">Cancelar</button>
+        </div>
+    </div>
 </div>

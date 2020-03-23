@@ -2,7 +2,7 @@
     <div class="panelVotacion">
         <div class="panelSuperiorVotacion">
             <div class="panelBotonesVotacion">
-                <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]">
+                <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]" [queryParams]="{home: false}">
                     <i class="fas fa-angle-left botonBackVotacion"></i>
                 </div>
                 <div class="divBotonPlayVotacion" (click)="results()">
@@ -18,7 +18,7 @@
             </mat-card>
         </div>
         <mat-card class="panelInferiorVotacion">
-            <div class="containerElementosVotacion">
+            <div class="containerElementosVotacionSpinner">
                 <div class="containerDivSpinner" *ngIf="!resultados">
                     <div class="divTextSpinner">
                         <label class="textSpinner">La votación se<br>está gestionando</label>

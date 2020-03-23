@@ -1,8 +1,8 @@
 <div class="contentVotacion allContent100">
     <div class="panelVotacion">
-        <div class="panelSuperiorVotacion">
+        <div class="panelSuperiorVotar">
             <div class="panelBotonesVotacion">
-                <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]">
+                <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]" [queryParams]="{home: false}">
                     <i class="fas fa-angle-left botonBackVotacion"></i>
                 </div>
                 <div class="divBotonPlayVotacion" (click)="cambiarOpciones()">
@@ -15,7 +15,7 @@
             </mat-card>
         </div>
         <mat-card class="panelInferiorVotar">
-            <div class="rowOpcionesVotar">
+            <div [ngClass]="row2 ? 'rowOpcionesVotar2' : 'rowOpcionesVotar'">
                 <div class="containerOpcionesVotar">
                     <mat-card *ngFor="let opt of options; let i = index;" class="cardFilas" [ngClass]="[opt.color, opt.card, opt.cardZona, opt.selected]" (click)="select(i)">
                         <label class="textCardOpciones">{{opt.pregunta}}</label>
@@ -36,18 +36,17 @@
                 </div>
             </div>
             <div class="panelBotonVotar">
-                <div (click)="rutar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
-                  <div class="buttonLabelDiv" *ngIf="!activarBoton">
+              <div (click)="rutar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
+                <div class="buttonLabelDiv" *ngIf="!activarBoton">
                     <div class="buttonLabel">
                       Votar
                     </div>
-                  </div>
-                  <div class="divSpinnerLogin">
+                </div>
+                <div class="divSpinnerLogin">
                     <mat-progress-spinner class="spinnerLogin" [mode]="'indeterminate'" diameter="45" strokeWidth="2" [ngClass]="activarBoton ? 'activeSpinnerLogin' : ''"></mat-progress-spinner>
-                  </div>
                 </div>
               </div>
-            <!-- <button mat-stroked-button color="warn" class="botonVotar" [routerLink]="['/resultados', id]">Votar</button> -->
+            </div>
         </mat-card>
     </div>
 </div>

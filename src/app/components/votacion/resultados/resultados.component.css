@@ -25,38 +25,50 @@
 
 .containerTituloResultados {
     margin: 20px;
+    /* height: 30px; */
     width: 100%;
     font-size: 23px;
     text-align: center;
     color: #DCF6F5;
 }
 
+@media only screen and (max-height: 700px) {
+    .containerTituloResultados {
+        margin: 20px;
+        width: 100%;
+        font-size: 20px;
+        text-align: center;
+        color: #DCF6F5;
+    }
+ }
+
 .subcontainerDivResultados {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     margin: auto;
+    /* border: 1px solid red; */
 } 
 
 .containerDivResultados6 {
     padding: 0px !important;
-    height: 100%;
+    height: 95%;
 }
 
 .containerDivResultados5 {
-    height: 90%;
+    height: 85%;
 }   
 
 .containerDivResultados4 {
-    height: 80%;
+    height: 75%;
 }   
 
 .containerDivResultados3 {
-    height: 70%;
+    height: 65%;
 }
 
 .containerDivResultados2 { 
-    height: 60%;
+    height: 55%;
 }
 
 .divGrupoVotos {
