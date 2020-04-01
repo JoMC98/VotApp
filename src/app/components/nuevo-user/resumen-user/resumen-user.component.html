@@ -1,37 +1,33 @@
 <div class="panelResumenAddUser">
     <div class="rowResumen">
         <label class="textResumen fieldResumen">Nombre</label>
-        <label class="textResumen valueResumen">{{nombre}}</label>
+        <label class="textResumen valueResumen">{{data.personalData.nombre}}</label>
     </div>
     <div class="rowResumen">
         <label class="textResumen fieldResumen">Apellidos</label>
-        <label class="textResumen valueResumen">{{apellidos}}</label>
+        <label class="textResumen valueResumen">{{data.personalData.apellidos}}</label>
     </div>
     <div class="rowResumen">
-        <label class="textResumen fieldResumenGrande">Nombre de usuario</label>
-        <label class="textResumen valueResumenGrande">{{username}}</label>
+        <label class="textResumen fieldResumen">DNI</label>
+        <label class="textResumen valueResumen">{{data.personalData.DNI}}</label>
     </div>
     <hr class="lineaResumen"/>
     <div class="rowResumen">
-        <label class="textResumen fieldResumen">DNI</label>
-        <label class="textResumen valueResumen">{{dni}}</label>
-    </div>
-    <div class="rowResumen">
         <label class="textResumen fieldResumen">Teléfono</label>
-        <label class="textResumen valueResumen">{{tlf}}</label>
+        <label class="textResumen valueResumen">{{data.contactData.telefono}}</label>
     </div>
     <div class="rowResumen">
         <label class="textResumen fieldResumen">Correo</label>
-        <label class="textResumen valueResumen">{{mail}}</label>
+        <label class="textResumen valueResumen">{{data.contactData.mail}}</label>
     </div>
     <hr class="lineaResumen"/>
     <div class="rowResumen">
         <label class="textResumen fieldResumen">Departamento</label>
-        <label class="textResumen valueResumen">{{dpto}}</label>
+        <label class="textResumen valueResumen">{{data.contactData.departamento}}</label>
     </div>
     <div class="rowResumen">
         <label class="textResumen fieldResumen">Cargo</label>
-        <label class="textResumen valueResumen">{{cargo}}</label>
+        <label class="textResumen valueResumen">{{data.contactData.cargo}}</label>
     </div>
     <div class="rowBotones">
         <div class="columnBoton">

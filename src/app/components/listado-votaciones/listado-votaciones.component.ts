@@ -1,6 +1,7 @@
 import { FiltroVotacionesComponent } from './filtro-votaciones/filtro-votaciones.component';
 import { Component, OnInit } from '@angular/core';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 
 export interface FilterData {
   pregunta;
@@ -26,17 +27,23 @@ export class ListadoVotacionesComponent implements OnInit {
 
   order = 'Descendente';
 
-  constructor(private _bottomSheet: MatBottomSheet) {
-    this.votes = [
-      {id: 1, pregunta: "¿Deberíamos abrir otra sucursal en Alicante?", estado: "Finalizada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-01-20")},
-      {id: 2, pregunta: "¿Deberíamos abrir otra sucursal en La Vall?", estado: "Creada", departamento: "Administración", ambito: "Oculta", fecha: new Date("2020-04-16")},
-      {id: 3, pregunta: "¿Deberíamos abrir otra sucursal en Barcelona?", estado: "Creada", departamento: "Dirección", ambito: "Departamento", fecha: new Date("2020-04-18")},
-      {id: 4, pregunta: "¿Deberíamos abrir otra sucursal en Castellon?", estado: "Activa", departamento: "Marketing", ambito: "Departamento", fecha: new Date("2020-03-8")},
-      {id: 5, pregunta: "¿Deberíamos abrir otra sucursal en Valencia?", estado: "Creada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-03-16")},
-      {id: 6, pregunta: "¿Deberíamos abrir otra sucursal en Zaragoza?", estado: "Finalizada", departamento: "Administración", ambito: "Publica", fecha: new Date("2020-03-4")}, 
-      {id: 7, pregunta: "¿Deberíamos abrir otra sucursal en Madrid?", estado: "Finalizada", departamento: "Administración", ambito: "Pública", fecha: new Date("2020-02-18")},
-      {id: 8, pregunta: "¿Deberíamos abrir otra sucursal en Galicia?", estado: "Finalizada", departamento: "Finanzas", ambito: "Privada", fecha: new Date("2020-02-01")}];
-    this.generarListado(this.votes);
+  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService) {
+    this.controllerBD.obtenerVotaciones().then((result) =>{
+      for (let i of Object.keys(result)) {
+        this.votes.push(result[i])
+      }
+      this.generarListado(this.votes);
+    });
+    // this.votes = [
+    //   {id: 1, pregunta: "¿Deberíamos abrir otra sucursal en Alicante?", estado: "Finalizada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-01-20")},
+    //   {id: 2, pregunta: "¿Deberíamos abrir otra sucursal en La Vall?", estado: "Creada", departamento: "Administración", ambito: "Oculta", fecha: new Date("2020-04-16")},
+    //   {id: 3, pregunta: "¿Deberíamos abrir otra sucursal en Barcelona?", estado: "Creada", departamento: "Dirección", ambito: "Departamento", fecha: new Date("2020-04-18")},
+    //   {id: 4, pregunta: "¿Deberíamos abrir otra sucursal en Castellon?", estado: "Activa", departamento: "Marketing", ambito: "Departamento", fecha: new Date("2020-03-8")},
+    //   {id: 5, pregunta: "¿Deberíamos abrir otra sucursal en Valencia?", estado: "Creada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-03-16")},
+    //   {id: 6, pregunta: "¿Deberíamos abrir otra sucursal en Zaragoza?", estado: "Finalizada", departamento: "Administración", ambito: "Publica", fecha: new Date("2020-03-4")}, 
+    //   {id: 7, pregunta: "¿Deberíamos abrir otra sucursal en Madrid?", estado: "Finalizada", departamento: "Administración", ambito: "Pública", fecha: new Date("2020-02-18")},
+    //   {id: 8, pregunta: "¿Deberíamos abrir otra sucursal en Galicia?", estado: "Finalizada", departamento: "Finanzas", ambito: "Privada", fecha: new Date("2020-02-01")}];
+    // this.generarListado(this.votes);
   }
 
   ngOnInit(): void {
@@ -45,7 +52,7 @@ export class ListadoVotacionesComponent implements OnInit {
   generarListado(listado) {
     this.votaciones = {};
     for (let vote of listado) {
-      var f = vote.fecha;
+      var f = new Date(vote.f_votacion);
       var mes = f.getFullYear() + "-" + (f.getMonth()+1) + "-01";
       if (this.votaciones[mes]) {
         this.votaciones[mes].push(vote);
@@ -80,10 +87,8 @@ export class ListadoVotacionesComponent implements OnInit {
       let delet = [];
 
       if(this.pregunta.pregunta != "") {
-        console.log("Pregunta que incluya --> " + this.pregunta.pregunta);
         
         for (let v of listado) {
-          console.log(v);
           if (!(v.pregunta.toLowerCase()).includes(this.pregunta.pregunta.toLowerCase())) {
             delet.push(listado.indexOf(v));
           }
@@ -92,7 +97,6 @@ export class ListadoVotacionesComponent implements OnInit {
       
 
       if(this.estados.Activa || this.estados["En proceso"] || this.estados.Finalizada) {
-        console.log("Estados: ");
         for (let est of Object.keys(this.estados)) {
           if (this.estados[est])
             console.log(est)
@@ -100,7 +104,6 @@ export class ListadoVotacionesComponent implements OnInit {
       }
 
       if(this.ambitos.Departamento || this.ambitos.Oculta || this.ambitos.Privada || this.ambitos.Pública) {
-        console.log("Ámbitos: ");
         for (let amb of Object.keys(this.ambitos)) {
           if (this.ambitos[amb])
             console.log(amb)
@@ -108,7 +111,6 @@ export class ListadoVotacionesComponent implements OnInit {
       }
 
       if(this.departamentos.Administración || this.departamentos.Dirección || this.departamentos.Finanzas || this.departamentos.Marketing ) {
-        console.log("Departamentos: ");
         for (let dpt of Object.keys(this.departamentos)) {
           if (this.departamentos[dpt])
             console.log(dpt)

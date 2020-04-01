@@ -1,20 +1,15 @@
-<mat-form-field class="fieldFormFirst">
-  <mat-label>DNI</mat-label>
-  <input class="inputForm" matInput>
-</mat-form-field>
-<br>
-<mat-form-field class="fieldFormMedio">
+<mat-form-field class="fieldFormAncho">
   <mat-label>Teléfono</mat-label>
-  <input type="tel" class="inputForm" matInput>
+  <input type="tel" class="inputForm" matInput [(ngModel)]="data.telefono" name="telefono">
 </mat-form-field>
 <br>
-<mat-form-field class="fieldFormMedio">
+<mat-form-field class="fieldFormAncho">
   <mat-label>Correo electrónico</mat-label>
-  <input type="email" class="inputForm" matInput>
+  <input type="email" class="inputForm" matInput [(ngModel)]="data.mail" name="mail">
 </mat-form-field>
 <br>
-<mat-form-field class="fieldFormMedio">
-  <mat-select class="inputForm" placeholder="Departamento">
+<mat-form-field class="fieldFormAncho">
+  <mat-select class="inputForm" placeholder="Departamento" [(ngModel)]="data.departamento" name="departamento">
     <mat-option value="Administracion">Administración</mat-option>
     <mat-option value="Marketing">Marketing</mat-option>
     <mat-option value="Contabilidad">Contabilidad</mat-option>
@@ -22,7 +17,7 @@
   </mat-select>
 </mat-form-field>
 <br>
-<mat-form-field class="fieldFormMedio">
+<mat-form-field class="fieldFormAncho">
   <mat-label>Cargo</mat-label>
-  <input class="inputForm" matInput>
+  <input class="inputForm" matInput [(ngModel)]="data.cargo" name="cargo">
 </mat-form-field>

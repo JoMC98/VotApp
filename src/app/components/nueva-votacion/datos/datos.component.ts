@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-datos',
@@ -12,6 +12,8 @@ export class DatosComponent implements OnInit {
                        "Departamento": "La votación será visible por miembros del departamento", 
                        "Privada": "La votación solo será visible para los participantes", 
                        "Oculta": "La votación no será visible para nadie"};
+
+  @Input() data;
 
   constructor() { }
 

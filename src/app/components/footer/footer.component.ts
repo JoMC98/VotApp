@@ -11,7 +11,7 @@ export class FooterComponent implements OnInit {
   // admin: boolean = false;
   admin: boolean = true;
   options: number[] = (this.admin ? [0,1,2,3,4] : [0,6,1,6,4]);
-  dni: string = "12345678X"
+  dni: string = "83290854D"
   pages= {0:'home', 1:'listadoVotaciones', 2: 'nuevaVotacion', 3: 'users'};
   page: number = 0;
 

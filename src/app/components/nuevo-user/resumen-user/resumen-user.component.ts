@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 
 @Component({
   selector: 'app-resumen-user',
@@ -7,28 +8,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./resumen-user.component.css']
 })
 export class ResumenUserComponent implements OnInit {
-  nombre: string = "Paco";
-  apellidos: string = "Rodriguez Garcia";
-  username: string = "paco1234";
-  passwd: string = "patata";
-  dni: string = "12345678X";
-  tlf: number = 987234213;
-  mail: string = "paco@ayuntamiento.com";
-  dpto: string = "Administración";
-  cargo: string = "Jefe de Abastecimiento";
 
-  constructor(private router: Router) { }
+  @Input() data;
+
+  constructor(private router: Router, private controllerBD: DatabaseControllerService) { 
+  }
 
   ngOnInit(): void {
   }
 
   confirmUser() {
-    new Promise((res) => {
-      setTimeout(() => {
-        this.router.navigate(['/users']);
-        res();
-      }, 1500);
-    })
+    var usuario = {}
+    for (var k of Object.keys(this.data.personalData)) {
+      usuario[k] = this.data.personalData[k]
+    }
+    for (var k of Object.keys(this.data.contactData)) {
+      usuario[k] = this.data.contactData[k]
+    }
+    this.controllerBD.añadirUsuario(usuario).then((result) =>{
+      new Promise((res) => {
+        setTimeout(() => {
+          this.router.navigate(['/users']);
+          res();
+        }, 1000);
+      })
+    });
   }
 
   cancelUser() {

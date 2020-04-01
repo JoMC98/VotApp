@@ -8,7 +8,6 @@ export class SortPipe  implements PipeTransform {
     if (!Array.isArray(array)) {
       return;
     }
-    console.log(ascendent);
     array.sort((a: any, b: any) => {
       if (a < b) {
         return -1;

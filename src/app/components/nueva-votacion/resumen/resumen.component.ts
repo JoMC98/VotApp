@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NuevaVotacionComponent } from '../nueva-votacion.component';
+import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 
 @Component({
   selector: 'app-resumen',
@@ -8,33 +9,24 @@ import { NuevaVotacionComponent } from '../nueva-votacion.component';
   styleUrls: ['./resumen.component.css']
 })
 export class ResumenComponent implements OnInit {
-  pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?"
-  dpto: string = "Marketing";
-  ambito: string = "Privada";
-  ambitoDescripcion = {"none": "", "Publica": "La votación será visible para todos", 
-  "Departamento": "La votación será visible por miembros del departamento", 
-  "Privada": "La votación solo será visible para los participantes", 
-  "Oculta": "La votación no será visible para nadie"};
-  //opciones: string[] = ["Sí", "No"];
-  //opciones: string[] = ["Sí, deberiamos abrirla ", "No, que va, no te ralles"];
-  opciones = ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre", "Ande esta er beti"];
-  //opciones: string[] = ["Sí, deberiamos abrirla jajajaj xd lol", "No, que va, no te ralles jajajaj xd lol", "Pero que cojones dices?", "No LOL"];
-  participantes: string[] = ["Paco Rodriguez Garcia", "Manolo Fuentes Lopez", "Lorenzo Fernandez Miralles", "Paco Rodriguez Garcia", "Manolo Fuentes Lopez"];
-  fecha: Date = new Date();
-  color: string = "blue";
+  @Input() data;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private controllerBD: DatabaseControllerService) { }
 
   ngOnInit(): void {
   }
 
   confirmVotacion() {
-    new Promise((res) => {
-      setTimeout(() => {
-        this.router.navigate(['/listadoVotaciones']);
-        res();
-      }, 1500);
-    })
+    this.data.datos["estado"] = "Creada";
+    this.data.datos["DNI_admin"] = "12345678A";
+    this.controllerBD.añadirVotacion(this.data).then((result) =>{
+      new Promise((res) => {
+        setTimeout(() => {
+          this.router.navigate(['/listadoVotaciones']);
+          res();
+        }, 1000);
+      })
+    });
   }
 
   cancelVotacion() {

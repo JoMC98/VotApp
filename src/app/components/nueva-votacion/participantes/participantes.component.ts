@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet'
 import { FiltroUsersComponent } from '../../filtro-users/filtro-users.component';
+import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 
 @Component({
   selector: 'app-participantes',
@@ -8,37 +9,38 @@ import { FiltroUsersComponent } from '../../filtro-users/filtro-users.component'
   styleUrls: ['./participantes.component.css']
 })
 export class ParticipantesComponent implements OnInit {
-  /*participantes = {"Administración" : {values: [["Paco Rodriguez", "Jefe de Abastecimiento"], ["Manolo Fuentes", "Secretario general de Administración"], ["Lorenzo Fernandez", "CCO"]], selected : 0},
-                   "Marketing" : {values: [["Paco Rodriguez", "Jefe de Comerciales"], ["Manolo Fuentes", "Secretario general de Marketing"], ["Lorenzo Fernandez", "CCO"], ["Paco Rodrigue Garcia", "CMO"], ["Manolo Fuentes", "CTO"]], selected : 0},
-                   "Finanzas" : {values: [["Paco Rodriguez", "Jefe de Prensa"], ["Manolo Fuentes", "Secretario general de Administración"], ["Lorenzo Fernandez", "CCO"]], selected : 0},
-                   "Dirección" : {values: [["Paco Rodriguez", "Jefe de Abastecimiento"], ["Manolo Fuentes", "CEO"], ["Lorenzo Fernandez", "CCO"], ["Paco Rodriguez", "CMO"], ["Manolo Fuentes", "CTO"]], selected : 0},
-                  };*/
 
   total: number = 0;
 
   usuarios = [];
   users = {};
+  selected = {};
 
   nombre = {"nombre":""};
   cargo = {"cargo":""};
   departamentos = {"Administración":false,"Dirección":false,"Marketing":false,"Finanzas":false}
 
-  constructor(private _bottomSheet: MatBottomSheet) {
-    this.usuarios = [
-        {dni:"12345678X", nombre: "Paco", apellido: "Gonzalez Lopez", departamento: "Administración", cargo:"Jefe de Abastecimiento",selected:false},
-        {dni:"12345679X", nombre: "Mario", apellido: "Mir Dos", departamento: "Administración", cargo:"Jefe de Suministros",selected:false},
-        {dni:"12345670X", nombre: "Luis", apellido: "Alvarez Lopez", departamento: "Dirección", cargo:"CEO",selected:false},
-        {dni:"12345623X", nombre: "Ana", apellido: "Garcia Fernandez", departamento: "Marketing", cargo:"CMO",selected:false},
-        {dni:"12345643A", nombre: "Juan", apellido: "De los palomos Garcia", departamento: "Finanzas", cargo:"Jefe de Ventas",selected:false},
-        {dni:"12345612D", nombre: "Valentina", apellido: "Del arco Alarcon", departamento: "Dirección", cargo:"Jefe de Comerciales",selected:false},
-        {dni:"13525678X", nombre: "Eustaquio", apellido: "Roca Zaragoza", departamento: "Administración", cargo:"CTO",selected:false},
-        {dni:"85678678X", nombre: "Paco", apellido: "Lopez Torres", departamento: "Marketing", cargo:"CFO",selected:false},
-        {dni:"96856678X", nombre: "Jordi", apellido: "Villa Parejo", departamento: "Marketing", cargo:"Secretario General",selected:false},
-        {dni:"16456678X", nombre: "Manolo", apellido: "Betis Balompie", departamento: "Finanzas", cargo:"Asesor financiero",selected:false}];
-    this.generarListado(this.usuarios);
+  @Input() data;
+
+  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService) {
+    this.controllerBD.obtenerUsuarios().then((result) =>{
+      for (let i of Object.keys(result)) {
+        this.usuarios.push(result[i])
+      }
+      this.generarListado(this.usuarios);
+    });
   }
 
   ngOnInit(): void {
+    console.log(this.data)
+    this.generarListado(this.usuarios);
+  }
+
+  isSelected(dni) {
+    if (this.data.includes(dni)) {
+      return true;
+    }
+    return false;
   }
 
   generarListado(listado) {
@@ -50,18 +52,28 @@ export class ParticipantesComponent implements OnInit {
       } else {
         this.users[inicial] = [user];
       }
+      if (this.isSelected(user.dni)) {
+        this.selected[user.dni] = true;
+      } else {
+        this.selected[user.dni] = false;
+      }
     }
+    console.log(this.selected)
   }
 
+  calcularTotal() {
+    this.total = this.data.length;
+  }
 
-  selection(inicial, user) {
-    var actual = this.users[inicial][this.users[inicial].indexOf(user)].selected;
-    this.users[inicial][this.users[inicial].indexOf(user)].selected = !actual;
-    if (actual) {
-      this.total -= 1;
+  selection(dni) {
+    //var actual = this.users[inicial][this.users[inicial].indexOf(user)].selected;
+    //this.users[inicial][this.users[inicial].indexOf(user)]["selected"] = !actual;
+    if (this.isSelected(dni)) {
+      this.data.splice(this.data.indexOf(dni), 1)
     } else {
-      this.total += 1;
+      this.data.push(dni)
     }
+    this.calcularTotal();
   }
 
   openDialog(): void {
@@ -72,11 +84,6 @@ export class ParticipantesComponent implements OnInit {
       console.log(this.nombre);
       console.log(this.cargo);
       console.log(this.departamentos);
-
     })
-  }
-
-  metodo() {
-    console.log("he");
   }
 }

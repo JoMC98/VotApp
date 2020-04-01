@@ -11,13 +11,13 @@
   
   <div class="addPanel">
     <div *ngIf="sect[0] != 3" class="addDatosPanelVotacion allContent">
-      <app-datos *ngIf="sect[0] == 1"></app-datos>
-      <app-opciones *ngIf="sect[0] == 2"></app-opciones>
-      <app-resumen *ngIf="sect[0] == 4"></app-resumen>
+      <app-datos [data]="data.datos" *ngIf="sect[0] == 1"></app-datos>
+      <app-opciones [data]="data.opciones" *ngIf="sect[0] == 2"></app-opciones>
+      <app-resumen [data]="data" *ngIf="sect[0] == 4"></app-resumen>
     </div>
   
     <div *ngIf="sect[0] == 3" class="addDatosPanelParticipantes allContent100">
-      <app-participantes></app-participantes>
+      <app-participantes [data]="data.participantes"></app-participantes>
     </div>
       
     <div class="addPointsPanel allContent">

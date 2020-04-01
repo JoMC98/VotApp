@@ -16,11 +16,10 @@
         </div>
         <div class="containerValores" id="usersDpt{{inicial.key}}">
             <div *ngFor="let user of inicial.value; let i = index">
-                <mat-checkbox id="checkbox-{{inicial.key}}-{{i}}"
-                class="userDivVotacion" (click)="selection(inicial.key, user)">
+                <mat-checkbox id="checkbox-{{inicial.key}}-{{i}}" class="userDivVotacion" (click)="selection(user.dni)" [(ngModel)]="selected[user.dni]">
                     <div class="userData">
                         <div class="iconDptVotacion">
-                            <div class="iconDptSquareVotacion " [class]="user.selected ? 'iconDpt' + user.departamento + '' :'iconDpt' + user.departamento">
+                            <div class="iconDptSquareVotacion " class="iconDpt{{user.departamento}}">
                                 <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDpt"></i>
                                 <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDpt"></i>
                                 <i *ngIf="user.departamento == 'Administración'" class="fas fa-tasks iconDpt"></i>
@@ -29,7 +28,7 @@
                         </div>
                         <div class="datosDivVotacion">
                             <div class="nameUser">
-                                {{user.nombre}} {{user.apellido}}
+                                {{user.nombre}} {{user.apellidos}}
                             </div>
                             <div class="cargoUser">
                                 {{user.cargo}}

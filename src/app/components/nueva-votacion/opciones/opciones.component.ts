@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-opciones',
@@ -6,21 +6,30 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./opciones.component.css'],
 })
 export class OpcionesComponent implements OnInit {
-  opciones: number = 2;
+  opciones = 0;
+  @Input() data;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.calculateOpciones();
+  }
+
+  calculateOpciones() {
+    this.opciones = this.data.length;
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
   }
 
   newOption() {
-    this.opciones += 1;
+    this.data.push("")
+    this.calculateOpciones();
   }
 
   deleteOption(ind) {
-    for (let i = ind; i<this.opciones-1; i++) {
-      (<HTMLInputElement>document.getElementById("inputFormOption" + i)).value = (<HTMLInputElement>document.getElementById("inputFormOption" + (i + 1))).value;
-    }
-    this.opciones -= 1;
+    this.data.splice(ind, 1);
+    this.calculateOpciones();
   }
 }

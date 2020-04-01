@@ -1,8 +1,8 @@
-<div class="formContainer" *ngFor="let opt of [].constructor(opciones); let i = index" >
+<div class="formContainer" *ngFor="let opt of data; let i = index; trackBy:trackByIndex;">
     <mat-form-field class="fieldForm">
         <div class="divMinusForm">
-            <input id="inputFormOption{{i}}" class="inputForm" [class]="opciones > 2 ? 'inputFormMinus' : ''" matInput placeholder="Opción {{i + 1}}">
-            <i *ngIf="opciones > 2" (click)="deleteOption(i)" class="fas fa-minus minusIcon"></i>
+            <input id="inputFormOption{{i}}" class="inputForm" [class]="opciones > 2 ? 'inputFormMinus' : ''" matInput [(ngModel)]="data[i]" placeholder="Opción {{i + 1}}">
+            <i *ngIf="opciones > 2" class="fas fa-minus minusIcon" (click)="deleteOption(i)"></i>
         </div>
     </mat-form-field>
 </div>

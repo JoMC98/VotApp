@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'changePasswd', component: ChangePasswordFirstComponent },
   { path: 'nuevoUser', component: NuevoUserComponent },
-  { path: 'votacion/:id', component: VotacionComponent },
+  { path: 'votacion/:codigo', component: VotacionComponent },
   { path: 'votar/:id', component: VotarComponent },
   { path: 'resultados/:id', component: ResultadosComponent },
   { path: 'iniciarVotacion/:id', component: StartComponent },

@@ -43,6 +43,8 @@ import { environment } from '../environments/environment';
 import { OrderByPipe } from './order-by.pipe';
 import { SortPipe } from './sort.pipe';
 
+import { HttpClient } from '@angular/common/http';
+
 import {MatSidenavModule} from '@angular/material/sidenav';
 
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
@@ -128,6 +130,7 @@ registerLocaleData(localeEs, 'es')
     HttpClientModule, 
     AngularSvgIconModule.forRoot(),
     NgSelectModule, 
+    HttpClientModule,
     FormsModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [FooterComponent, ListadoVotacionesComponent, NuevaVotacionComponent],

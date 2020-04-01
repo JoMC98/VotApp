@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DatosPersonalesComponent } from './datos-personales/datos-personales.component';
+import { DatosContactoComponent } from './datos-contacto/datos-contacto.component';
 
 @Component({
   selector: 'app-nuevo-user',
@@ -9,33 +11,32 @@ export class NuevoUserComponent implements OnInit {
   sect = [];
   points: number[] = [1,2,3];
 
+  data = {personalData: {nombre: "", apellidos: "", DNI: "", passwd: ""}, contactData: {telefono: "", mail: "", departamento: "", cargo: ""}};
+
+  @ViewChild(DatosPersonalesComponent) datosPersonalesReference;
+  @ViewChild(DatosContactoComponent) datosContactoReference;
+
   constructor() {
     this.sect = [1];
   }
 
   ngOnInit(): void {
-    var myElement = document.getElementById('allBodyNuevoUser');
-    var mc = new Hammer(myElement);
-    mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
-
-    var a = this.sect;
-    
-    mc.on("swipe", function(evt) {
-      const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? 'right' : 'left'):'';
-      if (x == "left") {
-        a[0] = ((a[0] + 1) == 4 ? 3 : a[0] + 1);
-      } else {
-        a[0] = ((a[0] - 1) == 0 ? 1 : a[0] - 1);
-      }
-    });
   }
 
   cambioPag(ind) {
+    if (this.sect[0] == 1) {
+      for (var k of Object.keys(this.data.personalData)) {
+        this.data.personalData[k] = this.datosPersonalesReference.data[k]
+      }
+    } else if (this.sect[0] == 2) {
+      for (var k of Object.keys(this.data.contactData)) {
+        this.data.contactData[k] = this.datosPersonalesReference.data[k]
+      }
+    }
     if (ind == 1) {
       this.sect[0] = ((this.sect[0] - 1) == 0 ? 1 : this.sect[0] - 1);
     } else {
       this.sect[0] = ((this.sect[0] + 1) == 4 ? 3 : this.sect[0] + 1);
     }
   }
-
 }

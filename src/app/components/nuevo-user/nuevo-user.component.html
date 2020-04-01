@@ -10,9 +10,9 @@
   
   <div class="addPanel allContent">
       <div class="addDatosPanelUser">
-        <app-datos-personales *ngIf="sect[0] == 1"></app-datos-personales>
-        <app-datos-contacto *ngIf="sect[0] == 2"></app-datos-contacto>
-        <app-resumen-user *ngIf="sect[0] == 3"></app-resumen-user>
+        <app-datos-personales [data]="data.personalData" *ngIf="sect[0] == 1"></app-datos-personales>
+        <app-datos-contacto [data]="data.contactData" *ngIf="sect[0] == 2"></app-datos-contacto>
+        <app-resumen-user [data]="data" *ngIf="sect[0] == 3"></app-resumen-user>
       </div>
   
       <div class="addPointsPanel">

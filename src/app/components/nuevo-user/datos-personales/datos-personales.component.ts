@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-datos-personales',
@@ -8,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class DatosPersonalesComponent implements OnInit {
   showPasswd: boolean = false;
 
-  constructor() { }
+  @Input() data;
+
+  constructor() { 
+  }
 
   ngOnInit(): void {
   }

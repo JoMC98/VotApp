@@ -11,7 +11,7 @@
                 <!-- <div class="divBotonPlayVotacion" (click)="cambiaEstado()">
                     <i class="fas fa-play botonPlayVotacion"></i>
                 </div> -->
-                <div *ngIf="admin && estado == 'Creada'" class="divBotonPlayVotacion" [routerLink]="['/iniciarVotacion', id]">
+                <div *ngIf="admin && votacion.estado == 'Creada'" class="divBotonPlayVotacion" [routerLink]="['/iniciarVotacion', codigo]">
                     <i class="fas fa-play botonPlayVotacion"></i>
                 </div>
                 <div class="divBotonPlayVotacion" (click)="cambiarAdmin()" style="top: 60px;">
@@ -20,31 +20,33 @@
             </div>
             <mat-card class="panelPreguntaVotacion">
                 <textarea *ngIf="!modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
-                class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
+                class="preguntaVotacion" [(ngModel)]="votacion.pregunta" [readonly]="true"></textarea>
                 <textarea *ngIf="modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
                 class="preguntaVotacion" [(ngModel)]="copyPregunta"></textarea>
-                <div *ngIf="admin && estado == 'Creada' && !modificarPregunta" class="modifyPreguntaVotacion" (click)="modifyPregunta()">
+                <div *ngIf="admin && votacion.estado == 'Creada' && !modificarPregunta" class="modifyPreguntaVotacion" (click)="modifyPregunta()">
                     <i class="fas fa-pen actionVotacionPen"></i>
                 </div>
-                <div *ngIf="admin && estado == 'Creada' && modificarPregunta" class="confirmPreguntaVotacion" (click)="guardarPregunta()">
+                <div *ngIf="admin && votacion.estado == 'Creada' && modificarPregunta" class="confirmPreguntaVotacion" (click)="guardarPregunta()">
                     <i class="fas fa-check fechaVotacionPen"></i>
                 </div>
-                <div *ngIf="admin && estado == 'Creada' && modificarPregunta" class="cancelPreguntaVotacion" (click)="cancelarPregunta()">
+                <div *ngIf="admin && votacion.estado == 'Creada' && modificarPregunta" class="cancelPreguntaVotacion" (click)="cancelarPregunta()">
                     <i class="fas fa-times fechaVotacionPen"></i>
                 </div>
             </mat-card>
         </div>
         <mat-card class="panelInferiorVotacion">
             <mat-card class="panelFechaVotacion">
-                <label class="fechaVotacion">{{fecha.fecha | date: 'mediumDate'}}</label>
-                <div *ngIf="admin && estado == 'Creada'" class="modifyFechaVotacion" (click)="openDialog('editarFecha')">
+                <label class="fechaVotacion">{{votacion.f_votacion | date: 'mediumDate'}}</label>
+                <div *ngIf="admin && votacion.estado == 'Creada'" class="modifyFechaVotacion" (click)="openDialog('editarFecha')">
                     <i class="fas fa-pen fechaVotacionPen"></i>
                 </div>
             </mat-card>
-            <mat-card *ngIf="admin" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + estado">
-                <label class="fechaVotacion">{{estado}}</label>
+            <mat-card *ngIf="admin" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + votacion.estado">
+                <label class="fechaVotacion">{{votacion.estado}}</label>
             </mat-card>
-            <mat-card *ngIf="!admin && estado == 'Creada' && objectKeys(participantes).includes(dni)" 
+            <!-- <mat-card *ngIf="!admin && votacion.estado == 'Creada' && objectKeys(participantes).includes(dni)" 
+            class="panelBotonParticiparVotacion" (click)="rutar()"> -->
+            <mat-card *ngIf="!admin && votacion.estado == 'Creada'" 
             class="panelBotonParticiparVotacion" (click)="rutar()">
                 <label class="fechaVotacion">Participar</label>
             </mat-card>
@@ -61,14 +63,14 @@
                                 Descripción
                             </div>
                             <div class="secondTextElementoVotacionDescripcion">
-                                {{descripcion.descripcion}}
+                                {{votacion.descripcion}}
                             </div>
                         </div>
                         <div class="actionElementoVotacion">
-                            <div *ngIf="!admin || estado != 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('descripcion')">
+                            <div *ngIf="!admin || votacion.estado != 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('descripcion')">
                                 <i class="fas fa-angle-right actionVotacion"></i>
                             </div>
-                            <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarDescripcion')">
+                            <div *ngIf="admin && votacion.estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarDescripcion')">
                                 <i class="fas fa-pen actionVotacionPen"></i>
                             </div>
                             
@@ -78,11 +80,11 @@
                 <div class="divElementoVotacion">
                     <div class="elementoVotacion">
                         <div class="iconElementoVotacion">
-                            <div class="iconDivElementoVotacion" [class]="'iconDpt' + departamento.departamento">
-                                <i *ngIf="departamento.departamento == 'Finanzas'" class="fas fa-euro-sign iconVotacion"></i>
-                                <i *ngIf="departamento.departamento == 'Marketing'" class="fas fa-chart-line iconVotacionAmbito"></i>
-                                <i *ngIf="departamento.departamento == 'Administración'" class="fas fa-tasks iconVotacionAmbito"></i>
-                                <i *ngIf="departamento.departamento == 'Dirección'" class="fas fa-user-tie iconVotacion"></i>
+                            <div class="iconDivElementoVotacion" [class]="'iconDpt' + votacion.departamento">
+                                <i *ngIf="votacion.departamento == 'Finanzas'" class="fas fa-euro-sign iconVotacion"></i>
+                                <i *ngIf="votacion.departamento == 'Marketing'" class="fas fa-chart-line iconVotacionAmbito"></i>
+                                <i *ngIf="votacion.departamento == 'Administración'" class="fas fa-tasks iconVotacionAmbito"></i>
+                                <i *ngIf="votacion.departamento == 'Dirección'" class="fas fa-user-tie iconVotacion"></i>
                             </div>
                         </div>
                         <div class="textElementoVotacion">
@@ -90,11 +92,11 @@
                                 Departamento
                             </div>
                             <div class="secondTextElementoVotacion">
-                                {{departamento.departamento}}
+                                {{votacion.departamento}}
                             </div>
                         </div>
                         <div class="actionElementoVotacion">
-                            <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarDepartamento')">
+                            <div *ngIf="admin && votacion.estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarDepartamento')">
                                 <i class="fas fa-pen actionVotacionPen"></i>
                             </div>
                         </div>
@@ -103,11 +105,11 @@
                 <div class="divElementoVotacion">
                     <div class="elementoVotacion">
                         <div class="iconElementoVotacion">
-                            <div class="iconDivElementoVotacion" [class]="'iconDpt' + ambito.ambito">
-                                <i *ngIf="ambito.ambito == 'Pública'"  class="fas fa-users iconVotacionAmbito"></i>
-                                <i *ngIf="ambito.ambito == 'Privada'" class="fas fa-lock iconVotacionAmbito"></i>
-                                <i *ngIf="ambito.ambito == 'Departamento'" class="fas fa-sitemap iconVotacionAmbito"></i>
-                                <i *ngIf="ambito.ambito == 'Oculta'" class="fas fa-eye-slash iconVotacionAmbito"></i>
+                            <div class="iconDivElementoVotacion" [class]="'iconDpt' + votacion.ambito">
+                                <i *ngIf="votacion.ambito == 'Pública'"  class="fas fa-users iconVotacionAmbito"></i>
+                                <i *ngIf="votacion.ambito == 'Privada'" class="fas fa-lock iconVotacionAmbito"></i>
+                                <i *ngIf="votacion.ambito == 'Departamento'" class="fas fa-sitemap iconVotacionAmbito"></i>
+                                <i *ngIf="votacion.ambito == 'Oculta'" class="fas fa-eye-slash iconVotacionAmbito"></i>
                             </div>
                         </div>
                         <div class="textElementoVotacion">
@@ -115,11 +117,11 @@
                                 Ámbito
                             </div>
                             <div class="secondTextElementoVotacion">
-                                {{ambito.ambito}}
+                                {{votacion.ambito}}
                             </div>
                         </div>
                         <div class="actionElementoVotacion">
-                            <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarAmbito')">
+                            <div *ngIf="admin && votacion.estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarAmbito')">
                                 <i class="fas fa-pen actionVotacionPen"></i>
                             </div>
                         </div>
@@ -128,35 +130,35 @@
                 <div class="divElementoVotacion">
                     <div class="elementoVotacion">
                         <div class="iconElementoVotacion">
-                            <div *ngIf="estado != 'Finalizada'" class="iconDivElementoVotacion" (click)="openDialog('opciones')">
+                            <div *ngIf="votacion.estado != 'Finalizada'" class="iconDivElementoVotacion" (click)="openDialog('opciones')">
                                 <i class="fas fa-question-circle iconVotacion"></i>
                             </div>
-                            <div *ngIf="estado == 'Finalizada'" class="iconDivElementoVotacion" [routerLink]="['/resultados', id]">
+                            <div *ngIf="votacion.estado == 'Finalizada'" class="iconDivElementoVotacion" [routerLink]="['/resultados', codigo]">
                                 <i class="fas fa-question-circle iconVotacion"></i>
                             </div>
                         </div>
                         <div class="textElementoVotacion">
-                            <div *ngIf="estado != 'Finalizada'" class="firstTextElementoVotacion" (click)="openDialog('opciones')">
+                            <div *ngIf="votacion.estado != 'Finalizada'" class="firstTextElementoVotacion" (click)="openDialog('opciones')">
                                 Opciones
                             </div>
-                            <div *ngIf="estado == 'Finalizada'" class="firstTextElementoVotacion" [routerLink]="['/resultados', id]">
+                            <div *ngIf="votacion.estado == 'Finalizada'" class="firstTextElementoVotacion" [routerLink]="['/resultados', codigo]">
                                 Resultados
                             </div>
                             <div class="secondTextElementoVotacion">
-                                {{objectKeys(opciones).length}} opciones
+                                {{votacion.opciones}} opciones
                             </div>
                         </div>
                         <div class="actionElementoVotacion">
-                            <div *ngIf="!admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
+                            <div *ngIf="!admin && votacion.estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
                                 <i class="fas fa-angle-right actionVotacion"></i>
                             </div>
-                            <div *ngIf="estado == 'Activa'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
+                            <div *ngIf="votacion.estado == 'Activa'" class="actionDivElementoVotacion" (click)="openDialog('opciones')">
                                 <i class="fas fa-angle-right actionVotacion"></i>
                             </div>
-                            <div *ngIf="estado == 'Finalizada'" class="actionDivElementoVotacion" [routerLink]="['/resultados', id]">
+                            <div *ngIf="votacion.estado == 'Finalizada'" class="actionDivElementoVotacion" [routerLink]="['/resultados', codigo]">
                                 <i class="fas fa-angle-right actionVotacion"></i>
                             </div>
-                            <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion">
+                            <div *ngIf="admin && votacion.estado == 'Creada'" class="actionDivElementoVotacion">
                                 <i class="fas fa-pen actionVotacionPen" (click)="openDialog('editarOpciones')"></i>
                             </div>
                         </div>
@@ -174,14 +176,14 @@
                                 Participantes
                             </div>
                             <div class="secondTextElementoVotacion">
-                                {{objectKeys(participantes).length}} participantes
+                                {{votacion.participantes}} participantes
                             </div>
                         </div>
                         <div class="actionElementoVotacion">
-                            <div *ngIf="!admin || estado != 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('participantes')">
+                            <div *ngIf="!admin || votacion.estado != 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('participantes')">
                                 <i class="fas fa-angle-right actionVotacion"></i>
                             </div>
-                            <div *ngIf="admin && estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarParticipantes')">
+                            <div *ngIf="admin && votacion.estado == 'Creada'" class="actionDivElementoVotacion" (click)="openDialog('editarParticipantes')">
                                 <i class="fas fa-pen actionVotacionPen"></i>
                             </div>
                         </div>
