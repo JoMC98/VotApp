@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import departamentos from '../../files/departamentos.json';
+import departamentos from '../../../assets/files/departamentos.json';
 
 @Injectable({
   providedIn: 'root'
