@@ -2,6 +2,7 @@ import { FiltroVotacionesComponent } from './filtro-votaciones/filtro-votaciones
 import { Component, OnInit } from '@angular/core';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 
 export interface FilterData {
   pregunta;
@@ -19,31 +20,24 @@ export interface FilterData {
 export class ListadoVotacionesComponent implements OnInit {
   votes = [];
   votaciones = {};
+  meses = [];
 
   pregunta = {"pregunta":""};
-  estados = {"Activa":false,"En proceso":false,"Finalizada":false}
+  estados = {"Activa":false,"Creada":false,"Finalizada":false}
   ambitos = {"Pública":false,"Privada":false,"Departamento":false,"Oculta":false}
-  departamentos = {"Administración":false,"Dirección":false,"Marketing":false,"Finanzas":false}
+  departamentos = {}
 
   order = 'Descendente';
 
-  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService) {
+  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) {
+    this.departamentos = this.listDepartamentos.getDepartamentosJSONFalse();
+
     this.controllerBD.obtenerVotaciones().then((result) =>{
       for (let i of Object.keys(result)) {
         this.votes.push(result[i])
       }
       this.generarListado(this.votes);
     });
-    // this.votes = [
-    //   {id: 1, pregunta: "¿Deberíamos abrir otra sucursal en Alicante?", estado: "Finalizada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-01-20")},
-    //   {id: 2, pregunta: "¿Deberíamos abrir otra sucursal en La Vall?", estado: "Creada", departamento: "Administración", ambito: "Oculta", fecha: new Date("2020-04-16")},
-    //   {id: 3, pregunta: "¿Deberíamos abrir otra sucursal en Barcelona?", estado: "Creada", departamento: "Dirección", ambito: "Departamento", fecha: new Date("2020-04-18")},
-    //   {id: 4, pregunta: "¿Deberíamos abrir otra sucursal en Castellon?", estado: "Activa", departamento: "Marketing", ambito: "Departamento", fecha: new Date("2020-03-8")},
-    //   {id: 5, pregunta: "¿Deberíamos abrir otra sucursal en Valencia?", estado: "Creada", departamento: "Administración", ambito: "Privada", fecha: new Date("2020-03-16")},
-    //   {id: 6, pregunta: "¿Deberíamos abrir otra sucursal en Zaragoza?", estado: "Finalizada", departamento: "Administración", ambito: "Publica", fecha: new Date("2020-03-4")}, 
-    //   {id: 7, pregunta: "¿Deberíamos abrir otra sucursal en Madrid?", estado: "Finalizada", departamento: "Administración", ambito: "Pública", fecha: new Date("2020-02-18")},
-    //   {id: 8, pregunta: "¿Deberíamos abrir otra sucursal en Galicia?", estado: "Finalizada", departamento: "Finanzas", ambito: "Privada", fecha: new Date("2020-02-01")}];
-    // this.generarListado(this.votes);
   }
 
   ngOnInit(): void {
@@ -51,14 +45,54 @@ export class ListadoVotacionesComponent implements OnInit {
 
   generarListado(listado) {
     this.votaciones = {};
+    this.meses = [];
     for (let vote of listado) {
       var f = new Date(vote.f_votacion);
       var mes = f.getFullYear() + "-" + (f.getMonth()+1) + "-01";
-      if (this.votaciones[mes]) {
+      if (this.meses.includes(mes)) {
         this.votaciones[mes].push(vote);
-      } else {
-        this.votaciones[mes] = [vote];
       }
+      else {
+        this.votaciones[mes] = [vote];
+        this.meses.push(mes)
+      } 
+    }
+    this.ordenarListado();
+  }
+
+  select() {
+    this.ordenarListado()
+  }
+
+  ordenarListado() {
+    this.meses.sort((a: any, b: any) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    for (var mes of Object.keys(this.votaciones)) {
+      var list = this.votaciones[mes];
+      list.sort((a: any, b: any) => {
+        if ((a.f_votacion) < (b.f_votacion)) {
+          return -1;
+        } else if ((a.f_votacion) > (b.f_votacion)) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      if (this.order == "Descendente") {
+        list = list.reverse();
+      }
+      this.votaciones[mes] = list
+    }
+    if (this.order == "Descendente") {
+      this.meses = this.meses.reverse();
     }
   }
 
@@ -83,42 +117,70 @@ export class ListadoVotacionesComponent implements OnInit {
       {data: {pregunta:this.pregunta, estados:this.estados, ambitos:this.ambitos, departamentos:this.departamentos}});
 
     filterRef.afterDismissed().subscribe(result => {
-      let listado = this.votes;
-      let delet = [];
-
-      if(this.pregunta.pregunta != "") {
-        
-        for (let v of listado) {
-          if (!(v.pregunta.toLowerCase()).includes(this.pregunta.pregunta.toLowerCase())) {
-            delet.push(listado.indexOf(v));
-          }
-        }
-      }
-      
-
-      if(this.estados.Activa || this.estados["En proceso"] || this.estados.Finalizada) {
-        for (let est of Object.keys(this.estados)) {
-          if (this.estados[est])
-            console.log(est)
-        }
-      }
-
-      if(this.ambitos.Departamento || this.ambitos.Oculta || this.ambitos.Privada || this.ambitos.Pública) {
-        for (let amb of Object.keys(this.ambitos)) {
-          if (this.ambitos[amb])
-            console.log(amb)
-        }
-      }
-
-      if(this.departamentos.Administración || this.departamentos.Dirección || this.departamentos.Finanzas || this.departamentos.Marketing ) {
-        for (let dpt of Object.keys(this.departamentos)) {
-          if (this.departamentos[dpt])
-            console.log(dpt)
-        }
-      }
-
-      //this.generarListado(listado);
-      
+      this.filtrarResultados();
     })
+  }
+
+  filtrarResultados() {
+    var dpts = []
+    for (var dpt of Object.keys(this.departamentos)) {
+      if (this.departamentos[dpt]){
+        dpts.push(dpt)
+      } 
+    }
+    var states = []
+    for (var state of Object.keys(this.estados)) {
+      if (this.estados[state]){
+        states.push(state)
+      } 
+    }
+    var ambs = []
+    for (var amb of Object.keys(this.ambitos)) {
+      if (this.ambitos[amb]){
+        ambs.push(amb)
+      } 
+    }
+    if (this.pregunta.pregunta == "" && dpts.length == 0 && states.length == 0 && ambs.length == 0) {
+      this.controllerBD.obtenerVotaciones().then((result) =>{
+        this.votes = []
+        for (let i of Object.keys(result)) {
+          this.votes.push(result[i])
+        }
+        this.generarListado(this.votes);
+      });
+    } else {
+      if (dpts.length == 0) {
+        for (var dpt of Object.keys(this.departamentos)) {
+          dpts.push(dpt)
+        }
+      }
+      if (states.length == 0) {
+        for (var state of Object.keys(this.estados)) {
+          states.push(state)
+        }
+      }
+      if (ambs.length == 0) {
+        for (var amb of Object.keys(this.ambitos)) {
+          ambs.push(amb)
+        }
+      }
+      var filtros = {pregunta:this.pregunta.pregunta, estados:states, ambitos:ambs, departamentos:dpts}
+      this.controllerBD.filtrarVotaciones(filtros).then((result) => {
+        this.votes = [];
+        for (let i of Object.keys(result)) {
+          this.votes.push(result[i])
+        }
+        this.generarListado(this.votes);
+      });
+    }
+  }
+
+  marcadoDepartamento() {
+    for (var k of Object.keys(this.departamentos)){
+      if (this.departamentos[k]) {
+        return true;
+      }
+    }
+    return false;
   }
 }

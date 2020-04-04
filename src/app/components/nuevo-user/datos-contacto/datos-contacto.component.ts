@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 
 @Component({
   selector: 'app-datos-contacto',
@@ -8,8 +9,11 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DatosContactoComponent implements OnInit {
 
   @Input() data;
+  departamentos = [];
 
-  constructor() { }
+  constructor(private listDepartamentos: ListaDepartamentosService) {
+    this.departamentos = this.listDepartamentos.getDepartamentosOnlyName();
+  }
 
   ngOnInit(): void {
   }

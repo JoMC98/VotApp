@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 
 @Component({
   selector: 'app-votar',
@@ -7,19 +8,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./votar.component.css']
 })
 export class VotarComponent implements OnInit, OnDestroy {
-  id: number;
+  codigo: number;
   private sub: any;
 
   pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?";
   
   opciones = [];
-  opt = 0;
-
-  optList = [["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre", "Ande esta er beti"],
-             ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea", "Consultare con tu puta madre"],
-             ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?", "Tal vez es buena idea"],
-             ["Sí, deberiamos abrirla", "No, que va, no te ralles", "Pero que cojones dices?"],
-             ["Sí, deberiamos abrirla", "No, que va, no te ralles"]];
 
   seleccion = null;
   selected = false;
@@ -31,9 +25,7 @@ export class VotarComponent implements OnInit, OnDestroy {
 
   activarBoton: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) { 
-    this.opciones = this.optList[this.opt];
-    this.generateOptions();
+  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService) { 
   }
 
   generateOptions() {
@@ -80,7 +72,14 @@ export class VotarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id']; 
+      this.codigo = +params['codigo']; 
+      this.controllerBD.obtenerOpcionesVotacion(this.codigo).then((result) =>{
+        this.opciones = [];
+        for (let i of Object.keys(result)) {
+          this.opciones.push(result[i].opcion)
+        }
+        this.generateOptions();
+      });
    });
   }
 
@@ -88,26 +87,17 @@ export class VotarComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  cambiarOpciones() {
-    this.opt += 1;
-    if (this.opt == this.optList.length) {
-      this.opt = 0;
-    }
-    this.opciones = this.optList[this.opt];
-    this.generateOptions();
-  }
-
-  select(id) {
+  select(codigo) {
     for (var i in this.options) {
       this.options[i]["selected"] = "";
     }
-    if (this.selected && id == this.seleccion) {
+    if (this.selected && codigo == this.seleccion) {
       this.selected = false;
       this.seleccion = null;
     } else {
       this.selected = true;
-      this.seleccion = id;
-      this.options[id]["selected"] = "cardFilasSelected";
+      this.seleccion = codigo;
+      this.options[codigo]["selected"] = "cardFilasSelected";
     }
   }
 
@@ -115,7 +105,7 @@ export class VotarComponent implements OnInit, OnDestroy {
     this.activarBoton = true
     new Promise((res) => {
       setTimeout(() => {
-        this.router.navigate(['/resultados', this.id]);
+        this.router.navigate(['/resultados', this.codigo]);
         res();
       }, 3000);
     })

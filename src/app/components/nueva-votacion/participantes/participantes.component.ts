@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet'
 import { FiltroUsersComponent } from '../../filtro-users/filtro-users.component';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 
 @Component({
   selector: 'app-participantes',
@@ -17,12 +18,18 @@ export class ParticipantesComponent implements OnInit {
   selected = {};
 
   nombre = {"nombre":""};
+  apellidos = {"apellidos":""};
   cargo = {"cargo":""};
-  departamentos = {"Administración":false,"Dirección":false,"Marketing":false,"Finanzas":false}
+
+  departamentos = {}
+  listaDepartamentos = {};
 
   @Input() data;
 
-  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService) {
+  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService) {
+    this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
+    this.departamentos = this.listDepartamentos.getDepartamentosJSONFalse();
+
     this.controllerBD.obtenerUsuarios().then((result) =>{
       for (let i of Object.keys(result)) {
         this.usuarios.push(result[i])
@@ -32,7 +39,6 @@ export class ParticipantesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.generarListado(this.usuarios);
   }
 
@@ -58,7 +64,6 @@ export class ParticipantesComponent implements OnInit {
         this.selected[user.dni] = false;
       }
     }
-    console.log(this.selected)
   }
 
   calcularTotal() {
@@ -66,8 +71,6 @@ export class ParticipantesComponent implements OnInit {
   }
 
   selection(dni) {
-    //var actual = this.users[inicial][this.users[inicial].indexOf(user)].selected;
-    //this.users[inicial][this.users[inicial].indexOf(user)]["selected"] = !actual;
     if (this.isSelected(dni)) {
       this.data.splice(this.data.indexOf(dni), 1)
     } else {
@@ -78,12 +81,42 @@ export class ParticipantesComponent implements OnInit {
 
   openDialog(): void {
     const filterRef = this._bottomSheet.open(FiltroUsersComponent, 
-      {data: {nombre:this.nombre, cargo:this.cargo, departamentos:this.departamentos}});
+      {data: {nombre:this.nombre, apellidos:this.apellidos, cargo:this.cargo, departamentos:this.departamentos}});
 
     filterRef.afterDismissed().subscribe(result => {
-      console.log(this.nombre);
-      console.log(this.cargo);
-      console.log(this.departamentos);
+      this.filtrarResultados();
     })
+  }
+
+  filtrarResultados() {
+    var dpts = []
+    for (var dpt of Object.keys(this.departamentos)) {
+      if (this.departamentos[dpt]){
+        dpts.push(dpt)
+      } 
+    }
+    if (this.nombre.nombre == "" && this.apellidos.apellidos == "" && this.cargo.cargo == "" && dpts.length == 0) {
+      this.controllerBD.obtenerUsuarios().then((result) => {
+        this.usuarios = [];
+        for (let i of Object.keys(result)) {
+          this.usuarios.push(result[i])
+        }
+        this.generarListado(this.usuarios);
+      });
+    } else {
+      if (dpts.length == 0) {
+        for (var dpt of Object.keys(this.departamentos)) {
+          dpts.push(dpt)
+        }
+      }
+      var filtros = {nombre: this.nombre.nombre, apellidos:this.apellidos.apellidos, cargo:this.cargo.cargo, departamentos:dpts}
+      this.controllerBD.filtrarUsuarios(filtros).then((result) => {
+        this.usuarios = [];
+        for (let i of Object.keys(result)) {
+          this.usuarios.push(result[i])
+        }
+        this.generarListado(this.usuarios);
+      });
+    }
   }
 }

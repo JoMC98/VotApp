@@ -9,14 +9,40 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material/botto
 })
 export class FiltroVotacionesComponent implements OnInit {
 
+  copyPregunta = "";
+  copyAmbitos = {};
+  copyEstados = {};
+  copyDepartamentos = {};
+
   constructor(private _bottomSheetRef: MatBottomSheetRef<FiltroVotacionesComponent>, 
-                  @Inject(MAT_BOTTOM_SHEET_DATA) public data: FilterData) {}
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: FilterData) {
+      this.copyPregunta = this.data.pregunta.pregunta;
+      for (var st of Object.keys(this.data.estados)) {
+        this.copyEstados[st] = this.data.estados[st];
+      }
+      for (var amb of Object.keys(this.data.ambitos)) {
+        this.copyAmbitos[amb] = this.data.ambitos[amb];
+      }
+      for (var dpt of Object.keys(this.data.departamentos)) {
+        this.copyDepartamentos[dpt] = this.data.departamentos[dpt];
+      }
+  }
 
 
   ngOnInit(): void {
   }
 
   filtrar() {
+    this.data.pregunta.pregunta = this.copyPregunta;
+    for (var st of Object.keys(this.copyEstados)) {
+      this.data.estados[st] = this.copyEstados[st];
+    }
+    for (var amb of Object.keys(this.copyAmbitos)) {
+      this.data.ambitos[amb] = this.copyAmbitos[amb];
+    }
+    for (var dpt of Object.keys(this.copyDepartamentos)) {
+      this.data.departamentos[dpt] = this.copyDepartamentos[dpt];
+    }
     this._bottomSheetRef.dismiss();
   }
 }

@@ -1,11 +1,8 @@
 <div class="allContent85 encabezadoVotante">
     <div class="containerDivIconUser">
         <div class="iconDptDivUser">
-            <div class="iconDptSquareVotante" [class]="'iconDpt' + usuario.departamento">
-                <i *ngIf="usuario.departamento == 'Finanzas'" class="fas fa-euro-sign iconDptVotante"></i>
-                <i *ngIf="usuario.departamento == 'Marketing'" class="fas fa-chart-line iconDptVotante"></i>
-                <i *ngIf="usuario.departamento == 'Administración'" class="fas fa-tasks iconDptVotante"></i>
-                <i *ngIf="usuario.departamento == 'Dirección'" class="fas fa-user-tie iconDptVotante"></i>
+            <div *ngIf="listaDepartamentos[usuario.departamento]" class="iconDptSquareVotante" [ngStyle]="{'background-color': listaDepartamentos[usuario.departamento].color}">
+                <i class="fas" [ngClass]="[listaDepartamentos[usuario.departamento].icon, listaDepartamentos[usuario.departamento].iconDpt+'Votante']"></i>
             </div>
         </div>
     </div>

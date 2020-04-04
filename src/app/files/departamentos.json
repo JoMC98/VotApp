@@ -1,0 +1,10 @@
+{
+    "Administración": {"icon": "fa-tasks", "color" : "rgba(208,216,176,0.7)", "iconDpt" : "iconDpt"},
+    "Dirección": {"icon": "fa-user-tie", "color" : "rgba(201,199,210,0.7)", "iconDpt" : "iconDpt"},
+    "Marketing": {"icon": "fa-chart-line", "color" : "rgba(226,197,151,0.7)", "iconDpt" : "iconDpt"},
+    "Finanzas": {"icon": "fa-euro-sign", "color" : "rgba(204,176,208,0.7)", "iconDpt" : "iconDpt"},
+    "Contabilidad": {"icon": "fa-calculator", "color" : "rgba(146,170,131,0.7)", "iconDpt" : "iconDpt"},
+    "RRHH": {"icon": "fa-user-check", "color" : "rgba(211,82,101,0.7)", "iconDpt" : "iconDptMenor"},
+    "I+D": {"icon": "fa-lightbulb", "color" : "rgba(240,220,130,0.7)", "iconDpt" : "iconDpt"},
+    "TIC": {"icon": "fa-server", "color" : "rgba(223,160,129,0.7)", "iconDpt" : "iconDptMenor"}
+}

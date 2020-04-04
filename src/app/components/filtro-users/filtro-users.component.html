@@ -1,24 +1,28 @@
 <div class="dialogoFiltro">
     <button mat-stroked-button color="warn" class="buttonFiltro" (click)="filtrar()">Filtrar</button>
     <div class="grupoFiltro">
-        <mat-form-field class="inputFiltro">
-          <mat-label>Búsqueda por nombre y apellidos</mat-label>
-          <input class="inputForm" matInput [(ngModel)]="data.nombre.nombre">
-        </mat-form-field>
+      <mat-form-field class="inputFiltro">
+        <mat-label>Búsqueda por nombre</mat-label>
+        <input class="inputForm" matInput [(ngModel)]="copyNombre">
+      </mat-form-field>
+      <mat-form-field class="inputFiltro">
+        <mat-label>Búsqueda por apellidos</mat-label>
+        <input class="inputForm" matInput [(ngModel)]="copyApellidos">
+      </mat-form-field>
     </div>
     <hr class="hrFiltro"/>
     <div class="grupoFiltro">
         <mat-form-field class="inputFiltro">
           <mat-label>Búsqueda por cargo</mat-label>
-          <input class="inputForm" matInput [(ngModel)]="data.cargo.cargo">
+          <input class="inputForm" matInput [(ngModel)]="copyCargo">
         </mat-form-field>
     </div>
     <hr class="hrFiltro"/>
     <div class="grupoFiltro">
         <label class="labelFiltro">Departamento</label>
         <div class="gridFiltro" >
-          <mat-checkbox *ngFor="let departamento of data.departamentos | keyvalue; let i = index;" class="checkboxFiltro" 
-          [ngClass]="i % 2 == 0 ? 'elementGridFiltro' : 'elementGridFiltro2'" [(ngModel)]="data.departamentos[departamento.key]">
+          <mat-checkbox *ngFor="let departamento of copyDepartamentos | keyvalue; let i = index;" class="checkboxFiltro" 
+          [ngClass]="i % 2 == 0 ? 'elementGridFiltro' : 'elementGridFiltro2'" [(ngModel)]="copyDepartamentos[departamento.key]">
               {{departamento.key}}
             </mat-checkbox>
         </div>  

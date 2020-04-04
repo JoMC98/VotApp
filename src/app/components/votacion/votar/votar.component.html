@@ -2,12 +2,9 @@
     <div class="panelVotacion">
         <div class="panelSuperiorVotar">
             <div class="panelBotonesVotacion">
-                <div class="divBotonBackVotacion" [routerLink]="['/votacion', id]" [queryParams]="{home: false}">
+                <div class="divBotonBackVotacion" [routerLink]="['/votacion', codigo]" [queryParams]="{home: false}">
                     <i class="fas fa-angle-left botonBackVotacion"></i>
                 </div>
-                <div class="divBotonPlayVotacion" (click)="cambiarOpciones()">
-                  <i class="fas fa-play botonPlayVotacion"></i>
-              </div>
             </div>
             <mat-card class="panelPreguntaVotacion">
                 <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 
 @Component({
   selector: 'app-modify-user',
@@ -12,7 +13,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   private sub: any;
   private subQ: any;
 
-  departamentos = ["Administración","Dirección","Marketing","Finanzas"];
+  departamentos = [];
   usuario = {DNI: "", nombre: "", apellidos: "", mail: "", telefono: "", cargo: "", departamento: "", f_registro: ""};
   copyUsuario = {};
 
@@ -22,12 +23,16 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
 
   profile: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService) {
+  listaDepartamentos = {};
+
+  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) { 
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.dni = params['dni']; 
+      this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
+      this.departamentos = this.listDepartamentos.getDepartamentosOnlyName();
       this.usuario = this.controllerBD.getTemporalUser();
       this.makeCopy();
       if (this.usuario.DNI == "" || this.usuario.DNI != this.dni) {

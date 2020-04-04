@@ -5,7 +5,7 @@
     <div class="formContainer menuZonaFiltro">
         <div class="menuOrden">
             <mat-form-field class="fieldForm">
-              <mat-select class="inputForm" placeholder="Orden" [(value)]="order">
+              <mat-select class="inputForm" placeholder="Orden" [(ngModel)]="order" (selectionChange)=select()>
                 <mat-option value="Descendente">Descendente</mat-option>
                 <mat-option value="Ascendente">Ascendente</mat-option>
               </mat-select>
@@ -18,13 +18,13 @@
 </div>
 
 <div class="listadoPanel allContent90">
-    <div class="formContainer" *ngFor="let mes of votaciones | keyvalue | orderBy:order:true:false">
-        <div class="containerDptoNewParticipante" (click)="mostrarOcultar(mes.key)">
-            <i class="fas flechaNewParticipante fa-chevron-down" id="flecha{{mes.key}}"></i>
-            <label class="mesListaVotacion">{{mes.key | date: 'MMMM yyyy' | titlecase}}</label>
+    <div class="formContainer" *ngFor="let mes of meses">
+        <div class="containerDptoNewParticipante" (click)="mostrarOcultar(mes)">
+            <i class="fas flechaNewParticipante fa-chevron-down" id="flecha{{mes}}"></i>
+            <label class="mesListaVotacion">{{mes | date: 'MMMM yyyy' | titlecase}}</label>
         </div>
-        <div id="votacionesMes{{mes.key}}">
-            <mat-card *ngFor="let vot of mes.value | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
+        <div id="votacionesMes{{mes}}">
+            <mat-card *ngFor="let vot of votaciones[mes] | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
             [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.codigo]" [queryParams]="{home: false}">
                 <div class="preguntaListaVotacion">
                     {{vot.pregunta}}

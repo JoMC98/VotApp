@@ -9,12 +9,9 @@
 </mat-form-field>
 <br>
 <mat-form-field class="fieldFormAncho">
-  <mat-select class="inputForm" placeholder="Departamento" [(ngModel)]="data.departamento" name="departamento">
-    <mat-option value="Administracion">Administración</mat-option>
-    <mat-option value="Marketing">Marketing</mat-option>
-    <mat-option value="Contabilidad">Contabilidad</mat-option>
-    <mat-option value="Direccion">Dirección</mat-option>
-  </mat-select>
+  <mat-select class="inputForm" placeholder="Departamento" [(ngModel)]="data.departamento" name="departamento">  
+    <mat-option *ngFor="let dpt of departamentos" [value]="dpt">{{dpt}}</mat-option>
+  </mat-select>   
 </mat-form-field>
 <br>
 <mat-form-field class="fieldFormAncho">

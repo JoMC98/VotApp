@@ -724,20 +724,28 @@ select:-webkit-autofill:focus {
     color: black;
 }
 
-::ng-deep .iconDptFinanzas {
-    background-color: rgba(208,216,176,0.7) !important;
+::ng-deep .iconDptMenor {
+    font-size: 25px;
+    padding-top: 12.5px;
+    color: black;
 }
 
-::ng-deep .iconDptAdministración {
-    background-color: rgba(201,199,210,0.7) !important;
+::ng-deep .iconVotacion {
+    font-size: 25px;
+    padding-top: 7.5px;
+    color: #272343; 
 }
 
-::ng-deep .iconDptDirección {
-    background-color: rgba(226,197,151,0.7) !important;
+::ng-deep .iconDptVotacion {
+    font-size: 25px;
+    padding-top: 7.5px;
+    color: #272343; 
 }
 
-::ng-deep .iconDptMarketing {
-    background-color: rgba(204,176,208,0.7) !important;
+::ng-deep .iconDptMenorVotacion {
+    font-size: 22px;
+    padding-top: 9px;
+    color: #272343; 
 }
 
 ::ng-deep .iconDptPública {
@@ -860,6 +868,12 @@ select:-webkit-autofill:focus {
 ::ng-deep .iconDptVotante {
     font-size: 40px;
     padding-top: 15px;
+    color: black;
+}
+
+::ng-deep .iconDptMenorVotante {
+    font-size: 35px;
+    padding-top: 17.5px;
     color: black;
 }
 
@@ -1093,6 +1107,12 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .iconDptDialogoDesplegable {
+    font-size: 15px;
+    padding-top: 10px;
+    color: black;
+}
+
+::ng-deep .iconDptMenorDialogoDesplegable {
     font-size: 15px;
     padding-top: 10px;
     color: black;
@@ -1332,10 +1352,6 @@ select:-webkit-autofill:focus {
 ::ng-deep .userData {
     display: flex;
     flex-wrap: wrap;
-}
-
-::ng-deep .iconDptVotacion {
-    padding-left: 10px;
 }
 
 ::ng-deep .datosDivVotacion {
@@ -1637,12 +1653,6 @@ select:-webkit-autofill:focus {
     border-radius: 15px;
     margin-top: 5px;
     margin-left: 5px;
-}
-
-::ng-deep .iconVotacion {
-    font-size: 25px;
-    padding-top: 7.5px;
-    color: #272343; 
 }
 
 

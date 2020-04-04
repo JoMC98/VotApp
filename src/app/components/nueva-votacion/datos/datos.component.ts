@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 
 @Component({
   selector: 'app-datos',
@@ -7,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DatosComponent implements OnInit {
 
+  departamentos = [];
   selected: string = "none";
   ambitoDescripcion = {"none": "", "Publica": "La votación será visible para todos", 
                        "Departamento": "La votación será visible por miembros del departamento", 
@@ -15,7 +17,9 @@ export class DatosComponent implements OnInit {
 
   @Input() data;
 
-  constructor() { }
+  constructor(private listDepartamentos: ListaDepartamentosService) {
+    this.departamentos = this.listDepartamentos.getDepartamentosOnlyName();
+  }
 
   ngOnInit(): void {
   }

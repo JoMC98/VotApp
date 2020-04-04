@@ -1,14 +1,13 @@
 import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
+import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 
 export interface DesplegableData {
   page;
-  descripcion;
-  opciones;
-  participantes;
-  ambito;
-  departamento;
-  fecha;
+  votacion;
+  copyOpciones;
+  copyParticipantes;
 }
 
 @Component({
@@ -18,62 +17,61 @@ export interface DesplegableData {
 })
 export class DesplegableVotacionComponent implements OnInit {
 
-  departamentos = ["Administración","Dirección","Marketing","Finanzas"];
   ambitos = ["Pública","Privada","Departamento","Oculta"];
+  departamentos = [];
+  listaDepartamentos = {};
   objectKeys = Object.keys;
   addingUser: boolean = false;
-  usuarios = {};
-  users = {
-    "12345678X": {dni:"12345678X", nombre: "Paco", apellido: "Gonzalez Lopez", departamento: "Administración", cargo:"Jefe de Abastecimiento",selected:false},
-    "12345679X": {dni:"12345679X", nombre: "Mario", apellido: "Mir Dos", departamento: "Administración", cargo:"Jefe de Suministros",selected:false},
-    "12345670X": {dni:"12345670X", nombre: "Luis", apellido: "Alvarez Lopez", departamento: "Dirección", cargo:"CEO",selected:false},
-    "12345623X": {dni:"12345623X", nombre: "Ana", apellido: "Garcia Fernandez", departamento: "Marketing", cargo:"CMO",selected:false},
-    "12345643A": {dni:"12345643A", nombre: "Juan", apellido: "De los palomos Garcia", departamento: "Finanzas", cargo:"Jefe de Ventas",selected:false},
-    "12345612D": {dni:"12345612D", nombre: "Valentina", apellido: "Del arco Alarcon", departamento: "Dirección", cargo:"Jefe de Comerciales",selected:false},
-    "13525678X": {dni:"13525678X", nombre: "Eustaquio", apellido: "Roca Zaragoza", departamento: "Administración", cargo:"CTO",selected:false},
-    "85678678X": {dni:"85678678X", nombre: "Paco", apellido: "Lopez Torres", departamento: "Marketing", cargo:"CFO",selected:false},
-    "96856678X": {dni:"96856678X", nombre: "Jordi", apellido: "Villa Parejo", departamento: "Marketing", cargo:"Secretario General",selected:false},
-    "16456678X": {dni:"16456678X", nombre: "Manolo", apellido: "Betis Balompie", departamento: "Finanzas", cargo:"Asesor financiero",selected:false}};
-  usuariosIniciales = {};
+
+  usuarios = [];
+  users = {};
+  selected = [];
+  boolSelected = {};
 
   copyDescripcion = "";
-  copyOpciones = [];
-  copyParticipantes = {};
   copyAmbito = "";
   copyDepartamento = "";
   copyFecha = null;
 
+  opciones = []
+  participantes = []
+
   constructor(private _bottomSheetRef: MatBottomSheetRef<DesplegableVotacionComponent>, 
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: DesplegableData) {
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: DesplegableData, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) {
+      this.departamentos = this.listDepartamentos.getDepartamentosOnlyName();
+      this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
+
       switch (this.data.page) {
         case "descripcion":
         case "editarDescripcion":
-          this.copyDescripcion = this.data.descripcion.descripcion
+        case "editarAmbito":
+        case "editarFecha":
+        case "editarDepartamento":
+          this.copyDescripcion = this.data.votacion.descripcion
+          this.copyAmbito = this.data.votacion.ambito
+          this.copyDepartamento = this.data.votacion.departamento
+          this.copyFecha = this.data.votacion.f_votacion
           break;
         case "opciones":
         case "editarOpciones":
-        case "resultados":
-          for (var el in this.data.opciones) {
-            this.copyOpciones[el] = this.data.opciones[el];
+          this.opciones = [];
+          for (var opt in this.data.copyOpciones) {
+            this.opciones[opt] = this.data.copyOpciones[opt];
           }
+        
           break;
         case "participantes":
-        case "editarParticipantes":
-          for (var dni of Object.keys(this.data.participantes)) {
-            this.copyParticipantes[dni] = {};
-            for (var elem of Object.keys(this.data.participantes[dni])) {
-              this.copyParticipantes[dni][elem] = this.data.participantes[dni][elem];
-            }
+          this.participantes = [];
+          for (var part in this.data.copyParticipantes) {
+            this.participantes[part] = this.data.copyParticipantes[part];
           }
           break;
-        case "editarAmbito":
-          this.copyAmbito = this.data.ambito.ambito
-          break;
-        case "editarDepartamento":
-          this.copyDepartamento = this.data.departamento.departamento
-          break;
-        case "editarFecha":
-          this.copyFecha = this.data.fecha.fecha
+        case "editarParticipantes":
+          this.participantes = [];
+          for (var part in this.data.copyParticipantes) {
+            this.participantes[part] = this.data.copyParticipantes[part];
+          }
+          this.obtenerUsuarios();
           break;
       }
   }
@@ -86,117 +84,116 @@ export class DesplegableVotacionComponent implements OnInit {
     this._bottomSheetRef.dismiss();
   }
 
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
   guardar() {
     switch (this.data.page) {
       case "editarDescripcion":
-        this.data.descripcion.descripcion = this.copyDescripcion
-        break;
-      case "editarOpciones":
-        var totCopy = this.copyOpciones.length;
-        var totData = this.data.opciones.length;
-        for (var el in this.copyOpciones) {
-          var valor = (<HTMLTextAreaElement>document.getElementById("inputOpcionDialogoDesplegableModify" + el)).value;
-          this.data.opciones[el] = valor;
-        }
-        for (var i = totCopy; i < totData; i++) {
-          delete this.data.opciones[i];
-        }
-        break;
-      case "editarParticipantes":
-        for (var dni of Object.keys(this.data.participantes)) {
-          if (! (dni in this.copyParticipantes)) {
-            delete this.data.participantes[dni];
-          }
-        }
-        for (var dni of Object.keys(this.copyParticipantes)) {
-          if (! (dni in this.data.participantes)) {
-            this.data.participantes[dni] = this.copyParticipantes[dni];
-          }
-        }
-        console.log(this.data.participantes)
-
-        break;
       case "editarAmbito":
-        this.data.ambito.ambito = this.copyAmbito
-        break;
       case "editarDepartamento":
-        this.data.departamento.departamento = this.copyDepartamento
-        break;
       case "editarFecha":
-        this.data.fecha.fecha = this.copyFecha
+        this.data.votacion.descripcion = this.copyDescripcion
+        this.data.votacion.ambito = this.copyAmbito
+        this.data.votacion.f_votacion = this.copyFecha
+        this.data.votacion.departamento = this.copyDepartamento
+
+        this.controllerBD.modificarVotacion(this.data.votacion).then((result) => {
+          console.log(result);
+        });
+      case "editarOpciones":
+        var datos = {codigo: this.data.votacion.codigo, opciones: this.opciones}
+        this.controllerBD.modificarOpcionesVotacion(datos).then((result) => {
+          console.log(result);
+        });
+      case "editarParticipantes":
+        var p = []
+        for (var part of this.participantes) {
+          p.push(part.dni)
+        }
+        var data = {codigo: this.data.votacion.codigo, participantes: p}
+        this.controllerBD.modificarParticipantesVotacion(data).then((result) => {
+          console.log(result);
+        });
     }
     this._bottomSheetRef.dismiss();
   }
 
-  //Métodos para gestion de las opciones
-
   deleteOption(i) {
-    this.copyOpciones.splice(i, 1);
+    this.opciones.splice(i, 1);
   }
 
   addOption() {
-    this.copyOpciones.push("");
+    this.opciones.push("");
   }
 
   //Método para borrar usuario
 
-  deleteUser(key) {
-    delete this.copyParticipantes[key]
+  deleteUser(id) {
+    this.participantes.splice(id, 1);
+    this.obtenerUsuarios();
   }
 
   //Métodos para añadir nuevos usuarios
 
-  confirmAddingUser() {
-    this.addingUser = false;
-    for (let key of Object.keys(this.usuarios)) {
-      if (this.usuarios[key].selected) {
-        var user = this.usuarios[key];
-        var nuevo = {dni: user.dni, nombre: user.nombre, apellido: user.apellido, departamento: user.departamento, cargo: user.cargo}
-        this.copyParticipantes[key] = nuevo;
+  obtenerUsuarios() {
+    var res = []
+    for (var us of this.participantes) {
+      res.push(us.dni)
+    }
+    this.usuarios = []
+    this.boolSelected = {}
+    this.controllerBD.obtenerUsuariosFueraVotacion(res).then((result) => {
+      for (let i of Object.keys(result)) {
+        this.usuarios.push(result[i])
+        this.boolSelected[result[i].dni] = false;
+      }
+      this.generarListado(this.usuarios);
+    });
+  }
+
+  addUser() {
+    this.addingUser = true;
+  }
+
+  generarListado(listado) {
+    this.users = {};
+    for (let user of listado) {
+      var inicial = user.nombre.charAt(0);
+      if (this.users[inicial]) {
+        this.users[inicial].push(user);
+      } else {
+        this.users[inicial] = [user];
       }
     }
+  }
+
+  confirmAddingUser() {
+    this.addingUser = false;
+    for (var us of this.selected) {
+      this.participantes.push(us);
+    }
+    this.selected = []
+    this.obtenerUsuarios();
   }
 
   cancelAddingUser() {
     this.addingUser = false;
   }
 
-  addUser() {
-    this.addingUser = true;
-    this.eliminarPresentes();
-    this.agruparPorIniciales();
-  }
-
-  selection(inicialKey, userKey) {
-    console.log(inicialKey + " " + userKey)
-    var actual = this.usuariosIniciales[inicialKey][userKey].selected;
-    this.usuariosIniciales[inicialKey][userKey].selected = !actual;
-  }
-
-  //Métodos para los listados al añadir usuarios
-
-  eliminarPresentes() {
-    this.usuarios = {};
-    for (let key of Object.keys(this.users)) {
-      if (!(key in this.copyParticipantes)) {
-        this.usuarios[key] = this.users[key];
-      }
+  selection(user) {
+    if (this.isSelected(user)) {
+      this.selected.splice(this.selected.indexOf(user), 1)
+    } else {
+      this.selected.push(user)
     }
   }
 
-  agruparPorIniciales() {
-    this.usuariosIniciales = {};
-    for (let key of Object.keys(this.usuarios)) {
-      var name = this.usuarios[key].nombre;
-      var dni = this.usuarios[key].dni;
-      var inicial = name.charAt(0);
-      if (this.usuariosIniciales[inicial]) {
-        this.usuariosIniciales[inicial][key] = this.usuarios[key];
-      } else {
-        this.usuariosIniciales[inicial] = {};
-        this.usuariosIniciales[inicial][key] = this.usuarios[key];
-      }
+  isSelected(user) {
+    if (this.selected.includes(user)) {
+      return true;
     }
+    return false;
   }
-
 }

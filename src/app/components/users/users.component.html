@@ -5,7 +5,7 @@
     <div class="formContainer menuZonaFiltro">
         <div class="menuOrden">
             <mat-form-field class="fieldForm">
-              <mat-select class="inputForm" placeholder="Orden" [(value)]="order">
+              <mat-select class="inputForm" placeholder="Orden" [(ngModel)]="order" (selectionChange)=select()>
                 <mat-option value="Descendente">Descendente</mat-option>
                 <mat-option value="Ascendente">Ascendente</mat-option>
               </mat-select>
@@ -18,18 +18,15 @@
 </div>
 
 <div class="listadoPanel">
-    <div class="formContainer divLetra" *ngFor="let inicial of users | keyvalue | orderBy:order:false:false">
+    <div class="formContainer divLetra" *ngFor="let inicial of iniciales">
         <div class="containerDptoNewParticipante">
-            <label class="inicialListaUsers">{{inicial.key}}</label>
+            <label class="inicialListaUsers">{{inicial | uppercase}}</label>
         </div>
-        <div id="usersDpt{{inicial.key}}">
-            <div *ngFor="let user of inicial.value" class="userDiv" [routerLink]="['/user', user.dni]" [queryParams]="{profile: false}"> 
+        <div id="usersDpt{{inicial}}">
+            <div *ngFor="let user of users[inicial]" class="userDiv" [routerLink]="['/user', user.dni]" [queryParams]="{profile: false}"> 
                 <div class="iconDptDiv">
-                    <div class="iconDptSquare" [class]="'iconDpt' + user.departamento">
-                        <i *ngIf="user.departamento == 'Finanzas'" class="fas fa-euro-sign iconDpt"></i>
-                        <i *ngIf="user.departamento == 'Marketing'" class="fas fa-chart-line iconDpt"></i>
-                        <i *ngIf="user.departamento == 'Administración'" class="fas fa-tasks iconDpt"></i>
-                        <i *ngIf="user.departamento == 'Dirección'" class="fas fa-user-tie iconDpt"></i>
+                    <div class="iconDptSquare" [ngStyle]="{'background-color': listaDepartamentos[user.departamento].color}">
+                        <i class="fas" [ngClass]="[listaDepartamentos[user.departamento].icon, listaDepartamentos[user.departamento].iconDpt]"></i>
                     </div>
                 </div>
                 <div class="datosDiv">

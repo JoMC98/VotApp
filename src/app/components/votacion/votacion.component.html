@@ -8,9 +8,6 @@
                 <div *ngIf="home" class="divBotonBackVotacion" routerLink="/home">
                     <i class="fas fa-angle-left botonBackVotacion"></i>
                 </div>
-                <!-- <div class="divBotonPlayVotacion" (click)="cambiaEstado()">
-                    <i class="fas fa-play botonPlayVotacion"></i>
-                </div> -->
                 <div *ngIf="admin && votacion.estado == 'Creada'" class="divBotonPlayVotacion" [routerLink]="['/iniciarVotacion', codigo]">
                     <i class="fas fa-play botonPlayVotacion"></i>
                 </div>
@@ -80,11 +77,8 @@
                 <div class="divElementoVotacion">
                     <div class="elementoVotacion">
                         <div class="iconElementoVotacion">
-                            <div class="iconDivElementoVotacion" [class]="'iconDpt' + votacion.departamento">
-                                <i *ngIf="votacion.departamento == 'Finanzas'" class="fas fa-euro-sign iconVotacion"></i>
-                                <i *ngIf="votacion.departamento == 'Marketing'" class="fas fa-chart-line iconVotacionAmbito"></i>
-                                <i *ngIf="votacion.departamento == 'Administración'" class="fas fa-tasks iconVotacionAmbito"></i>
-                                <i *ngIf="votacion.departamento == 'Dirección'" class="fas fa-user-tie iconVotacion"></i>
+                            <div *ngIf="listaDepartamentos[votacion.departamento]" class="iconDivElementoVotacion" [ngStyle]="{'background-color': listaDepartamentos[votacion.departamento].color}">
+                                <i class="fas" [ngClass]="[listaDepartamentos[votacion.departamento].icon, listaDepartamentos[votacion.departamento].iconDpt+'Votacion']"></i>
                             </div>
                         </div>
                         <div class="textElementoVotacion">
