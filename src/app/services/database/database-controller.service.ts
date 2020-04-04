@@ -34,6 +34,8 @@ export class DatabaseControllerService {
   async filtrarUsuarios(filtros) { return await this.httpRequest.postRequest("/filtrarUsuarios", filtros) };
   async filtrarVotaciones(filtros) { return await this.httpRequest.postRequest("/filtrarVotaciones", filtros) };
 
+  async obtenerHomeVotaciones(limit) { return await this.httpRequest.postRequest("/obtenerHomeVotaciones", limit)};
+
   addTemporalUser(usuario) { 
     this.temporalUser = usuario;
   }
