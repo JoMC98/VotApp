@@ -102,11 +102,13 @@ export class DesplegableVotacionComponent implements OnInit {
         this.controllerBD.modificarVotacion(this.data.votacion).then((result) => {
           console.log(result);
         });
+        break;
       case "editarOpciones":
         var datos = {codigo: this.data.votacion.codigo, opciones: this.opciones}
         this.controllerBD.modificarOpcionesVotacion(datos).then((result) => {
           console.log(result);
         });
+        break;
       case "editarParticipantes":
         var p = []
         for (var part of this.participantes) {
@@ -116,6 +118,7 @@ export class DesplegableVotacionComponent implements OnInit {
         this.controllerBD.modificarParticipantesVotacion(data).then((result) => {
           console.log(result);
         });
+        break;
     }
     this._bottomSheetRef.dismiss();
   }

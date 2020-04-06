@@ -6,5 +6,5 @@
             <router-outlet (activate)="cambiaRuta()"></router-outlet>
         </div>
     </div>
-    <app-footer class="containerFooter" *ngIf="footer"></app-footer>
+    <app-footer [ngClass]="footer ? 'containerFooter' : 'containerFooterNotAppear'"></app-footer>
 </div>

@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HttpRequestService {
 
-  //private REST_API_SERVER = "http://192.168.1.135:4400";
-  private REST_API_SERVER = "http://150.128.97.91:4300";
+  private REST_API_SERVER = "http://192.168.1.135:4400";
+  //private REST_API_SERVER = "http://150.128.97.91:4300";
 
   constructor(private http: HttpClient) { }
 
