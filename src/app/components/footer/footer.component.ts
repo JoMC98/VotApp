@@ -16,16 +16,13 @@ export class FooterComponent implements OnInit, OnDestroy {
   page = 0;
 
   constructor(private router: Router) {
-    console.log("const")
     this.checkRoutes()
   }
 
   ngOnInit(): void {
-    console.log("init")
   }
 
   ngOnDestroy(): void {
-    console.log("DEst")
   }
 
   checkRoutes() {

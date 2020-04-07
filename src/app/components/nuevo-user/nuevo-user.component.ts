@@ -30,7 +30,7 @@ export class NuevoUserComponent implements OnInit {
       }
     } else if (this.sect[0] == 2) {
       for (var k of Object.keys(this.data.contactData)) {
-        this.data.contactData[k] = this.datosPersonalesReference.data[k]
+        this.data.contactData[k] = this.datosContactoReference.data[k]
       }
     }
     if (ind == 1) {
