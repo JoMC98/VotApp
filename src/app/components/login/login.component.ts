@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LoginControlService } from 'src/app/services/authentication/login-control.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,10 @@ export class LoginComponent implements OnInit {
   activarExplosion: boolean = false;
   showPasswd: boolean = false;
 
-  constructor(private router: Router) { }
+  dni: string = "";
+  passwd: string = "";
+
+  constructor(private router: Router, private authenticationService: LoginControlService) { }
 
   ngOnInit(): void {
   }
@@ -27,19 +32,30 @@ export class LoginComponent implements OnInit {
   }
 
   rutar() {
-    this.activarBoton = true
-    new Promise((res) => {
-      setTimeout(() => {
-        this.activarExplosion = true;
-      }, 3000);
-    })
-    new Promise((res) => {
-      setTimeout(() => {
-        // this.router.navigate(['/home']);
-        this.router.navigate(['/changePasswd']);
-        res();
-      }, 3800);
-    })
+    // this.activarBoton = true
+
+    this.authenticationService.login(this.dni, this.passwd).pipe(first()).subscribe(
+        data => {
+            this.router.navigate(["/home"]);
+        },
+        error => {
+            // this.error = error;
+            // this.loading = false;
+        });
+
+
+    // new Promise((res) => {
+    //   setTimeout(() => {
+    //     this.activarExplosion = true;
+    //   }, 3000);
+    // })
+    // new Promise((res) => {
+    //   setTimeout(() => {
+    //     // this.router.navigate(['/home']);
+    //     this.router.navigate(['/changePasswd']);
+    //     res();
+    //   }, 3800);
+    // })
   }
 
 }
