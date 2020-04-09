@@ -73,8 +73,8 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
-    this.subQ.unsubscribe();
+    // this.sub.unsubscribe();
+    // this.subQ.unsubscribe();
   }
 
   confirmarModify() {

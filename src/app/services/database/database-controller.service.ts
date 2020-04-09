@@ -36,6 +36,8 @@ export class DatabaseControllerService {
 
   async obtenerHomeVotaciones(limit) { return await this.httpRequest.postRequest("/obtenerHomeVotaciones", limit)};
 
+  async prueba() { return await this.httpRequest.postRequest("/prueba", {dni: "12345678A"})};
+
   addTemporalUser(usuario) { 
     this.temporalUser = usuario;
   }

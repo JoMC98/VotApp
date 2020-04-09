@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,15 +8,16 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit, OnDestroy {
-
-  // admin: boolean = false;
-  admin: boolean = true;
-  options: number[] = (this.admin ? [0,1,2,3,4] : [0,6,1,6,4]);
-  dni: string = "83290854D"
+  admin;
+  options: number[] = [];
+  dni;
   pages= {0:'home', 1:'listadoVotaciones', 2: 'nuevaVotacion', 3: 'users'};
   page = 0;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private sessionController: SessionControllerService) {
+    this.admin = sessionController.getAdminSession();
+    this.dni = sessionController.getDNISession();
+    this.options = (this.admin ? [0,1,2,3,4] : [0,6,1,6,4]);
     this.checkRoutes()
   }
 
@@ -47,11 +49,5 @@ export class FooterComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  alterna() {
-    this.admin = !this.admin;
-    this.options = (this.admin ? [0,1,2,3,4] : [0,6,1,6,4]);
-    this.page = 0;
   }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
+import { LoginControllerService } from 'src/app/services/authentication/login-controller.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-user',
@@ -18,7 +20,7 @@ export class UserComponent implements OnInit, OnDestroy {
   usuario = {DNI: "", nombre: "", apellidos: "", mail: "", telefono: "", cargo: "", departamento: "", f_registro: ""};
   listaDepartamentos = {};
 
-  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService, private loginController: LoginControllerService) { 
   }
 
   ngOnInit(): void {
@@ -35,8 +37,12 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
-    this.subQ.unsubscribe();
+    // this.sub.unsubscribe();
+    // this.subQ.unsubscribe();
+  }
+
+  logout() {
+    this.loginController.logout();
   }
 
   modify() {

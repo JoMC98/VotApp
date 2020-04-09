@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 
 @Component({
   selector: 'app-home',
@@ -8,32 +9,33 @@ import { DatabaseControllerService } from 'src/app/services/database/database-co
 })
 export class HomeComponent implements OnInit {
 
-  nombre: string = "Paco";
-  admin: boolean = false;
-  // admin: boolean = true;
+  nombre: string;
+  admin: boolean;
 
   votaciones = [];
 
-  constructor(private controllerBD: DatabaseControllerService) {
+  constructor(private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService) {
+    this.admin = sessionController.getAdminSession();
+    this.nombre = sessionController.getNombreSession();
     this.getVotaciones();
   }
 
   getVotaciones() {
-    var limit = {limit: this.admin ? 4 : 6};
     this.votaciones = []
-    this.controllerBD.obtenerHomeVotaciones(limit).then((result) =>{
-      for (let i of Object.keys(result)) {
-        this.votaciones.push(result[i])
-      }
-    });
+    var limit = {limit: this.admin ? 4 : 6};
+
+    this.controllerBD.prueba().then((result) =>{
+      console.log(result)
+    })
+
+    // this.controllerBD.obtenerHomeVotaciones(limit).then((result) =>{
+    //   for (let i of Object.keys(result)) {
+    //     this.votaciones.push(result[i])
+    //   }
+    // });
   }
 
   ngOnInit(): void {
-  }
-
-  change() {
-    this.admin = !this.admin;
-    this.getVotaciones();
   }
 
 }

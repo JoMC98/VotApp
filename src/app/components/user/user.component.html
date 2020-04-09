@@ -20,7 +20,7 @@
     <div *ngIf="profile" class="divBotonModify divBotonEditarVotanteLeft" (click)="modify()">
         <i class="fas fa-pen botonEditarVotante"></i>
     </div>
-    <div *ngIf="profile" class="divBotonModify divBotonEditarVotante" routerLink="/login">
+    <div *ngIf="profile" class="divBotonModify divBotonEditarVotante" (click)="logout()">
         <i class="fas fa-power-off botonBackVotante"></i>
     </div>
 </div>

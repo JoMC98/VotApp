@@ -66,8 +66,6 @@ import { ChangePasswordFirstComponent } from './components/user/change-password-
 import {HammerGestureConfig,HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
 
 import * as Hammer from "hammerjs";
-import { JwtInterceptorService } from './services/authentication/jwt-interceptor.service';
-import { ErrorInterceptorService } from './services/authentication/error-interceptor.service';
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
@@ -140,9 +138,7 @@ registerLocaleData(localeEs, 'es')
     { provide: LOCALE_ID, useValue: 'es' }, 
     MatNativeDateModule, 
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    {provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig},
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+    {provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig}
   ],
   bootstrap: [AppComponent],
   schemas: [

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginControlService } from 'src/app/services/authentication/login-control.service';
 import { first } from 'rxjs/operators';
+import { LoginControllerService } from 'src/app/services/authentication/login-controller.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   dni: string = "";
   passwd: string = "";
 
-  constructor(private router: Router, private authenticationService: LoginControlService) { }
+  constructor(private router: Router, private loginController: LoginControllerService) { }
 
   ngOnInit(): void {
   }
@@ -34,28 +34,17 @@ export class LoginComponent implements OnInit {
   rutar() {
     // this.activarBoton = true
 
-    this.authenticationService.login(this.dni, this.passwd).pipe(first()).subscribe(
-        data => {
-            this.router.navigate(["/home"]);
-        },
-        error => {
-            // this.error = error;
-            // this.loading = false;
-        });
+    var credenciales = {dni : this.dni, passwd : this.passwd}
 
-
-    // new Promise((res) => {
-    //   setTimeout(() => {
-    //     this.activarExplosion = true;
-    //   }, 3000);
-    // })
-    // new Promise((res) => {
-    //   setTimeout(() => {
-    //     // this.router.navigate(['/home']);
-    //     this.router.navigate(['/changePasswd']);
-    //     res();
-    //   }, 3800);
-    // })
+    this.loginController.login(credenciales)
+      .then((result) =>{
+        //TODO CHANGE PASSWORD REDIRECT?? AÑADIR A BD
+        this.router.navigate(["/home"]);
+      })
+      .catch((error) => {
+        console.log(error.error.status);
+      })
+    ;
   }
 
 }
