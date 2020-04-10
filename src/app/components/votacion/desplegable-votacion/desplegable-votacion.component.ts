@@ -145,9 +145,10 @@ export class DesplegableVotacionComponent implements OnInit {
     for (var us of this.participantes) {
       res.push(us.dni)
     }
+    var body = {participantes: res}
     this.usuarios = []
     this.boolSelected = {}
-    this.controllerBD.obtenerUsuariosFueraVotacion(res).then((result) => {
+    this.controllerBD.obtenerUsuariosFueraVotacion(body).then((result) => {
       for (let i of Object.keys(result)) {
         this.usuarios.push(result[i])
         this.boolSelected[result[i].dni] = false;

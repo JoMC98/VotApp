@@ -17,8 +17,6 @@ export class ResumenComponent implements OnInit {
   }
 
   confirmVotacion() {
-    this.data.datos["estado"] = "Creada";
-    this.data.datos["DNI_admin"] = "12345678A";
     this.controllerBD.añadirVotacion(this.data).then((result) =>{
       new Promise((res) => {
         setTimeout(() => {

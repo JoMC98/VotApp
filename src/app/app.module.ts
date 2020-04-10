@@ -16,7 +16,6 @@ import { ListadoVotacionesComponent } from './components/listado-votaciones/list
 import { NuevaVotacionComponent } from './components/nueva-votacion/nueva-votacion.component';
 import { UsersComponent } from './components/users/users.component';
 import { NuevoUserComponent } from './components/nuevo-user/nuevo-user.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -66,6 +65,8 @@ import { ChangePasswordFirstComponent } from './components/user/change-password-
 import {HammerGestureConfig,HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
 
 import * as Hammer from "hammerjs";
+import { NotFoundComponent } from './components/errors/not-found/not-found.component';
+import { RestrictedAccessComponent } from './components/errors/restricted-access/restricted-access.component';
 
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
@@ -88,7 +89,6 @@ registerLocaleData(localeEs, 'es')
     NuevaVotacionComponent,
     UsersComponent,
     NuevoUserComponent,
-    PageNotFoundComponent,
     DatosComponent,
     OpcionesComponent,
     ParticipantesComponent,
@@ -108,7 +108,9 @@ registerLocaleData(localeEs, 'es')
     ResultadosComponent,
     StartComponent,
     LoginComponent,
-    ChangePasswordFirstComponent
+    ChangePasswordFirstComponent,
+    NotFoundComponent,
+    RestrictedAccessComponent
   ],
   imports: [
     MatFormFieldModule, 

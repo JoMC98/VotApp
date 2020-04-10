@@ -5,7 +5,6 @@ import { NuevaVotacionComponent } from '../app/components/nueva-votacion/nueva-v
 import { UsersComponent } from '../app/components/users/users.component';
 import { NuevoUserComponent } from '../app/components//nuevo-user/nuevo-user.component';
 import { HomeComponent } from '../app/components/home/home.component';
-import { PageNotFoundComponent } from '../app/components/page-not-found/page-not-found.component';
 import { VotacionComponent } from './components/votacion/votacion.component';
 import { UserComponent } from './components/user/user.component';
 import { ModifyUserComponent } from './components/modify-user/modify-user.component';
@@ -14,6 +13,8 @@ import { ResultadosComponent } from './components/votacion/resultados/resultados
 import { StartComponent } from './components/votacion/start/start.component';
 import { LoginComponent } from './components/login/login.component';
 import { ChangePasswordFirstComponent } from './components/user/change-password-first/change-password-first.component';
+import { NotFoundComponent } from './components/errors/not-found/not-found.component';
+import { RestrictedAccessComponent } from './components/errors/restricted-access/restricted-access.component';
 
 
 const routes: Routes = [
@@ -30,8 +31,9 @@ const routes: Routes = [
   { path: 'iniciarVotacion/:id', component: StartComponent },
   { path: 'user/:dni', component: UserComponent },
   { path: 'modifyUser/:dni', component: ModifyUserComponent },
+  { path: 'restrictedAccess', component: RestrictedAccessComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

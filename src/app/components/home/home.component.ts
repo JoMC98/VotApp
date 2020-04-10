@@ -22,17 +22,12 @@ export class HomeComponent implements OnInit {
 
   getVotaciones() {
     this.votaciones = []
-    var limit = {limit: this.admin ? 4 : 6};
 
-    this.controllerBD.prueba().then((result) =>{
-      console.log(result)
-    })
-
-    // this.controllerBD.obtenerHomeVotaciones(limit).then((result) =>{
-    //   for (let i of Object.keys(result)) {
-    //     this.votaciones.push(result[i])
-    //   }
-    // });
+    this.controllerBD.obtenerHomeVotaciones().then((result) =>{
+      for (let i of Object.keys(result)) {
+        this.votaciones.push(result[i])
+      }
+    });
   }
 
   ngOnInit(): void {

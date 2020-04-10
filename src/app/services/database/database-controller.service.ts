@@ -19,7 +19,7 @@ export class DatabaseControllerService {
   async obtenerUsuariosFueraVotacion(participantes) { return await this.httpRequest.postRequest("/obtenerUsuariosFueraVotacion", participantes) };
 
   //TODO FALTA ENVIARLE CLAVE PUBLICA Y DNI_ADMIN para añadir a votante Y PRIVADA
-  async añadirUsuario(usuario) { return await this.httpRequest.postRequest("/nuevoUsuario", {usuario: usuario, clavePublica:"AA", dni_admin: "12345678A"}) };
+  async añadirUsuario(usuario) { return await this.httpRequest.postRequest("/nuevoUsuario", {nuevoUsuario: usuario, clavePublica:"AA"}) };
   //TODO FALTA ENVIARLE DNI_ADMIN para añadir a votante
   async añadirVotacion(data) { return await this.httpRequest.postRequest("/nuevaVotacion", data) };
 
@@ -34,7 +34,7 @@ export class DatabaseControllerService {
   async filtrarUsuarios(filtros) { return await this.httpRequest.postRequest("/filtrarUsuarios", filtros) };
   async filtrarVotaciones(filtros) { return await this.httpRequest.postRequest("/filtrarVotaciones", filtros) };
 
-  async obtenerHomeVotaciones(limit) { return await this.httpRequest.postRequest("/obtenerHomeVotaciones", limit)};
+  async obtenerHomeVotaciones() { return await this.httpRequest.getRequest("/obtenerHomeVotaciones")};
 
   async prueba() { return await this.httpRequest.postRequest("/prueba", {dni: "12345678A"})};
 
