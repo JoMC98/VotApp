@@ -1,27 +1,23 @@
 import { Injectable } from '@angular/core';
-
-const TOKEN_KEY = 'auth-token';
-const DNI_KEY = 'auth-dni';
-const NAME_KEY = 'auth-nombre';
-const SURNAME_KEY = 'auth-apellidos';
-const ADMIN_KEY = 'auth-admin';
-
-const KEYS = [TOKEN_KEY, DNI_KEY, NAME_KEY, SURNAME_KEY, ADMIN_KEY];
+import { PushControllerService } from '../notifications/push-controller.service';
+import { ConfigurationService } from '../general/configuration.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionControllerService {
 
-  constructor() { }
+  constructor(private pushService: PushControllerService, private config: ConfigurationService) { }
 
   storeSession(user) {
+    console.log("STORE SESSION")
     this.deleteSession();
-    window.sessionStorage.setItem(TOKEN_KEY, user.token);
-    window.sessionStorage.setItem(DNI_KEY, user.DNI);
-    window.sessionStorage.setItem(NAME_KEY, user.nombre);
-    window.sessionStorage.setItem(SURNAME_KEY, user.apellidos);
-    window.sessionStorage.setItem(ADMIN_KEY, user.admin);
+    window.sessionStorage.setItem(this.config.TOKEN_KEY, user.token);
+    window.sessionStorage.setItem(this.config.DNI_KEY, user.DNI);
+    window.sessionStorage.setItem(this.config.NAME_KEY, user.nombre);
+    window.sessionStorage.setItem(this.config.SURNAME_KEY, user.apellidos);
+    window.sessionStorage.setItem(this.config.ADMIN_KEY, user.admin);
+    this.pushService.subscribe(user.token);
   }
 
   getSession() {
@@ -36,27 +32,27 @@ export class SessionControllerService {
   }
 
   getTokenSession() {
-    return window.sessionStorage.getItem(TOKEN_KEY);
+    return window.sessionStorage.getItem(this.config.TOKEN_KEY);
   }
 
   getDNISession() {
-    return window.sessionStorage.getItem(DNI_KEY);
+    return window.sessionStorage.getItem(this.config.DNI_KEY);
   }
 
   getNombreSession() {
-    return window.sessionStorage.getItem(NAME_KEY);
+    return window.sessionStorage.getItem(this.config.NAME_KEY);
   }
 
   getApellidosSession() {
-    return window.sessionStorage.getItem(SURNAME_KEY);
+    return window.sessionStorage.getItem(this.config.SURNAME_KEY);
   }
 
   getAdminSession() {
-    return JSON.parse(window.sessionStorage.getItem(ADMIN_KEY));
+    return JSON.parse(window.sessionStorage.getItem(this.config.ADMIN_KEY));
   }
 
   deleteSession() {
-    for (var key of KEYS) {
+    for (var key of this.config.SESSION_KEYS) {
       window.sessionStorage.removeItem(key);
     }
   }

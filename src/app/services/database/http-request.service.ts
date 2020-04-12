@@ -3,20 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SessionControllerService } from '../authentication/session-controller.service';
 import { LoginControllerService } from '../authentication/login-controller.service';
 import { Router } from '@angular/router';
+import { ConfigurationService } from '../general/configuration.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpRequestService {
 
-  private REST_API_SERVER = "http://192.168.1.135:4400";
-  // private REST_API_SERVER = "https://proyecto.al361869.al.nisu.org:4300";
-
-  constructor(private http: HttpClient, private sessionController: SessionControllerService, private loginController: LoginControllerService, private router: Router) {
+  constructor(private http: HttpClient, private sessionController: SessionControllerService, private loginController: LoginControllerService, private router: Router, private config: ConfigurationService) {
   }
 
   async getRequest(requestPath) {
-    var url = this.REST_API_SERVER + requestPath
+    var url = this.config.DB_API_SERVER + requestPath
     var options = this.getOptions();
 
     return await new Promise((resolve, reject) => {
@@ -32,7 +30,7 @@ export class HttpRequestService {
   }
 
   async postRequest(requestPath, body) {
-    var url = this.REST_API_SERVER + requestPath
+    var url = this.config.DB_API_SERVER + requestPath
     var options = this.getOptions();
 
     return await new Promise((resolve, reject) => {

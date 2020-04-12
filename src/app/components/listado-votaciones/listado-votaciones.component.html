@@ -24,7 +24,7 @@
             <label class="mesListaVotacion">{{mes | date: 'MMMM yyyy' | titlecase}}</label>
         </div>
         <div id="votacionesMes{{mes}}">
-            <mat-card *ngFor="let vot of votaciones[mes] | orderBy:order:true:true:'fecha'" class="elementoListaVotacion" 
+            <mat-card *ngFor="let vot of votaciones[mes]" class="elementoListaVotacion" 
             [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.codigo]" [queryParams]="{home: false}">
                 <div class="preguntaListaVotacion">
                     {{vot.pregunta}}
