@@ -4,6 +4,7 @@ import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-shee
 import { DesplegableVotacionComponent } from './desplegable-votacion/desplegable-votacion.component';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 
 @Component({
   selector: 'app-votacion',
@@ -11,15 +12,12 @@ import { ListaDepartamentosService } from 'src/app/services/general/lista-depart
   styleUrls: ['./votacion.component.css']
 })
 export class VotacionComponent implements OnInit, OnDestroy {
-  dni: string = "12345678X";
-  // dni: string = "96856678X";
+  dni: string;
   codigo: number;
   home: boolean;
+  participa: boolean;
 
-  // admin: boolean = true;
-  admin: boolean = false;
-
-  objectKeys = Object.keys;
+  admin: boolean;
 
   private sub: any;
   private subQ: any;
@@ -34,7 +32,10 @@ export class VotacionComponent implements OnInit, OnDestroy {
   opciones = [];
   participantes = [];
 
-  constructor(private route: ActivatedRoute, private _bottomSheet: MatBottomSheet, private router: Router, private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService) { 
+  constructor(private route: ActivatedRoute, private _bottomSheet: MatBottomSheet, private router: Router, 
+    private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService, private sessionController: SessionControllerService) { 
+    this.admin = sessionController.getAdminSession();
+    this.dni = sessionController.getDNISession();
   }
 
   rutar() {
@@ -44,10 +45,6 @@ export class VotacionComponent implements OnInit, OnDestroy {
         res();
       }, 400);
     })
-  }
-
-  cambiarAdmin() {
-    this.admin = !this.admin;
   }
 
   ngOnInit(): void {
@@ -78,8 +75,12 @@ export class VotacionComponent implements OnInit, OnDestroy {
     });
     this.controllerBD.obtenerParticipantesVotacion(this.codigo).then((result) =>{
       this.participantes = []
+      this.participa = false;
       for (let i of Object.keys(result)) {
         this.participantes.push(result[i])
+        if (result[i].dni == this.dni) {
+          this.participa = true;
+        }
       }
     });
   }

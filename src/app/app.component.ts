@@ -56,7 +56,7 @@ export class AppComponent {
       this.footer = false;
     } else if (pagina == "/changePasswd") {
       this.footer = false;
-    } else if (pagina.includes("/votar")) {
+    } else if (pagina.includes("/votar") || pagina.includes("/iniciarVotacion")) {
       this.footer = false;
     } else {
       this.footer = true;

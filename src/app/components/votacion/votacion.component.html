@@ -11,9 +11,6 @@
                 <div *ngIf="admin && votacion.estado == 'Creada'" class="divBotonPlayVotacion" [routerLink]="['/iniciarVotacion', codigo]">
                     <i class="fas fa-play botonPlayVotacion"></i>
                 </div>
-                <div class="divBotonPlayVotacion" (click)="cambiarAdmin()" style="top: 60px;">
-                    <i class="fas fa-pen botonPlayVotacion"></i>
-                </div>
             </div>
             <mat-card class="panelPreguntaVotacion">
                 <textarea *ngIf="!modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
@@ -41,9 +38,7 @@
             <mat-card *ngIf="admin" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + votacion.estado">
                 <label class="fechaVotacion">{{votacion.estado}}</label>
             </mat-card>
-            <!-- <mat-card *ngIf="!admin && votacion.estado == 'Creada' && objectKeys(participantes).includes(dni)" 
-            class="panelBotonParticiparVotacion" (click)="rutar()"> -->
-            <mat-card *ngIf="!admin && votacion.estado == 'Creada'" 
+            <mat-card *ngIf="!admin && votacion.estado == 'Activa' && participa" 
             class="panelBotonParticiparVotacion" (click)="rutar()">
                 <label class="fechaVotacion">Participar</label>
             </mat-card>

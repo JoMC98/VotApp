@@ -32,14 +32,25 @@ export class LoginComponent implements OnInit {
   }
 
   rutar() {
-    // this.activarBoton = true
+    this.activarBoton = true
 
     var credenciales = {dni : this.dni, passwd : this.passwd}
 
     this.loginController.login(credenciales)
       .then((result) =>{
         //TODO CHANGE PASSWORD REDIRECT?? AÑADIR A BD
-        this.router.navigate(["/home"]);
+        new Promise((res) => {
+          setTimeout(() => {
+            this.activarExplosion = true;
+          }, 2000);
+        })
+        new Promise((res) => {
+          setTimeout(() => {
+            this.router.navigate(['/home']);
+            // this.router.navigate(['/changePasswd']);
+            res();
+          }, 2800);
+        })
       })
       .catch((error) => {
         console.log(error.error.status);

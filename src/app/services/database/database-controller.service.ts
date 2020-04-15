@@ -36,7 +36,9 @@ export class DatabaseControllerService {
 
   async obtenerHomeVotaciones() { return await this.httpRequest.getRequest("/obtenerHomeVotaciones")};
 
-  async prueba() { return await this.httpRequest.postRequest("/prueba", {dni: "12345678A"})};
+  async activarVotacion(codigo) { return await this.httpRequest.getRequest("/activarVotacion/" + codigo)};
+
+  async obtenerDatosVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerDatosVotacion/" + codigo)};
 
   addTemporalUser(usuario) { 
     this.temporalUser = usuario;

@@ -26,6 +26,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -108,6 +109,7 @@ registerLocaleData(localeEs, 'es')
     AngularSvgIconModule.forRoot(),
     NgSelectModule, 
     HttpClientModule,
+    NgbModule,
     FormsModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [FooterComponent, ListadoVotacionesComponent, NuevaVotacionComponent],

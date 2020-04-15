@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
+import { VotanteSocketControllerService } from 'src/app/services/sockets/votante-socket-controller.service';
 
 @Component({
   selector: 'app-votar',
@@ -9,9 +11,10 @@ import { DatabaseControllerService } from 'src/app/services/database/database-co
 })
 export class VotarComponent implements OnInit, OnDestroy {
   codigo: number;
+  dni: number;
   private sub: any;
 
-  pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?";
+  pregunta: string;
   
   opciones = [];
 
@@ -23,9 +26,13 @@ export class VotarComponent implements OnInit, OnDestroy {
   card: string = "";
   center = [];
 
+  portSocket;
+  clavePrivada;
+
   activarBoton: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService, 
+    private socketController: VotanteSocketControllerService) { 
   }
 
   generateOptions() {
@@ -73,6 +80,15 @@ export class VotarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.codigo = +params['codigo']; 
+      this.controllerBD.obtenerParticipantesVotacion(this.codigo).then((result) =>{
+        var dni = this.sessionController.getDNISession();
+        var part = Object.keys(result).map(p => result[p].dni)
+        if (!part.includes(dni)) {
+          this.router.navigate(['/home']);
+        } else {
+          this.pedirSocketVotacion();
+        }
+      })
       this.controllerBD.obtenerOpcionesVotacion(this.codigo).then((result) =>{
         this.opciones = [];
         for (let i of Object.keys(result)) {
@@ -85,6 +101,19 @@ export class VotarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  pedirSocketVotacion() {
+    this.controllerBD.obtenerDatosVotacion(this.codigo).then(datos => {
+      this.portSocket = datos["socketPort"];
+      this.clavePrivada = datos["clavePrivada"];
+      this.pregunta = datos["pregunta"];
+      this.abrirSocketVotante();
+    })
+  }
+
+  abrirSocketVotante() {
+    this.socketController.createSocketVotante(this.portSocket, "AAA");
   }
 
   select(codigo) {

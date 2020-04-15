@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'votacion/:codigo', component: VotacionComponent },
   { path: 'votar/:codigo', component: VotarComponent },
   { path: 'resultados/:codigo', component: ResultadosComponent },
-  { path: 'iniciarVotacion/:id', component: StartComponent },
+  { path: 'iniciarVotacion/:codigo', component: StartComponent },
   { path: 'user/:dni', component: UserComponent },
   { path: 'modifyUser/:dni', component: ModifyUserComponent },
   { path: 'restrictedAccess', component: RestrictedAccessComponent },
