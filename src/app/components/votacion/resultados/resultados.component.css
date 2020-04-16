@@ -2,14 +2,14 @@
     stroke: #DCF6F5;
 }
 
-.containerSpinner {
+::ng-deep .containerSpinner {
     width: 100% !important;
     height: 33% !important;
     margin: auto !important;
     display: flex;
 }
 
-.containerDivSpinner {
+::ng-deep .containerDivSpinner {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -47,7 +47,6 @@
     display: flex;
     flex-wrap: wrap;
     margin: auto;
-    /* border: 1px solid red; */
 } 
 
 .containerDivResultados6 {
@@ -170,17 +169,17 @@
     100% {width: 100%}
 }
 
-.spinner {
+::ng-deep .spinner {
     margin: auto !important;
 }
 
-.divTextSpinner {
+::ng-deep .divTextSpinner {
     height: 33% !important;
     width: 100% !important;
     display: flex;
 }
 
-.textSpinner {
+::ng-deep .textSpinner {
     color: #DCF6F5;
     font-size: 22px;
     line-height: 30px !important;
@@ -188,7 +187,7 @@
     text-align: center;
 }
 
-.textSpinner2 {
+::ng-deep .textSpinner2 {
     color: #DCF6F5;
     font-size: 18px;
     margin: auto !important;

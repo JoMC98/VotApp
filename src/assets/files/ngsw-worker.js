@@ -2086,7 +2086,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
                 //METODO DE CLICK PROPIO
                 if (action == "openVotApp") {
                     if (clients && clients.openWindow) {
-                            return clients.openWindow(WEB_URL);
+                        return clients.openWindow(WEB_URL);
                     }
                 } else {
 		            // The filter uses `name in notification` because the properties are on the prototype so

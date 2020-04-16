@@ -15,6 +15,10 @@ export class ConfigurationService {
   public ADMIN_KEY: string = config.ADMIN_KEY;
   public SESSION_KEYS = [this.TOKEN_KEY, this.DNI_KEY, this.NAME_KEY, this.SURNAME_KEY, this.ADMIN_KEY]
   public SOCKET_URL: string = config.SOCKET_URL;
+  public PBKDF2_KEY_BIT_LENGTH: number = config.PBKDF2_KEY_BIT_LENGTH
+  public PBKDF2_ITERATIONS: number = config.PBKDF2_ITERATIONS
+  public PBKDF2_SALT_BYTES: number = config.PBKDF2_SALT_BYTES
+  public RANDOM_NUMBER_BYTES: number = config.RANDOM_NUMBER_BYTES
 
   constructor() { }
 }

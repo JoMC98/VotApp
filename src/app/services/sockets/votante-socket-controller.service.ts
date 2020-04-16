@@ -41,10 +41,12 @@ export class VotanteSocketControllerService {
     console.log("FASE: " + fase)
     
     if (fase == "0") {
-      //GUARDAR LISTA y ENVIAR OK
       console.log(data)
       this.controllerVotacion.setLista(data);
       this.sendMessage({fase: 0, data: "OK"})
+    } else if (fase == "A3") {
+      console.log(data)
+      this.controllerVotacion.changeCanVote();
     } 
   }
 

@@ -6,5 +6,9 @@
    "NAME_KEY" : "auth-nombre",
    "SURNAME_KEY" : "auth-apellidos",
    "ADMIN_KEY" : "auth-admin",
-   "SOCKET_URL" : "wss://proyecto.al361869.al.nisu.org:"
+   "SOCKET_URL" : "wss://proyecto.al361869.al.nisu.org:",
+   "PBKDF2_KEY_BIT_LENGTH" : 128,
+   "PBKDF2_ITERATIONS" : 10000,
+   "PBKDF2_SALT_BYTES" : 16,
+   "RANDOM_NUMBER_BYTES" : 64
 }

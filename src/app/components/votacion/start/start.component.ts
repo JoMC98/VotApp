@@ -58,23 +58,21 @@ export class StartComponent implements OnInit, OnDestroy {
   }
 
   comprobarEstado() {
-    setInterval(() => {
+    var interval = setInterval(() => {
       var status = this.controllerVotacion.getStatus()
       this.progress = status.progress;
       this.completed = status.completed;
       this.total = status.total;
+      console.log(this.progress)
       if (this.progress == 100) {
         this.canStart = true;
+        clearInterval(interval)
       }
     }, 3000)
   }
 
   start() {
-    //COMUNICAR POR LOS SOCKETS QUE SE ARRANCA (FASE X)
-  }
-
-  sendMessage() {
-    this.socketController.sendMessage({"mess": "hola"});
+    this.socketController.sendMessage({fase: "A3", data: "OK"});
   }
 
   ngOnDestroy() {

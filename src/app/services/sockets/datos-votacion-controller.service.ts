@@ -9,6 +9,7 @@ export class DatosVotacionControllerService {
   total;
   socketsConnected = [];
   listsReceived = [];
+  canVote = false;
 
   constructor() {}
 
@@ -33,5 +34,13 @@ export class DatosVotacionControllerService {
     var completed = this.socketsConnected.filter(element => this.listsReceived.includes(element));
     var progress = ((this.socketsConnected.length + this.listsReceived.length) / this.total) * 100
     return {progress: progress, completed: completed, total: this.total/2}
+  }
+
+  getCanVote() {
+    return this.canVote;
+  }
+
+  changeCanVote() {
+    this.canVote = true;
   }
 }

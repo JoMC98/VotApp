@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 import { VotanteSocketControllerService } from 'src/app/services/sockets/votante-socket-controller.service';
+import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
+import { CifradoControllerService } from 'src/app/services/cipher/cifrado-controller.service';
 
 @Component({
   selector: 'app-votar',
@@ -25,14 +27,17 @@ export class VotarComponent implements OnInit, OnDestroy {
   row2: boolean = false;
   card: string = "";
   center = [];
+  canVote: boolean = false;
 
   portSocket;
   clavePrivada;
 
   activarBoton: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService, 
-    private socketController: VotanteSocketControllerService) { 
+  constructor(private route: ActivatedRoute, private router: Router, 
+    private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService, 
+    private socketController: VotanteSocketControllerService, private controllerVotacion: DatosVotacionControllerService,
+    private cifradoController: CifradoControllerService) { 
   }
 
   generateOptions() {
@@ -114,6 +119,16 @@ export class VotarComponent implements OnInit, OnDestroy {
 
   abrirSocketVotante() {
     this.socketController.createSocketVotante(this.portSocket, "AAA");
+    this.comprobarEstado();
+  }
+
+  comprobarEstado() {
+    var interval = setInterval(() => {
+      this.canVote = this.controllerVotacion.getCanVote()
+      if (this.canVote) {
+        clearInterval(interval)
+      }
+    }, 3000)
   }
 
   select(codigo) {
@@ -131,12 +146,26 @@ export class VotarComponent implements OnInit, OnDestroy {
   }
 
   rutar() {
-    this.activarBoton = true
-    new Promise((res) => {
-      setTimeout(() => {
-        this.router.navigate(['/resultados', this.codigo]);
-        res();
-      }, 3000);
+    this.activarBoton = true;
+
+    var seleccion = this.seleccion
+
+    for (var i in this.options) {
+      this.options[i]["selected"] = "";
+    }
+    this.selected = false;
+    this.seleccion = null;
+
+    this.cifradoController.cifrarVoto(this.options[seleccion].pregunta, this.clavePrivada).then(res => {
+      console.log(res)
+      this.activarBoton = false;
     })
+
+    // new Promise((res) => {
+    //   setTimeout(() => {
+    //     this.router.navigate(['/resultados', this.codigo]);
+    //     res();
+    //   }, 3000);
+    // })
   }
 }

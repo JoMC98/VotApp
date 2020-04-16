@@ -12,7 +12,18 @@
             </mat-card>
         </div>
         <mat-card class="panelInferiorVotar">
-            <div [ngClass]="row2 ? 'rowOpcionesVotar2' : 'rowOpcionesVotar'">
+            <div class="containerDivSpinner" *ngIf="!canVote">
+                <div class="divTextSpinner">
+                    <label class="textSpinner">Esperando a que todos<br>los usuarios se conecten</label>
+                </div>
+                <div class="containerSpinner">
+                    <mat-progress-spinner class="spinner" [mode]="'indeterminate'" diameter="120"></mat-progress-spinner>
+                </div>
+                <div class="divTextSpinner">
+                    <label class="textSpinner2">La votación<br>comenzará en breve</label>
+                </div>
+            </div>
+            <div [ngClass]="row2 ? 'rowOpcionesVotar2' : 'rowOpcionesVotar'" *ngIf="canVote">
                 <div class="containerOpcionesVotar">
                     <mat-card *ngFor="let opt of options; let i = index;" class="cardFilas" [ngClass]="[opt.color, opt.card, opt.cardZona, opt.selected]" (click)="select(i)">
                         <label class="textCardOpciones">{{opt.pregunta}}</label>
@@ -32,7 +43,7 @@
                     </mat-card>
                 </div>
             </div>
-            <div class="panelBotonVotar">
+            <div class="panelBotonVotar" *ngIf="canVote">
               <div (click)="rutar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
                 <div class="buttonLabelDiv" *ngIf="!activarBoton">
                     <div class="buttonLabel">
