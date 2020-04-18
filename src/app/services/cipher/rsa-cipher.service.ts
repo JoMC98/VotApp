@@ -44,8 +44,6 @@ export class RSACipherService {
       vectorBloques.push(bloqueChar);
     }
 
-    console.log(vectorBloques)
-
     var messageEncrypted = "";
     
     for (var i = 0; i < numBloques; i++) {

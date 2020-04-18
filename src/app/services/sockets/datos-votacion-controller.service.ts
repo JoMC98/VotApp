@@ -10,16 +10,33 @@ export class DatosVotacionControllerService {
   socketsConnected = [];
   listsReceived = [];
   canVote = false;
+  results = [];
 
   constructor() {}
 
   setLista(lista) {
     this.lista = lista
-    this.total = Object.keys(this.lista).length * 2;
+    if (this.lista.list) {
+      this.total = Object.keys(this.lista.list).length * 2;
+    } else {
+      this.total = Object.keys(this.lista).length * 2;
+    }
   }
 
   getLista() {
     return this.lista;
+  }
+
+  getIp(id) {
+    return this.lista.list[id].ip;
+  }
+
+  getParticipants() {
+    return this.total / 2;
+  }
+
+  getOrder() {
+    return this.lista.order;
   }
 
   addConnectionSocket(dni) {
@@ -42,5 +59,13 @@ export class DatosVotacionControllerService {
 
   changeCanVote() {
     this.canVote = true;
+  }
+
+  setResults(results) {
+    this.results = results;
+  }
+
+  getResults() {
+    return this.results;
   }
 }

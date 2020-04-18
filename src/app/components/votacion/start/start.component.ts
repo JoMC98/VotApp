@@ -4,6 +4,7 @@ import { DatabaseControllerService } from 'src/app/services/database/database-co
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 import { AdminSocketControllerService } from 'src/app/services/sockets/admin-socket-controller.service';
 import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
+import { CifradoControllerService } from 'src/app/services/cipher/cifrado-controller.service';
 
 @Component({
   selector: 'app-start',
@@ -26,7 +27,8 @@ export class StartComponent implements OnInit, OnDestroy {
   canStart: boolean = false;
 
   constructor(private route: ActivatedRoute, private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService, 
-    private router: Router, private socketController: AdminSocketControllerService, private controllerVotacion: DatosVotacionControllerService) {
+    private router: Router, private socketController: AdminSocketControllerService, private controllerVotacion: DatosVotacionControllerService,
+    private cifradoController: CifradoControllerService) {
   }
 
   ngOnInit(): void {
@@ -72,6 +74,7 @@ export class StartComponent implements OnInit, OnDestroy {
   }
 
   start() {
+    this.cifradoController.crearCifradoresAdmin(this.clavePrivada)
     this.socketController.sendMessage({fase: "A3", data: "OK"});
   }
 

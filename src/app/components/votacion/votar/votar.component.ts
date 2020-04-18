@@ -5,6 +5,7 @@ import { SessionControllerService } from 'src/app/services/authentication/sessio
 import { VotanteSocketControllerService } from 'src/app/services/sockets/votante-socket-controller.service';
 import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
 import { CifradoControllerService } from 'src/app/services/cipher/cifrado-controller.service';
+import { SenderMessageControllerService } from 'src/app/services/sockets/sender-message-controller.service';
 
 @Component({
   selector: 'app-votar',
@@ -157,7 +158,8 @@ export class VotarComponent implements OnInit, OnDestroy {
     this.seleccion = null;
 
     this.cifradoController.cifrarVoto(this.options[seleccion].pregunta, this.clavePrivada).then(res => {
-      console.log(res)
+      var ip = this.controllerVotacion.getIp(0);
+      this.socketController.sendMessageDestino(ip, 1, res)
       this.activarBoton = false;
     })
 
