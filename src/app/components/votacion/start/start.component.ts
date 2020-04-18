@@ -49,6 +49,7 @@ export class StartComponent implements OnInit, OnDestroy {
       this.pregunta = result["pregunta"];
       this.portSocket = result["portAdmin"];
       this.clavePrivada = result["clavePrivada"]
+      this.controllerVotacion.setCodigo(this.codigo);
       // this.participantes = result["participantes"];
       this.abrirSocketAdmin();
     });
@@ -65,7 +66,6 @@ export class StartComponent implements OnInit, OnDestroy {
       this.progress = status.progress;
       this.completed = status.completed;
       this.total = status.total;
-      console.log(this.progress)
       if (this.progress == 100) {
         this.canStart = true;
         clearInterval(interval)
@@ -76,6 +76,11 @@ export class StartComponent implements OnInit, OnDestroy {
   start() {
     this.cifradoController.crearCifradoresAdmin(this.clavePrivada)
     this.socketController.sendMessage({fase: "A3", data: "OK"});
+    new Promise((res) => {
+      setTimeout(() => {
+        this.router.navigate(['/resultados', this.codigo]);
+      }, 2000);
+    })
   }
 
   ngOnDestroy() {

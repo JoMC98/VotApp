@@ -11,6 +11,10 @@ export class RSACipherService {
 
   constructor() { }
 
+  clearData() {
+    this.cifradores = {}
+  }
+
   ownCifrador(id, publicKey, privateKey) {
     var RSAcipher = new JsEncryptModule.JSEncrypt();
     RSAcipher.setPublicKey(publicKey);

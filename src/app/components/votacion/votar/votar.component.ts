@@ -160,14 +160,13 @@ export class VotarComponent implements OnInit, OnDestroy {
     this.cifradoController.cifrarVoto(this.options[seleccion].pregunta, this.clavePrivada).then(res => {
       var ip = this.controllerVotacion.getIp(0);
       this.socketController.sendMessageDestino(ip, 1, res)
-      this.activarBoton = false;
+     
+      new Promise((res) => {
+          setTimeout(() => {
+            // this.activarBoton = false;
+            this.router.navigate(['/resultados', this.codigo]);
+          }, 2000);
+        })
     })
-
-    // new Promise((res) => {
-    //   setTimeout(() => {
-    //     this.router.navigate(['/resultados', this.codigo]);
-    //     res();
-    //   }, 3000);
-    // })
   }
 }

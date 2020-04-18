@@ -21,7 +21,6 @@ export class VotanteSocketControllerService {
   }
 
   sendToken(token) {
-    console.log("CONTROL OPEN")
     this.ws.onopen = (event) => {
       console.log("WebSocket is open now.");
       this.sendMessage({token: token})
@@ -29,7 +28,6 @@ export class VotanteSocketControllerService {
   }
 
   controlMessages() {
-    console.log("CONTROL MESSAGE")
     this.ws.onmessage = (event) => {
       //COMUNICAR CON CONTROLADOR DE ESTADO Y PASAR LISTA??
       this.controlFases(JSON.parse(event.data))
@@ -62,6 +60,13 @@ export class VotanteSocketControllerService {
           this.sendMessages(res);
         });
       }
+    } else if (fase == "END") {
+      this.sendMessageDestino(null, "END-OK", null);  
+      this.controllerVotacion.activateHasResults();
+      this.senderController.clearData();
+      this.ws = null;
+      this.messagesFase1 = [];
+
     } else {
       var senderMethod;
 

@@ -18,6 +18,15 @@ export class CifradoControllerService {
   constructor(private controllerVotacion: DatosVotacionControllerService, 
     private AESCipher:AESCipherService, private RSACipher:RSACipherService, private KeyGenerator: KeyGeneratorService) { }
 
+  clearData() {
+    this.lista = null;
+    this.order = null;
+    this.adminCPublica = null;
+    this.store = {};
+
+    this.RSACipher.clearData();
+  }
+
   async cifrarVoto(voto, clavePrivada) {
     return await new Promise((resolve, reject) => {
       this.store = {"first" : null, "encrypted" : {}, "strings" : {}, "adminEncrypted" : null}

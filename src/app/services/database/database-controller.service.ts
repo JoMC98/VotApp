@@ -40,6 +40,8 @@ export class DatabaseControllerService {
 
   async obtenerDatosVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerDatosVotacion/" + codigo)};
 
+  async añadirResultadosVotacion(codigo, body) { return await this.httpRequest.postRequest("/addResultadosVotacion/" + codigo, body)};
+
   addTemporalUser(usuario) { 
     this.temporalUser = usuario;
   }

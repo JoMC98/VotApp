@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConfigurationService } from '../general/configuration.service';
 import { DatosVotacionControllerService } from './datos-votacion-controller.service';
 import { SenderMessageControllerService } from './sender-message-controller.service';
+import { DatabaseControllerService } from '../database/database-controller.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class AdminSocketControllerService {
   ws;
   messagesFaseZ = [];
 
-  constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, private senderController: SenderMessageControllerService) {}
+  constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, 
+    private senderController: SenderMessageControllerService, private controllerBD: DatabaseControllerService) {}
 
   createSocketAdmin(port, token) {
     this.ws = new WebSocket(this.config.SOCKET_URL + port);
@@ -64,11 +66,35 @@ export class AdminSocketControllerService {
     } else if (fase == "Z") {
       this.messagesFaseZ.push(data);
       if (this.messagesFaseZ.length == this.controllerVotacion.getParticipants()) {
-        console.log(this.controllerVotacion.getResults())
+        this.endVotacion();
       }
     } else {
        //ERROR
     }
+  }
+
+  endVotacion() {
+    var results = this.controllerVotacion.getResults();
+    var codigo = this.controllerVotacion.getCodigo();
+    this.controllerBD.obtenerResultadosVotacion(codigo).then(res => {
+      var votos = []
+      for (var i of Object.keys(res["resultados"])) {
+        var opt = res["resultados"][i]
+        var total_votos = results.filter(x => x == opt.opcion).length
+        votos.push([codigo, opt.opcion, total_votos])
+      }
+
+      this.controllerBD.añadirResultadosVotacion(codigo, {votos: votos}).then(r => {
+        this.sendMessageDestino(null, "END", null);
+        this.senderController.clearData();
+        this.ws = null;
+        this.messagesFaseZ = [];
+        this.controllerVotacion.activateHasResults();
+        
+      }).catch(err => {
+        console.log(err)
+      })
+    })
   }
 
   sendMessage(data) {

@@ -10,6 +10,11 @@ export class SenderMessageControllerService {
 
   constructor(private controllerVotacion: DatosVotacionControllerService, private cifradoController: CifradoControllerService) {}
   
+  clearData() {
+    this.controllerVotacion.clearData();
+    this.cifradoController.clearData();
+  }
+
   async controlFaseFirstPart(list): Promise<Array<Object>> {
     return await new Promise((resolve, reject) => {
       this.cifradoController.descifrarListaVotosFirstPart(list)

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } fr
 import { ActivatedRoute } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
 
 @Component({
   selector: 'app-resultados',
@@ -18,46 +19,51 @@ export class ResultadosComponent implements OnInit, OnDestroy {
   totalOpciones: number = 0;
   maximo: number = 0;
 
-  pregunta: string = "¿Deberiamos abrir una nueva sucursal en Valencia?";
+  pregunta: string = "";
 
   options = [];
   opciones = [];
 
   resultados: boolean = false;
 
-  constructor(private route: ActivatedRoute, private controllerBD: DatabaseControllerService) {
+  constructor(private route: ActivatedRoute, private controllerBD: DatabaseControllerService, private controllerVotacion: DatosVotacionControllerService) {
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.codigo = +params['codigo']; 
-      this.obtenerResultados();
+      this.controllerBD.obtenerResultadosVotacion(this.codigo).then((res) =>{
+        this.pregunta = res["pregunta"];
+        this.obtenerResultados();
+      })
    });
   }
 
   obtenerResultados() {
-    this.controllerBD.obtenerResultadosVotacion(this.codigo).then((result) =>{
-      if(result[0] == undefined || result[0].total_votos == null) {
-        new Promise((res) => {
-          setTimeout(() => {
-            if (!this.destroy) {
-              this.obtenerResultados()
-            }
-          }, 2000);
-        })
-      } else {
+    var hasResults = this.controllerVotacion.getHasResults();
+    if (!hasResults) {
+      new Promise((res) => {
+        setTimeout(() => {
+          if (!this.destroy) {
+            this.obtenerResultados()
+          }
+        }, 2000);
+      })
+    } else {
+      this.controllerBD.obtenerResultadosVotacion(this.codigo).then((res) =>{
         this.resultados = true;
-        for (let i of Object.keys(result)) {
-          var opt = result[i];
+        for (let i of Object.keys(res["resultados"])) {
+          var opt = res["resultados"][i];
           opt["width"] = 0;
           this.opciones.push(opt)
         }
+        console.log(this.opciones)
 
         this.totalOpciones = this.opciones.length;
         this.ordenarPorVotos();
         this.calcularWidth();
-      }
-    });
+      });
+    }
   }
 
   ngOnDestroy() {
