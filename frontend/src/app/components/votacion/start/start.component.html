@@ -1,6 +1,6 @@
 <div class="contentVotacion allContent100">
     <div class="panelVotacion">
-        <div class="panelSuperiorVotacion">
+        <div class="panelSuperiorVotar">
             <div class="panelBotonesVotacion">
                 <div class="divBotonBackVotacion" [routerLink]="['/votacion', codigo]" [queryParams]="{home: false}">
                     <i class="fas fa-angle-left botonBackVotacion"></i>
@@ -11,13 +11,24 @@
                 class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
             </mat-card>
         </div>
-        <mat-card class="panelInferiorVotar">
-            <b style="text-align: center">{{completed.length}} de {{total}}</b>
-            <p><ngb-progressbar type="success" [value]="progress"></ngb-progressbar></p>
-            <div *ngFor="let part of completed">
-                <label>{{part}}</label><br>
+        <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error">
+            <div class="containerStart">
+                <b style="text-align: center">{{completed.length}} de {{total}}</b>
+                <p><ngb-progressbar type="success" [value]="progress"></ngb-progressbar></p>
+                <div *ngFor="let part of completed">
+                    <label>{{part}}</label><br>
+                </div>
+                <button  *ngIf="canStart" (click)="start()">Start</button><br>
             </div>
-            <button  *ngIf="canStart" (click)="start()">Start</button><br>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="waiting">
+            <app-wait class="containerStart"></app-wait>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="alteracion">
+            <app-alteracion class="containerStart"></app-alteracion>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="error">
+            <app-error class="containerStart"></app-error>
         </mat-card>
     </div>
 </div>

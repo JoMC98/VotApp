@@ -11,13 +11,22 @@
                 class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
             </mat-card>
         </div>
-        <mat-card class="panelInferiorVotar">
+        <mat-card class="panelInferiorVotar" *ngIf="waiting">
+            <app-wait class="containerStart"></app-wait>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="alteracion">
+            <app-alteracion class="containerStart"></app-alteracion>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="error">
+            <app-error class="containerStart"></app-error>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error">
             <div class="containerDivSpinner" *ngIf="!canVote">
                 <div class="divTextSpinner">
                     <label class="textSpinner">Esperando a que todos<br>los usuarios se conecten</label>
                 </div>
                 <div class="containerSpinner">
-                    <mat-progress-spinner class="spinner" [mode]="'indeterminate'" diameter="120"></mat-progress-spinner>
+                    <mat-progress-spinner class="spinner spinnerWaitingUsers" [mode]="'indeterminate'" diameter="120"></mat-progress-spinner>
                 </div>
                 <div class="divTextSpinner">
                     <label class="textSpinner2">La votación<br>comenzará en breve</label>
@@ -44,7 +53,7 @@
                 </div>
             </div>
             <div class="panelBotonVotar" *ngIf="canVote">
-              <div (click)="rutar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
+              <div (click)="votar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
                 <div class="buttonLabelDiv" *ngIf="!activarBoton">
                     <div class="buttonLabel">
                       Votar

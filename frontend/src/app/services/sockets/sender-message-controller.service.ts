@@ -32,7 +32,7 @@ export class SenderMessageControllerService {
         })
         .catch(err => {
           var order = parseInt(this.controllerVotacion.getOrder())
-          this.notificarAlteracion(order == 0 ? 1 : 2);
+          reject("Alteracion")
         })
     })
   }
@@ -70,11 +70,11 @@ export class SenderMessageControllerService {
             resolve(data);
           })
           .catch(err => {
-            this.notificarAlteracion(1);
+            reject("Alteracion")
           })
         })
         .catch(err => {
-          this.notificarAlteracion(1);
+          reject("Alteracion")
         })
       })
   }
@@ -86,10 +86,10 @@ export class SenderMessageControllerService {
         this.cifradoController.checkEncryptedPresent(lista, id).then(() => {
           resolve(false);
         }).catch(err => {
-          this.notificarAlteracion(1);
+          reject("Alteracion")
         })
       }).catch(err => {
-        this.notificarAlteracion(1);
+        reject("Alteracion")
       })
     })
   }
@@ -100,7 +100,7 @@ export class SenderMessageControllerService {
         var res = [{ip: "admin", fase: "Z", data: "OK VOTE"}]
         resolve(res)
       }).catch(err => {
-        this.notificarAlteracion(1);
+        reject("Alteracion")
       })
     })
   }
@@ -115,11 +115,10 @@ export class SenderMessageControllerService {
             resolve(cifrados)
           })
         }).catch(err => {
-          this.notificarAlteracion(1);
+          reject("Alteracion")
         })
       }).catch(err => {
-        console.log(err)
-        this.notificarAlteracion(1);
+        reject("Alteracion")
       })
     })
   }
@@ -133,11 +132,4 @@ export class SenderMessageControllerService {
 
     this.controllerVotacion.setResults(vots)
   }
-
-  notificarAlteracion(fase) {
-    console.log("ALTERACION")
-    //NOTIFICAR ALTERACION
-  }
-
-  
 }

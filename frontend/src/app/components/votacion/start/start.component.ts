@@ -25,6 +25,11 @@ export class StartComponent implements OnInit, OnDestroy {
   total;
   completed = [];
   canStart: boolean = false;
+  waiting: boolean = false;
+  alteracion: boolean = false;
+  error: boolean = false;
+
+  interval = null;
 
   constructor(private route: ActivatedRoute, private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService, 
     private router: Router, private socketController: AdminSocketControllerService, private controllerVotacion: DatosVotacionControllerService,
@@ -61,14 +66,17 @@ export class StartComponent implements OnInit, OnDestroy {
   }
 
   comprobarEstado() {
-    var interval = setInterval(() => {
+    this.interval = setInterval(() => {
       var status = this.controllerVotacion.getStatus()
       this.progress = status.progress;
       this.completed = status.completed;
       this.total = status.total;
-      if (this.progress == 100) {
+      var hasResults = this.controllerVotacion.getHasResults();
+      if (hasResults.error) {
+        this.error = true;
+        clearInterval(this.interval)
+      } else if (this.progress == 100) {
         this.canStart = true;
-        clearInterval(interval)
       }
     }, 3000)
   }
@@ -78,9 +86,29 @@ export class StartComponent implements OnInit, OnDestroy {
     this.socketController.sendMessage({fase: "A3", data: "OK"});
     new Promise((res) => {
       setTimeout(() => {
-        this.router.navigate(['/resultados', this.codigo]);
+        this.waiting = true;
+        this.gestionarVotacion();
       }, 2000);
     })
+  }
+
+  gestionarVotacion() {
+    clearInterval(this.interval)
+    var intervalo = setInterval(() => {
+      var hasResults = this.controllerVotacion.getHasResults();
+      if (hasResults.result) {
+        clearInterval(intervalo)
+        this.router.navigate(['/resultados', this.codigo]);
+      } else if (hasResults.alteracion) {
+        this.alteracion = true;
+        this.waiting = false;
+        clearInterval(intervalo)
+      } else if (hasResults.error) {
+        this.error = true;
+        this.waiting = false;
+        clearInterval(intervalo)
+      }
+    }, 1000)
   }
 
   ngOnDestroy() {

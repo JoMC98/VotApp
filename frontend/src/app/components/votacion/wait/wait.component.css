@@ -1,0 +1,116 @@
+.containerWaitingPage {
+    width: 100%;
+    height: 100%;
+}
+
+.containerTextWaitingPage {
+    width: 70%;
+    margin-left: 15%;
+    height: 15%;
+    display: flex;
+}
+
+.containerTextWaitingPage2 {
+    width: 70%;
+    margin-left: 15%;
+    height: 25%;
+    display: flex;
+}
+
+.containerAnimationWaitingPage {
+    width: 70%;
+    margin-left: 15%;
+    height: 60%;
+    position: relative;
+}
+
+#sobreAnimacionWait {
+    transition: transform 0.8s;
+    margin: auto;
+    margin-top: 0px !important;
+    position: relative;
+    z-index: 50;
+    animation-iteration-count: infinite;
+    animation: falling 3s ease-in 1s infinite;
+    height: 33%;
+}
+    
+#urnaAnimacionWait {
+    width: 60%;
+    height: 33%;
+    margin: auto;
+    position: absolute;
+    z-index: 100;
+    background-color: #272343;
+    position: relative;
+    top: 67%;
+}
+
+.divImgAnimacionWait {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+}
+
+.lineaUrnaWait {
+    width: 100%;
+    border: 3px solid #D1967D;
+    border-radius: 3px;
+}
+
+@keyframes falling {
+    0% {
+        transform: translate(0, 0);
+    }
+    65% {
+        transform: translate(0px, 200%);
+    }
+    100% {
+        transform: translate(0px, 200%);
+    }
+}
+
+.containerPuntosAnimacionWait {
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+}
+
+.puntosAnimacionWait {
+    margin: auto;
+}
+
+.lineAnimacionWait {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    margin: 0px 5px;
+    background-color: #dcf6f5;
+}
+
+.puntosAnimacionWait .lineAnimacionWait:nth-last-child(1) {animation: loading .6s .1s linear infinite;}
+.puntosAnimacionWait .lineAnimacionWait:nth-last-child(2) {animation: loading .6s .2s linear infinite;}
+.puntosAnimacionWait .lineAnimacionWait:nth-last-child(3) {animation: loading .6s .3s linear infinite;}
+
+
+@keyframes loading {
+    0% {
+        transform: translate(0,0);
+    }
+    50% {
+        transform: translate(0,15px);
+    }
+    100% {
+        transform: translate(0,0);
+    }
+}
+
+.textWaitingPage {
+    color: #DCF6F5;
+    font-size: 18px;
+    line-height: 25px !important;
+    margin: auto !important;
+    text-align: center;
+}

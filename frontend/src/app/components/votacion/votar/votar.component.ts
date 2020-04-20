@@ -29,9 +29,14 @@ export class VotarComponent implements OnInit, OnDestroy {
   card: string = "";
   center = [];
   canVote: boolean = false;
+  waiting: boolean = false;
+  alteracion: boolean = false;
+  error: boolean = false;
 
   portSocket;
   clavePrivada;
+
+  interval = null;
 
   activarBoton: boolean = false;
 
@@ -126,8 +131,10 @@ export class VotarComponent implements OnInit, OnDestroy {
   comprobarEstado() {
     var interval = setInterval(() => {
       this.canVote = this.controllerVotacion.getCanVote()
-      if (this.canVote) {
-        clearInterval(interval)
+      var hasResults = this.controllerVotacion.getHasResults();
+      if (hasResults.error) {
+        this.error = true;
+        clearInterval(this.interval)
       }
     }, 3000)
   }
@@ -146,7 +153,7 @@ export class VotarComponent implements OnInit, OnDestroy {
     }
   }
 
-  rutar() {
+  votar() {
     this.activarBoton = true;
 
     var seleccion = this.seleccion
@@ -163,10 +170,29 @@ export class VotarComponent implements OnInit, OnDestroy {
      
       new Promise((res) => {
           setTimeout(() => {
-            // this.activarBoton = false;
-            this.router.navigate(['/resultados', this.codigo]);
+            this.waiting = true;
+            this.gestionarVotacion();
           }, 2000);
         })
     })
+  }
+
+  gestionarVotacion() {
+    clearInterval(this.interval)
+    var intervalo = setInterval(() => {
+      var hasResults = this.controllerVotacion.getHasResults();
+      if (hasResults.result) {
+        clearInterval(intervalo)
+        this.router.navigate(['/resultados', this.codigo]);
+      } else if (hasResults.alteracion) {
+        this.alteracion = true;
+        this.waiting = false;
+        clearInterval(intervalo)
+      } else if (hasResults.error) {
+        this.error = true;
+        this.waiting = false;
+        clearInterval(intervalo)
+      }
+    }, 1000)
   }
 }

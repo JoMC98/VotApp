@@ -55,6 +55,9 @@ import { LoginComponent } from './components/login/login.component';
 import { ChangePasswordFirstComponent } from './components/user/change-password-first/change-password-first.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 import { RestrictedAccessComponent } from './components/errors/restricted-access/restricted-access.component';
+import { WaitComponent } from './components/votacion/wait/wait.component';
+import { AlteracionComponent } from './components/votacion/alteracion/alteracion.component';
+import { ErrorComponent } from './components/votacion/error/error.component';
 
 registerLocaleData(localeEs, 'es')
 
@@ -86,7 +89,10 @@ registerLocaleData(localeEs, 'es')
     LoginComponent,
     ChangePasswordFirstComponent,
     NotFoundComponent,
-    RestrictedAccessComponent
+    RestrictedAccessComponent,
+    WaitComponent,
+    AlteracionComponent,
+    ErrorComponent
   ],
   imports: [
     MatFormFieldModule, 

@@ -24,8 +24,6 @@ export class ResultadosComponent implements OnInit, OnDestroy {
   options = [];
   opciones = [];
 
-  resultados: boolean = false;
-
   constructor(private route: ActivatedRoute, private controllerBD: DatabaseControllerService, private controllerVotacion: DatosVotacionControllerService) {
   }
 
@@ -40,30 +38,18 @@ export class ResultadosComponent implements OnInit, OnDestroy {
   }
 
   obtenerResultados() {
-    var hasResults = this.controllerVotacion.getHasResults();
-    if (!hasResults) {
-      new Promise((res) => {
-        setTimeout(() => {
-          if (!this.destroy) {
-            this.obtenerResultados()
-          }
-        }, 2000);
-      })
-    } else {
-      this.controllerBD.obtenerResultadosVotacion(this.codigo).then((res) =>{
-        this.resultados = true;
-        for (let i of Object.keys(res["resultados"])) {
-          var opt = res["resultados"][i];
-          opt["width"] = 0;
-          this.opciones.push(opt)
-        }
-        console.log(this.opciones)
+    this.controllerBD.obtenerResultadosVotacion(this.codigo).then((res) =>{
+      for (let i of Object.keys(res["resultados"])) {
+        var opt = res["resultados"][i];
+        opt["width"] = 0;
+        this.opciones.push(opt)
+      }
+      console.log(this.opciones)
 
-        this.totalOpciones = this.opciones.length;
-        this.ordenarPorVotos();
-        this.calcularWidth();
-      });
-    }
+      this.totalOpciones = this.opciones.length;
+      this.ordenarPorVotos();
+      this.calcularWidth();
+    });
   }
 
   ngOnDestroy() {

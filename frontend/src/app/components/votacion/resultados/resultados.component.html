@@ -13,20 +13,9 @@
         </div>
         <mat-card class="panelInferiorVotacion">
             <div class="containerElementosVotacionSpinner">
-                <div class="containerDivSpinner" *ngIf="!resultados">
-                    <div class="divTextSpinner">
-                        <label class="textSpinner">La votación se<br>está gestionando</label>
-                    </div>
-                    <div class="containerSpinner">
-                        <mat-progress-spinner class="spinner" [mode]="'indeterminate'" diameter="120"></mat-progress-spinner>
-                    </div>
-                    <div class="divTextSpinner">
-                        <label class="textSpinner2">Los resultados se<br>conocerán en breve</label>
-                    </div>
-                </div>
-                <div class="containerDivResultados" *ngIf="resultados">
+                <div class="containerDivResultados">
                     <div codigo="subcontainerDivResultados" class="subcontainerDivResultados" [ngClass]="'containerDivResultados' + totalOpciones">
-                        <div class="containerTituloResultados" *ngIf="resultados">
+                        <div class="containerTituloResultados">
                             Resultados de la votación
                         </div>
                         <div *ngFor="let opt of opciones; let i = index" class="divResultVotacion">

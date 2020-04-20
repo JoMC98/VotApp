@@ -74,7 +74,8 @@ export class CifradoControllerService {
       var res = voto + "###" + r1;
       // console.log("ENCRIPTANDO ADMIN");
       res = this.RSACipher.encrypt(res, "admin");
-      this.store["adminEncrypted"] = res;
+      this.store["adminEncrypted"] = "AA";
+      // this.store["adminEncrypted"] = res;
 
       for (var key of Object.keys(this.lista).reverse()) {
         // console.log("ENCRIPTANDO " + key);
@@ -168,8 +169,14 @@ export class CifradoControllerService {
       var check;
       if (id == "admin") {
         check = this.store["adminEncrypted"];
+        
       } else {
         check = this.store["encrypted"][id];
+      }
+      if (id == "admin") {
+        console.log("CHECKEO")
+        console.log(check)
+        console.log(list)
       }
       if (list.includes(check)) {  
         resolve(true);

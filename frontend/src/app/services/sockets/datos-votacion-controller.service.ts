@@ -12,7 +12,7 @@ export class DatosVotacionControllerService {
   canVote = false;
   results = [];
   codigo;
-  hasResults = false;
+  hasResults = {result: false, alteracion: false, error: false};
 
   constructor() {}
 
@@ -26,34 +26,18 @@ export class DatosVotacionControllerService {
     this.codigo = null;
   }
 
-  activateHasResults() {
-    this.hasResults = true;
-  }
+  //GETTERS
 
   getHasResults() {
     return this.hasResults;
   }
 
-  setLista(lista) {
-    this.hasResults = false;
-    this.lista = lista
-    if (this.lista.list) {
-      this.total = Object.keys(this.lista.list).length * 2;
-    } else {
-      this.total = Object.keys(this.lista).length * 2;
-    }
-  }
-
-  setCodigo(codigo) {
-    this.codigo = codigo
+  getLista() {
+    return this.lista;
   }
 
   getCodigo() {
     return this.codigo
-  }
-
-  getLista() {
-    return this.lista;
   }
 
   getIp(id) {
@@ -68,14 +52,6 @@ export class DatosVotacionControllerService {
     return this.lista.order;
   }
 
-  addConnectionSocket(dni) {
-    this.socketsConnected.push(dni)
-  }
-
-  addListReceived(dni) {
-    this.listsReceived.push(dni)
-  }
-
   getStatus() {
     var completed = this.socketsConnected.filter(element => this.listsReceived.includes(element));
     var progress = ((this.socketsConnected.length + this.listsReceived.length) / this.total) * 100
@@ -86,15 +62,51 @@ export class DatosVotacionControllerService {
     return this.canVote;
   }
 
+  getResults() {
+    return this.results;
+  }
+
+
+  //SETTERS
+  activateHasResults() {
+    this.hasResults.result = true;
+  }
+
+  activateAlteracion() {
+    this.hasResults.alteracion = true;
+  }
+  
+  activateError() {
+    this.hasResults.error = true;
+  }
+
+  setLista(lista) {
+    this.hasResults = {result: false, alteracion: false, error: false};
+    this.lista = lista
+    if (this.lista.list) {
+      this.total = Object.keys(this.lista.list).length * 2;
+    } else {
+      this.total = Object.keys(this.lista).length * 2;
+    }
+  }
+
+  setCodigo(codigo) {
+    this.codigo = codigo
+  }
+
+  addConnectionSocket(dni) {
+    this.socketsConnected.push(dni)
+  }
+
+  addListReceived(dni) {
+    this.listsReceived.push(dni)
+  }
+
   changeCanVote() {
     this.canVote = true;
   }
 
   setResults(results) {
     this.results = results;
-  }
-
-  getResults() {
-    return this.results;
   }
 }

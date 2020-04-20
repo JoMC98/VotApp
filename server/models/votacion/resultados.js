@@ -3,11 +3,12 @@ const sockets = require('../acceso/sockets.js');
 
 exports.obtenerResultadosVotacion = (db, req, res) => {
   controlAccess.allowedUser(db, req.params.codigo, req.body.usuario.DNI, req.body.usuario.admin)
-        .then(() => {
+    .then(() => {
+      sockets.obtenerEstadoVotacion(db,req.params.codigo).then(estado => {
+        if (estado == "Finalizada") {
           db.query(
             'SELECT opcion, total_votos FROM Opcion WHERE codigo=?', [req.params.codigo], (error, results) => {
               if (error) {
-                console.log(error);
                 res.status(500).json({status: 'error'});
               } else {
                 sockets.obtenerPreguntaVotacion(db, req.params.codigo).then(pregunta => {
@@ -17,14 +18,19 @@ exports.obtenerResultadosVotacion = (db, req, res) => {
               }
             }
           );
-        })
-        .catch((error) => {
-            if (error == "Restricted Access") {
-                res.status(401).json({status: 'Restricted Access'});
-            } else {
-                res.status(500).json({status: 'error'});
-            }
-        }); 
+        } else {
+          res.status(401).json({status: 'Restricted Access'});
+        }
+      });
+    })
+    .catch((error) => {
+      console.log(error)
+        if (error == "Restricted Access") {
+            res.status(401).json({status: 'Restricted Access'});
+        } else {
+            res.status(500).json({status: 'error'});
+        }
+    }); 
 }
 
 exports.añadirResultadosVotacion = (db, req, res) => {

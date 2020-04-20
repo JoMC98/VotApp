@@ -11,6 +11,8 @@ export class AdminSocketControllerService {
 
   ws;
   messagesFaseZ = [];
+  alteracion = false;
+  error = false;
 
   constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, 
     private senderController: SenderMessageControllerService, private controllerBD: DatabaseControllerService) {}
@@ -50,7 +52,9 @@ export class AdminSocketControllerService {
     } else if (fase == "A2") {
       this.controllerVotacion.addListReceived(data);
     } else {
-      this.controlDesencriptadosAdmin(fase, data);
+      if (!this.alteracion && !this.error) {
+        this.controlDesencriptadosAdmin(fase, data);
+      }
     }
   }
 
@@ -61,16 +65,41 @@ export class AdminSocketControllerService {
           this.sendMessages(res);
         }
       }).catch(err => {
-        console.log("ERROR")
+        var lista = this.controllerVotacion.getLista();
+        var messages = []
+        messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
+        for (var key of Object.keys(lista)) {
+          var ip = lista[key]["ip"];
+          messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
+        }
+        this.sendMessages(messages);
       });
     } else if (fase == "Z") {
       this.messagesFaseZ.push(data);
       if (this.messagesFaseZ.length == this.controllerVotacion.getParticipants()) {
         this.endVotacion();
       }
-    } else {
-       //ERROR
+    } else if (fase == "ALT") {
+      this.alteracion = true;
+      this.controllerVotacion.activateAlteracion();
+      this.endVotacionError();
+
+    } else if (fase == "ERR") {
+      this.error = true;
+      this.controllerVotacion.activateError();
+      this.endVotacionError();
     }
+  }
+
+  endVotacionError() {
+    this.sendMessageDestino(null, "END-OK", null);  
+    this.clearData()
+  }
+
+  clearData() {
+    this.senderController.clearData();
+    this.ws = null;
+    this.messagesFaseZ = [];
   }
 
   endVotacion() {
@@ -86,11 +115,8 @@ export class AdminSocketControllerService {
 
       this.controllerBD.añadirResultadosVotacion(codigo, {votos: votos}).then(r => {
         this.sendMessageDestino(null, "END", null);
-        this.senderController.clearData();
-        this.ws = null;
-        this.messagesFaseZ = [];
         this.controllerVotacion.activateHasResults();
-        
+        this.clearData();
       }).catch(err => {
         console.log(err)
       })

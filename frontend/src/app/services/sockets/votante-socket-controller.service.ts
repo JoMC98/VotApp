@@ -11,6 +11,8 @@ export class VotanteSocketControllerService {
   ws;
   lista;
   messagesFase1 = [];
+  alteracion = false;
+  error = false;
 
   constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, private senderController: SenderMessageControllerService ) {}
   
@@ -46,10 +48,11 @@ export class VotanteSocketControllerService {
     } else if (fase == "A3") {
       this.controllerVotacion.changeCanVote();
     } else {
-      this.controlDesencriptadosVotante(fase, data);
+      if (!this.alteracion && !this.error) {
+        this.controlDesencriptadosVotante(fase, data);
+      }
     }
   }
-
 
   controlDesencriptadosVotante(fase, data) {
     if (fase == "1") {
@@ -60,14 +63,20 @@ export class VotanteSocketControllerService {
           this.sendMessages(res);
         });
       }
-    } else if (fase == "END") {
-      this.sendMessageDestino(null, "END-OK", null);  
+    }  else if (fase == "END") {
       this.controllerVotacion.activateHasResults();
-      this.senderController.clearData();
-      this.ws = null;
-      this.messagesFase1 = [];
-
-    } else {
+      this.sendMessageDestino(null, "END-OK", null);  
+      this.clearData();
+    } else if (fase == "ALT") {
+      this.alteracion = true;
+      this.controllerVotacion.activateAlteracion();
+      this.endVotacionError();
+    } else if (fase == "ERR") {
+      this.error = true;
+      this.controllerVotacion.activateError();
+      this.endVotacionError();
+    }
+    else {
       var senderMethod;
 
       if (fase == "2") {
@@ -83,7 +92,7 @@ export class VotanteSocketControllerService {
       } else if (fase == "Y") {
         senderMethod = this.senderController.controlLastString(data);
       } else {
-        //ERROR
+        return;
       }
 
       senderMethod.then(res => {
@@ -91,10 +100,30 @@ export class VotanteSocketControllerService {
           this.sendMessages(res);
         }
       }).catch(err => {
-        console.log("ERROR")
+        this.lista = this.controllerVotacion.getLista().list;
+        console.log(this.lista)
+        var messages = []
+        messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
+        for (var key of Object.keys(this.lista)) {
+          var ip = this.lista[key]["ip"];
+          messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
+        }
+        console.log(messages)
+        this.sendMessages(messages);
       });
 
     }  
+  }
+
+  endVotacionError() {
+    this.sendMessageDestino(null, "END-OK", null);  
+    this.clearData()
+  }
+
+  clearData() {
+    this.senderController.clearData();
+    this.ws = null;
+    this.messagesFase1 = [];
   }
 
   sendMessage(data) {

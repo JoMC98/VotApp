@@ -13,7 +13,8 @@ async function iniciarVotacion(listController) {
 
 function crearSockets(list) {
     socketReferences = {}
-    gestorSocketAdmin(list, socketReferences);
+    error = {error: false}
+    gestorSocketAdmin(list, socketReferences, error);
 
     var ports = {admin: list.adminPort, votantes: []}
 
@@ -24,7 +25,7 @@ function crearSockets(list) {
         ports.votantes.push([userData.dni, userData.port])
         socketReferences["ip"] = null
 
-        gestorSocketVotante(listToSend, userData, socketReferences);
+        gestorSocketVotante(listToSend, userData, socketReferences, error);
 
 
         // if(listToSend.order == "0") {
@@ -33,10 +34,11 @@ function crearSockets(list) {
         //     gestorSocketVotante(listToSend, userData, socketReferences)
         // }
     }
+    console.log(ports)
     return ports;
 }
 
-function gestorSocketAdmin(list, socketReferences) {
+function gestorSocketAdmin(list, socketReferences, error) {
     var port = list.adminPort
     var ip = list.adminIP
     var listToSend = list.list
@@ -49,9 +51,10 @@ function gestorSocketAdmin(list, socketReferences) {
         console.log("REQUEST")
         var requestIP = request.remoteAddress;
 
-        console.log(requestIP)
+        // console.log(requestIP)
         //1st VALIDAR IP con VPN
         // if (!connected && requestIP == userData.ip) {
+
         if (!connected) {
             connected = true;
             console.log("CONNECTION")
@@ -63,23 +66,37 @@ function gestorSocketAdmin(list, socketReferences) {
             connection.on('message', function(message) {
                 if (message.type === 'utf8') {
                     //2nd COMPROBAR TOKEN JWT
+                    var received = JSON.parse(message.utf8Data)
+                    var mess = received.message
+
                     if (!firstMessage) {
+                        if (error.error) {
+                            console.log("FIRST ERROR")
+                            connection.sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+                        }
                         console.log("FIRST")
                         var list = {fase: 0, data: listToSend}
                         connection.sendUTF(JSON.stringify(list))
                         firstMessage = true;
+                    } else if (mess && mess.fase && mess.fase == "END-OK") {
+                        console.log("CIERRE OK adm")
+                        server.httpServer.close()
+                        connection.close()
+                        portsController.liberatePort(port)
                     } else if (!okStart) {
                         console.log("OK START")
                         okStart = true;
-                        if (JSON.parse(message.utf8Data).data == "OK") {
+                        if (received.data == "OK") {
                             for (var id of Object.keys(listToSend)) {
-                                socketReferences[listToSend[id].ip].sendUTF(JSON.stringify({fase : "A3", data : "OK START"}))
+                                if (socketReferences[listToSend[id].ip]) {
+                                    socketReferences[listToSend[id].ip].sendUTF(JSON.stringify({fase : "A3", data : "OK START"}))
+                                }
                             }
                         } else {
                             console.log("ERROR START")
                         }
                     } else {
-                        var received = JSON.parse(message.utf8Data)
+                        
                         var destino = received.destino
                         var message = received.message
                         var fase = message.fase
@@ -90,13 +107,11 @@ function gestorSocketAdmin(list, socketReferences) {
                                 socketReferences[listToSend[id].ip].sendUTF(JSON.stringify({fase : "END", data : ""}))
                             }
                             server.httpServer.close()
+                            connection.close()
                             portsController.liberatePort(port)
                         } else {
                             if (socketReferences[destino]) {
-                                console.log("admin SEND TO " + destino)
                                 socketReferences[destino].sendUTF(JSON.stringify(message));
-                            } else {
-                                //AVISAR DE ERROR
                             }
                         }
                     }
@@ -104,8 +119,15 @@ function gestorSocketAdmin(list, socketReferences) {
             });
 
             connection.on('close', function(connection) {
-                //AVISAR CIERRE PROBLEMA CONEXION
-                console.log("client closed connection");
+                error.error = true;
+                for (var id of Object.keys(listToSend)) {
+                    if (socketReferences[listToSend[id].ip]) {
+                        socketReferences[listToSend[id].ip].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+                    }
+                }
+                if (socketReferences["admin"]) {
+                    socketReferences["admin"].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+                }
             });
 
         } else {
@@ -115,7 +137,7 @@ function gestorSocketAdmin(list, socketReferences) {
 }
 
 
-function gestorSocketVotante(listToSend, userData, socketReferences) {
+function gestorSocketVotante(listToSend, userData, socketReferences, error) {
     // console.log("Votante " + userData.ip + " en " + userData.port)
     var server = createServerSocket(userData.port);
     var connected = false;
@@ -124,10 +146,25 @@ function gestorSocketVotante(listToSend, userData, socketReferences) {
         console.log("REQUEST")
         var requestIP = request.remoteAddress;
 
-        console.log(requestIP)
+        // console.log(requestIP)
         //1st VALIDAR IP con VPN
         // if (!connected && requestIP == userData.ip) {
-        if (!connected) {
+        if (connected && error.error) {
+            var connection = request.accept(null, request.origin);
+            connection.sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+            connection.on('message', function(message) {
+                var mess = JSON.parse(message.utf8Data)
+                if (mess.message) {
+                    var fase = mess.message.fase
+                    if (fase == "END-OK") {
+                        console.log("CIERRE OK con 2")
+                        server.httpServer.close()
+                        connection.close()
+                        portsController.liberatePort(userData.port)
+                    }
+                }
+            })
+        } else if (!connected) {
             connected = true;
             var connection = request.accept(null, request.origin);
             socketReferences[userData.ip] = connection;
@@ -158,14 +195,13 @@ function gestorSocketVotante(listToSend, userData, socketReferences) {
 
                         console.log(fase)
                         if (fase == "END-OK") {
+                            console.log("CIERRE OK vot")
                             server.httpServer.close()
+                            connection.close()
                             portsController.liberatePort(userData.port)
                         } else {
                             if (socketReferences[destino]) {
-                                console.log(userData.ip + " SEND TO " + destino)
                                 socketReferences[destino].sendUTF(JSON.stringify(message));
-                            } else {
-                                //AVISAR DE ERROR
                             }
                         }
                     }
@@ -173,8 +209,15 @@ function gestorSocketVotante(listToSend, userData, socketReferences) {
             });
 
             connection.on('close', function(connection) {
-                //AVISAR CIERRE PROBLEMA CONEXION
-                console.log("client closed connection");
+                error.error = true;
+                for (var id of Object.keys(listToSend.list)) {
+                    if (socketReferences[listToSend.list[id].ip]) {
+                        socketReferences[listToSend.list[id].ip].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+                    }
+                }
+                if (socketReferences["admin"]) {
+                    socketReferences["admin"].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+                }
             });
 
         } else {
