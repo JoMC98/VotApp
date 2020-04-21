@@ -34,7 +34,6 @@ function crearSockets(list) {
         //     gestorSocketVotante(listToSend, userData, socketReferences)
         // }
     }
-    console.log(ports)
     return ports;
 }
 

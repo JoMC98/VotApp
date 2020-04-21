@@ -13,12 +13,28 @@
         </div>
         <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error">
             <div class="containerStart">
-                <b style="text-align: center">{{completed.length}} de {{total}}</b>
-                <p><ngb-progressbar type="success" [value]="progress"></ngb-progressbar></p>
-                <div *ngFor="let part of completed">
-                    <label>{{part}}</label><br>
+                <div class="containerNumberStart">
+                    <b class="numberStart">{{completed}} de {{total}}<br>participantes conectados</b>
                 </div>
-                <button  *ngIf="canStart" (click)="start()">Start</button><br>
+                <div class="containerBarraStart">
+                    <p><ngb-progressbar type="success" [value]="progress"></ngb-progressbar></p>
+                </div>
+                
+                <div class="containerDNIStart">
+                    <div class="{{classSizeNormal}}" *ngFor="let part of lista | keyvalue; let i = index" [ngClass]="i==0 ? classSizeTop : (i==total-1 ? classSizeBottom : '')">
+                        <div class="DNIStart">
+                            <span class="textDNIStart">
+                                <div class="pointDNIStart" [ngClass]="part.value ? 'pointDNIStartC' : 'pointDNIStartNC'"></div>
+                                {{part.key}}
+                            </span>
+                            <span class="divButtonStart">
+                                <img *ngIf="!part.value" class="imgStart {{campanas[part.key]}}" src="assets\icons\campana.png" (click)="notificar(part.key)">
+                            </span>
+                        </div>
+                        <!-- {{part.connected}} -->
+                    </div>
+                </div>
+                <!-- <button  *ngIf="canStart" (click)="start()">Start</button><br> -->
             </div>
         </mat-card>
         <mat-card class="panelInferiorVotar" *ngIf="waiting">

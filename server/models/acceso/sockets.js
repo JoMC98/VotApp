@@ -6,8 +6,8 @@ function activarVotacion(db, req, res) {
   if (req.body.usuario.admin) {
     var codigo = req.params.codigo
     obtenerEstadoVotacion(db,codigo).then(estado => {
-      if (estado == "Creada") {
-      // if (true) {
+      // if (estado == "Creada") {
+      if (true) {
         obtenerParticipantesVotacion(db, codigo, req.body.usuario.DNI).then(result => {
           portController.obtenerListaPuertos(result).then((listVotantes) => {
             votacionController.iniciarVotacion(listVotantes).then((ports) => {
@@ -16,7 +16,7 @@ function activarVotacion(db, req, res) {
                 pushController.sendNotification(dnis)
                   .then(() => {
                     obtenerClavePrivada(db, req.body.usuario.DNI).then(clavePrivada => {
-                      res.status(200).json({"portAdmin": ports.admin, "pregunta": result.pregunta, "clavePrivada" : clavePrivada});
+                      res.status(200).json({"portAdmin": ports.admin, "pregunta": result.pregunta, "clavePrivada" : clavePrivada, participantes: result.participantes.length});
                     })
                   }).catch((err) => {
                     res.status(500).json({error: err});

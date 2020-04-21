@@ -1,177 +1,161 @@
-::ng-deep .mat-progress-spinner circle {
-    stroke: #DCF6F5;
-}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.containerStartVotacion {
-    margin-top: 2.5% !important;
-    width: 100% !important;
-    height: 97.5% !important;
-    font-size: 13px !important;
-}
-
-.titleStartVotacion {
-    margin: auto;
-    font-size: 20px;
-    color: #DCF6F5;
-}
-
-.divTitleStartVotacion {
-    height: 10%;
-    width: 100%;
-    display: flex;
-}
-
-.encabezadoStartVotacion {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 12.5%;
-    color: #D1967D;
-    font-size: 14px;
-}
-
-.panelParticipantesStartVotacion {
-    width: 100%;
-    height: 87.5%;
-    color: white !important;
-    font-size: 13px;
-}
-
-.divParticipanteStartVotacion {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.divParticipanteStartVotacion3 {
-    height: 33%;
-}
-
-.divParticipanteStartVotacion4 {
-    height: 25%;
-}
-
-.divParticipanteStartVotacion5 {
-    height: 20%;
-}
-
-.divParticipanteStartVotacion6 {
-    height: 16.66%;
-}
-
-.divNameStartVotacion {
-    height: 100%;
-    width: 50%;
-    padding-left: 10px;
-    display: flex;
-}
-
-.divIconStartVotacion {
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    margin: auto;
-    display: flex;
-}
-
-.divIconStartVotacionRed {
-    background-color: rgba(235, 99, 75, 1);
-}
-
-.divIconStartVotacionGreen {
-    animation: greenCircle 1s ease-in-out 1s backwards;
-    background-color: rgba(63, 178, 96, 1);
-}
-
-@keyframes greenCircle {
-    0% {
-        width: 40px;
-        height: 40px;
-        border-radius: 20px;
-        background-color: rgba(235, 99, 75, 1);
-    }
-    50% {
-        width: 60px;
-        height: 60px;
-        border-radius: 30px;
-    }
-    100% {
-        width: 40px;
-        height: 40px;
-        border-radius: 20px;
-        background-color: rgba(63, 178, 96, 1);
-    }
-}
-
-.divVPNStartVotacion {
-    height: 100%;
-    width: 25%;
-    display: flex;
-}
-
-.divVotacionStartVotacion {
-    height: 100%;
-    width: 25%;
-    display: flex;
-}
-
-.subcontainerStartVotacion {
-    display: flex !important;
-    flex-wrap: wrap;
-    margin: 5% 0 2.5% 0%;
-    width: 100%;
-    height: 82.5%;
-    position: relative;
-}
-
-/* .divBotonStartVotacion {
-    height: 10%;
-    width: 100%;
-} */
-
-.centerStartVotacion {
-    margin: auto;
-}
-
-.centerHorizontalStartVotacion {
-    margin: auto 0px;
-}
-
-.divBotonStartVotacion {
-    width: 40%;
-    height: 40%;
-    margin-left: 30%;
-    margin-top: 30%;
-    border-radius: 15%;
-    position: absolute;
-    background-color: gray;;
-}
 
 ::ng-deep .containerStart {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     height: 100%;
+}
+
+.containerNumberStart {
+    width: 70%;
+    margin-left: 15%;
+    height: 15%;
+    display: flex;
+}
+
+.containerBarraStart {
+    width: 80%;
+    margin-left: 10%;
+    height: 15%;
+}
+
+.containerDNIStart {
+    width: 70%;
+    height: 60%;
+    margin-left: 15%;
+    margin-bottom: 10%;
+    overflow: scroll;
+}
+
+.userStart {
+    width: 100%;
+    height: 16.66%;
+    display: flex;
+}
+
+.userStart3 {
+    width: 100%;
+    height: 20%;
+    display: flex;
+}
+.userStartTop3 {
+    margin-top: 26%;
+}
+.userStartBottom3 {
+    margin-bottom: 26%;
+}
+
+.userStart4 {
+    width: 100%;
+    height: 20%;
+    display: flex;
+}
+.userStartTop4 {
+    margin-top: 13%;
+}
+.userStartBottom4 {
+    margin-bottom: 13%;
+}
+
+.userStart5 {
+    width: 100%;
+    height: 16.66%;
+    display: flex;
+}
+.userStartTop5 {
+    margin-top: 11.3%;
+}
+.userStartBottom5 {
+    margin-bottom: 11.3%;
+}
+
+.DNIStart {
+    margin: auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.textDNIStart {
+    text-align: center;
+    width: 65%;
+    color: #CFCFCF;
+}
+
+.divButtonStart {
+    text-align: center;
+    width: 35%;
+    padding-left: 15%;
+}
+
+.DNIconected {
+    color: #7FDC91;
+}
+
+.DNInotConected {
+    color: #F4664D;
+}
+
+.imgStart {
+    width: 20px;
+    height: 20px;
+}
+
+.imgConexionStart {
+    width: 10px;
+    height: 10px;
+}
+
+.activarCampanaStart {
+    animation: moveCampana 1s ease-in 0s;
+}
+
+
+@keyframes moveCampana {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    25% {
+        transform: rotateZ(40deg);
+    }
+    75% {
+        transform: rotateZ(-40deg);
+    }
+    100% {
+        transform: rotateZ(0deg);
+    }
+}
+
+.pointDNIStart {
+    display: inline-block;
+    margin-right: 10px;
+    width: 7px;
+    height: 7px;
+    border-radius: 3.5px;
+}
+
+.pointDNIStartC {
+    box-shadow: 0px 0px 5px 0px #A5E18B;
+    background-color: #8EF064
+}
+
+.pointDNIStartNC {
+    box-shadow: 0px 0px 5px 0px #DA8A7C;
+    background-color: #DA5C46
+}
+
+.numberStart {
+    font-size: 18px;
+    color: #dcf6f5;
+    margin: auto;
+    text-align: center;
+}
+
+::ng-deep .progress {
+    background-color: #CFCFCF;
+}
+
+::ng-deep .bg-success {
+    background-color: #D1967D !important;
 }
