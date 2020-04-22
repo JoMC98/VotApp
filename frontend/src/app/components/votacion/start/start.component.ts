@@ -19,16 +19,20 @@ export class StartComponent implements OnInit, OnDestroy {
   pregunta;
   admin;
   clavePrivada;
-  lista = {"20904687X": false, "20202021X": false, "20202022X": false, "20202023X": false}
+
+  // lista = {"20904687X": false, "20202021X": false, "20202022X": false}
   // lista = {"20904687X": false, "20202021X": false, "20202022X": false, "20202023X": false, "20202025X": false, "20202024X": false, "20202026X": false}
-  // lista = {};
+  // total = Object.keys(this.lista).length
+
+  lista = {};
+  total;  
+
   classSizeTop = ""
   classSizeBottom = ""
   classSizeNormal = "userStart"
   campanas = {}
 
   progress = 0;
-  total;
   completed = 0;
   canStart: boolean = false;
   waiting: boolean = false;
@@ -36,6 +40,7 @@ export class StartComponent implements OnInit, OnDestroy {
   error: boolean = false;
 
   interval = null;
+  clicked = false;
 
   constructor(private route: ActivatedRoute, private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService, 
     private router: Router, private socketController: AdminSocketControllerService, private controllerVotacion: DatosVotacionControllerService,
@@ -62,17 +67,16 @@ export class StartComponent implements OnInit, OnDestroy {
       this.portSocket = result["portAdmin"];
       this.clavePrivada = result["clavePrivada"]
       this.controllerVotacion.setCodigo(this.codigo);
-      // this.total = result["participantes"];
-      this.total = Object.keys(this.lista).length
+      this.total = result["participantes"];
       if (this.total == 3 || this.total == 4 || this.total == 5) {
         this.classSizeTop = "userStartTop" + this.total;
         this.classSizeBottom = "userStartBottom" + this.total;
         this.classSizeNormal = "userStart" + this.total;
       }
       this.controllerBD.obtenerParticipantesVotacion(this.codigo).then((res) => {
-        // for (var k of Object.keys(res)) {
-        //   this.lista[res[k].dni] = false;
-        // }
+        for (var k of Object.keys(res)) {
+          this.lista[res[k].dni] = false;
+        }
         this.generateCampanas();
         this.abrirSocketAdmin();
       })
@@ -105,7 +109,9 @@ export class StartComponent implements OnInit, OnDestroy {
         this.error = true;
         clearInterval(this.interval)
       } else if (this.progress == 100) {
-        this.canStart = true;
+        setTimeout(() => {
+          this.canStart = true;
+        }, 1000);
       }
     }, 3000)
   }
@@ -113,6 +119,7 @@ export class StartComponent implements OnInit, OnDestroy {
   start() {
     this.cifradoController.crearCifradoresAdmin(this.clavePrivada)
     this.socketController.sendMessage({fase: "A3", data: "OK"});
+    this.clicked = true;
     new Promise((res) => {
       setTimeout(() => {
         this.waiting = true;
@@ -142,7 +149,6 @@ export class StartComponent implements OnInit, OnDestroy {
   
   notificar(dni) {
     this.campanas[dni] = "activarCampanaStart";
-    console.log(dni)
     setTimeout(() => {
       this.campanas[dni] = "";
     }, 1000)

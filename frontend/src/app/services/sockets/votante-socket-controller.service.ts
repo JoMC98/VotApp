@@ -13,10 +13,12 @@ export class VotanteSocketControllerService {
   messagesFase1 = [];
   alteracion = false;
   error = false;
+  cerrado = false;
 
   constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, private senderController: SenderMessageControllerService ) {}
   
   createSocketVotante(port, token) {
+    this.cerrado = false;
     this.ws = new WebSocket(this.config.SOCKET_URL + port);
     this.sendToken(token);
     this.controlMessages();
@@ -24,7 +26,6 @@ export class VotanteSocketControllerService {
 
   sendToken(token) {
     this.ws.onopen = (event) => {
-      console.log("WebSocket is open now.");
       this.sendMessage({token: token})
     };
   }
@@ -47,7 +48,23 @@ export class VotanteSocketControllerService {
       this.sendMessage({fase: 0, data: "OK"})
     } else if (fase == "A3") {
       this.controllerVotacion.changeCanVote();
-    } else {
+    } 
+    else if (fase == "ALT") {
+      this.alteracion = true;
+      this.controllerVotacion.activateAlteracion();
+      this.endVotacionError();
+    } 
+    else if (fase == "ERR") {
+      this.error = true;
+      this.controllerVotacion.activateError();
+      this.endVotacionError();
+    } 
+    else if (fase == "END") {
+      this.controllerVotacion.activateHasResults();
+      this.sendMessageDestino(null, "END-OK", null);  
+      this.clearData();
+    } 
+    else {
       if (!this.alteracion && !this.error) {
         this.controlDesencriptadosVotante(fase, data);
       }
@@ -57,28 +74,17 @@ export class VotanteSocketControllerService {
   controlDesencriptadosVotante(fase, data) {
     if (fase == "1") {
       this.messagesFase1.push(data);
-
       if (this.messagesFase1.length == this.controllerVotacion.getParticipants()) {
-        this.senderController.controlFaseFirstPart(this.messagesFase1).then(res => {
+        this.senderController.controlFaseFirstPart(this.messagesFase1)
+        .then(res => {
           this.sendMessages(res);
+        }).catch(err => {
+          this.avisarAlteracion();
         });
       }
-    }  else if (fase == "END") {
-      this.controllerVotacion.activateHasResults();
-      this.sendMessageDestino(null, "END-OK", null);  
-      this.clearData();
-    } else if (fase == "ALT") {
-      this.alteracion = true;
-      this.controllerVotacion.activateAlteracion();
-      this.endVotacionError();
-    } else if (fase == "ERR") {
-      this.error = true;
-      this.controllerVotacion.activateError();
-      this.endVotacionError();
-    }
+    } 
     else {
       var senderMethod;
-
       if (fase == "2") {
         senderMethod = this.senderController.controlFaseFirstPart(data)
       } else if (fase == "3") {
@@ -100,19 +106,22 @@ export class VotanteSocketControllerService {
           this.sendMessages(res);
         }
       }).catch(err => {
-        this.lista = this.controllerVotacion.getLista().list;
-        console.log(this.lista)
-        var messages = []
-        messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
-        for (var key of Object.keys(this.lista)) {
-          var ip = this.lista[key]["ip"];
-          messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
-        }
-        console.log(messages)
-        this.sendMessages(messages);
+        this.avisarAlteracion();
       });
 
     }  
+  }
+
+  avisarAlteracion() {
+    this.alteracion = true;
+    this.lista = this.controllerVotacion.getLista().list;
+    var messages = []
+    messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
+    for (var key of Object.keys(this.lista)) {
+      var ip = this.lista[key]["ip"];
+      messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
+    }
+    this.sendMessages(messages);
   }
 
   endVotacionError() {
@@ -121,13 +130,16 @@ export class VotanteSocketControllerService {
   }
 
   clearData() {
+    this.cerrado = true;
     this.senderController.clearData();
     this.ws = null;
     this.messagesFase1 = [];
   }
 
   sendMessage(data) {
-    this.ws.send(JSON.stringify(data));
+    if (!this.cerrado) {
+      this.ws.send(JSON.stringify(data));
+    }
   }
 
   sendMessages(res) {
@@ -142,7 +154,9 @@ export class VotanteSocketControllerService {
     var message = {fase: fase, data: data}
     var response = {"destino" : ip, "message" : message};
     console.log("Send fase " + fase + " to " + ip)
-    this.ws.send(JSON.stringify(response));
+    if (!this.cerrado) {
+      this.ws.send(JSON.stringify(response));
+    }
   }
 
 }

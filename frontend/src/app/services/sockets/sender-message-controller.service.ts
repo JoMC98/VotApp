@@ -31,7 +31,6 @@ export class SenderMessageControllerService {
           resolve([{ip: ip, fase: fase, data: res}]);
         })
         .catch(err => {
-          var order = parseInt(this.controllerVotacion.getOrder())
           reject("Alteracion")
         })
     })
@@ -82,7 +81,7 @@ export class SenderMessageControllerService {
   async controlCheckSign(list, admin) {
     return await new Promise((resolve, reject) => {
       this.cifradoController.checkSignature(list, false).then(lista => {
-        var id = admin ? "admin" : list.origen + 1;
+        var id = admin ? "admin" : parseInt(list.origen) + 1;
         this.cifradoController.checkEncryptedPresent(lista, id).then(() => {
           resolve(false);
         }).catch(err => {

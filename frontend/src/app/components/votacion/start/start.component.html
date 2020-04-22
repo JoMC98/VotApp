@@ -17,24 +17,36 @@
                     <b class="numberStart">{{completed}} de {{total}}<br>participantes conectados</b>
                 </div>
                 <div class="containerBarraStart">
-                    <p><ngb-progressbar type="success" [value]="progress"></ngb-progressbar></p>
+                    <p><ngb-progressbar class="progressBarStart" type="success" [value]="progress"></ngb-progressbar></p>
                 </div>
                 
                 <div class="containerDNIStart">
-                    <div class="{{classSizeNormal}}" *ngFor="let part of lista | keyvalue; let i = index" [ngClass]="i==0 ? classSizeTop : (i==total-1 ? classSizeBottom : '')">
-                        <div class="DNIStart">
-                            <span class="textDNIStart">
-                                <div class="pointDNIStart" [ngClass]="part.value ? 'pointDNIStartC' : 'pointDNIStartNC'"></div>
-                                {{part.key}}
-                            </span>
-                            <span class="divButtonStart">
-                                <img *ngIf="!part.value" class="imgStart {{campanas[part.key]}}" src="assets\icons\campana.png" (click)="notificar(part.key)">
-                            </span>
+                    <div class="divDNIStart" [ngClass]="canStart ? 'containerDNIStartOff' : ''">
+                        <div class="{{classSizeNormal}}" *ngFor="let part of lista | keyvalue; let i = index" [ngClass]="i==0 ? classSizeTop : (i==total-1 ? classSizeBottom : '')">
+                            <div class="DNIStart">
+                                <span class="textDNIStart">
+                                    <div class="pointDNIStart" [ngClass]="part.value ? 'pointDNIStartC' : 'pointDNIStartNC'"></div>
+                                    {{part.key}}
+                                </span>
+                                <span class="divButtonStart">
+                                    <img *ngIf="!part.value" class="imgStartCampana {{campanas[part.key]}}" src="assets\icons\campana.png" (click)="notificar(part.key)">
+                                </span>
+                            </div>
                         </div>
-                        <!-- {{part.connected}} -->
                     </div>
-                </div>
-                <!-- <button  *ngIf="canStart" (click)="start()">Start</button><br> -->
+                    <div class="divDNIButtonStart" [ngClass]="canStart ? 'containerDNIStartOn' : ''">
+                        <div class="divImgButtonStart">
+                            <img *ngIf="!clicked" class="imgStart" src="assets\icons\play.png" (click)="start()">
+                            <img *ngIf="clicked" class="imgStart" src="assets\icons\play-click.png" (click)="start()">
+                        </div>
+                        <div class="divTextButtonStart">
+                            <div class="containerTextsStart">
+                                <p [ngClass]="canStart ? 'text1ButtonStart' : ''">Pulse aquí para</p>
+                                <p [ngClass]="canStart ? 'text2ButtonStart' : ''">iniciar la votación</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
             </div>
         </mat-card>
         <mat-card class="panelInferiorVotar" *ngIf="waiting">

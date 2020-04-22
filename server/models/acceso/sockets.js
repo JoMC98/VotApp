@@ -1,4 +1,4 @@
-const portController = require('../../sockets/portController.js');
+const portController = require('../../sockets/serverController.js');
 const votacionController = require('../../sockets/votacionController.js');
 const pushController = require('../../helpers/pushController.js');
 

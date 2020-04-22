@@ -28,82 +28,98 @@ export class RSACipherService {
     this.cifradores[id] = RSAcipher;
   }
 
-  encrypt(message, id) {
-    var cifrador = this.cifradores[id];
+  encrypt(message, id): Promise<string> {
+    return new Promise((resolve, reject) => {
+      var cifrador = this.cifradores[id];
 
-    var numBloques = Math.ceil(((message.length) / 245));
-    var vectorBloques = [];
+      var numBloques = Math.ceil(((message.length) / 245));
+      var vectorBloques = [];
 
-    for (var i = 0; i < numBloques; i++) { 
-      let ini = 0;
-      let fin = 0;
-      if (i == numBloques - 1) {
-        ini = i * 245
-        fin = message.length
-      } else {
-        ini = i * 245
-        fin = ini + 245
+      for (var i = 0; i < numBloques; i++) { 
+        let ini = 0;
+        let fin = 0;
+        if (i == numBloques - 1) {
+          ini = i * 245
+          fin = message.length
+        } else {
+          ini = i * 245
+          fin = ini + 245
+        }
+        let bloqueChar = message.slice(ini, fin)
+        vectorBloques.push(bloqueChar);
       }
-      let bloqueChar = message.slice(ini, fin)
-      vectorBloques.push(bloqueChar);
-    }
 
-    var messageEncrypted = "";
-    
-    for (var i = 0; i < numBloques; i++) {
-      var cad = vectorBloques[i]
-      var bloque = cifrador.encrypt(cad);
-      messageEncrypted += bloque;
-    }
+      var messageEncrypted = "";
+      
+      var partes = []
 
-    return messageEncrypted;
-  }
-
-  decrypt(messageEncrypted, id) {
-    var cifrador = this.cifradores[id];
-
-    var numBloques = Math.ceil(((messageEncrypted.length) / 344));
-    var vectorBloques = [];
-
-    for (var i = 0; i < numBloques; i++) { 
-      let ini = 0;
-      let fin = 0;
-      if (i == numBloques - 1) {
-        ini = i * 344
-        fin = messageEncrypted.length
-      } else {
-        ini = i * 344
-        fin = ini + 344
+      for (var i = 0; i < numBloques; i++) {
+        var cad = vectorBloques[i]
+        var bloque = cifrador.encrypt(cad);
+        var j = 0;
+        while (bloque.length != 344 && j < 300) {
+          var bloque = cifrador.encrypt(cad);
+          j++;
+        }
+        partes.push(bloque)
+        messageEncrypted += bloque;
       }
-      let bloqueChar = messageEncrypted.slice(ini, fin)
-      vectorBloques.push(bloqueChar);
-    }
-
-    var message = "";
-    
-    for (var i = 0; i < numBloques; i++) {
-      var cad = vectorBloques[i]
-      var bloque = cifrador.decrypt(cad);
-      message += bloque;
-    }
-
-    return message;
+      resolve(messageEncrypted);
+    });
   }
 
-  sign(message, id) {
-    var cifrador = this.cifradores[id];
+  decrypt(messageEncrypted, id): Promise<string> {
+    return new Promise((resolve, reject) => {
+      var cifrador = this.cifradores[id];
 
-    var signature = cifrador.sign(message, CryptoJS.MD5, "md5");
+      var numBloques = Math.ceil(((messageEncrypted.length) / 344));
+      var vectorBloques = [];
 
-    return signature;
+      for (var i = 0; i < numBloques; i++) { 
+        let ini = 0;
+        let fin = 0;
+        if (i == numBloques - 1) {
+          ini = i * 344
+          fin = messageEncrypted.length
+        } else {
+          ini = i * 344
+          fin = ini + 344
+        }
+        let bloqueChar = messageEncrypted.slice(ini, fin)
+        vectorBloques.push(bloqueChar);
+      }
+
+      var message = "";
+
+      
+      for (var i = 0; i < numBloques; i++) {
+        var cad = vectorBloques[i]
+        var bloque = cifrador.decrypt(cad);
+        message += bloque;
+      }
+
+      resolve(message);
+    })
   }
 
-  validateSign(message, signature, id) {
-    var cifrador = this.cifradores[id];
+  sign(message, id): Promise<string> {
+    return new Promise((resolve, reject) => {
+      var cifrador = this.cifradores[id];
 
-    var verified = cifrador.verify(message, signature, CryptoJS.MD5);
+      var signature = cifrador.sign(message, CryptoJS.MD5, "md5");
 
-    return verified;
+      resolve(signature);
+    })
+  }
+
+  validateSign(message, signature, id): Promise<string> {
+    return new Promise((resolve, reject) => {
+      var cifrador = this.cifradores[id];
+
+      var verified = cifrador.verify(message, signature, CryptoJS.MD5);
+
+      resolve(verified);
+    })
   }
 
 }

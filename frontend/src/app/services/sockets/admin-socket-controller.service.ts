@@ -13,11 +13,13 @@ export class AdminSocketControllerService {
   messagesFaseZ = [];
   alteracion = false;
   error = false;
+  cerrado = false;
 
   constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, 
     private senderController: SenderMessageControllerService, private controllerBD: DatabaseControllerService) {}
 
   createSocketAdmin(port, token) {
+    this.cerrado = false;
     this.ws = new WebSocket(this.config.SOCKET_URL + port);
     this.sendToken(token);
     this.controlMessages();
@@ -51,6 +53,14 @@ export class AdminSocketControllerService {
       this.controllerVotacion.addConnectionSocket(data);
     } else if (fase == "A2") {
       this.controllerVotacion.addListReceived(data);
+    } else if (fase == "ALT") {
+      this.alteracion = true;
+      this.controllerVotacion.activateAlteracion();
+      this.endVotacionError();
+    } else if (fase == "ERR") {
+      this.error = true;
+      this.controllerVotacion.activateError();
+      this.endVotacionError();
     } else {
       if (!this.alteracion && !this.error) {
         this.controlDesencriptadosAdmin(fase, data);
@@ -65,30 +75,26 @@ export class AdminSocketControllerService {
           this.sendMessages(res);
         }
       }).catch(err => {
-        var lista = this.controllerVotacion.getLista();
-        var messages = []
-        messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
-        for (var key of Object.keys(lista)) {
-          var ip = lista[key]["ip"];
-          messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
-        }
-        this.sendMessages(messages);
+        this.avisarAlteracion()
       });
     } else if (fase == "Z") {
       this.messagesFaseZ.push(data);
       if (this.messagesFaseZ.length == this.controllerVotacion.getParticipants()) {
         this.endVotacion();
       }
-    } else if (fase == "ALT") {
-      this.alteracion = true;
-      this.controllerVotacion.activateAlteracion();
-      this.endVotacionError();
-
-    } else if (fase == "ERR") {
-      this.error = true;
-      this.controllerVotacion.activateError();
-      this.endVotacionError();
     }
+  }
+
+  avisarAlteracion() {
+    this.alteracion = true;
+    var lista = this.controllerVotacion.getLista();
+    var messages = []
+    messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
+    for (var key of Object.keys(lista)) {
+      var ip = lista[key]["ip"];
+      messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
+    }
+    this.sendMessages(messages);
   }
 
   endVotacionError() {
@@ -97,6 +103,7 @@ export class AdminSocketControllerService {
   }
 
   clearData() {
+    this.cerrado = true;
     this.senderController.clearData();
     this.ws = null;
     this.messagesFaseZ = [];
@@ -105,10 +112,10 @@ export class AdminSocketControllerService {
   endVotacion() {
     var results = this.controllerVotacion.getResults();
     var codigo = this.controllerVotacion.getCodigo();
-    this.controllerBD.obtenerResultadosVotacion(codigo).then(res => {
+    this.controllerBD.obtenerOpcionesVotacion(codigo).then(res => {
       var votos = []
-      for (var i of Object.keys(res["resultados"])) {
-        var opt = res["resultados"][i]
+      for (var i of Object.keys(res)) {
+        var opt = res[i]
         var total_votos = results.filter(x => x == opt.opcion).length
         votos.push([codigo, opt.opcion, total_votos])
       }
@@ -124,8 +131,9 @@ export class AdminSocketControllerService {
   }
 
   sendMessage(data) {
-    console.log("SEND")
-    this.ws.send(JSON.stringify(data));
+    if (!this.cerrado) {
+      this.ws.send(JSON.stringify(data));
+    }
   }
 
   sendMessages(res) {
@@ -140,7 +148,9 @@ export class AdminSocketControllerService {
     var message = {fase: fase, data: data}
     var response = {"destino" : ip, "message" : message};
     console.log("Send fase " + fase + " to " + ip)
-    this.ws.send(JSON.stringify(response));
+    if (!this.cerrado) {
+      this.ws.send(JSON.stringify(response));
+    }
   }
 
 

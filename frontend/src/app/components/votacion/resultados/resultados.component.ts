@@ -44,7 +44,6 @@ export class ResultadosComponent implements OnInit, OnDestroy {
         opt["width"] = 0;
         this.opciones.push(opt)
       }
-      console.log(this.opciones)
 
       this.totalOpciones = this.opciones.length;
       this.ordenarPorVotos();

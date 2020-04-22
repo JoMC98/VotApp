@@ -34,7 +34,7 @@ export class CifradoControllerService {
       this.crearCifradores(clavePrivada);
       this.primeraFaseCifrado(voto).then(res => {
         this.segundaFaseCifrado(res).then(cifrado => {
-          console.log(this.store)
+
           resolve(cifrado)
         });
       });
@@ -68,18 +68,17 @@ export class CifradoControllerService {
   }
 
   async primeraFaseCifrado(voto) {
-    return await new Promise((resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
       var r1 = this.KeyGenerator.generateRandom();
       this.store["first"] = r1 + "";
       var res = voto + "###" + r1;
-      // console.log("ENCRIPTANDO ADMIN");
-      res = this.RSACipher.encrypt(res, "admin");
-      this.store["adminEncrypted"] = "AA";
-      // this.store["adminEncrypted"] = res;
+
+      res = await this.RSACipher.encrypt(res, "admin");
+
+      this.store["adminEncrypted"] = res;
 
       for (var key of Object.keys(this.lista).reverse()) {
-        // console.log("ENCRIPTANDO " + key);
-        res = this.RSACipher.encrypt(res, key);
+        res = await this.RSACipher.encrypt(res, key);
         this.store["encrypted"][key] = res;
       }
       resolve(res)
@@ -87,26 +86,26 @@ export class CifradoControllerService {
   }
 
   async segundaFaseCifrado(res) {
-    return await new Promise((resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
       for (var key of Object.keys(this.lista).reverse()) {
-        // console.log("ENCRIPTANDO 2a FASE " + key);
         var r = this.KeyGenerator.generateRandom();
         this.store["strings"][key] = r + "";
-        res = this.RSACipher.encrypt(res + "###" + r, key);
+
+        res = await this.RSACipher.encrypt(res + "###" + r, key);
       }
       resolve(res)
     });
   }
 
   async descifrarListaVotosFirstPart(l) {
-    return await new Promise((resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
       var list = this.shuffle(l)
       var check = this.store["strings"][this.order];
       var listDescifrados = []
       var strings = []
 
       for (var i = 0; i<list.length; i++) { 
-        var res = this.RSACipher.decrypt(list[i], this.order);
+        var res = await this.RSACipher.decrypt(list[i], this.order);
         var arr = res.split("###");
         listDescifrados.push(arr[0]);
         strings.push(arr[1]);
@@ -121,17 +120,18 @@ export class CifradoControllerService {
   }
 
   async descifrarListaVotosSecondPart(list) {
-    return await new Promise((resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
       var check = this.store["encrypted"][this.order];
       var listDescifrados = []
 
       if (list.includes(check)) {
         for (var i = 0; i<list.length; i++) { 
-          var res = this.RSACipher.decrypt(list[i], this.order);
-          var sign = this.RSACipher.sign(res, this.order)
+          var res = await this.RSACipher.decrypt(list[i], this.order);
+          var sign = await this.RSACipher.sign(res, this.order)
           var dict = {cifrado : res, signature : sign}
           listDescifrados.push(dict);
         }
+
         var dic = {origen : this.order, list: listDescifrados}
         resolve(dic)
       } else {
@@ -141,23 +141,24 @@ export class CifradoControllerService {
   }
 
   async descifrarListaVotosAdminPart(list) {
-    return await new Promise((resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
       var listDescifrados = []
       for (var i = 0; i<list.length; i++) { 
-        var res = this.RSACipher.decrypt(list[i], "admin");
+        var res = await this.RSACipher.decrypt(list[i], "admin");
         listDescifrados.push(res);
       }
-      var sign = this.RSACipher.sign(listDescifrados, "admin")
+
+      var sign = await this.RSACipher.sign(listDescifrados, "admin")
       var dict = {datos : listDescifrados, signature : sign}
       resolve(dict);
     });
   }
 
   async cifrarListaVotosAdmin(str) : Promise<Array<Object>> {
-    return await new Promise((resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
       var cifrados = []
       for (var key of Object.keys(this.lista)) {
-        var res = this.RSACipher.encrypt(str, key);
+        var res = await this.RSACipher.encrypt(str, key);
         cifrados.push({ip: this.lista[key].ip, fase: "Y" , data: res})
       }
       resolve(cifrados)
@@ -173,11 +174,7 @@ export class CifradoControllerService {
       } else {
         check = this.store["encrypted"][id];
       }
-      if (id == "admin") {
-        console.log("CHECKEO")
-        console.log(check)
-        console.log(list)
-      }
+
       if (list.includes(check)) {  
         resolve(true);
       } else {
@@ -187,10 +184,11 @@ export class CifradoControllerService {
   }
 
   async checkLastString(cifrado) {
-    return await new Promise((resolve, reject) => {
-      var res = this.RSACipher.decrypt(cifrado, this.order);
+    return await new Promise(async (resolve, reject) => {
+      var res = await this.RSACipher.decrypt(cifrado, this.order);
       var votos = JSON.parse(res)
-      var signCorrect = this.RSACipher.validateSign(votos.datos, votos.signature, "admin")
+      var signCorrect = await this.RSACipher.validateSign(votos.datos, votos.signature, "admin")
+
       if (signCorrect) {
         var check = this.store["first"];
         var vots = []
@@ -198,6 +196,7 @@ export class CifradoControllerService {
           var v = vote.split("###")[1];
           vots.push(v)
         }
+
         if (vots.includes(check)) {
           resolve(true)
         } else {
@@ -210,7 +209,7 @@ export class CifradoControllerService {
   }
 
   async checkSignature(dict, firstVotante) {
-    return await new Promise((resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
       if (firstVotante) {
         resolve(dict)
       } else {
@@ -221,7 +220,8 @@ export class CifradoControllerService {
   
         for (var i = 0; i<list.length; i++) { 
           var datos = list[i];
-          var signCorrect = this.RSACipher.validateSign(datos.cifrado, datos.signature, origin)
+          var signCorrect = await this.RSACipher.validateSign(datos.cifrado, datos.signature, origin)
+
           if (!signCorrect) {
             reject(false)
           } 

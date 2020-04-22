@@ -1,5 +1,3 @@
-
-
 ::ng-deep .containerStart {
     display: flex;
     flex-wrap: wrap;
@@ -7,10 +5,11 @@
     height: 100%;
 }
 
+
 .containerNumberStart {
     width: 70%;
     margin-left: 15%;
-    height: 15%;
+    height: 20%;
     display: flex;
 }
 
@@ -21,11 +20,88 @@
 }
 
 .containerDNIStart {
-    width: 70%;
+    width: 80%;
     height: 60%;
-    margin-left: 15%;
+    margin-left: 10%;
     margin-bottom: 10%;
     overflow: scroll;
+    position: relative;
+}
+
+.divDNIStart {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    visibility: visible;
+    position: absolute;
+    z-index: 2;
+}
+
+.divDNIButtonStart {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.divTextButtonStart {
+    width: 55%;
+    height: 100%;
+    display: flex;
+}
+
+.containerTextsStart {
+    height: 100px;
+    width: 100%;
+    margin: auto;
+}
+
+.text1ButtonStart {
+    color: #CFCFCF;
+    font-size: 18px;
+    margin: 0px;
+    margin-top: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typewriter 2s steps(44) 0.5s 1 normal both;
+}
+
+.text2ButtonStart {
+    color: #CFCFCF;
+    font-size: 18px;
+    margin: 0px;
+    margin-bottom: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typewriter 2s steps(44) 1s 1 normal both;
+}
+
+@keyframes typewriter{
+  from{width: 0;}
+  to{width: 24em;}
+}
+
+
+.divImgButtonStart {
+    width: 45%;
+    height: 100%;
+    display: flex;
+}
+
+.containerDNIStartOff {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.5s, opacity 0.5s linear;
+}
+
+.containerDNIStartOn {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s 0.5s linear;
 }
 
 .userStart {
@@ -40,10 +116,10 @@
     display: flex;
 }
 .userStartTop3 {
-    margin-top: 26%;
+    margin-top: 20%;
 }
 .userStartBottom3 {
-    margin-bottom: 26%;
+    margin-bottom: 20%;
 }
 
 .userStart4 {
@@ -52,10 +128,10 @@
     display: flex;
 }
 .userStartTop4 {
-    margin-top: 13%;
+    margin-top: 10%;
 }
 .userStartBottom4 {
-    margin-bottom: 13%;
+    margin-bottom: 10%;
 }
 
 .userStart5 {
@@ -64,10 +140,10 @@
     display: flex;
 }
 .userStartTop5 {
-    margin-top: 11.3%;
+    margin-top: 8.33%;
 }
 .userStartBottom5 {
-    margin-bottom: 11.3%;
+    margin-bottom: 8.33%;
 }
 
 .DNIStart {
@@ -86,7 +162,7 @@
 .divButtonStart {
     text-align: center;
     width: 35%;
-    padding-left: 15%;
+    padding-left: 5%;
 }
 
 .DNIconected {
@@ -98,6 +174,12 @@
 }
 
 .imgStart {
+    width: 60px;
+    height: 60px;
+    margin: auto;
+}
+
+.imgStartCampana {
     width: 20px;
     height: 20px;
 }
@@ -154,6 +236,7 @@
 
 ::ng-deep .progress {
     background-color: #CFCFCF;
+    border-radius: 50rem;
 }
 
 ::ng-deep .bg-success {
