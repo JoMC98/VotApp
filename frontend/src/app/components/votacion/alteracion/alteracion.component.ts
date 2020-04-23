@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 
 @Component({
   selector: 'app-alteracion',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlteracionComponent implements OnInit {
 
-  constructor() { }
+  admin: boolean;
+
+  constructor(private sessionController: SessionControllerService) {
+    this.admin = sessionController.getAdminSession();
+  }
 
   ngOnInit(): void {
   }

@@ -26,17 +26,13 @@ export class AdminSocketControllerService {
   }
 
   sendToken(token) {
-    console.log("CONTROL OPEN")
     this.ws.onopen = (event) => {
-      console.log("WebSocket is open now.");
       this.sendMessage({token: token})
     };
   }
 
   controlMessages() {
-    console.log("CONTROL MESSAGE")
     this.ws.onmessage = (event) => {
-      //COMUNICAR CON CONTROLADOR DE ESTADO Y PASAR LISTA??
       this.controlFases(JSON.parse(event.data))
     };
   }

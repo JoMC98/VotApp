@@ -1,1 +1,16 @@
-<p>alteracion works!</p>
+<div class="containerWaitingPage">
+    <div class="containerTextAlteracion">
+        <div class="textAlteracion">
+            Se ha producido una<br>manipulación en la votación
+        </div>
+    </div>
+    <div class="containerImgAlteracion">
+        <img class="imgAlteracion" src="assets\icons\advertencia.png">
+    </div>
+    <div *ngIf="admin" class="containerAccionAlteracion">
+        La votación volverá a cerrarse
+    </div>
+    <div *ngIf="!admin" class="containerAccionAlteracion">
+        v
+    </div>
+</div>

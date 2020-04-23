@@ -13,7 +13,7 @@ function gestorSocketVotante(listToSend, userData, socketReferences, state) {
 
         // if (connected && state.error && requestIP == ip) {
         if (connected && state.error) {
-            conexionTrasError(request, server)
+            conexionTrasError(request, server, userData)
 
         //} else if (!connected && requestIP == ip) {
         } else if (!connected) {
@@ -90,7 +90,7 @@ function avisarCierre(socketReferences, lista) {
     }
 }
 
-function conexionTrasError(request, server) {
+function conexionTrasError(request, server, userData) {
     var connection = request.accept(null, request.origin);
     connection.sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
     

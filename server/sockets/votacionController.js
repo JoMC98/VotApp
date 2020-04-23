@@ -29,5 +29,4 @@ function crearSockets(list) {
 
 module.exports = {
     iniciarVotacion: iniciarVotacion,
-    
 };

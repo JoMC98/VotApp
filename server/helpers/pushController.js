@@ -61,14 +61,6 @@ async function addSubscription(req) {
     })
 }
 
-// sendNotification()
-//         .then(()=> {
-//             res.status(200).json({"status":"ok"});
-//         })
-//         .catch(()=> {
-//             res.status(500).json({"status":"error"});
-//         });;
-
 module.exports = {
     addSubscription: addSubscription,
     sendNotification: sendNotification

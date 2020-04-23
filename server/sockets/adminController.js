@@ -1,5 +1,6 @@
 const portsController = require('./auxiliarPuertos.js');
 const serverController = require('./serverController.js')
+const pushController = require('../helpers/pushController.js');
 
 function gestorSocketAdmin(list, socketReferences, state) {
     var server = serverController.createServerSocket(list.adminPort);
@@ -59,6 +60,10 @@ function controlFases(message, socketReferences, dataLocal, server, state) {
             server.httpServer.close()
             dataLocal.connection.close()
             portsController.liberatePort(dataLocal.port)
+
+        }  else if (mess && mess.fase && mess.fase == "PUSH") {
+            var dnis = [mess.data.dni]
+            pushController.sendNotification(dnis)
 
         } else if (!dataLocal.okStart) {
             dataLocal.okStart = true;

@@ -1891,4 +1891,7 @@ select:-webkit-autofill:focus {
     transition-delay: 0.75s;
   }
 
-
+  ::ng-deep .containerWaitingPage {
+    width: 100%;
+    height: 100%;
+}

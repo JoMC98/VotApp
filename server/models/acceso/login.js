@@ -19,11 +19,9 @@ exports.login = (db, req, res) => {
                 var response = {DNI: results[0].DNI, nombre: results[0].nombre, apellidos: results[0].apellidos, admin: admin, token: token}
                 res.status(200).json(response);
               })
-              
             }
           })
         }
-
       }
     }
   );

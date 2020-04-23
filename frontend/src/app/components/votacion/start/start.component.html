@@ -1,11 +1,7 @@
 <div class="contentVotacion allContent100">
     <div class="panelVotacion">
         <div class="panelSuperiorVotar">
-            <div class="panelBotonesVotacion">
-                <div class="divBotonBackVotacion" [routerLink]="['/votacion', codigo]" [queryParams]="{home: false}">
-                    <i class="fas fa-angle-left botonBackVotacion"></i>
-                </div>
-            </div>
+            <div class="panelBotonesVotacion"> </div>
             <mat-card class="panelPreguntaVotacion">
                 <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
                 class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
@@ -36,8 +32,7 @@
                     </div>
                     <div class="divDNIButtonStart" [ngClass]="canStart ? 'containerDNIStartOn' : ''">
                         <div class="divImgButtonStart">
-                            <img *ngIf="!clicked" class="imgStart" src="assets\icons\play.png" (click)="start()">
-                            <img *ngIf="clicked" class="imgStart" src="assets\icons\play-click.png" (click)="start()">
+                            <img class="imgStart" [src]="clicked ? 'assets/icons/play-click.png' : 'assets/icons/play.png'" (click)="start()">
                         </div>
                         <div class="divTextButtonStart">
                             <div class="containerTextsStart">

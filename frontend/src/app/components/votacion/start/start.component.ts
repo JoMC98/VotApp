@@ -36,7 +36,7 @@ export class StartComponent implements OnInit, OnDestroy {
   completed = 0;
   canStart: boolean = false;
   waiting: boolean = false;
-  alteracion: boolean = false;
+  alteracion: boolean = true;
   error: boolean = false;
 
   interval = null;
@@ -149,9 +149,17 @@ export class StartComponent implements OnInit, OnDestroy {
   
   notificar(dni) {
     this.campanas[dni] = "activarCampanaStart";
+    this.socketController.sendMessageDestino(null, "PUSH", {dni: dni});
     setTimeout(() => {
-      this.campanas[dni] = "";
-    }, 1000)
+      this.campanas[dni] = "ocultarCampanaStart";
+      setTimeout(() => {
+        this.campanas[dni] = "aparecerCampanaStart";
+        setTimeout(() => {
+          this.campanas[dni] = "";
+        }, 2000)
+        console.log("REAPARECE")
+      }, 30000)
+    }, 1500)
   }
 
   ngOnDestroy() {

@@ -1,0 +1,11 @@
+.containerR {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.imgR {
+    width: 140px;
+    height: 140px;
+    margin: auto;
+}
