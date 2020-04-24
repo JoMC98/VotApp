@@ -17,6 +17,7 @@ export class SessionControllerService {
     window.sessionStorage.setItem(this.config.NAME_KEY, user.nombre);
     window.sessionStorage.setItem(this.config.SURNAME_KEY, user.apellidos);
     window.sessionStorage.setItem(this.config.ADMIN_KEY, user.admin);
+    window.sessionStorage.setItem(this.config.CHANGEPASSWD_KEY, user.changePasswd);
     this.pushService.subscribe(user.token);
   }
 
@@ -27,6 +28,7 @@ export class SessionControllerService {
     user["nombre"] = this.getNombreSession();
     user["apellidos"] = this.getApellidosSession();
     user["admin"] = this.getAdminSession();
+    user["changePasswd"] = this.getChangePasswdSession();
     
     return user;
   }
@@ -49,6 +51,10 @@ export class SessionControllerService {
 
   getAdminSession() {
     return JSON.parse(window.sessionStorage.getItem(this.config.ADMIN_KEY));
+  }
+
+  getChangePasswdSession() {
+    return JSON.parse(window.sessionStorage.getItem(this.config.CHANGEPASSWD_KEY));
   }
 
   deleteSession() {

@@ -10,6 +10,7 @@ const participantes = require('../routes/votacion/participantes.js');
 const login = require('../routes/acceso/login.js');
 const sockets = require('../routes/acceso/sockets.js');
 const pushController = require('../routes/acceso/push.js');
+const errorController = require('../routes/acceso/errorVotacion.js');
 
 function findModels(db) {
   var routers = []
@@ -25,6 +26,7 @@ function findModels(db) {
   routers.push(login(db));
   routers.push(sockets(db));
   routers.push(pushController());
+  routers.push(errorController(db));
   
   return routers;
 }

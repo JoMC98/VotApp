@@ -1,7 +1,7 @@
 const controlAccess = require('../acceso/controlAccessHelpers');
 const sockets = require('../acceso/sockets.js');
 
-exports.obtenerResultadosVotacion = (db, req, res) => {
+function obtenerResultadosVotacion(db, req, res) {
   controlAccess.allowedUser(db, req.params.codigo, req.body.usuario.DNI, req.body.usuario.admin)
     .then(() => {
       sockets.obtenerEstadoVotacion(db,req.params.codigo).then(estado => {
@@ -33,28 +33,34 @@ exports.obtenerResultadosVotacion = (db, req, res) => {
     }); 
 }
 
-exports.añadirResultadosVotacion = (db, req, res) => {
-  //TODO TAL VOLTA NOTIFICAR O ALGO PUSH/MAIL
-  db.query(
-    'INSERT INTO Opcion (codigo, opcion, total_votos) VALUES ? ON DUPLICATE KEY UPDATE total_votos=VALUES(total_votos)',
-    [req.body.votos],
-    (error) => {
-      if (error) {
-        res.status(500).json({status: 'error'});
-      } else {
-        cambiarEstadoVotacion(db, req.params.codigo, "Finalizada")
-          .then(() => {
-            borrarSockets(db, req.params.codigo)
-              .then(() => {
-                res.status(200).json({status: 'OK'});
-              }).catch(err => {
-                res.status(500).json({status: 'error'});
-              });
-          }).catch(err => {
-            res.status(500).json({status: 'error'});
-          });
-      }
-  });   
+function añadirResultadosVotacion(db, req, res) {
+  if (req.body.usuario.admin) {
+    db.query(
+      'INSERT INTO Opcion (codigo, opcion, total_votos) VALUES ? ON DUPLICATE KEY UPDATE total_votos=VALUES(total_votos)',
+      [req.body.votos],
+      (error) => {
+        if (error) {
+          console.log(err)
+          res.status(500).json({status: 'error'});
+        } else {
+          cambiarEstadoVotacion(db, req.params.codigo, "Finalizada")
+            .then(() => {
+              borrarSockets(db, req.params.codigo)
+                .then(() => {
+                  res.status(200).json({status: 'OK'});
+                }).catch(err => {
+                  console.log(err)
+                  res.status(500).json({status: 'error'});
+                });
+            }).catch(err => {
+              console.log(err)
+              res.status(500).json({status: 'error'});
+            });
+        }
+    });  
+  } else {
+    res.status(401).json({status: 'Restricted Access'});
+  } 
 }
 
 async function cambiarEstadoVotacion(db, codigo, state) {
@@ -75,16 +81,19 @@ async function cambiarEstadoVotacion(db, codigo, state) {
 
 async function borrarSockets(db, codigo) {
   return await new Promise((resolve, reject) => {
-    var f = new Date(Date.now())
     db.query(
       'UPDATE Participa SET temporal_socket=NULL WHERE codigo=?',
-      [codigo],
-      (error) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(true)
-      }
+      [codigo], (error) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(true)
+        }
     });   
   });
 }
+
+module.exports = {
+  añadirResultadosVotacion: añadirResultadosVotacion,
+  obtenerResultadosVotacion: obtenerResultadosVotacion
+};

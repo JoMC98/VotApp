@@ -36,7 +36,7 @@ export class StartComponent implements OnInit, OnDestroy {
   completed = 0;
   canStart: boolean = false;
   waiting: boolean = false;
-  alteracion: boolean = true;
+  alteracion: boolean = false;
   error: boolean = false;
 
   interval = null;
@@ -62,24 +62,27 @@ export class StartComponent implements OnInit, OnDestroy {
 
   startVotacion() {
     this.controllerBD.activarVotacion(this.codigo).then((result) =>{
-      
-      this.pregunta = result["pregunta"];
-      this.portSocket = result["portAdmin"];
-      this.clavePrivada = result["clavePrivada"]
-      this.controllerVotacion.setCodigo(this.codigo);
-      this.total = result["participantes"];
-      if (this.total == 3 || this.total == 4 || this.total == 5) {
-        this.classSizeTop = "userStartTop" + this.total;
-        this.classSizeBottom = "userStartBottom" + this.total;
-        this.classSizeNormal = "userStart" + this.total;
-      }
-      this.controllerBD.obtenerParticipantesVotacion(this.codigo).then((res) => {
-        for (var k of Object.keys(res)) {
-          this.lista[res[k].dni] = false;
+      if (result["status"] && result["status"] == "Error votacion") {
+        this.error = true;
+      } else {
+        this.pregunta = result["pregunta"];
+        this.portSocket = result["portAdmin"];
+        this.clavePrivada = result["clavePrivada"]
+        this.controllerVotacion.setCodigo(this.codigo);
+        this.total = result["participantes"];
+        if (this.total == 3 || this.total == 4 || this.total == 5) {
+          this.classSizeTop = "userStartTop" + this.total;
+          this.classSizeBottom = "userStartBottom" + this.total;
+          this.classSizeNormal = "userStart" + this.total;
         }
-        this.generateCampanas();
-        this.abrirSocketAdmin();
-      })
+        this.controllerBD.obtenerParticipantesVotacion(this.codigo).then((res) => {
+          for (var k of Object.keys(res)) {
+            this.lista[res[k].dni] = false;
+          }
+          this.generateCampanas();
+          this.abrirSocketAdmin();
+        })
+      }
     });
   }
 

@@ -47,16 +47,16 @@ function controlFases(message, socketReferences, dataLocal, userData, server) {
         //2nd COMPROBAR TOKEN JWT
         if (!dataLocal.firstMessage) {
             var list = {fase: 0, data: dataLocal.lista}
-            dataLocal.connection.sendUTF(JSON.stringify(list))
+
             dataLocal.firstMessage = true;
-            socketReferences["admin"].sendUTF(JSON.stringify({fase : "A1", data : userData.dni}))
+            serverController.sendMessage(dataLocal.connection, list)
+            serverController.sendMessage(socketReferences["admin"], {fase : "A1", data : userData.dni})
 
         } else if (!dataLocal.okList) {
             dataLocal.okList = true;
-            socketReferences["admin"].sendUTF(JSON.stringify({fase : "A2", data : userData.dni}))
-
+            serverController.sendMessage(socketReferences["admin"], {fase : "A2", data : userData.dni})
         } else {
-            controlVotos(message, socketReferences, dataLocal.connection, userData.port,  server)
+            controlVotos(message, socketReferences, dataLocal.connection, userData.port, server)
         }
     }
 }
@@ -68,40 +68,38 @@ function controlVotos(mess, socketReferences, connection, port, server) {
     var fase = message.fase
 
     if (fase == "END-OK") {
-        server.httpServer.close()
-        connection.close()
-        portsController.liberatePort(port)
-
+        closeServer(server, connection, port)
     } else {
-        if (socketReferences[destino]) {
-            socketReferences[destino].sendUTF(JSON.stringify(message));
-        }
+        serverController.sendMessage(socketReferences[destino], message)
     }
+}
+
+function closeServer(server, connection, port) {
+    console.log("CLOSING")
+    server.httpServer.close()
+    connection.close()
+    portsController.liberatePort(port)
 }
 
 function avisarCierre(socketReferences, lista) {
     for (var id of Object.keys(lista)) {
-        if (socketReferences[lista[id].ip]) {
-            socketReferences[lista[id].ip].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
-        }
+        serverController.sendMessage(socketReferences[lista[id].ip], {fase : "ERR", data : "ERROR CONEXION"})
     }
-    if (socketReferences["admin"]) {
-        socketReferences["admin"].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
-    }
+    serverController.sendMessage(socketReferences["admin"], {fase : "ERR", data : "ERROR CONEXION"})
 }
 
 function conexionTrasError(request, server, userData) {
+    console.log("CONEXION TRAS ERROR")
     var connection = request.accept(null, request.origin);
-    connection.sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+    serverController.sendMessage(connection, {fase : "ERR", data : "ERROR CONEXION"})
     
     connection.on('message', function(message) {
         var mess = JSON.parse(message.utf8Data)
-
+        console.log("MESSAGE")
+        console.log(mess)
         if (mess.message) {
             if (mess.message.fase == "END-OK") {
-                server.httpServer.close()
-                connection.close()
-                portsController.liberatePort(userData.port)
+                closeServer(server, connection, userData.port)
             }
         }
     })

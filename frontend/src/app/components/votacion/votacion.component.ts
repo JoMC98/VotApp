@@ -32,6 +32,8 @@ export class VotacionComponent implements OnInit, OnDestroy {
   opciones = [];
   participantes = [];
 
+  interval;
+
   constructor(private route: ActivatedRoute, private _bottomSheet: MatBottomSheet, private router: Router, 
     private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService, private sessionController: SessionControllerService) { 
     this.admin = sessionController.getAdminSession();
@@ -51,6 +53,7 @@ export class VotacionComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.codigo = +params['codigo']; 
       this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
+      this.loopDataQuery()
       this.getDatos();
     });
     this.subQ = this.route.queryParams.subscribe(params => {
@@ -61,12 +64,21 @@ export class VotacionComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
     this.subQ.unsubscribe();
+    clearInterval(this.interval)
   }
 
-  getDatos() {
+  loopDataQuery() {
     this.controllerBD.obtenerVotacion(this.codigo).then((result) =>{
       this.votacion = result[0];
     });
+    this.interval = setInterval(() => {
+      this.controllerBD.obtenerVotacion(this.codigo).then((result) =>{
+        this.votacion = result[0];
+      });
+    }, 5000);
+  }
+
+  getDatos() {
     this.controllerBD.obtenerOpcionesVotacion(this.codigo).then((result) =>{
       this.opciones = []
       for (let i of Object.keys(result)) {

@@ -38,6 +38,7 @@ function aceptarConexion(request, socketReferences, server, state, list) {
         if (!state.closed) {
             state.error = true;
             avisarCierre(socketReferences, lista)
+            closeServer(server, dataLocal.connection, dataLocal.port)
         }
     });
 }
@@ -50,16 +51,14 @@ function controlFases(message, socketReferences, dataLocal, server, state) {
 
         if (!dataLocal.firstMessage) {
             if (state.error) {
-                dataLocal.connection.sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
+                serverController.sendMessage(dataLocal.connection, {fase : "ERR", data : "ERROR CONEXION"})
+            } else {
+                var list = {fase: 0, data: dataLocal.lista}
+                serverController.sendMessage(dataLocal.connection, list)
+                dataLocal.firstMessage = true;
             }
-            var list = {fase: 0, data: dataLocal.lista}
-            dataLocal.connection.sendUTF(JSON.stringify(list))
-            dataLocal.firstMessage = true;
-
         } else if (mess && mess.fase && mess.fase == "END-OK") {
-            server.httpServer.close()
-            dataLocal.connection.close()
-            portsController.liberatePort(dataLocal.port)
+            closeServer(server, dataLocal.connection, dataLocal.port)
 
         }  else if (mess && mess.fase && mess.fase == "PUSH") {
             var dnis = [mess.data.dni]
@@ -70,9 +69,7 @@ function controlFases(message, socketReferences, dataLocal, server, state) {
 
             if (received.data == "OK") {
                 for (var id of Object.keys(dataLocal.lista)) {
-                    if (socketReferences[dataLocal.lista[id].ip]) {
-                        socketReferences[dataLocal.lista[id].ip].sendUTF(JSON.stringify({fase : "A3", data : "OK START"}))
-                    }
+                    serverController.sendMessage(socketReferences[dataLocal.lista[id].ip], {fase : "A3", data : "OK START"})
                 }
             }
         } else {
@@ -88,28 +85,27 @@ function controlVotos(received, socketReferences, dataLocal, server, state) {
 
     if (fase == "END") {
         for (var id of Object.keys(dataLocal.lista)) {
-            socketReferences[dataLocal.lista[id].ip].sendUTF(JSON.stringify({fase : "END", data : ""}))
+            serverController.sendMessage(socketReferences[dataLocal.lista[id].ip], {fase : "END", data : ""})
         }
         state.closed = true;
-        server.httpServer.close()
-        dataLocal.connection.close()
-        portsController.liberatePort(dataLocal.port)
+        closeServer(server, dataLocal.connection, dataLocal.port)
     } else {
-        if (socketReferences[destino]) {
-            socketReferences[destino].sendUTF(JSON.stringify(message));
-        }
+        serverController.sendMessage(socketReferences[destino], message)
     }
+}
+
+function closeServer(server, connection, port) {
+    console.log("CLOSING")
+    server.httpServer.close()
+    connection.close()
+    portsController.liberatePort(port)
 }
 
 function avisarCierre(socketReferences, lista) {
     for (var id of Object.keys(lista)) {
-        if (socketReferences[lista[id].ip]) {
-            socketReferences[lista[id].ip].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
-        }
+        serverController.sendMessage(socketReferences[lista[id].ip], {fase : "ERR", data : "ERROR CONEXION"})
     }
-    if (socketReferences["admin"]) {
-        socketReferences["admin"].sendUTF(JSON.stringify({fase : "ERR", data : "ERROR CONEXION"}))
-    }
+    serverController.sendMessage(socketReferences["admin"], {fase : "ERR", data : "ERROR CONEXION"})
 }
 
 

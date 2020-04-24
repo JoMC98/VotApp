@@ -52,10 +52,23 @@ export class AppComponent {
     }
 
     if (pagina == "/login") {
-      this.login = true;
-      this.footer = false;
+      var dni = this.sessionController.getDNISession();
+      if (dni != null) {
+        this.footer = true;
+        this.router.navigate(["/home"]);
+      } else {
+        this.login = true;
+        this.footer = false;
+      }
     } else if (pagina == "/changePasswd") {
-      this.footer = false;
+      
+      var changePasswd = this.sessionController.getChangePasswdSession();
+      if (changePasswd == 1) {
+        this.footer = false;
+      } else {
+        this.footer = true;
+        this.router.navigate(["/home"]);
+      }
     } else if (pagina.includes("/votar") || pagina.includes("/iniciarVotacion")) {
       this.footer = false;
     } else {

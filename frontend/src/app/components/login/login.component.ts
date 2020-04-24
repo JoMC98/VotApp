@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { LoginControllerService } from 'src/app/services/authentication/login-controller.service';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   dni: string = "";
   passwd: string = "";
 
-  constructor(private router: Router, private loginController: LoginControllerService) { }
+  constructor(private router: Router, private loginController: LoginControllerService, private sessionController: SessionControllerService) { }
 
   ngOnInit(): void {
   }
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     var credenciales = {dni : this.dni, passwd : this.passwd}
 
     this.loginController.login(credenciales)
-      .then((result) =>{
+      .then(() => {
         //TODO CHANGE PASSWORD REDIRECT?? AÑADIR A BD
         new Promise((res) => {
           setTimeout(() => {
@@ -46,8 +47,12 @@ export class LoginComponent implements OnInit {
         })
         new Promise((res) => {
           setTimeout(() => {
-            this.router.navigate(['/home']);
-            // this.router.navigate(['/changePasswd']);
+            var changePasswd = this.sessionController.getChangePasswdSession()
+            if (changePasswd == 1) {
+              this.router.navigate(['/changePasswd']);
+            } else {
+              this.router.navigate(['/home']);
+            }
             res();
           }, 2800);
         })

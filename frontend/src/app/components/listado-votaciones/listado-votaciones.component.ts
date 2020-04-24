@@ -1,5 +1,5 @@
 import { FiltroVotacionesComponent } from './filtro-votaciones/filtro-votaciones.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
@@ -17,7 +17,7 @@ export interface FilterData {
   styleUrls: ['./listado-votaciones.component.css']
 })
 
-export class ListadoVotacionesComponent implements OnInit {
+export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   votes = [];
   votaciones = {};
   meses = [];
@@ -28,19 +28,25 @@ export class ListadoVotacionesComponent implements OnInit {
   departamentos = {}
 
   order = 'Descendente';
+  interval;
 
   constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) {
     this.departamentos = this.listDepartamentos.getDepartamentosJSONFalse();
-
-    this.controllerBD.obtenerVotaciones().then((result) =>{
-      for (let i of Object.keys(result)) {
-        this.votes.push(result[i])
-      }
-      this.generarListado(this.votes);
-    });
+    this.loopDataQuery();
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval)
+  }
+
+  loopDataQuery() {
+    this.filtrarResultados()
+    this.interval = setInterval(() => {
+      this.filtrarResultados()
+    }, 30000);
   }
 
   generarListado(listado) {

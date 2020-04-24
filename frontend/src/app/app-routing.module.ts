@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'user/:dni', component: UserComponent },
   { path: 'modifyUser/:dni', component: ModifyUserComponent },
   { path: 'restrictedAccess', component: RestrictedAccessComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ];
 

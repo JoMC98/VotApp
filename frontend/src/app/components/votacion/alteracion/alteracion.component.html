@@ -1,16 +1,34 @@
 <div class="containerWaitingPage">
     <div class="containerTextAlteracion">
         <div class="textAlteracion">
-            Se ha producido una<br>manipulación en la votación
+            Se ha producido una manipulación<br>en la votación y se ha cerrado
         </div>
     </div>
     <div class="containerImgAlteracion">
         <img class="imgAlteracion" src="assets\icons\advertencia.png">
     </div>
-    <div *ngIf="admin" class="containerAccionAlteracion">
-        La votación volverá a cerrarse
-    </div>
-    <div *ngIf="!admin" class="containerAccionAlteracion">
-        v
+    <div class="containerAccionAlteracion">
+        <div class="messageAccionAlteracion">
+            <div *ngIf="admin" class="textAlteracion">
+                Puede volver al panel<br>de la votación o reiniciar esta
+            </div>
+            <div *ngIf="!admin" class="textAlteracion">
+                Puede volver al<br>panel de la votación
+            </div>
+        </div>
+        <div *ngIf="!admin || mostrarBotones" class="buttonsAccionAlteracion">
+            <div [ngClass]="admin ? 'buttonDivAlteracion' : 'buttonDivAlteracionOnly'" (click)="back()">
+                <button mat-stroked-button color="warn" class="buttonAlteracion" [ngClass]="admin ? 'buttonVotacionAlteracion' : 'buttonVotacionAlteracionOnly'">
+                    <i class="fas fa-step-backward"></i>
+                    <span class="botonAlteracionLabel">Volver</span>
+                </button>
+            </div>
+            <div *ngIf="admin" class="buttonDivAlteracion">
+                <button mat-stroked-button color="warn" class="buttonAlteracion buttonRestartAlteracion" (click)="restart()">
+                    <i class="fas fa-redo"></i>
+                    <span class="botonAlteracionLabel">Reiniciar</span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>

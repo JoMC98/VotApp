@@ -11,10 +11,10 @@
             <app-wait class="containerStart"></app-wait>
         </mat-card>
         <mat-card class="panelInferiorVotar" *ngIf="alteracion">
-            <app-alteracion class="containerStart"></app-alteracion>
+            <app-alteracion [codigo]="codigo" class="containerStart"></app-alteracion>
         </mat-card>
         <mat-card class="panelInferiorVotar" *ngIf="error">
-            <app-error class="containerStart"></app-error>
+            <app-error [codigo]="codigo" class="containerStart"></app-error>
         </mat-card>
         <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error">
             <div class="containerDivSpinner" *ngIf="!canVote">

@@ -42,6 +42,10 @@ export class DatabaseControllerService {
 
   async añadirResultadosVotacion(codigo, body) { return await this.httpRequest.postRequest("/addResultadosVotacion/" + codigo, body)};
 
+  async cerrarVotacionError(codigo) { return await this.httpRequest.getRequest("/cerrarVotacionError/" + codigo)};
+
+
+
   addTemporalUser(usuario) { 
     this.temporalUser = usuario;
   }

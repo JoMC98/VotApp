@@ -17,6 +17,8 @@ exports.generarListasVotacion = (participantes, ports, admin_IP, admin_clavePubl
 }
 
 exports.getFreePorts = (total) => {
+    console.log(freePorts)
+    console.log(usedPorts)
     if (freePorts < total) {
         return "Wait";
     } else {
@@ -29,8 +31,10 @@ exports.getFreePorts = (total) => {
 }
 
 exports.liberatePort = (port) => {
-    usedPorts.splice(usedPorts.indexOf(port), 1);
-    freePorts++;
+    if (usedPorts.includes(port)) {
+        usedPorts.splice(usedPorts.indexOf(port), 1);
+        freePorts++;
+    }
 }
 
 

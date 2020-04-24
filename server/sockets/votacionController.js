@@ -27,6 +27,8 @@ function crearSockets(list) {
     return ports;
 }
 
+
+
 module.exports = {
-    iniciarVotacion: iniciarVotacion,
+    iniciarVotacion: iniciarVotacion
 };

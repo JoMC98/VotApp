@@ -16,7 +16,7 @@ exports.login = (db, req, res) => {
             } else {
               var admin = results[0].admin == 1 ? true : false;
               tokenController.createToken(results[0].DNI, admin).then(token => {
-                var response = {DNI: results[0].DNI, nombre: results[0].nombre, apellidos: results[0].apellidos, admin: admin, token: token}
+                var response = {DNI: results[0].DNI, nombre: results[0].nombre, apellidos: results[0].apellidos, admin: admin, token: token, changePasswd: results[0].changePasswd}
                 res.status(200).json(response);
               })
             }

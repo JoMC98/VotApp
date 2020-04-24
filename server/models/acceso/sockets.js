@@ -1,13 +1,13 @@
 const portController = require('../../sockets/serverController.js');
 const votacionController = require('../../sockets/votacionController.js');
 const pushController = require('../../helpers/pushController.js');
+const errorController = require('../acceso/errorVotacion.js')
 
 function activarVotacion(db, req, res) {
   if (req.body.usuario.admin) {
     var codigo = req.params.codigo
     obtenerEstadoVotacion(db,codigo).then(estado => {
-      // if (estado == "Creada") {
-      if (true) {
+      if (estado == "Creada") {
         obtenerParticipantesVotacion(db, codigo, req.body.usuario.DNI).then(result => {
           portController.obtenerListaPuertos(result).then((listVotantes) => {
             votacionController.iniciarVotacion(listVotantes).then((ports) => {
@@ -33,6 +33,8 @@ function activarVotacion(db, req, res) {
             }
           })
         })
+      } else if (estado == "Activa") {
+        res.status(200).json({status: 'Error votacion'});
       } else {
         res.status(401).json({status: 'Restricted Access'});
       }
@@ -41,12 +43,6 @@ function activarVotacion(db, req, res) {
   } else {
     res.status(401).json({status: 'Restricted Access'});
   }
-  
-  //res.status(200).json({status: 'ok'});
-
-  // db.query(
-  //   //GET SOCKET--> GET votacion
-  // );
 }
 
 async function storePortsVotantes(db, ports, codigo) {

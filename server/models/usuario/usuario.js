@@ -18,8 +18,8 @@ exports.nuevoUsuario = (db, req, res) => {
           res.status(500).json({status: 'error'});
         } else {
           db.query(
-            'INSERT INTO Votante (DNI, clavePublica, DNI_admin) VALUES (?,?,?)',
-            [user.DNI, req.body.clavePublica, req.body.usuario.DNI],
+            'INSERT INTO Votante (DNI, DNI_admin) VALUES (?,?)',
+            [user.DNI, req.body.usuario.DNI],
             (error) => {
               if (error) {
                 console.error(error);

@@ -35,8 +35,15 @@ function createServerSocket(port) {
 
     return {httpServer: server, wsServer: wsServer};
 }
+
+function sendMessage(socket, message) {
+    if (socket && socket.sendUTF && message) {
+        socket.sendUTF(JSON.stringify(message));
+    }
+}
   
 module.exports = {
     obtenerListaPuertos: obtenerListaPuertos,
-    createServerSocket: createServerSocket
+    createServerSocket: createServerSocket,
+    sendMessage: sendMessage
 };
