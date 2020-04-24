@@ -11,7 +11,7 @@ exports.obtenerUsuarios = (db, req, res) => {
       }
     ); 
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   }
 }
   
@@ -33,7 +33,7 @@ exports.filtrarUsuarios = (db, req, res) => {
       }
     ); 
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   }
 }
   
@@ -57,6 +57,6 @@ exports.obtenerUsuariosFueraVotacion = (db, req, res) => {
       }
     );
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   }
 }

@@ -58,6 +58,7 @@ import { RestrictedAccessComponent } from './components/errors/restricted-access
 import { WaitComponent } from './components/votacion/wait/wait.component';
 import { AlteracionComponent } from './components/votacion/alteracion/alteracion.component';
 import { ErrorComponent } from './components/votacion/error/error.component';
+import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 
 registerLocaleData(localeEs, 'es')
 
@@ -92,7 +93,8 @@ registerLocaleData(localeEs, 'es')
     RestrictedAccessComponent,
     WaitComponent,
     AlteracionComponent,
-    ErrorComponent
+    ErrorComponent,
+    ServerErrorComponent
   ],
   imports: [
     MatFormFieldModule, 

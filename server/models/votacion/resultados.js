@@ -19,14 +19,14 @@ function obtenerResultadosVotacion(db, req, res) {
             }
           );
         } else {
-          res.status(401).json({status: 'Restricted Access'});
+          res.status(403).json({status: 'Restricted Access'});
         }
       });
     })
     .catch((error) => {
       console.log(error)
         if (error == "Restricted Access") {
-            res.status(401).json({status: 'Restricted Access'});
+            res.status(403).json({status: 'Restricted Access'});
         } else {
             res.status(500).json({status: 'error'});
         }
@@ -59,7 +59,7 @@ function añadirResultadosVotacion(db, req, res) {
         }
     });  
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   } 
 }
 

@@ -57,8 +57,19 @@ export class LoginComponent implements OnInit {
           }, 2800);
         })
       })
-      .catch((error) => {
-        console.log(error.error.status);
+      .catch((wrongCredentials) => {
+        new Promise((res) => {
+          setTimeout(() => {
+            this.activarBoton = false;
+          }, 2000);
+        })
+        if (wrongCredentials) {
+          //MOSTRAR ERROR CREDENCIALES
+          console.log("MOSTRAR ERROR CREDENCIALES")
+        } else {
+          //MOSTRAR ERROR SERVIDOR
+          console.log("MOSTRAR ERROR SERVIDOR")
+        }
       })
     ;
   }

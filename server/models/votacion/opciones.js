@@ -31,7 +31,7 @@ function obtenerOpcionesVotacion(db, req, res) {
         })
         .catch((error) => {
             if (error == "Restricted Access") {
-                res.status(401).json({status: 'Restricted Access'});
+                res.status(403).json({status: 'Restricted Access'});
             } else {
                 res.status(500).json({status: 'error'});
             }
@@ -54,7 +54,7 @@ function modificarOpcionesVotacion(db, req, res) {
                 }
         });
     } else {
-        res.status(401).json({status: 'Restricted Access'});
+        res.status(403).json({status: 'Restricted Access'});
     }
 }
 

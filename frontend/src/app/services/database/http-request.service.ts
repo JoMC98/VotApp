@@ -4,13 +4,15 @@ import { SessionControllerService } from '../authentication/session-controller.s
 import { LoginControllerService } from '../authentication/login-controller.service';
 import { Router } from '@angular/router';
 import { ConfigurationService } from '../general/configuration.service';
+import { ConnectionControllerService } from '../general/connection-controller.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpRequestService {
 
-  constructor(private http: HttpClient, private sessionController: SessionControllerService, private loginController: LoginControllerService, private router: Router, private config: ConfigurationService) {
+  constructor(private http: HttpClient, private sessionController: SessionControllerService, private loginController: LoginControllerService, 
+    private router: Router, private config: ConfigurationService, private connectionController: ConnectionControllerService) {
   }
 
   async getRequest(requestPath) {
@@ -57,12 +59,21 @@ export class HttpRequestService {
   }
 
   errorControl(error) {
-    if (error["error"].status == "Token Not Valid") {
+    console.log(error)
+    if (error.status == 401) {
       this.loginController.logout()
-    } else if (error["error"].status == "Token Not Found") {
-      this.loginController.logout()
-    } else if (error["error"].status == "Restricted Access") {
+    } else if (error.status == 403) {
       this.router.navigate(["/restrictedAccess"]);
+    } else if (error.status == 500) {
+      this.router.navigate(["/serverError"]);
+    } else {
+      if (this.connectionController.getIsConected()) {
+        console.log("ERROR UKNOWN")
+      } else {
+        console.log("ERROR DE RED")
+      }
+      //OTROS ERRORES
+      this.router.navigate(["/serverError"]);
     }
   }
 

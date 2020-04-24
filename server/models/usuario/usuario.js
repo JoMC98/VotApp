@@ -41,7 +41,7 @@ exports.nuevoUsuario = (db, req, res) => {
       }
     );
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   }
 }
 
@@ -59,7 +59,7 @@ exports.obtenerUsuario = (db, req, res) => {
       }
     ); 
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   }
 }
 
@@ -79,7 +79,7 @@ exports.modificarUsuario = (db, req, res) => {
       }
     );
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   } 
 }
 
@@ -92,7 +92,7 @@ exports.modificarContraseña = (db, req, res) => {
     controlAcces.obtenerContrasenya(db, req.body.DNI).then((results) => {
       encryptor.comparePassword(req.body.actual, results[0].passwd).then(equals => {
         if (!equals) {
-          res.status(401).json({status: 'Incorrect Password'});
+          res.status(403).json({status: 'Incorrect Password'});
         } else {
           encryptor.encryptPassword(req.body.nueva).then(hash => {
             db.query(
@@ -112,6 +112,6 @@ exports.modificarContraseña = (db, req, res) => {
       })
     });
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   } 
 }

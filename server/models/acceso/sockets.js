@@ -36,12 +36,12 @@ function activarVotacion(db, req, res) {
       } else if (estado == "Activa") {
         res.status(200).json({status: 'Error votacion'});
       } else {
-        res.status(401).json({status: 'Restricted Access'});
+        res.status(403).json({status: 'Restricted Access'});
       }
     })
       
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   }
 }
 
@@ -161,17 +161,17 @@ function obtenerDatosVotacion(db, req, res) {
               res.status(200).json(data);
             })
           } else {
-            res.status(401).json({status: 'Restricted Access'});
+            res.status(403).json({status: 'Restricted Access'});
           }
         }).catch(err => {
           res.status(500).json({error: err})
         })
       } else {
-        res.status(401).json({status: 'Restricted Access'});
+        res.status(403).json({status: 'Restricted Access'});
       }
     })
   } else {
-    res.status(401).json({status: 'Restricted Access'});
+    res.status(403).json({status: 'Restricted Access'});
   }
 }
 

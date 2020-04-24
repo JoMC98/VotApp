@@ -18,7 +18,7 @@ exports.cerrarVotacionError = (db, req, res) => {
                 }
             })
             .catch((err) => {
-                res.status(401).json({status: 'Restricted Access'});
+                res.status(403).json({status: 'Restricted Access'});
             })
     }
 }
