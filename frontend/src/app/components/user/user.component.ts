@@ -20,7 +20,8 @@ export class UserComponent implements OnInit, OnDestroy {
   usuario = {DNI: "", nombre: "", apellidos: "", mail: "", telefono: "", cargo: "", departamento: "", f_registro: ""};
   listaDepartamentos = {};
 
-  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService, private loginController: LoginControllerService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, 
+    private listDepartamentos: ListaDepartamentosService, private loginController: LoginControllerService) { 
   }
 
   ngOnInit(): void {

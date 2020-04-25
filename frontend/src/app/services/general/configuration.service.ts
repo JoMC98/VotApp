@@ -20,6 +20,7 @@ export class ConfigurationService {
   public PBKDF2_ITERATIONS: number = config.PBKDF2_ITERATIONS
   public PBKDF2_SALT_BYTES: number = config.PBKDF2_SALT_BYTES
   public RANDOM_NUMBER_BYTES: number = config.RANDOM_NUMBER_BYTES
+  public AES_IV_BYTES: number = config.AES_IV_BYTES
 
   constructor() { }
 }

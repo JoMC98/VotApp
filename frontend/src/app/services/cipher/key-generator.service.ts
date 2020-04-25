@@ -15,23 +15,20 @@ export class KeyGeneratorService {
     return keyPair
   }
 
-  generatePBKDF2Key(password) {
-    console.log("STORE SALT")
-    var salt = this.generateSalt();
-    var key256Bits = CryptoJS.PBKDF2(password, salt, { keySize: this.config.PBKDF2_KEY_BIT_LENGTH / 32, iterations: this.config.PBKDF2_ITERATIONS });
-    return key256Bits;
+  generatePBKDF2Key(password, salt) {
+    var secretKey = CryptoJS.PBKDF2(password, salt, { keySize: this.config.PBKDF2_KEY_BIT_LENGTH / 32, iterations: this.config.PBKDF2_ITERATIONS });
+    return secretKey;
   }
 
   generateSalt() {
-    return  CryptoJS.lib.WordArray.random(this.config.PBKDF2_SALT_BYTES);
-  }
-
-  getPBKDF2Key(password, salt) {
-    var key256Bits = CryptoJS.PBKDF2(password, salt, { keySize: this.config.PBKDF2_KEY_BIT_LENGTH / 32, iterations: this.config.PBKDF2_ITERATIONS });
-    return key256Bits;
+    return CryptoJS.lib.WordArray.random(this.config.PBKDF2_SALT_BYTES);
   }
 
   generateRandom() {
     return CryptoJS.lib.WordArray.random(this.config.RANDOM_NUMBER_BYTES);
+  }
+
+  generateIV() {
+    return CryptoJS.lib.WordArray.random(this.config.AES_IV_BYTES);
   }
 }

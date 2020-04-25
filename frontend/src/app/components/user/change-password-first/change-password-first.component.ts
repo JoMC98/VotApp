@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginControllerService } from 'src/app/services/authentication/login-controller.service';
+import { KeyPasswordControllerService } from 'src/app/services/cipher/key-password-controller.service';
 
 @Component({
   selector: 'app-change-password-first',
@@ -12,9 +14,14 @@ export class ChangePasswordFirstComponent implements OnInit {
   showPasswd2: boolean = false;
   changed: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private loginController: LoginControllerService, 
+    private kewPasswordController: KeyPasswordControllerService) { }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    this.loginController.logout();
   }
 
   showHidePasswd(id) {
@@ -36,12 +43,15 @@ export class ChangePasswordFirstComponent implements OnInit {
 
   change() {
     this.changed = true;
-    new Promise((res) => {
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-        res();
-      }, 2500);
-    })
+
+    this.kewPasswordController.generateAndEncryptKeyPair("patata")
+
+    // new Promise((res) => {
+    //   setTimeout(() => {
+    //     this.router.navigate(['/home']);
+    //     res();
+    //   }, 2500);
+    // })
   }
 
 }

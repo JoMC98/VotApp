@@ -40,6 +40,20 @@ export class AppComponent {
       }
     }
   }
+
+  checkChangePasswd() {
+    var changePasswd = this.sessionController.getChangePasswdSession();
+    return changePasswd;
+  }
+
+  checkSession() {
+    var dni = this.sessionController.getDNISession();
+    if (dni != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   
   cambiaRuta() {
     this.admin = this.sessionController.getAdminSession();
@@ -47,32 +61,42 @@ export class AppComponent {
     var pagina = this.router.url;
     this.login = false;
 
-    if (!this.admin) {
-      this.checkRutaNotAdmin(pagina);
-    }
-
     if (pagina == "/login") {
-      var dni = this.sessionController.getDNISession();
-      if (dni != null) {
+      if (this.checkSession()) {
         this.footer = true;
         this.router.navigate(["/home"]);
       } else {
         this.login = true;
         this.footer = false;
       }
-    } else if (pagina == "/changePasswd") {
-      
-      var changePasswd = this.sessionController.getChangePasswdSession();
-      if (changePasswd == 1) {
-        this.footer = false;
-      } else {
-        this.footer = true;
-        this.router.navigate(["/home"]);
-      }
-    } else if (pagina.includes("/votar") || pagina.includes("/iniciarVotacion")) {
-      this.footer = false;
     } else {
-      this.footer = true;
+      if (!this.checkSession()) {
+        this.footer = false;
+        this.router.navigate(["/login"]);
+      } else {
+        if (pagina == "/changePasswd") {
+          if (!this.checkChangePasswd()) {
+            this.footer = true;
+            this.router.navigate(["/home"]);
+          } else {
+            this.footer = false;
+          }
+        } else {
+          if (this.checkChangePasswd()) {
+            this.footer = false;
+            this.router.navigate(["/changePasswd"]);
+          } else {
+            if (!this.admin) {
+              this.checkRutaNotAdmin(pagina);
+            }
+            if (pagina.includes("/votar") || pagina.includes("/iniciarVotacion")) {
+              this.footer = false;
+            } else {
+              this.footer = true;
+            }
+          }
+        }
+      }
     }
   }
 

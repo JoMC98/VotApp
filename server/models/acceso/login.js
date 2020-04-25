@@ -16,7 +16,12 @@ exports.login = (db, req, res) => {
             } else {
               var admin = results[0].admin == 1 ? true : false;
               tokenController.createToken(results[0].DNI, admin, false).then(token => {
-                var response = {DNI: results[0].DNI, nombre: results[0].nombre, apellidos: results[0].apellidos, admin: admin, token: token, changePasswd: results[0].changePasswd}
+                var changePasswd = false;
+                if (results[0].clavePublica == null || results[0].clavePrivada == null) {
+                  changePasswd = true;
+                }
+                var response = {DNI: results[0].DNI, nombre: results[0].nombre, apellidos: results[0].apellidos, admin: admin, token: token, 
+                changePasswd: changePasswd}
                 res.status(200).json(response);
               })
             }

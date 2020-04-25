@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         new Promise((res) => {
           setTimeout(() => {
             var changePasswd = this.sessionController.getChangePasswdSession()
-            if (changePasswd == 1) {
+            if (changePasswd) {
               this.router.navigate(['/changePasswd']);
             } else {
               this.router.navigate(['/home']);
