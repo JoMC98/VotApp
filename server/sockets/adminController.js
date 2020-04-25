@@ -1,20 +1,24 @@
 const portsController = require('./auxiliarPuertos.js');
 const serverController = require('./serverController.js')
 const pushController = require('../helpers/pushController.js');
+const tokenController = require('../helpers/tokenJWT.js');
 
-function gestorSocketAdmin(list, socketReferences, state) {
+function gestorSocketAdmin(list, references, state) {
+    var socketReferences = references.socketReferences
+    var serverReferences = references.serverReferences
+
     var server = serverController.createServerSocket(list.adminPort);
-    var connected = false;
+
     var ip = list.adminIP
 
     server.wsServer.on('request', function(request) {
         var requestIP = request.remoteAddress;
 
-        //1st VALIDAR IP con VPN
+        //1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
         //if (!connected && requestIP == ip) {
-        if (!connected) {
-            connected = true;
-            aceptarConexion(request, socketReferences, server, state, list)
+        if (!state.conexion.admin) {
+            state.conexion.admin = true;
+            aceptarConexion(request, socketReferences, serverReferences, server, state, list)
 
         } else {
             request.reject(401, "Restricted Access")
@@ -22,7 +26,7 @@ function gestorSocketAdmin(list, socketReferences, state) {
     });
 }
 
-function aceptarConexion(request, socketReferences, server, state, list) {
+function aceptarConexion(request, socketReferences, serverReferences, server, state, list) {
     var port = list.adminPort
     var lista = list.list
 
@@ -31,21 +35,20 @@ function aceptarConexion(request, socketReferences, server, state, list) {
     var dataLocal = {firstMessage: false, okStart: false, connection: connection, lista: lista, port: port};
 
     connection.on('message', function(message) {
-        controlFases(message, socketReferences, dataLocal, server, state)
+        controlFases(message, socketReferences, serverReferences, dataLocal, server, state)
     });
 
     connection.on('close', function(connection) {
-        if (!state.closed) {
+        if (!state.closed && state.conexion.admin) {
             state.error = true;
             avisarCierre(socketReferences, lista)
-            closeServer(server, dataLocal.connection, dataLocal.port)
+            closeServer(server, dataLocal.connection, dataLocal.port, state, serverReferences)
         }
     });
 }
 
-function controlFases(message, socketReferences, dataLocal, server, state) {
+function controlFases(message, socketReferences, serverReferences, dataLocal, server, state) {
     if (message.type === 'utf8') {
-        //2nd COMPROBAR TOKEN JWT
         var received = JSON.parse(message.utf8Data)
         var mess = received.message
 
@@ -53,12 +56,11 @@ function controlFases(message, socketReferences, dataLocal, server, state) {
             if (state.error) {
                 serverController.sendMessage(dataLocal.connection, {fase : "ERR", data : "ERROR CONEXION"})
             } else {
-                var list = {fase: 0, data: dataLocal.lista}
-                serverController.sendMessage(dataLocal.connection, list)
-                dataLocal.firstMessage = true;
+                var token = received.token
+                checkToken(token, dataLocal)
             }
         } else if (mess && mess.fase && mess.fase == "END-OK") {
-            closeServer(server, dataLocal.connection, dataLocal.port)
+            closeServer(server, dataLocal.connection, dataLocal.port, state, serverReferences)
 
         }  else if (mess && mess.fase && mess.fase == "PUSH") {
             var dnis = [mess.data.dni]
@@ -73,12 +75,29 @@ function controlFases(message, socketReferences, dataLocal, server, state) {
                 }
             }
         } else {
-            controlVotos(received, socketReferences, dataLocal, server, state)
+            controlVotos(received, socketReferences, serverReferences, dataLocal, server, state)
         }
     }
 }
 
-function controlVotos(received, socketReferences, dataLocal, server, state) {
+function checkToken(token, dataLocal) {
+    tokenController.checkTokenSocket(token)
+    .then(result => {
+        if (result.admin) {
+            var list = {fase: 0, data: dataLocal.lista}
+            serverController.sendMessage(dataLocal.connection, list)
+            dataLocal.firstMessage = true;
+        } else {
+            state.conexion.admin = false;
+            dataLocal.connection.close();
+        }
+    }).catch(err => {
+        state.conexion.admin = false;
+        dataLocal.connection.close();
+    })
+}
+
+function controlVotos(received, socketReferences, serverReferences, dataLocal, server, state) {
     var destino = received.destino
     var message = received.message
     var fase = message.fase
@@ -88,17 +107,24 @@ function controlVotos(received, socketReferences, dataLocal, server, state) {
             serverController.sendMessage(socketReferences[dataLocal.lista[id].ip], {fase : "END", data : ""})
         }
         state.closed = true;
-        closeServer(server, dataLocal.connection, dataLocal.port)
+        closeServer(server, dataLocal.connection, dataLocal.port, state, serverReferences)
     } else {
         serverController.sendMessage(socketReferences[destino], message)
     }
 }
 
-function closeServer(server, connection, port) {
-    console.log("CLOSING")
+function closeServer(server, connection, port, state, serverReferences) {
+    console.log("CLOSING ADMIN")
     server.httpServer.close()
     connection.close()
     portsController.liberatePort(port)
+    
+    for (var ip of Object.keys(serverReferences)) {
+        if (!state.conexion[ip]) {
+            serverReferences[ip].server.httpServer.close()
+            portsController.liberatePort(serverReferences[ip].port)
+        }
+    }
 }
 
 function avisarCierre(socketReferences, lista) {

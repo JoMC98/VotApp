@@ -64,10 +64,13 @@ export class StartComponent implements OnInit, OnDestroy {
     this.controllerBD.activarVotacion(this.codigo).then((result) =>{
       if (result["status"] && result["status"] == "Error votacion") {
         this.error = true;
+        this.pregunta = result["pregunta"];
       } else {
         this.pregunta = result["pregunta"];
         this.portSocket = result["portAdmin"];
         this.clavePrivada = result["clavePrivada"]
+        var token = result["token"]
+
         this.controllerVotacion.setCodigo(this.codigo);
         this.total = result["participantes"];
         if (this.total == 3 || this.total == 4 || this.total == 5) {
@@ -80,7 +83,7 @@ export class StartComponent implements OnInit, OnDestroy {
             this.lista[res[k].dni] = false;
           }
           this.generateCampanas();
-          this.abrirSocketAdmin();
+          this.abrirSocketAdmin(token);
         })
       }
     });
@@ -92,8 +95,8 @@ export class StartComponent implements OnInit, OnDestroy {
     }
   }
 
-  abrirSocketAdmin() {
-    this.socketController.createSocketAdmin(this.portSocket, "AAA");
+  abrirSocketAdmin(token) {
+    this.socketController.createSocketAdmin(this.portSocket, token);
     this.comprobarEstado();
   }
 

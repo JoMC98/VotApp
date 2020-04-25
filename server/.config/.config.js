@@ -22,6 +22,7 @@ module.exports = {
     JWT_ALGHORITHM: 'RS256',
     JWT_MAX_TIME_ADMIN: '1h',
     JWT_MAX_TIME_VOTANTE: '20m',
+    JWT_MAX_TIME_SOCKETS: '5m',
 
     MAIL_USERNAME: 'votapp.noreply@gmail.com',
     MAIL_PASSWORD: 'TFG2020patata_',

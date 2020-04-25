@@ -26,7 +26,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -59,6 +59,7 @@ import { WaitComponent } from './components/votacion/wait/wait.component';
 import { AlteracionComponent } from './components/votacion/alteracion/alteracion.component';
 import { ErrorComponent } from './components/votacion/error/error.component';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
+import { ConnectionErrorComponent } from './components/errors/connection-error/connection-error.component';
 
 registerLocaleData(localeEs, 'es')
 
@@ -94,7 +95,8 @@ registerLocaleData(localeEs, 'es')
     WaitComponent,
     AlteracionComponent,
     ErrorComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    ConnectionErrorComponent
   ],
   imports: [
     MatFormFieldModule, 

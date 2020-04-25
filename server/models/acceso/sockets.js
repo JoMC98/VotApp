@@ -1,7 +1,7 @@
 const portController = require('../../sockets/serverController.js');
 const votacionController = require('../../sockets/votacionController.js');
 const pushController = require('../../helpers/pushController.js');
-const errorController = require('../acceso/errorVotacion.js')
+const tokenController = require('../../helpers/tokenJWT.js');
 
 function activarVotacion(db, req, res) {
   if (req.body.usuario.admin) {
@@ -16,7 +16,15 @@ function activarVotacion(db, req, res) {
                 pushController.sendNotification(dnis)
                   .then(() => {
                     obtenerClavePrivada(db, req.body.usuario.DNI).then(clavePrivada => {
-                      res.status(200).json({"portAdmin": ports.admin, "pregunta": result.pregunta, "clavePrivada" : clavePrivada, participantes: result.participantes.length});
+
+                      tokenController.createToken(req.body.usuario.DNI, true, true).then(token => {
+
+                        var response = {"portAdmin": ports.admin, "pregunta": result.pregunta, "clavePrivada" : clavePrivada, 
+                        "participantes": result.participantes.length, "token": token}
+
+                        res.status(200).json(response);
+                      })
+                      
                     })
                   }).catch((err) => {
                     res.status(500).json({error: err});
@@ -34,7 +42,9 @@ function activarVotacion(db, req, res) {
           })
         })
       } else if (estado == "Activa") {
-        res.status(200).json({status: 'Error votacion'});
+        obtenerParticipantesVotacion(db, codigo, req.body.usuario.DNI).then(result => {
+          res.status(200).json({status: 'Error votacion', pregunta: result.pregunta});
+        });
       } else {
         res.status(403).json({status: 'Restricted Access'});
       }
@@ -158,7 +168,11 @@ function obtenerDatosVotacion(db, req, res) {
         obtenerDNIParticipantesVotacion(db, codigo).then(participantes => {
           if (participantes.includes(req.body.usuario.DNI)) {
             obtenerClavePrivadaSocket(db, codigo, req.body.usuario.DNI).then((data) => {
-              res.status(200).json(data);
+
+              tokenController.createToken(req.body.usuario.DNI, true, true).then(token => {
+                data["token"] = token;
+                res.status(200).json(data);
+              })
             })
           } else {
             res.status(403).json({status: 'Restricted Access'});

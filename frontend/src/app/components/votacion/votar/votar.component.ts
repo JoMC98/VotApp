@@ -119,12 +119,14 @@ export class VotarComponent implements OnInit, OnDestroy {
       this.portSocket = datos["socketPort"];
       this.clavePrivada = datos["clavePrivada"];
       this.pregunta = datos["pregunta"];
-      this.abrirSocketVotante();
+      var token = datos["token"]
+
+      this.abrirSocketVotante(token);
     })
   }
 
-  abrirSocketVotante() {
-    this.socketController.createSocketVotante(this.portSocket, "AAA");
+  abrirSocketVotante(token) {
+    this.socketController.createSocketVotante(this.portSocket, token);
     this.comprobarEstado();
   }
 

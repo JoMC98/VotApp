@@ -3,9 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { SessionControllerService } from './session-controller.service';
 import { Router } from '@angular/router';
 import { ConfigurationService } from '../general/configuration.service';
-import { PushControllerService } from '../notifications/push-controller.service';
-import { rejects } from 'assert';
-import { ConnectionControllerService } from '../general/connection-controller.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +10,7 @@ import { ConnectionControllerService } from '../general/connection-controller.se
 export class LoginControllerService {
 
   constructor(private http: HttpClient, private sessionController: SessionControllerService, 
-    private router: Router, private config: ConfigurationService, private connectionController: ConnectionControllerService) {
+    private router: Router, private config: ConfigurationService) {
   }
 
   async login(credenciales) { 
@@ -29,11 +26,6 @@ export class LoginControllerService {
           if (error["status"] == 401) {
             reject(true)
           } else {
-            if (this.connectionController.getIsConected()) {
-              console.log("ERROR UKNOWN")
-            } else {
-              console.log("ERROR DE RED")
-            }
             reject(false)
           }
         });

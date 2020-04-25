@@ -4,7 +4,6 @@ import { SessionControllerService } from '../authentication/session-controller.s
 import { LoginControllerService } from '../authentication/login-controller.service';
 import { Router } from '@angular/router';
 import { ConfigurationService } from '../general/configuration.service';
-import { ConnectionControllerService } from '../general/connection-controller.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ import { ConnectionControllerService } from '../general/connection-controller.se
 export class HttpRequestService {
 
   constructor(private http: HttpClient, private sessionController: SessionControllerService, private loginController: LoginControllerService, 
-    private router: Router, private config: ConfigurationService, private connectionController: ConnectionControllerService) {
+    private router: Router, private config: ConfigurationService) {
   }
 
   async getRequest(requestPath) {
@@ -59,7 +58,6 @@ export class HttpRequestService {
   }
 
   errorControl(error) {
-    console.log(error)
     if (error.status == 401) {
       this.loginController.logout()
     } else if (error.status == 403) {
@@ -67,13 +65,11 @@ export class HttpRequestService {
     } else if (error.status == 500) {
       this.router.navigate(["/serverError"]);
     } else {
-      if (this.connectionController.getIsConected()) {
-        console.log("ERROR UKNOWN")
+      if (!navigator.onLine) {
+        this.router.navigate(["/connectionError"]);
       } else {
-        console.log("ERROR DE RED")
+        this.router.navigate(["/serverError"]);
       }
-      //OTROS ERRORES
-      this.router.navigate(["/serverError"]);
     }
   }
 

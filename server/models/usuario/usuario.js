@@ -48,8 +48,17 @@ exports.nuevoUsuario = (db, req, res) => {
 //GET
 exports.obtenerUsuario = (db, req, res) => {
   if (req.body.usuario.admin || req.params.dni == req.body.usuario.DNI) {
+    var tabla = {}
+    if (req.body.usuario.admin && req.params.dni == req.body.usuario.DNI) {
+      tabla["column"] = "f_autorizado AS f_registro"
+      tabla["tabla"] = "Administrador"
+    } else {
+      tabla["column"] = "f_registro"
+      tabla["tabla"] = "Votante"
+    }
     db.query(
-      'SELECT DNI, nombre, apellidos, mail, telefono, cargo, departamento, f_registro FROM Usuario JOIN Votante USING(dni) WHERE dni = ?' , [req.params.dni], (error, results) => {
+      'SELECT DNI, nombre, apellidos, mail, telefono, cargo, departamento, ' + tabla.column + ' FROM Usuario JOIN ' + tabla.tabla + ' USING(dni) WHERE dni = ?' , 
+      [req.params.dni], (error, results) => {
         if (error) {
           console.log(error);
           res.status(500).json({status: 'error'});

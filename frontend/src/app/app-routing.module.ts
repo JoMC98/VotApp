@@ -16,6 +16,7 @@ import { ChangePasswordFirstComponent } from './components/user/change-password-
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 import { RestrictedAccessComponent } from './components/errors/restricted-access/restricted-access.component';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
+import { ConnectionErrorComponent } from './components/errors/connection-error/connection-error.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'restrictedAccess', component: RestrictedAccessComponent },
   { path: 'notFound', component: NotFoundComponent },
   { path: 'serverError', component: ServerErrorComponent },
+  { path: 'connectionError', component: ConnectionErrorComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
 ];
