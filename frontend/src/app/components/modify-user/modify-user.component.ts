@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
+import { KeyPasswordControllerService } from 'src/app/services/cipher/key-password-controller.service';
 
 @Component({
   selector: 'app-modify-user',
@@ -25,7 +26,8 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
 
   listaDepartamentos = {};
 
-  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, 
+    private listDepartamentos: ListaDepartamentosService,  private kewPasswordController: KeyPasswordControllerService) { 
   }
 
   ngOnInit(): void {
@@ -57,10 +59,10 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   comprobarCopy() {
     for (var k of Object.keys(this.usuario)) {
       if (this.copyUsuario[k] != this.usuario[k]) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
   comprobarPassword() {
@@ -80,34 +82,31 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   confirmarModify() {
     var routered = false;
 
-    if (!this.comprobarCopy() && this.comprobarPassword()) {
+    if (this.comprobarPassword()) {
+      this.kewPasswordController.generateAndEncryptKeyPair(this.nueva).then(claves => {
+        var body = {DNI: this.dni, actual: this.actual, nueva: this.nueva, clavePublica: claves["clavePublica"], clavePrivada: claves["clavePrivada"]}
+        this.controllerBD.modificarContraseña(body).then((result) =>{
 
-      this.controllerBD.modificarUsuario(this.usuario).then((result) =>{ 
-
-        var passwords = {DNI: this.dni, actual: this.actual, nueva: this.nueva};
-        this.controllerBD.modificarContraseña(passwords).then((result) =>{
+          if (this.comprobarCopy()) {
+            this.controllerBD.modificarUsuario(this.usuario).then((result) =>{ 
+              this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
+            });
+          } else {
+            this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
+          }
+        });
+      }).catch(err => {
+        console.log(false)
+        //ERROR
+      })
+    } else {
+      if (this.comprobarCopy()) {
+        this.controllerBD.modificarUsuario(this.usuario).then((result) =>{ 
           this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
         });
-
-      });
-    
-    } else if (!this.comprobarCopy()) {
-
-      this.controllerBD.modificarUsuario(this.usuario).then((result) =>{
+      } else {
         this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
-      });
-
-    } else if (this.comprobarPassword()) {
-
-      var passwords = {DNI: this.dni, actual: this.actual, nueva: this.nueva};
-      this.controllerBD.modificarContraseña(passwords).then((result) =>{
-        this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
-      });
-
-    } else {
-
-      this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
-
+      }
     }
   }
 

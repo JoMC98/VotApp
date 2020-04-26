@@ -20,10 +20,6 @@ export class StartComponent implements OnInit, OnDestroy {
   admin;
   clavePrivada;
 
-  // lista = {"20904687X": false, "20202021X": false, "20202022X": false}
-  // lista = {"20904687X": false, "20202021X": false, "20202022X": false, "20202023X": false, "20202025X": false, "20202024X": false, "20202026X": false}
-  // total = Object.keys(this.lista).length
-
   lista = {};
   total;  
 
@@ -38,8 +34,10 @@ export class StartComponent implements OnInit, OnDestroy {
   waiting: boolean = false;
   alteracion: boolean = false;
   error: boolean = false;
+  stop: boolean = false;
 
   interval = null;
+  interval2 = null;
   clicked = false;
 
   constructor(private route: ActivatedRoute, private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService, 
@@ -69,6 +67,7 @@ export class StartComponent implements OnInit, OnDestroy {
         this.pregunta = result["pregunta"];
         this.portSocket = result["portAdmin"];
         this.clavePrivada = result["clavePrivada"]
+
         var token = result["token"]
 
         this.controllerVotacion.setCodigo(this.codigo);
@@ -114,16 +113,27 @@ export class StartComponent implements OnInit, OnDestroy {
       if (hasResults.error) {
         this.error = true;
         clearInterval(this.interval)
-      } else if (this.progress == 100) {
-        setTimeout(() => {
-          this.canStart = true;
-        }, 1000);
       }
     }, 3000)
   }
 
+  stopVotacion() {
+    this.cerrarVotacion()
+  }
+
+  cerrarVotacion() {
+    this.stop = true;
+    this.waiting = false;
+    if (this.interval != null) {
+      clearInterval(this.interval)
+    }
+    if (this.interval2 != null) {
+      clearInterval(this.interval2)
+    }
+  }
+
   start() {
-    this.cifradoController.crearCifradoresAdmin(this.clavePrivada)
+    this.cifradoController.crearCifradoresAdmin("patata", this.clavePrivada)
     this.socketController.sendMessage({fase: "A3", data: "OK"});
     this.clicked = true;
     new Promise((res) => {
@@ -136,19 +146,24 @@ export class StartComponent implements OnInit, OnDestroy {
 
   gestionarVotacion() {
     clearInterval(this.interval)
-    var intervalo = setInterval(() => {
+    this.interval = null;
+
+    this.interval2 = setInterval(() => {
       var hasResults = this.controllerVotacion.getHasResults();
       if (hasResults.result) {
-        clearInterval(intervalo)
+        clearInterval(this.interval2)
+        this.interval2 = null;
         this.router.navigate(['/resultados', this.codigo]);
       } else if (hasResults.alteracion) {
         this.alteracion = true;
         this.waiting = false;
-        clearInterval(intervalo)
+        clearInterval(this.interval2)
+        this.interval2 = null;
       } else if (hasResults.error) {
         this.error = true;
         this.waiting = false;
-        clearInterval(intervalo)
+        clearInterval(this.interval2)
+        this.interval2 = null;
       }
     }, 1000)
   }
@@ -163,7 +178,6 @@ export class StartComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.campanas[dni] = "";
         }, 2000)
-        console.log("REAPARECE")
       }, 30000)
     }, 1500)
   }

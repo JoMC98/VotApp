@@ -105,8 +105,8 @@ exports.modificarContraseña = (db, req, res) => {
         } else {
           encryptor.encryptPassword(req.body.nueva).then(hash => {
             db.query(
-              'UPDATE Usuario SET passwd=? WHERE DNI=?',
-                [hash, req.body.DNI],
+              'UPDATE Usuario SET passwd=?, clavePublica = ?, clavePrivada = ? WHERE DNI=?',
+              [hash, req.body.clavePublica, req.body.clavePrivada, req.body.DNI],
                 (error) => {
                 if (error) {
                   console.error(error);
@@ -123,4 +123,50 @@ exports.modificarContraseña = (db, req, res) => {
   } else {
     res.status(403).json({status: 'Restricted Access'});
   } 
+}
+
+exports.modificarContraseñaFirst = (db, req, res) => {
+  if (req.body.DNI == req.body.usuario.DNI) {
+    
+    checkFirstPassword(db, req.body.usuario.DNI).then(response => {
+      if (response) {
+        encryptor.encryptPassword(req.body.password).then(hash => {
+          db.query(
+            'UPDATE Usuario SET passwd=?, clavePublica = ?, clavePrivada = ? WHERE DNI=?',
+              [hash, req.body.clavePublica, req.body.clavePrivada, req.body.DNI],
+              (error) => {
+              if (error) {
+                console.error(error);
+                res.status(500).json({status: 'error'});
+              } else {
+                res.status(200).json({status: 'ok'});
+              }
+            }
+          );
+        })
+      } else {
+        res.status(403).json({status: 'Restricted Access'});
+      }
+    }).catch(err => {
+      res.status(500).json({status: 'error'});
+    })
+}
+
+async function checkFirstPassword(db, DNI) {
+  return await new Promise((resolve, reject) => {
+    db.query(
+      'SELECT clavePublica, clavePrivada FROM Usuario WHERE dni = ?', 
+      [DNI], (error, results) => {
+        if (error) {
+          reject(false)
+        } else {
+          if (results[0].clavePublica == null || results[0].clavePrivada == null) {
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        }
+      })
+    })
+  }
 }

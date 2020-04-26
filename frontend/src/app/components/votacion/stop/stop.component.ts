@@ -1,21 +1,24 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 import { Router } from '@angular/router';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
+import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
+import { AdminSocketControllerService } from 'src/app/services/sockets/admin-socket-controller.service';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 
 @Component({
-  selector: 'app-alteracion',
-  templateUrl: './alteracion.component.html',
-  styleUrls: ['./alteracion.component.css']
+  selector: 'app-stop',
+  templateUrl: './stop.component.html',
+  styleUrls: ['./stop.component.css']
 })
-export class AlteracionComponent implements OnInit {
+export class StopComponent implements OnInit {
 
   admin: boolean;
   mostrarBotones: boolean = false;
 
   @Input() codigo;
 
-  constructor(private sessionController: SessionControllerService, private router: Router, private controllerBD: DatabaseControllerService) {
+  constructor(private sessionController: SessionControllerService, private router: Router, 
+    private socketController: AdminSocketControllerService, private controllerBD: DatabaseControllerService) {
     this.admin = sessionController.getAdminSession();
   }
 
@@ -27,6 +30,7 @@ export class AlteracionComponent implements OnInit {
 
   cerrarVotacion() {
     new Promise((res) => {
+      this.socketController.sendMessageDestino(null, "STOP", null);
       setTimeout(() => {
         this.controllerBD.cerrarVotacionError(this.codigo).then((res) =>{
           if (res['status'] == 'ok') {
@@ -37,6 +41,7 @@ export class AlteracionComponent implements OnInit {
     });
   }
 
+  
   reiniciarVotacion() {
     new Promise((res) => {
       setTimeout(() => {

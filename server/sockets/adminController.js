@@ -66,7 +66,15 @@ function controlFases(message, socketReferences, serverReferences, dataLocal, se
             var dnis = [mess.data.dni]
             pushController.sendNotification(dnis)
 
-        } else if (!dataLocal.okStart) {
+        } else if (mess && mess.fase && mess.fase == "STOP") {
+            console.log("STOP")
+            for (var id of Object.keys(dataLocal.lista)) {
+                serverController.sendMessage(socketReferences[dataLocal.lista[id].ip], {fase : "STOP", data : ""})
+            }
+            state.closed = true;
+            closeServer(server, dataLocal.connection, dataLocal.port, state, serverReferences)
+        } 
+        else if (!dataLocal.okStart) {
             dataLocal.okStart = true;
 
             if (received.data == "OK") {
@@ -108,7 +116,8 @@ function controlVotos(received, socketReferences, serverReferences, dataLocal, s
         }
         state.closed = true;
         closeServer(server, dataLocal.connection, dataLocal.port, state, serverReferences)
-    } else {
+    }
+     else {
         serverController.sendMessage(socketReferences[destino], message)
     }
 }

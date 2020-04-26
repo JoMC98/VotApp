@@ -21,6 +21,9 @@ export class ConfigurationService {
   public PBKDF2_SALT_BYTES: number = config.PBKDF2_SALT_BYTES
   public RANDOM_NUMBER_BYTES: number = config.RANDOM_NUMBER_BYTES
   public AES_IV_BYTES: number = config.AES_IV_BYTES
+  public RSA_ALGORITHM: string = config.RSA_ALGORITHM
+  public RSA_KEY_LENGTH: number = config.RSA_KEY_LENGTH
+  public RSA_HASH_FUNCTION: string = config.RSA_HASH_FUNCTION
 
   constructor() { }
 }

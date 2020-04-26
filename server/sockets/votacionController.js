@@ -19,7 +19,9 @@ function crearSockets(list) {
         socketReferences[ip] = null
     }
 
-    var state = {closed: false, error: false, conexion: conexion}
+    var votante1 = list.list["0"].ip
+    var total = Object.keys(list.order).length
+    var state = {closed: false, error: false, conexion: conexion, firsts: {destino: votante1, total: total, messages: []}}
 
     var ports = {admin: list.adminPort, votantes: []}
 

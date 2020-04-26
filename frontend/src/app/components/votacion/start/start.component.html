@@ -1,13 +1,17 @@
 <div class="contentVotacion allContent100">
     <div class="panelVotacion">
         <div class="panelSuperiorVotar">
-            <div class="panelBotonesVotacion"> </div>
+            <div class="panelBotonesVotacion">
+                <div *ngIf="!alteracion && !error" class="divBotonStopVotacion" (click)="stopVotacion()">
+                    <i class="fas fa-stop botonStopVotacion"></i>
+                </div>
+            </div>
             <mat-card class="panelPreguntaVotacion">
                 <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
                 class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
             </mat-card>
         </div>
-        <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error">
+        <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error && !stop">
             <div class="containerStart">
                 <div class="containerNumberStart">
                     <b class="numberStart">{{completed}} de {{total}}<br>participantes conectados</b>
@@ -52,6 +56,9 @@
         </mat-card>
         <mat-card class="panelInferiorVotar" *ngIf="error">
             <app-error [codigo]="codigo" class="containerStart"></app-error>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="stop">
+            <app-stop [codigo]="codigo" class="containerStart"></app-stop>
         </mat-card>
     </div>
 </div>

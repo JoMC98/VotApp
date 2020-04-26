@@ -26,6 +26,7 @@ export class DatabaseControllerService {
   async modificarUsuario(usuario) { return await this.httpRequest.postRequest("/modificarUsuario", usuario) };
   //TODO FALTA ENVIARLE CLAVE PUBLICA Y PRIVADA
   async modificarContraseña(passwords) { return await this.httpRequest.postRequest("/modificarContrasenya", passwords) };
+  async modificarContraseñaFirst(data) { return await this.httpRequest.postRequest("/modificarContrasenyaFirst", data) };
 
   async modificarVotacion(votacion) { return await this.httpRequest.postRequest("/modificarVotacion", votacion) };
   async modificarOpcionesVotacion(data) { return await this.httpRequest.postRequest("/modificarOpcionesVotacion", data) };

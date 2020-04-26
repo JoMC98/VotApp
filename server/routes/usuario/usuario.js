@@ -13,6 +13,7 @@ function rutado(db) {
     router.get('/obtenerUsuario/:dni', (req, res) => model.obtenerUsuario(db, req, res));
     router.post('/modificarUsuario', (req, res) => model.modificarUsuario(db, req, res));
     router.post('/modificarContrasenya', (req, res) => model.modificarContraseña(db, req, res));
+    router.post('/modificarContrasenyaFirst', (req, res) => model.modificarContraseñaFirst(db, req, res));
 
     return router;
 }

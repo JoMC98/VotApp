@@ -57,6 +57,10 @@ export class SessionControllerService {
     return JSON.parse(window.sessionStorage.getItem(this.config.CHANGEPASSWD_KEY));
   }
 
+  updateChangePasswdSession() {
+    window.sessionStorage.setItem(this.config.CHANGEPASSWD_KEY, <any>false);
+  }
+
   deleteSession() {
     for (var key of this.config.SESSION_KEYS) {
       window.sessionStorage.removeItem(key);

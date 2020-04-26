@@ -5,6 +5,8 @@ import { DesplegableVotacionComponent } from './desplegable-votacion/desplegable
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
+import { AdminSocketControllerService } from 'src/app/services/sockets/admin-socket-controller.service';
+import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
 
 @Component({
   selector: 'app-votacion',
@@ -35,7 +37,9 @@ export class VotacionComponent implements OnInit, OnDestroy {
   interval;
 
   constructor(private route: ActivatedRoute, private _bottomSheet: MatBottomSheet, private router: Router, 
-    private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService, private sessionController: SessionControllerService) { 
+    private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService, 
+    private sessionController: SessionControllerService, private socketController: AdminSocketControllerService,
+    private votacionController: DatosVotacionControllerService) { 
     this.admin = sessionController.getAdminSession();
     this.dni = sessionController.getDNISession();
   }
@@ -94,6 +98,19 @@ export class VotacionComponent implements OnInit, OnDestroy {
           this.participa = true;
         }
       }
+    });
+  }
+
+  stopVotacion() {
+    this.cerrarVotacion()
+  }
+
+  cerrarVotacion() {
+    this.socketController.sendMessageDestino(null, "STOP", null);
+    new Promise((res) => {
+      setTimeout(() => {
+        this.controllerBD.cerrarVotacionError(this.codigo).then((res) =>{})
+      }, 1500);
     });
   }
 

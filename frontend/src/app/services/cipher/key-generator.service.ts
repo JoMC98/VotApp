@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as keypair from 'keypair';
 import * as CryptoJS from 'crypto-js';
 import { ConfigurationService } from '../general/configuration.service';
 
@@ -10,9 +9,32 @@ export class KeyGeneratorService {
 
   constructor(private config: ConfigurationService) { }
 
-  generateRSAKeyPair() {
-    var keyPair = keypair();
-    return keyPair
+  convertToPem(buf, key) {
+    var exportedAsString = String.fromCharCode.apply(null, new Uint8Array(buf));
+    var exportedAsBase64 = window.btoa(exportedAsString);
+    var pemExported = `-----BEGIN ${key} KEY-----\n${exportedAsBase64}\n-----END ${key} KEY-----`;
+    return pemExported
+  }
+
+  async generateRSAKeyPair() {
+    var keyPair = await window.crypto.subtle.generateKey(
+      {
+        name: this.config.RSA_ALGORITHM,
+        modulusLength: this.config.RSA_KEY_LENGTH,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: this.config.RSA_HASH_FUNCTION
+      },
+      true,
+      ["encrypt", "decrypt"]
+    )
+
+
+    var publicKey = this.convertToPem(await window.crypto.subtle.exportKey("spki", keyPair.publicKey), "PUBLIC")
+    var privateKey = this.convertToPem(await window.crypto.subtle.exportKey("pkcs8", keyPair.privateKey), "PRIVATE")
+    
+    var keys = {private: privateKey, public: publicKey}
+
+    return keys
   }
 
   generatePBKDF2Key(password, salt) {

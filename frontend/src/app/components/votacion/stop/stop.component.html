@@ -1,11 +1,14 @@
 <div class="containerWaitingPage">
     <div class="containerTextAlteracion">
-        <div class="textAlteracion">
-            Se ha producido una manipulación<br>en la votación y se ha cerrado
+        <div *ngIf="admin" class="textAlteracion">
+            Has parado la votación
+        </div>
+        <div *ngIf="!admin" class="textAlteracion">
+            El administrador ha<br>parado la votación
         </div>
     </div>
     <div class="containerImgAlteracion">
-        <img class="imgAlteracion" src="assets\icons\alteracionVotacion.png">
+        <img class="imgAlteracion" src="assets\icons\stopVotacion.png">
     </div>
     <div class="containerAccionAlteracion">
         <div class="messageAccionAlteracion">

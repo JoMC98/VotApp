@@ -32,9 +32,11 @@ export class VotarComponent implements OnInit, OnDestroy {
   waiting: boolean = false;
   alteracion: boolean = false;
   error: boolean = false;
+  stop: boolean = false;
 
   portSocket;
   clavePrivada;
+  desencryptedKey: boolean = false;
 
   interval = null;
 
@@ -120,7 +122,6 @@ export class VotarComponent implements OnInit, OnDestroy {
       this.clavePrivada = datos["clavePrivada"];
       this.pregunta = datos["pregunta"];
       var token = datos["token"]
-
       this.abrirSocketVotante(token);
     })
   }
@@ -133,9 +134,17 @@ export class VotarComponent implements OnInit, OnDestroy {
   comprobarEstado() {
     var interval = setInterval(() => {
       this.canVote = this.controllerVotacion.getCanVote()
+      if (this.canVote && !this.desencryptedKey) {
+        this.cifradoController.crearCifradoresVotante("patata", this.clavePrivada)
+        this.desencryptedKey = true;
+      }
       var hasResults = this.controllerVotacion.getHasResults();
       if (hasResults.error) {
         this.error = true;
+        clearInterval(this.interval)
+      }
+      else if (hasResults.stop) {
+        this.stop = true;
         clearInterval(this.interval)
       }
     }, 3000)
@@ -166,7 +175,7 @@ export class VotarComponent implements OnInit, OnDestroy {
     this.selected = false;
     this.seleccion = null;
 
-    this.cifradoController.cifrarVoto(this.options[seleccion].pregunta, this.clavePrivada).then(res => {
+    this.cifradoController.cifrarVoto(this.options[seleccion].pregunta).then(res => {
       var ip = this.controllerVotacion.getIp(0);
       this.socketController.sendMessageDestino(ip, 1, res)
      
@@ -192,6 +201,10 @@ export class VotarComponent implements OnInit, OnDestroy {
         clearInterval(intervalo)
       } else if (hasResults.error) {
         this.error = true;
+        this.waiting = false;
+        clearInterval(intervalo)
+      } else if (hasResults.stop) {
+        this.stop = true;
         this.waiting = false;
         clearInterval(intervalo)
       }

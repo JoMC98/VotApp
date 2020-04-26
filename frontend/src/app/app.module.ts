@@ -60,6 +60,7 @@ import { AlteracionComponent } from './components/votacion/alteracion/alteracion
 import { ErrorComponent } from './components/votacion/error/error.component';
 import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 import { ConnectionErrorComponent } from './components/errors/connection-error/connection-error.component';
+import { StopComponent } from './components/votacion/stop/stop.component';
 
 registerLocaleData(localeEs, 'es')
 
@@ -96,7 +97,8 @@ registerLocaleData(localeEs, 'es')
     AlteracionComponent,
     ErrorComponent,
     ServerErrorComponent,
-    ConnectionErrorComponent
+    ConnectionErrorComponent,
+    StopComponent
   ],
   imports: [
     MatFormFieldModule, 

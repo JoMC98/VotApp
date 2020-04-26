@@ -12,7 +12,7 @@ export class DatosVotacionControllerService {
   canVote = false;
   results = [];
   codigo;
-  hasResults = {result: false, alteracion: false, error: false};
+  hasResults = {result: false, alteracion: false, error: false, stop: false};
 
   constructor() {}
 
@@ -80,8 +80,12 @@ export class DatosVotacionControllerService {
     this.hasResults.error = true;
   }
 
+  activateStop() {
+    this.hasResults.stop = true;
+  }
+
   setLista(lista) {
-    this.hasResults = {result: false, alteracion: false, error: false};
+    this.hasResults = {result: false, alteracion: false, error: false, stop: false};
     this.lista = lista
     if (this.lista.list) {
       this.total = Object.keys(this.lista.list).length * 2;

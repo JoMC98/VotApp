@@ -4,6 +4,7 @@ import { DatosVotacionControllerService } from '../sockets/datos-votacion-contro
 import { AESCipherService } from './aes-cipher.service';
 import { RSACipherService } from './rsa-cipher.service';
 import { KeyGeneratorService } from './key-generator.service';
+import { KeyPasswordControllerService } from './key-password-controller.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,57 +15,66 @@ export class CifradoControllerService {
   order;
   adminCPublica;
   store = {};
+  cifradoresCreated = false;
 
   constructor(private controllerVotacion: DatosVotacionControllerService, 
-    private AESCipher:AESCipherService, private RSACipher:RSACipherService, private KeyGenerator: KeyGeneratorService) { }
+    private AESCipher:AESCipherService, private RSACipher:RSACipherService, private KeyGenerator: KeyGeneratorService, private kewPasswordController: KeyPasswordControllerService) { }
 
   clearData() {
     this.lista = null;
     this.order = null;
     this.adminCPublica = null;
     this.store = {};
+    this.cifradoresCreated = false;
 
     this.RSACipher.clearData();
   }
 
-  async cifrarVoto(voto, clavePrivada) {
+  async cifrarVoto(voto) {
     return await new Promise((resolve, reject) => {
       this.store = {"first" : null, "encrypted" : {}, "strings" : {}, "adminEncrypted" : null}
 
-      this.crearCifradores(clavePrivada);
       this.primeraFaseCifrado(voto).then(res => {
         this.segundaFaseCifrado(res).then(cifrado => {
-
           resolve(cifrado)
         });
       });
     });
   }
 
-  crearCifradores(clavePrivada) {
-    var l = this.controllerVotacion.getLista();
-    this.lista = l.list;
-    this.order = l.order;
-    this.adminCPublica = l.adminClavePublica;
-    this.RSACipher.newCifrador("admin", this.adminCPublica)
-
-    for (var key of Object.keys(this.lista)) {
-      var el = this.lista[key];
-      if (key == this.order) {
-        this.RSACipher.ownCifrador(key, el["clavePublica"], clavePrivada)
-      } else {
-        this.RSACipher.newCifrador(key, el["clavePublica"])
-      }
+  crearCifradoresVotante(password, claveCifrada) {
+    if (!this.cifradoresCreated) {
+      this.cifradoresCreated = true;
+      var l = this.controllerVotacion.getLista();
+      this.lista = l.list;
+      this.order = l.order;
+      this.adminCPublica = l.adminClavePublica;
+      this.kewPasswordController.decryptPrivateKey(password, claveCifrada).then(clavePrivada => {
+        this.RSACipher.newCifrador("admin", this.adminCPublica)
+        for (var key of Object.keys(this.lista)) {
+          var el = this.lista[key];
+          if (key == this.order) {
+            this.RSACipher.ownCifrador(this.order, el["clavePublica"], clavePrivada)
+          } else {
+            this.RSACipher.newCifrador(key, el["clavePublica"])
+          }
+        }
+      })
+      
     }
   }
 
-  crearCifradoresAdmin(clavePrivada) {
+  crearCifradoresAdmin(password, claveCifrada) {
     this.lista = this.controllerVotacion.getLista();
-    this.RSACipher.ownCifrador("admin", this.lista.adminClavePublica, clavePrivada)
+
     for (var key of Object.keys(this.lista)) {
       var el = this.lista[key];
       this.RSACipher.newCifrador(key, el["clavePublica"])
     }
+
+    this.kewPasswordController.decryptPrivateKey(password, claveCifrada).then(clavePrivada => {
+      this.RSACipher.ownCifrador("admin", this.lista.adminClavePublica, clavePrivada)
+    })
   }
 
   async primeraFaseCifrado(voto) {

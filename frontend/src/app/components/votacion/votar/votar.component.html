@@ -16,7 +16,10 @@
         <mat-card class="panelInferiorVotar" *ngIf="error">
             <app-error [codigo]="codigo" class="containerStart"></app-error>
         </mat-card>
-        <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error">
+        <mat-card class="panelInferiorVotar" *ngIf="stop">
+            <app-stop [codigo]="codigo" class="containerStart"></app-stop>
+        </mat-card>
+        <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error && !stop">
             <div class="containerDivSpinner" *ngIf="!canVote">
                 <div class="divTextSpinner">
                     <label class="textSpinner">Esperando a que todos<br>los usuarios se conecten</label>

@@ -10,9 +10,9 @@ export class VotanteSocketControllerService {
 
   ws;
   lista;
-  messagesFase1 = [];
   alteracion = false;
   error = false;
+  stop = false;
   cerrado = false;
 
   constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, private senderController: SenderMessageControllerService ) {}
@@ -32,7 +32,6 @@ export class VotanteSocketControllerService {
 
   controlMessages() {
     this.ws.onmessage = (event) => {
-      //COMUNICAR CON CONTROLADOR DE ESTADO Y PASAR LISTA??
       this.controlFases(JSON.parse(event.data))
     };
   }
@@ -59,57 +58,50 @@ export class VotanteSocketControllerService {
       this.controllerVotacion.activateError();
       this.endVotacionError();
     } 
+    else if (fase == "STOP") {
+      this.stop = true;
+      this.controllerVotacion.activateStop();
+      this.endVotacionError();
+    } 
     else if (fase == "END") {
       this.controllerVotacion.activateHasResults();
       this.sendMessageDestino(null, "END-OK", null);  
       this.clearData();
     } 
     else {
-      if (!this.alteracion && !this.error) {
+      if (!this.alteracion && !this.error && !this.stop) {
         this.controlDesencriptadosVotante(fase, data);
       }
     }
   }
 
   controlDesencriptadosVotante(fase, data) {
+    var senderMethod;
     if (fase == "1") {
-      this.messagesFase1.push(data);
-      if (this.messagesFase1.length == this.controllerVotacion.getParticipants()) {
-        this.senderController.controlFaseFirstPart(this.messagesFase1)
-        .then(res => {
-          this.sendMessages(res);
-        }).catch(err => {
-          this.avisarAlteracion();
-        });
-      }
-    } 
-    else {
-      var senderMethod;
-      if (fase == "2") {
-        senderMethod = this.senderController.controlFaseFirstPart(data)
-      } else if (fase == "3") {
-        senderMethod = this.senderController.controlFaseSecondPart(data, true)
-      } else if (fase == "4") {
-        senderMethod = this.senderController.controlFaseSecondPart(data, false)
-      } else if (fase == "F") {
-        senderMethod = this.senderController.controlCheckSign(data, false);
-      } else if (fase == "FA") {
-        senderMethod = this.senderController.controlCheckSign(data, true);
-      } else if (fase == "Y") {
-        senderMethod = this.senderController.controlLastString(data);
-      } else {
-        return;
-      }
+      senderMethod = this.senderController.controlFaseFirstPart(data)
+    } else if (fase == "2") {
+      senderMethod = this.senderController.controlFaseFirstPart(data)
+    } else if (fase == "3") {
+      senderMethod = this.senderController.controlFaseSecondPart(data, true)
+    } else if (fase == "4") {
+      senderMethod = this.senderController.controlFaseSecondPart(data, false)
+    } else if (fase == "F") {
+      senderMethod = this.senderController.controlCheckSign(data, false);
+    } else if (fase == "FA") {
+      senderMethod = this.senderController.controlCheckSign(data, true);
+    } else if (fase == "Y") {
+      senderMethod = this.senderController.controlLastString(data);
+    } else {
+      return;
+    }
 
-      senderMethod.then(res => {
-        if (res != false) {
-          this.sendMessages(res);
-        }
-      }).catch(err => {
-        this.avisarAlteracion();
-      });
-
-    }  
+    senderMethod.then(res => {
+      if (res != false) {
+        this.sendMessages(res);
+      }
+    }).catch(err => {
+      this.avisarAlteracion();
+    }); 
   }
 
   avisarAlteracion() {
@@ -133,7 +125,6 @@ export class VotanteSocketControllerService {
     this.cerrado = true;
     this.senderController.clearData();
     this.ws = null;
-    this.messagesFase1 = [];
   }
 
   sendMessage(data) {

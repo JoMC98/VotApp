@@ -14,12 +14,14 @@ export class KeyPasswordControllerService {
     return await new Promise((resolve, reject) => {
       var salt = this.keyGenerator.generateSalt()
       var iv = this.keyGenerator.generateIV()
-      var keyPair = this.keyGenerator.generateRSAKeyPair()
-
-      var credentials = {password: password, salt: salt, iv: iv}
-      var datos = this.AESCipher.encrypt(credentials, keyPair.private)
-
-      resolve(JSON.stringify(datos))
+      this.keyGenerator.generateRSAKeyPair().then(keyPair => {
+        var credentials = {password: password, salt: salt, iv: iv}
+        var datos = this.AESCipher.encrypt(credentials, keyPair["private"])
+  
+        var claves = {clavePublica: keyPair["public"], clavePrivada: JSON.stringify(datos)}
+  
+        resolve(claves)
+      })
     });
   }
 

@@ -36,7 +36,7 @@ function aceptarConexion(request, socketReferences, userData, server, state, lis
     var dataLocal = {firstMessage: false, okList: false, connection: connection, lista: lista};
 
     connection.on('message', function(message) {
-        controlFases(message, socketReferences, dataLocal, userData, server)
+        controlFases(message, socketReferences, dataLocal, userData, server, state)
     });
 
     connection.on('close', function(connection) {
@@ -47,7 +47,7 @@ function aceptarConexion(request, socketReferences, userData, server, state, lis
     });
 }
 
-function controlFases(message, socketReferences, dataLocal, userData, server) {
+function controlFases(message, socketReferences, dataLocal, userData, server, state) {
     if (message.type === 'utf8') {
         if (!dataLocal.firstMessage) {
             var list = {fase: 0, data: dataLocal.lista}
@@ -58,7 +58,7 @@ function controlFases(message, socketReferences, dataLocal, userData, server) {
             dataLocal.okList = true;
             serverController.sendMessage(socketReferences["admin"], {fase : "A2", data : userData.dni})
         } else {
-            controlVotos(message, socketReferences, dataLocal.connection, userData.port, server)
+            controlVotos(message, socketReferences, dataLocal.connection, userData.port, server, state)
         }
     }
 }
@@ -84,7 +84,7 @@ function checkToken(token, userData, dataLocal, list, socketReferences) {
         })
 }
 
-function controlVotos(mess, socketReferences, connection, port, server) {
+function controlVotos(mess, socketReferences, connection, port, server, state) {
     var received = JSON.parse(mess.utf8Data)
     var destino = received.destino
     var message = received.message
@@ -92,6 +92,15 @@ function controlVotos(mess, socketReferences, connection, port, server) {
 
     if (fase == "END-OK") {
         closeServer(server, connection, port)
+    } else if (fase == "1") {
+        if (state.firsts != null) {
+            state.firsts.messages.push(message.data)
+            if (state.firsts.messages.length == state.firsts.total) {
+                var mensaje = {fase: "1", data: state.firsts.messages}
+                serverController.sendMessage(socketReferences[state.firsts.destino], mensaje)
+                state.firsts = null
+            }
+        }
     } else {
         serverController.sendMessage(socketReferences[destino], message)
     }
