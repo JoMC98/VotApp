@@ -31,10 +31,13 @@ export class KeyPasswordControllerService {
 
       var cipherText = data.cipherText
       var credentials = {password: password, salt: data.salt, iv: data.iv}
-  
-      var privateKey = this.AESCipher.decrypt(credentials, cipherText)
-      
-      resolve(privateKey)
+
+      try {
+        var privateKey = this.AESCipher.decrypt(credentials, cipherText)
+        resolve(privateKey)
+      } catch(error) {
+        reject(false)
+      }      
     });
   }
 }

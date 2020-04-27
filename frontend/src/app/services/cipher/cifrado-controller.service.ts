@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { async } from '@angular/core/testing';
 import { DatosVotacionControllerService } from '../sockets/datos-votacion-controller.service';
 import { AESCipherService } from './aes-cipher.service';
 import { RSACipherService } from './rsa-cipher.service';
 import { KeyGeneratorService } from './key-generator.service';
 import { KeyPasswordControllerService } from './key-password-controller.service';
+import { ConfigurationService } from '../general/configuration.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class CifradoControllerService {
   store = {};
   cifradoresCreated = false;
 
-  constructor(private controllerVotacion: DatosVotacionControllerService, 
-    private AESCipher:AESCipherService, private RSACipher:RSACipherService, private KeyGenerator: KeyGeneratorService, private kewPasswordController: KeyPasswordControllerService) { }
+  constructor(private controllerVotacion: DatosVotacionControllerService, private RSACipher:RSACipherService, 
+    private KeyGenerator: KeyGeneratorService) { }
 
   clearData() {
     this.lista = null;
@@ -42,29 +43,29 @@ export class CifradoControllerService {
     });
   }
 
-  crearCifradoresVotante(password, claveCifrada) {
+  crearCifradoresVotante() {
     if (!this.cifradoresCreated) {
       this.cifradoresCreated = true;
       var l = this.controllerVotacion.getLista();
       this.lista = l.list;
       this.order = l.order;
       this.adminCPublica = l.adminClavePublica;
-      this.kewPasswordController.decryptPrivateKey(password, claveCifrada).then(clavePrivada => {
-        this.RSACipher.newCifrador("admin", this.adminCPublica)
+      this.RSACipher.newCifrador("admin", this.adminCPublica)
         for (var key of Object.keys(this.lista)) {
           var el = this.lista[key];
           if (key == this.order) {
+            var clavePrivada = this.controllerVotacion.getPrivateKey()
             this.RSACipher.ownCifrador(this.order, el["clavePublica"], clavePrivada)
+            this.controllerVotacion.deletePrivateKey();
           } else {
             this.RSACipher.newCifrador(key, el["clavePublica"])
           }
         }
-      })
       
     }
   }
 
-  crearCifradoresAdmin(password, claveCifrada) {
+  crearCifradoresAdmin() {
     this.lista = this.controllerVotacion.getLista();
 
     for (var key of Object.keys(this.lista)) {
@@ -72,15 +73,17 @@ export class CifradoControllerService {
       this.RSACipher.newCifrador(key, el["clavePublica"])
     }
 
-    this.kewPasswordController.decryptPrivateKey(password, claveCifrada).then(clavePrivada => {
-      this.RSACipher.ownCifrador("admin", this.lista.adminClavePublica, clavePrivada)
-    })
+    var clavePrivada = this.controllerVotacion.getPrivateKey()
+    this.RSACipher.ownCifrador("admin", this.lista.adminClavePublica, clavePrivada)
+
+    this.controllerVotacion.deletePrivateKey();
   }
 
   async primeraFaseCifrado(voto) {
     return await new Promise(async (resolve, reject) => {
       var r1 = this.KeyGenerator.generateRandom();
-      this.store["first"] = r1 + "";
+      // this.store["first"] = r1 + "";
+      this.store["first"] = "AA";
       var res = voto + "###" + r1;
 
       res = await this.RSACipher.encrypt(res, "admin");
@@ -164,8 +167,8 @@ export class CifradoControllerService {
     });
   }
 
-  async cifrarListaVotosAdmin(str) : Promise<Array<Object>> {
-    return await new Promise(async (resolve, reject) => {
+  cifrarListaVotosAdmin(str) : Promise<Array<Object>> {
+    return new Promise(async (resolve, reject) => {
       var cifrados = []
       for (var key of Object.keys(this.lista)) {
         var res = await this.RSACipher.encrypt(str, key);

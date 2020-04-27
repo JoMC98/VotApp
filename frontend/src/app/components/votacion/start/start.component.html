@@ -2,7 +2,10 @@
     <div class="panelVotacion">
         <div class="panelSuperiorVotar">
             <div class="panelBotonesVotacion">
-                <div *ngIf="!alteracion && !error" class="divBotonStopVotacion" (click)="stopVotacion()">
+                <div *ngIf="password" class="divBotonBackVotacion" (click)="back()">
+                    <i class="fas fa-angle-left botonBackVotacion"></i>
+                </div>
+                <div *ngIf="!alteracion && !error && !stop && !password" class="divBotonStopVotacion" (click)="stopVotacion()">
                     <i class="fas fa-stop botonStopVotacion"></i>
                 </div>
             </div>
@@ -11,7 +14,7 @@
                 class="preguntaVotacion" [(ngModel)]="pregunta" [readonly]="true"></textarea>
             </mat-card>
         </div>
-        <mat-card class="panelInferiorVotar" *ngIf="!waiting && !alteracion && !error && !stop">
+        <mat-card class="panelInferiorVotar" *ngIf="!password && !waiting && !alteracion && !error && !stop">
             <div class="containerStart">
                 <div class="containerNumberStart">
                     <b class="numberStart">{{completed}} de {{total}}<br>participantes conectados</b>
@@ -47,6 +50,9 @@
                     </div>
                 </div>  
             </div>
+        </mat-card>
+        <mat-card [codigo]="codigo" class="panelInferiorVotar" *ngIf="password">
+            <app-password class="containerStart"></app-password>
         </mat-card>
         <mat-card class="panelInferiorVotar" *ngIf="waiting">
             <app-wait class="containerStart"></app-wait>

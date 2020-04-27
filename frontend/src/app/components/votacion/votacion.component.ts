@@ -101,19 +101,6 @@ export class VotacionComponent implements OnInit, OnDestroy {
     });
   }
 
-  stopVotacion() {
-    this.cerrarVotacion()
-  }
-
-  cerrarVotacion() {
-    this.socketController.sendMessageDestino(null, "STOP", null);
-    new Promise((res) => {
-      setTimeout(() => {
-        this.controllerBD.cerrarVotacionError(this.codigo).then((res) =>{})
-      }, 1500);
-    });
-  }
-
   modifyPregunta() {
     this.modificarPregunta = !this.modificarPregunta;
     this.copyPregunta = this.votacion.pregunta;

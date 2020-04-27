@@ -20,17 +20,20 @@ export class StopComponent implements OnInit {
   constructor(private sessionController: SessionControllerService, private router: Router, 
     private socketController: AdminSocketControllerService, private controllerBD: DatabaseControllerService) {
     this.admin = sessionController.getAdminSession();
+    this.mostrarBotones = true;
+    //TODO MOSTRAR BOTONES
   }
 
   ngOnInit(): void {
-    if (this.admin) {
-      this.cerrarVotacion()
-    }
+
+    // if (this.admin) {
+    //   this.cerrarVotacion()
+    // }
   }
 
   cerrarVotacion() {
     new Promise((res) => {
-      this.socketController.sendMessageDestino(null, "STOP", null);
+     
       setTimeout(() => {
         this.controllerBD.cerrarVotacionError(this.codigo).then((res) =>{
           if (res['status'] == 'ok') {

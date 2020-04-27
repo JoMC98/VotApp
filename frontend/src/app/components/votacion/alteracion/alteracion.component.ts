@@ -17,12 +17,14 @@ export class AlteracionComponent implements OnInit {
 
   constructor(private sessionController: SessionControllerService, private router: Router, private controllerBD: DatabaseControllerService) {
     this.admin = sessionController.getAdminSession();
+    this.mostrarBotones = true;
+    //TODO MOSTRAR BOTONES
   }
 
   ngOnInit(): void {
-    if (this.admin) {
-      this.cerrarVotacion()
-    }
+    // if (this.admin) {
+    //   this.cerrarVotacion()
+    // }
   }
 
   cerrarVotacion() {

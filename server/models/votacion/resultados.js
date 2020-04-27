@@ -1,7 +1,7 @@
 const controlAccess = require('../acceso/controlAccessHelpers');
 const sockets = require('../acceso/sockets.js');
 
-function obtenerResultadosVotacion(db, req, res) {
+exports.obtenerResultadosVotacion = (db, req, res) => {
   controlAccess.allowedUser(db, req.params.codigo, req.body.usuario.DNI, req.body.usuario.admin)
     .then(() => {
       sockets.obtenerEstadoVotacion(db,req.params.codigo).then(estado => {
@@ -33,34 +33,26 @@ function obtenerResultadosVotacion(db, req, res) {
     }); 
 }
 
-function añadirResultadosVotacion(db, req, res) {
-  if (req.body.usuario.admin) {
-    db.query(
-      'INSERT INTO Opcion (codigo, opcion, total_votos) VALUES ? ON DUPLICATE KEY UPDATE total_votos=VALUES(total_votos)',
-      [req.body.votos],
-      (error) => {
-        if (error) {
-          console.log(err)
-          res.status(500).json({status: 'error'});
-        } else {
-          cambiarEstadoVotacion(db, req.params.codigo, "Finalizada")
-            .then(() => {
-              borrarSockets(db, req.params.codigo)
-                .then(() => {
-                  res.status(200).json({status: 'OK'});
-                }).catch(err => {
-                  console.log(err)
-                  res.status(500).json({status: 'error'});
-                });
-            }).catch(err => {
-              console.log(err)
-              res.status(500).json({status: 'error'});
-            });
-        }
-    });  
-  } else {
-    res.status(403).json({status: 'Restricted Access'});
-  } 
+exports.addResultadosVotacion = (db, votos) => {
+  console.log(votos)
+  var codigo = votos[0][0]
+  db.query(
+    'INSERT INTO Opcion (codigo, opcion, total_votos) VALUES ? ON DUPLICATE KEY UPDATE total_votos=VALUES(total_votos)',
+    [votos], (error) => {
+      if (error) {
+        console.log(err)
+      } else {
+        cambiarEstadoVotacion(db, codigo, "Finalizada")
+          .then(() => {
+            borrarSockets(db, codigo)
+              .catch(err => {
+                console.log(err)
+              });
+          }).catch(err => {
+            console.log(err)
+          });
+      }
+  })
 }
 
 async function cambiarEstadoVotacion(db, codigo, state) {
@@ -92,8 +84,3 @@ async function borrarSockets(db, codigo) {
     });   
   });
 }
-
-module.exports = {
-  añadirResultadosVotacion: añadirResultadosVotacion,
-  obtenerResultadosVotacion: obtenerResultadosVotacion
-};

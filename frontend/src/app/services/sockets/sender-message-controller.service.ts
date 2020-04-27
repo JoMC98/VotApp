@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { DatosVotacionControllerService } from './datos-votacion-controller.service';
 import { VotanteSocketControllerService } from './votante-socket-controller.service';
 import { CifradoControllerService } from '../cipher/cifrado-controller.service';
+import { DatabaseControllerService } from '../database/database-controller.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SenderMessageControllerService {
 
-  constructor(private controllerVotacion: DatosVotacionControllerService, private cifradoController: CifradoControllerService) {}
+  constructor(private controllerVotacion: DatosVotacionControllerService, private cifradoController: CifradoControllerService, 
+    private controllerBD: DatabaseControllerService) {}
   
   clearData() {
     this.controllerVotacion.clearData();
@@ -107,12 +109,14 @@ export class SenderMessageControllerService {
   async controlDesencriptadoAdmin(list) {
     return await new Promise((resolve, reject) => {
       this.cifradoController.checkSignature(list, false).then(lista => {
-        this.cifradoController.descifrarListaVotosAdminPart(lista).then(res => {
-          this.guardarVotos(res)
+        this.cifradoController.descifrarListaVotosAdminPart(lista).then(async res => {
           var str = JSON.stringify(res)
-          this.cifradoController.cifrarListaVotosAdmin(str).then(cifrados => {
-            resolve(cifrados)
-          })
+
+          let [vots, cifrados] = await Promise.all([this.guardarVotos(res), this.cifradoController.cifrarListaVotosAdmin(str)]);
+          
+          cifrados.push({ip: "server", fase: "Y" , data: vots})
+          resolve(cifrados)
+
         }).catch(err => {
           reject("Alteracion")
         })
@@ -122,13 +126,23 @@ export class SenderMessageControllerService {
     })
   }
 
-  guardarVotos(res) {
-    var vots = []
-    for (var vote of res.datos) {
-      var v = vote.split("###")[0];
-      vots.push(v)
-    }
-
-    this.controllerVotacion.setResults(vots)
+  guardarVotos(res): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      var vots = []
+      for (var vote of res.datos) {
+        var v = vote.split("###")[0];
+        vots.push(v)
+      }
+      var codigo = this.controllerVotacion.getCodigo();
+      this.controllerBD.obtenerOpcionesVotacion(codigo).then(res => {
+        var votos = []
+        for (var i of Object.keys(res)) {
+          var opt = res[i]
+          var total_votos = vots.filter(x => x == opt.opcion).length
+          votos.push([codigo, opt.opcion, total_votos])
+        }
+        resolve(votos);
+      })
+    })
   }
 }

@@ -40,6 +40,11 @@ export class VotarComponent implements OnInit, OnDestroy {
 
   interval = null;
 
+  password: boolean = true;
+  interval2 = null;
+  interval3 = null;
+  timeout = null;
+
   activarBoton: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router, 
@@ -122,7 +127,59 @@ export class VotarComponent implements OnInit, OnDestroy {
       this.clavePrivada = datos["clavePrivada"];
       this.pregunta = datos["pregunta"];
       var token = datos["token"]
-      this.abrirSocketVotante(token);
+      this.controllerVotacion.setEncryptedPrivateKey(this.clavePrivada)
+      this.checkLogin().then(() => {
+        this.abrirSocketVotante(token);
+      }).catch((err) => {
+        this.controllerVotacion.clearData()
+        if (!err) {
+          this.router.navigate(['/votacion', this.codigo],{ queryParams: {home: false} });
+        }
+      })
+    })
+  }
+
+  back() {
+    clearTimeout(this.timeout)
+    clearInterval(this.interval2)
+    clearInterval(this.interval3)
+    this.router.navigate(['/votacion', this.codigo],{ queryParams: {home: false} });
+  }
+
+  async checkLogin() {
+    return await new Promise((resolve, reject) => {
+      this.timeout = setTimeout(() => {
+        clearInterval(this.interval2)
+        clearInterval(this.interval3)
+        reject(false)
+      }, 30000);
+
+      this.interval2 = setInterval(() => {
+        var logged = this.controllerVotacion.isLogged()
+        console.log(logged)
+        if (logged) {
+          this.password = false;
+          clearTimeout(this.timeout)
+          clearInterval(this.interval2)
+          clearInterval(this.interval3)
+          resolve(true)
+        }
+      }, 1000);
+
+      this.interval3 = setInterval(() => {
+        this.controllerBD.obtenerEstadoVotacionVotante(this.codigo).then(state => {
+          console.log(state)
+          if (state["estado"] == "Creada") {
+            this.error = true;
+            this.password = false;
+            clearTimeout(this.timeout)
+            clearInterval(this.interval2)
+            clearInterval(this.interval3)
+            reject(true)
+          }
+        })
+        
+      }, 5000);
     })
   }
 
@@ -135,7 +192,7 @@ export class VotarComponent implements OnInit, OnDestroy {
     var interval = setInterval(() => {
       this.canVote = this.controllerVotacion.getCanVote()
       if (this.canVote && !this.desencryptedKey) {
-        this.cifradoController.crearCifradoresVotante("patata", this.clavePrivada)
+        this.cifradoController.crearCifradoresVotante()
         this.desencryptedKey = true;
       }
       var hasResults = this.controllerVotacion.getHasResults();

@@ -2,6 +2,8 @@ const portsController = require('./auxiliarPuertos.js');
 const serverController = require('./serverController.js')
 const pushController = require('../helpers/pushController.js');
 const tokenController = require('../helpers/tokenJWT.js');
+const errorController = require('../models/acceso/errorVotacion.js')
+const db = require('../controllers/db.js');
 
 function gestorSocketAdmin(list, references, state) {
     var socketReferences = references.socketReferences
@@ -67,12 +69,12 @@ function controlFases(message, socketReferences, serverReferences, dataLocal, se
             pushController.sendNotification(dnis)
 
         } else if (mess && mess.fase && mess.fase == "STOP") {
-            console.log("STOP")
             for (var id of Object.keys(dataLocal.lista)) {
                 serverController.sendMessage(socketReferences[dataLocal.lista[id].ip], {fase : "STOP", data : ""})
             }
+            serverController.sendMessage(socketReferences["admin"], {fase : "STOP", data : ""})
+            errorController.cerrarVotacionError(db, state.codigo);
             state.closed = true;
-            closeServer(server, dataLocal.connection, dataLocal.port, state, serverReferences)
         } 
         else if (!dataLocal.okStart) {
             dataLocal.okStart = true;
@@ -110,14 +112,21 @@ function controlVotos(received, socketReferences, serverReferences, dataLocal, s
     var message = received.message
     var fase = message.fase
 
-    if (fase == "END") {
-        for (var id of Object.keys(dataLocal.lista)) {
-            serverController.sendMessage(socketReferences[dataLocal.lista[id].ip], {fase : "END", data : ""})
+    if (fase == "Y") {
+        if (destino == "server") {
+            state.faseZ.votos = message.data;
+        } else {
+            console.log("SEND Y")
+            serverController.sendMessage(socketReferences[destino], message)
         }
+    } else if (fase == "ALT") {
+        for (var id of Object.keys(dataLocal.lista)) {
+            serverController.sendMessage(socketReferences[dataLocal.lista[id].ip], {fase : "ALT", data : ""})
+        }
+        serverController.sendMessage(socketReferences["admin"], {fase : "ALT", data : ""})
+        errorController.cerrarVotacionError(db, state.codigo);
         state.closed = true;
-        closeServer(server, dataLocal.connection, dataLocal.port, state, serverReferences)
-    }
-     else {
+    } else {
         serverController.sendMessage(socketReferences[destino], message)
     }
 }
@@ -130,6 +139,7 @@ function closeServer(server, connection, port, state, serverReferences) {
     
     for (var ip of Object.keys(serverReferences)) {
         if (!state.conexion[ip]) {
+            console.log("CLOSING ADMIN " + ip)
             serverReferences[ip].server.httpServer.close()
             portsController.liberatePort(serverReferences[ip].port)
         }
@@ -137,6 +147,7 @@ function closeServer(server, connection, port, state, serverReferences) {
 }
 
 function avisarCierre(socketReferences, lista) {
+    console.log("AVISANDO CIERRE ADMIN")
     for (var id of Object.keys(lista)) {
         serverController.sendMessage(socketReferences[lista[id].ip], {fase : "ERR", data : "ERROR CONEXION"})
     }

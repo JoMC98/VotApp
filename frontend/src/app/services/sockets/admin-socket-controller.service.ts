@@ -14,6 +14,7 @@ export class AdminSocketControllerService {
   alteracion = false;
   error = false;
   cerrado = false;
+  stop = false;
 
   constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, 
     private senderController: SenderMessageControllerService, private controllerBD: DatabaseControllerService) {}
@@ -57,8 +58,12 @@ export class AdminSocketControllerService {
       this.error = true;
       this.controllerVotacion.activateError();
       this.endVotacionError();
+    } else if (fase == "STOP") {
+        this.stop = true;
+        this.controllerVotacion.activateStop();
+        this.endVotacionError();
     } else {
-      if (!this.alteracion && !this.error) {
+      if (!this.alteracion && !this.error && !this.stop) {
         this.controlDesencriptadosAdmin(fase, data);
       }
     }
@@ -73,24 +78,24 @@ export class AdminSocketControllerService {
       }).catch(err => {
         this.avisarAlteracion()
       });
-    } else if (fase == "Z") {
-      this.messagesFaseZ.push(data);
-      if (this.messagesFaseZ.length == this.controllerVotacion.getParticipants()) {
-        this.endVotacion();
-      }
-    }
+    } else if (fase == "END") {
+      this.controllerVotacion.activateHasResults();
+      this.sendMessageDestino(null, "END-OK", null);  
+      this.clearData();
+    } 
   }
 
   avisarAlteracion() {
     this.alteracion = true;
-    var lista = this.controllerVotacion.getLista();
-    var messages = []
-    messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
-    for (var key of Object.keys(lista)) {
-      var ip = lista[key]["ip"];
-      messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
-    }
-    this.sendMessages(messages);
+    this.sendMessageDestino(null, "ALT", "ALTERACION")
+    // var lista = this.controllerVotacion.getLista();
+    // var messages = []
+    // messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
+    // for (var key of Object.keys(lista)) {
+    //   var ip = lista[key]["ip"];
+    //   messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
+    // }
+    // this.sendMessages(messages);
   }
 
   endVotacionError() {
@@ -99,31 +104,11 @@ export class AdminSocketControllerService {
   }
 
   clearData() {
+    console.log("CLEARING DATA")
     this.cerrado = true;
     this.senderController.clearData();
     this.ws = null;
     this.messagesFaseZ = [];
-  }
-
-  endVotacion() {
-    var results = this.controllerVotacion.getResults();
-    var codigo = this.controllerVotacion.getCodigo();
-    this.controllerBD.obtenerOpcionesVotacion(codigo).then(res => {
-      var votos = []
-      for (var i of Object.keys(res)) {
-        var opt = res[i]
-        var total_votos = results.filter(x => x == opt.opcion).length
-        votos.push([codigo, opt.opcion, total_votos])
-      }
-
-      this.controllerBD.añadirResultadosVotacion(codigo, {votos: votos}).then(r => {
-        this.sendMessageDestino(null, "END", null);
-        this.controllerVotacion.activateHasResults();
-        this.clearData();
-      }).catch(err => {
-        console.log(err)
-      })
-    })
   }
 
   sendMessage(data) {

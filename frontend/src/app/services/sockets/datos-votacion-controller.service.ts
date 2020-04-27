@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
+import { KeyPasswordControllerService } from '../cipher/key-password-controller.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatosVotacionControllerService {
 
+  clavePrivada = null;
+  clavePrivadaEncrypted = null;
+  logged = false;
+
   lista;
   total;
   socketsConnected = [];
   listsReceived = [];
   canVote = false;
-  results = [];
   codigo;
   hasResults = {result: false, alteracion: false, error: false, stop: false};
 
-  constructor() {}
+  constructor(private kewPasswordController: KeyPasswordControllerService) {}
 
   clearData() {
     this.lista = null;
@@ -22,8 +26,47 @@ export class DatosVotacionControllerService {
     this.socketsConnected = [];
     this.listsReceived = [];
     this.canVote = false;
-    this.results = [];
     this.codigo = null;
+
+    this.clavePrivada = null;
+    this.clavePrivadaEncrypted = null;
+    this.logged = false;
+  }
+
+  //LOGIN
+
+  async tryDecryptPrivateKey(password) {
+    return await new Promise((resolve, reject) => {
+      if (this.clavePrivadaEncrypted == null) {
+        reject(null)
+      } else {
+        this.kewPasswordController.decryptPrivateKey(password, this.clavePrivadaEncrypted)
+          .then(clavePrivada => {
+            this.clavePrivada = clavePrivada
+            this.logged = true;
+            resolve(true)
+          })
+          .catch(() => {
+            resolve(false)
+          })
+      }
+    })
+  }
+
+  isLogged() {
+    return this.logged
+  }
+
+  setEncryptedPrivateKey(key) {
+    this.clavePrivadaEncrypted = key;
+  }
+
+  deletePrivateKey() {
+    this.clavePrivada = null;
+  }
+
+  getPrivateKey() {
+    return this.clavePrivada;
   }
 
   //GETTERS
@@ -60,10 +103,6 @@ export class DatosVotacionControllerService {
 
   getCanVote() {
     return this.canVote;
-  }
-
-  getResults() {
-    return this.results;
   }
 
 
@@ -108,9 +147,5 @@ export class DatosVotacionControllerService {
 
   changeCanVote() {
     this.canVote = true;
-  }
-
-  setResults(results) {
-    this.results = results;
   }
 }

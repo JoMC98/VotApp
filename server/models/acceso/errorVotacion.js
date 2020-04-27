@@ -1,43 +1,42 @@
 var notificationsError = {}
 
-exports.cerrarVotacionError = (db, req, res) => {
-    var codigo = req.params.codigo
-    if (req.body.usuario.admin) {
-        accionesCierre(db, req, res)
-    } 
-    else {
-        allowedNotification(db, codigo, req.body.usuario.DNI)
-            .then((total) => {
-                if (!notificationsError[codigo]) {
-                    notificationsError[codigo] = {total: total, received: 1}
-                } else {
-                    notificationsError[codigo].received = notificationsError[codigo].received + 1;
-                    if (notificationsError[codigo].received == notificationsError[codigo].total) {
-                        accionesCierre(db, req, res)
-                    }
-                }
-            })
-            .catch((err) => {
-                res.status(403).json({status: 'Restricted Access'});
-            })
-    }
+exports.cerrarVotacionError = (db, codigo) => {
+    accionesCierre(db, codigo)
+    // if (req.body.usuario.admin) {
+    //     accionesCierre(db)
+    // } 
+    // else {
+    //     allowedNotification(db, codigo, req.body.usuario.DNI)
+    //         .then((total) => {
+    //             if (!notificationsError[codigo]) {
+    //                 notificationsError[codigo] = {total: total, received: 1}
+    //             } else {
+    //                 notificationsError[codigo].received = notificationsError[codigo].received + 1;
+    //                 if (notificationsError[codigo].received == notificationsError[codigo].total) {
+    //                     accionesCierre(db)
+    //                 }
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             res.status(403).json({status: 'Restricted Access'});
+    //         })
+    // }
 }
 
-function accionesCierre(db, req, res) {
-    var codigo = req.params.codigo
-    if (notificationsError[codigo]) {
-        delete notificationsError[codigo];
-    }
-    borrarSockets(db, codigo).then(() => {
-        cambiarEstadoVotacion(db, codigo).then(() => {
+function accionesCierre(db, codigo) {
+    // if (notificationsError[codigo]) {
+    //     delete notificationsError[codigo];
+    // }
+    borrarSockets(db, codigo)
+        .then(() => {
             //NOTIFICAR PUSH TAL VEZ DE ERROR??
-            res.status(200).json({status: 'ok'});
+            cambiarEstadoVotacion(db, codigo)
+                .catch(err => {
+                    console.log(err)
+                });
         }).catch(err => {
-            res.status(500).json({error: "error"});
+            console.log(err)
         });
-    }).catch(err => {
-        res.status(500).json({error: "error"});
-    });
 }
 
 async function borrarSockets(db, codigo) {

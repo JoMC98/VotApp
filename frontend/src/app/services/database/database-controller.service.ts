@@ -38,12 +38,15 @@ export class DatabaseControllerService {
   async obtenerHomeVotaciones() { return await this.httpRequest.getRequest("/obtenerHomeVotaciones")};
 
   async activarVotacion(codigo) { return await this.httpRequest.getRequest("/activarVotacion/" + codigo)};
+  async privateKeyAdmin(codigo) { return await this.httpRequest.getRequest("/privateKeyAdmin/" + codigo)};
 
   async obtenerDatosVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerDatosVotacion/" + codigo)};
 
-  async añadirResultadosVotacion(codigo, body) { return await this.httpRequest.postRequest("/addResultadosVotacion/" + codigo, body)};
-
   async cerrarVotacionError(codigo) { return await this.httpRequest.getRequest("/cerrarVotacionError/" + codigo)};
+
+  async obtenerEstadoVotacionVotante(codigo) { return await this.httpRequest.getRequest("/obtenerEstadoVotacionVotante/" + codigo)};
+
+
 
 
 
