@@ -5,6 +5,7 @@ import { SessionControllerService } from 'src/app/services/authentication/sessio
 import { AdminSocketControllerService } from 'src/app/services/sockets/admin-socket-controller.service';
 import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
 import { CifradoControllerService } from 'src/app/services/cipher/cifrado-controller.service';
+import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-start',
@@ -40,7 +41,6 @@ export class StartComponent implements OnInit, OnDestroy {
   interval = null;
   interval2 = null;
   interval3 = null;
-  interval4 = null;
   timeout = null;
   clicked = false;
 
@@ -68,9 +68,7 @@ export class StartComponent implements OnInit, OnDestroy {
   }
 
   isLogged() {
-    console.log("CHECKING IS LOGGED")
     var logged = this.controllerVotacion.isLogged()
-    console.log(logged)
     return logged
   }
 
@@ -90,34 +88,33 @@ export class StartComponent implements OnInit, OnDestroy {
         this.generateCampanas();
 
         this.password = false;
-        var status = this.controllerVotacion.getStatus()
-        this.progress = status.progress;
-        this.completed = status.completed.length;
 
         this.waiting = this.controllerVotacion.getCanVote()
-        console.log(this.controllerVotacion.getCanVote())
-        console.log(this.waiting)
 
-        for (var dni of status.completed) {
-          this.lista[dni] = true;
-        }
-
-        if (this.progress == 100) {
-          this.canStart = true;
+        if (this.waiting) {
+          this.gestionarVotacion()
+        } else {
+          this.comprobarEstado()
         }
       })
     });
     
   }
 
+  clearIntervals() {
+    clearInterval(this.interval)
+    clearInterval(this.interval2)
+    clearInterval(this.interval3)
+  }
+
   ngOnDestroy() {
     clearTimeout(this.timeout)
-    clearInterval(this.interval3)
+    this.clearIntervals()
   }
 
   back() {
     clearTimeout(this.timeout)
-    clearInterval(this.interval3)
+    this.clearIntervals()
     this.router.navigate(['/votacion', this.codigo],{ queryParams: {home: false} });
   }
 
@@ -125,13 +122,36 @@ export class StartComponent implements OnInit, OnDestroy {
     this.controllerBD.privateKeyAdmin(this.codigo).then((result) =>{
       this.clavePrivada = result["clavePrivada"]
       this.pregunta = result["pregunta"];
-      this.controllerVotacion.setEncryptedPrivateKey(this.clavePrivada)
-      this.checkLogin().then(() => {
-        this.startVotacion()
-      }).catch(() => {
-        this.controllerVotacion.clearData()
-        this.router.navigate(['/votacion', this.codigo],{ queryParams: {home: false} });
-      })
+      var estado = result["estado"]
+      var error = result["error"];
+
+
+      if (estado == "Creada") {
+        if (error == null) {
+          this.controllerVotacion.setEncryptedPrivateKey(this.clavePrivada)
+          this.checkLogin().then(() => {
+            this.startVotacion()
+          }).catch(() => {
+            this.controllerVotacion.clearData()
+            this.router.navigate(['/votacion', this.codigo],{ queryParams: {home: false} });
+          })
+        } else {
+          if (error == "ERR") {
+            this.password = false;
+            this.error = true;
+  
+            this.clearIntervals()
+          } else {
+            this.password = false;
+            this.stop = true;
+  
+            this.clearIntervals()
+          }
+        }
+      } else if (estado == "Finalizada") {
+        this.clearIntervals()
+        this.router.navigate(['/restrictedAccess'])
+      }
     })
   }
 
@@ -140,11 +160,10 @@ export class StartComponent implements OnInit, OnDestroy {
       this.timeout = setTimeout(() => {
         clearInterval(this.interval3)
         reject(false)
-      }, 300000);
+      }, 30000);
 
       this.interval3 = setInterval(() => {
         var logged = this.controllerVotacion.isLogged()
-        console.log(logged)
         if (logged) {
           this.password = false;
           clearTimeout(this.timeout)
@@ -193,44 +212,29 @@ export class StartComponent implements OnInit, OnDestroy {
     this.comprobarEstado();
   }
 
-  checkState() {
-    this.interval4 = setInterval(() => {
-      this.controllerBD.obtenerEstadoVotacionVotante(this.codigo).then(state => {
-        console.log(state)
-        if (state["estado"] == "Activa") {
-          this.error = true;
-          this.password = false;
-          clearInterval(this.interval)
-          clearInterval(this.interval2)
-          clearInterval(this.interval3)
-          clearInterval(this.interval4)
-        }
-      })
-    }, 5000);
+  comprobarEstado() {
+    this.comprobacionEstado()
+    this.interval = setInterval(() => {
+      this.comprobacionEstado()
+    }, 3000)
   }
 
+  comprobacionEstado() {
+    var status = this.controllerVotacion.getStatus()
+    this.progress = status.progress;
+    this.completed = status.completed.length;
 
-  comprobarEstado() {
-    // this.checkState()
-    this.interval = setInterval(() => {
-      var status = this.controllerVotacion.getStatus()
-      this.progress = status.progress;
-      this.completed = status.completed.length;
+    for (var dni of status.completed) {
+      this.lista[dni] = true;
+    }
 
-      console.log(status)
-
-      for (var dni of status.completed) {
-        this.lista[dni] = true;
-      }
-
-      var hasResults = this.controllerVotacion.getHasResults();
-      if (hasResults.error) {
-        this.error = true;
-        clearInterval(this.interval)
-      } else if (this.progress == 100) {
-        this.canStart = true;
-      }
-    }, 3000)
+    var hasResults = this.controllerVotacion.getHasResults();
+    if (hasResults.error) {
+      this.error = true;
+      clearInterval(this.interval)
+    } else if (this.progress == 100) {
+      this.canStart = true;
+    }
   }
 
   stopVotacion() {
@@ -261,26 +265,29 @@ export class StartComponent implements OnInit, OnDestroy {
   gestionarVotacion() {
     clearInterval(this.interval)
     this.interval = null;
-
+    this.comprobacionGestionVotacion()
     this.interval2 = setInterval(() => {
-      var hasResults = this.controllerVotacion.getHasResults();
-      console.log(hasResults)
-      if (hasResults.result) {
-        clearInterval(this.interval2)
-        this.interval2 = null;
-        this.router.navigate(['/resultados', this.codigo]);
-      } else if (hasResults.alteracion) {
-        this.alteracion = true;
-        this.waiting = false;
-        clearInterval(this.interval2)
-        this.interval2 = null;
-      } else if (hasResults.error) {
-        this.error = true;
-        this.waiting = false;
-        clearInterval(this.interval2)
-        this.interval2 = null;
-      }
+      this.comprobacionGestionVotacion()
     }, 1000)
+  }
+
+  comprobacionGestionVotacion() {
+    var hasResults = this.controllerVotacion.getHasResults();
+    if (hasResults.result) {
+      clearInterval(this.interval2)
+      this.interval2 = null;
+      this.router.navigate(['/resultados', this.codigo]);
+    } else if (hasResults.alteracion) {
+      this.alteracion = true;
+      this.waiting = false;
+      clearInterval(this.interval2)
+      this.interval2 = null;
+    } else if (hasResults.error) {
+      this.error = true;
+      this.waiting = false;
+      clearInterval(this.interval2)
+      this.interval2 = null;
+    }
   }
   
   notificar(dni) {

@@ -46,10 +46,6 @@ export class DatabaseControllerService {
 
   async obtenerEstadoVotacionVotante(codigo) { return await this.httpRequest.getRequest("/obtenerEstadoVotacionVotante/" + codigo)};
 
-
-
-
-
   addTemporalUser(usuario) { 
     this.temporalUser = usuario;
   }

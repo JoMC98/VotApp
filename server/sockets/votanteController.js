@@ -19,12 +19,8 @@ function gestorSocketVotante(listToSend, userData, references, state) {
 
         //1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
 
-        // if (state.conexion[ip] && state.error && requestIP == ip) {
-        if (state.conexion[ip] && state.error) {
-            conexionTrasError(request, server, userData)
-
-        //} else if (!state.conexion[ip] && requestIP == ip) {
-        } else if (!state.conexion[ip]) {
+        //if (!state.conexion[ip] && requestIP == ip) {
+        if (!state.conexion[ip]) {
             state.conexion[ip] = true;
             aceptarConexion(request, socketReferences, userData, server, state, listToSend)
         } else {
@@ -45,7 +41,15 @@ function aceptarConexion(request, socketReferences, userData, server, state, lis
     connection.on('close', function(connection) {
         if (!state.closed && state.conexion[userData.ip]) {
             state.error = true;
-            avisarCierre(socketReferences, lista.list)
+            sendMessageToAll(socketReferences, dataLocal, "ERR", "", state, userData.ip)
+
+            errorController.cerrarVotacionError(db, state.codigo)
+            errorController.addOptionalError(db, state.codigo, "ERR")
+
+            setTimeout(() => {
+                errorController.addOptionalError(db, state.codigo, null);
+            }, 4000)
+
             closeServer(server, null, userData.port)
         }
     });
@@ -71,18 +75,14 @@ function checkToken(token, userData, dataLocal, list, socketReferences) {
     tokenController.checkTokenSocket(token)
         .then(result => {
             if (result.DNI == userData.dni) {
-                console.log("VOTANTE OK")
                 dataLocal.firstMessage = true;
                 serverController.sendMessage(dataLocal.connection, list)
                 serverController.sendMessage(socketReferences["admin"], {fase : "A1", data : userData.dni})
             } else {
-                console.log("VOTANTE NO OK")
                 state.conexion[userData.ip] = false;
                 dataLocal.connection.close();
             }
         }).catch(err => {
-            console.log(err)
-            console.log("VOTANTE NO TOKEN")
             state.conexion[userData.ip] = false;
             dataLocal.connection.close();
         })
@@ -97,13 +97,9 @@ function controlVotos(mess, socketReferences, dataLocal, userData, server, state
     if (fase == "END-OK") {
         closeServer(server, dataLocal.connection, userData.port)
     }  else if (fase == "ALT") {
-        for (var id of Object.keys(dataLocal.lista.list)) {
-            serverController.sendMessage(socketReferences[dataLocal.lista.list[id].ip], {fase : "ALT", data : ""})
-        }
-        serverController.sendMessage(socketReferences["admin"], {fase : "ALT", data : ""});
+        sendMessageToAll(socketReferences, dataLocal, "ALT", "", state, null)
         errorController.cerrarVotacionError(db, state.codigo);
-        state.closed = true;
-        //CERRAR LA VOTACION
+
     } else if (fase == "1") {
         if (state.firsts != null) {
             state.firsts.messages.push(message.data)
@@ -118,12 +114,8 @@ function controlVotos(mess, socketReferences, dataLocal, userData, server, state
             state.faseZ.received = state.faseZ.received + 1;
             state.faseZ.users[userData.ip] = true;
             if (state.faseZ.total == state.faseZ.received) {
+                sendMessageToAll(socketReferences, dataLocal, "END", "", state, null)
                 resultadosController.addResultadosVotacion(db, state.faseZ.votos)
-                for (var id of Object.keys(dataLocal.lista.list)) {
-                    serverController.sendMessage(socketReferences[dataLocal.lista.list[id].ip], {fase : "END", data : ""})
-                }
-                serverController.sendMessage(socketReferences["admin"], {fase : "END", data : ""})
-                state.closed = true;
             }
         }
     }
@@ -141,27 +133,17 @@ function closeServer(server, connection, port) {
     portsController.liberatePort(port)
 }
 
-function avisarCierre(socketReferences, lista) {
-    console.log("AVISANDO CIERRE VOTANTE")
-    for (var id of Object.keys(lista)) {
-        serverController.sendMessage(socketReferences[lista[id].ip], {fase : "ERR", data : "ERROR CONEXION"})
-    }
-    serverController.sendMessage(socketReferences["admin"], {fase : "ERR", data : "ERROR CONEXION"})
-}
-
-function conexionTrasError(request, server, userData) {
-    console.log("CONEXION TRAS ERROR")
-    var connection = request.accept(null, request.origin);
-    serverController.sendMessage(connection, {fase : "ERR", data : "ERROR CONEXION"})
-    
-    connection.on('message', function(message) {
-        var mess = JSON.parse(message.utf8Data)
-        if (mess.message) {
-            if (mess.message.fase == "END-OK") {
-                closeServer(server, connection, userData.port)
-            }
+function sendMessageToAll(socketReferences, dataLocal, fase, data, state, exceptMe) {
+    console.log("VOTER SENDING TO ALL " + fase)
+    for (var id of Object.keys(dataLocal.lista.list)) {
+        if (exceptMe == null || exceptMe != dataLocal.lista.list[id].ip) {
+            serverController.sendMessage(socketReferences[dataLocal.lista.list[id].ip], {fase : fase, data : data})
+        } else {
+            console.log("VOTER EXCEPTION")
         }
-    })
+    }
+    serverController.sendMessage(socketReferences["admin"], {fase : fase, data : data})
+    state.closed = true;
 }
 
 module.exports = {

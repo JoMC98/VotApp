@@ -11,6 +11,7 @@ export class DatosVotacionControllerService {
   logged = false;
 
   lista;
+  voted = false;
   total;
   socketsConnected = [];
   listsReceived = [];
@@ -22,6 +23,7 @@ export class DatosVotacionControllerService {
 
   clearData() {
     this.lista = null;
+    this.voted = false;
     this.total = null;
     this.socketsConnected = [];
     this.listsReceived = [];
@@ -31,6 +33,10 @@ export class DatosVotacionControllerService {
     this.clavePrivada = null;
     this.clavePrivadaEncrypted = null;
     this.logged = false;
+  }
+
+  clearResults() {
+    this.hasResults = {result: false, alteracion: false, error: false, stop: false};
   }
 
   //LOGIN
@@ -71,6 +77,10 @@ export class DatosVotacionControllerService {
 
   //GETTERS
 
+  getVoted() {
+    return this.voted;
+  }
+
   getHasResults() {
     return this.hasResults;
   }
@@ -107,6 +117,10 @@ export class DatosVotacionControllerService {
 
 
   //SETTERS
+  activateVoted() {
+    this.voted = true;
+  }
+
   activateHasResults() {
     this.hasResults.result = true;
   }
@@ -124,7 +138,6 @@ export class DatosVotacionControllerService {
   }
 
   setLista(lista) {
-    this.hasResults = {result: false, alteracion: false, error: false, stop: false};
     this.lista = lista
     if (this.lista.list) {
       this.total = Object.keys(this.lista.list).length * 2;

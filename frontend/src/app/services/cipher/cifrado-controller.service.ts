@@ -82,8 +82,7 @@ export class CifradoControllerService {
   async primeraFaseCifrado(voto) {
     return await new Promise(async (resolve, reject) => {
       var r1 = this.KeyGenerator.generateRandom();
-      // this.store["first"] = r1 + "";
-      this.store["first"] = "AA";
+      this.store["first"] = r1 + "";
       var res = voto + "###" + r1;
 
       res = await this.RSACipher.encrypt(res, "admin");

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 import { Router } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
 
 @Component({
   selector: 'app-error',
@@ -15,26 +16,15 @@ export class ErrorComponent implements OnInit {
 
   @Input() codigo;
 
-  constructor(private sessionController: SessionControllerService, private router: Router, private controllerBD: DatabaseControllerService) {
+  constructor(private sessionController: SessionControllerService, private router: Router, private controllerBD: DatabaseControllerService, private controllerVotacion: DatosVotacionControllerService) {
     this.admin = sessionController.getAdminSession();
   }
 
   ngOnInit(): void {
-    if (this.admin) {
-      this.cerrarVotacion()
-    }
-  }
-
-  cerrarVotacion() {
-    new Promise((res) => {
-      setTimeout(() => {
-        this.controllerBD.cerrarVotacionError(this.codigo).then((res) =>{
-          if (res['status'] == 'ok') {
-            this.mostrarBotones = true;
-          }
-        })
-      }, 1500);
-    });
+    this.controllerVotacion.clearResults();
+    setTimeout(() => {
+      this.mostrarBotones = true;
+    }, 3000);
   }
 
   reiniciarVotacion() {

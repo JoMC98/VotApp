@@ -2,15 +2,16 @@ const portController = require('../../sockets/serverController.js');
 const votacionController = require('../../sockets/votacionController.js');
 const pushController = require('../../helpers/pushController.js');
 const tokenController = require('../../helpers/tokenJWT.js');
+const auxiliarVotacion = require('./auxiliarVotacion');
 
 function privateKeyAdmin(db, req, res) {
   var codigo = req.params.codigo
   if (req.body.usuario.admin) {
-    obtenerClavePrivada(db, req.body.usuario.DNI).then(clavePrivada => {
-      obtenerPreguntaVotacion(db, codigo).then(pregunta => {
-        res.status(200).json({clavePrivada: clavePrivada, pregunta: pregunta});
+    auxiliarVotacion.getUsuarioDatos(db, req.body.usuario.DNI).then(result => {
+      auxiliarVotacion.getVotacionDatos(db, codigo).then(datos => {
+        res.status(200).json({clavePrivada: result.clavePrivada, pregunta: datos.pregunta, estado: datos.estado, error: datos.OptionalError});
       })
-    });
+    })
   } else {
     res.status(403).json({status: 'Restricted Access'});
   }
@@ -19,179 +20,78 @@ function privateKeyAdmin(db, req, res) {
 function activarVotacion(db, req, res) {
   if (req.body.usuario.admin) {
     var codigo = req.params.codigo
-    obtenerEstadoVotacion(db,codigo).then(estado => {
-      if (estado == "Creada") {
-        obtenerParticipantesVotacion(db, codigo, req.body.usuario.DNI).then(result => {
+
+    auxiliarVotacion.getVotacionDatos(db, codigo).then(datos => {
+      if (datos.estado == "Creada") {
+        auxiliarVotacion.obtenerParticipantesVotacion(db, codigo, req.body.usuario.DNI) .then(result => {
           portController.obtenerListaPuertos(result).then((listVotantes) => {
             votacionController.iniciarVotacion(listVotantes, codigo).then((ports) => {
-              storePortsVotantes(db, ports, codigo).then(() => {
-                var dnis = ports.votantes.map(arr => arr[0])
-                pushController.sendNotification(dnis)
-                  .then(() => {
-                    tokenController.createToken(req.body.usuario.DNI, true, true).then(token => {
-
-                      var response = {"portAdmin": ports.admin, "participantes": result.participantes.length, "token": token}
-
-                      res.status(200).json(response);
-                    })
-                  }).catch((err) => {
-                    res.status(500).json({error: err});
-                  })
-              }).catch(err => {
-                res.status(500).json({status: err});
+              iniciarVotacion(db, codigo, req.body.usuario.DNI, ports).then(token => {
+                res.status(200).json({"portAdmin": ports.admin, "participantes": result.participantes.length, "token": token});
+              }).catch((err) => {
+                console.log(err)
+                res.status(500).json(err);
               })
             })
-          }).catch(err => {
-            if (err == "Wait") {
-              res.status(500).json({status: "All Ports Busy"});
-            } else {
-              res.status(500).json({status: err});
-            }
           })
         })
-      } else if (estado == "Activa") {
-        obtenerParticipantesVotacion(db, codigo, req.body.usuario.DNI).then(result => {
-          res.status(200).json({status: 'Error votacion', pregunta: result.pregunta});
-        });
       } else {
         res.status(403).json({status: 'Restricted Access'});
       }
     })
-      
   } else {
     res.status(403).json({status: 'Restricted Access'});
   }
 }
 
-async function storePortsVotantes(db, ports, codigo) {
+async function iniciarVotacion(db, codigo, DNI, ports) {
   return await new Promise((resolve, reject) => {
-    ports.votantes.forEach(us => {
-      us.splice(1, 0, codigo);
-    });
-    db.query(
-      'INSERT INTO Participa (DNI, codigo, temporal_socket) VALUES ? ON DUPLICATE KEY UPDATE temporal_socket=VALUES(temporal_socket)',
-      [ports.votantes],
-      (error) => {
-        if (error) {
-          reject(error)
-        } else {
-          cambiarEstadoVotacion(db, codigo, "Activa")
-            .then(() => {
-              resolve(true)
-            }).catch(err => {
-              reject(err)
-            });
-        }
-    });   
-  });
+    auxiliarVotacion.storePortsVotantes(db, ports, codigo).then(() => {
+      pushController.sendNotification(ports.votantes.map(arr => arr[0])).then(() => {
+        tokenController.createToken(DNI, true, true).then(token => {
+          resolve(token)
+        }).catch(err => {
+          reject({error: err})
+        })
+      }).catch((err) => {
+        reject({error: err})
+      })
+    }).catch(err => {
+      if (err == "Wait") {
+        reject({status: "All Ports Busy"})
+      } else {
+        reject({error: err})
+      }
+    })
+  })
 }
+
 
 function obtenerEstadoVotacionVotante(db, req, res) {
   var codigo = req.params.codigo;
-  if (req.body.usuario.admin) {
-    obtenerEstadoVotacion(db, codigo).then(estado => {
-      res.status(200).json({estado: estado});
-    })
-  } else {
-    obtenerDNIParticipantesVotacion(db, codigo).then(dnis => {
-      if (dnis.includes(req.body.usuario.DNI)) {
-        obtenerEstadoVotacion(db, codigo).then(estado => {
-          res.status(200).json({estado: estado});
-        })
-      }
-    })
-  }
-}
-
-async function obtenerEstadoVotacion(db, codigo) {
-  return await new Promise((resolve, reject) => {
-    db.query(
-      'SELECT estado FROM Votacion WHERE codigo=?',
-      [codigo],
-      (error, results) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(results[0].estado)
-      }
-    });   
-  });
-}
-
-async function cambiarEstadoVotacion(db, codigo, state) {
-  return await new Promise((resolve, reject) => {
-    var f = new Date(Date.now())
-    db.query(
-      'UPDATE Votacion SET estado=?, f_inicio=? WHERE codigo=?',
-      [state, f, codigo],
-      (error) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(true)
-      }
-    });   
-  });
-}
-
-async function obtenerParticipantesVotacion(db, codigo, DNI_admin) {
-  return await new Promise((resolve, reject) => {
-    db.query(
-      'SELECT dni, clavePublica, VPN_IP FROM Participa JOIN Votante USING(DNI) JOIN Usuario USING(DNI) WHERE codigo=?', [codigo], 
-      (error, results) => {
-        if (error) {
-          reject(error)
+  auxiliarVotacion.getVotacionDatos(db, codigo).then(datos => {
+    if (req.body.usuario.admin) {
+      res.status(200).json({estado: datos.estado, pregunta: datos.pregunta});
+    } else {
+      auxiliarVotacion.obtenerDNIParticipantesVotacion(db, codigo).then(dnis => {
+        if (dnis.includes(req.body.usuario.DNI)) {
+          res.status(200).json({estado: datos.estado, pregunta: datos.pregunta, error: datos.OptionalError});
         } else {
-          db.query(
-            'SELECT clavePublica, VPN_IP FROM Usuario WHERE dni=?', [DNI_admin], (error, result) => {
-              if (error) {
-                reject(error)
-              } else {
-                var res = {participantes: results, admin: result[0]}
-                resolve(res);
-              }
-          });
+          res.status(403).json({status: 'Restricted Access'});
         }
-    });
-  });
-}
-
-async function obtenerPreguntaVotacion(db, codigo) {
-  return await new Promise((resolve, reject) => {
-    db.query(
-      'SELECT pregunta FROM Votacion WHERE codigo=?', [codigo], (error, resultado) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve(resultado[0].pregunta)
-        }
-    });
-  });
-}
-
-async function obtenerClavePrivada(db, DNI) {
-  return await new Promise((resolve, reject) => {
-    db.query(
-      'SELECT clavePrivada FROM Usuario WHERE DNI=?', [DNI], 
-      (error, result) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve(result[0].clavePrivada)
-        }
-    });
-  });
+      })
+    }
+  })
 }
 
 function obtenerDatosVotacion(db, req, res) {
   if (!req.body.usuario.admin) {
     var codigo = req.params.codigo
-    obtenerEstadoVotacion(db,codigo).then(estado => {
-      if (estado == "Activa") {
-        obtenerDNIParticipantesVotacion(db, codigo).then(participantes => {
+    auxiliarVotacion.getVotacionDatos(db, codigo).then(datos => {
+      if (datos.estado == "Activa") {
+        auxiliarVotacion.obtenerDNIParticipantesVotacion(db, codigo).then(participantes => {
           if (participantes.includes(req.body.usuario.DNI)) {
-            obtenerClavePrivadaSocket(db, codigo, req.body.usuario.DNI).then((data) => {
-
+            auxiliarVotacion.obtenerClavePrivadaSocket(db, codigo, req.body.usuario.DNI).then((data) => { 
               tokenController.createToken(req.body.usuario.DNI, true, true).then(token => {
                 data["token"] = token;
                 res.status(200).json(data);
@@ -201,6 +101,7 @@ function obtenerDatosVotacion(db, req, res) {
             res.status(403).json({status: 'Restricted Access'});
           }
         }).catch(err => {
+          console.log(error)
           res.status(500).json({error: err})
         })
       } else {
@@ -212,50 +113,9 @@ function obtenerDatosVotacion(db, req, res) {
   }
 }
 
-async function obtenerDNIParticipantesVotacion(db, codigo) {
-  return await new Promise((resolve, reject) => {
-    db.query(
-      'SELECT dni FROM Participa WHERE codigo=?', [codigo], 
-      (error, results) => {
-        if (error) {
-          reject(error)
-        } else {
-          var res = results.map(r => r.dni)
-          resolve(res)
-        }
-    });
-  });
-}
-
-async function obtenerClavePrivadaSocket(db, codigo, DNI) {
-  return await new Promise((resolve, reject) => {
-    db.query(
-      'SELECT temporal_socket FROM Participa WHERE DNI=? AND codigo=?', [DNI, codigo], 
-      (error, result) => {
-        if (error) {
-          reject(error)
-        } else {
-          obtenerClavePrivada(db, DNI).then(clavePrivada => {
-            var res = {socketPort: result[0].temporal_socket, clavePrivada: clavePrivada}
-            obtenerPreguntaVotacion(db, codigo).then(pregunta => {
-              res["pregunta"] = pregunta;
-              resolve(res);
-            }).catch(err => {
-              reject(err)
-            });
-          }).catch(err => {
-            reject(err)
-          });
-        }
-    });
-  });
-}
-
 module.exports = {
   activarVotacion : activarVotacion,
   privateKeyAdmin: privateKeyAdmin,
   obtenerDatosVotacion : obtenerDatosVotacion,
-  obtenerPreguntaVotacion: obtenerPreguntaVotacion,
-  obtenerEstadoVotacion: obtenerEstadoVotacion,
   obtenerEstadoVotacionVotante: obtenerEstadoVotacionVotante
 }

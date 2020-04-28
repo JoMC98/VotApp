@@ -116,7 +116,6 @@ export class SenderMessageControllerService {
           
           cifrados.push({ip: "server", fase: "Y" , data: vots})
           resolve(cifrados)
-
         }).catch(err => {
           reject("Alteracion")
         })

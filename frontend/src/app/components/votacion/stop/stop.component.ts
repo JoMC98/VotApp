@@ -17,33 +17,16 @@ export class StopComponent implements OnInit {
 
   @Input() codigo;
 
-  constructor(private sessionController: SessionControllerService, private router: Router, 
-    private socketController: AdminSocketControllerService, private controllerBD: DatabaseControllerService) {
+  constructor(private sessionController: SessionControllerService, private router: Router, private controllerBD: DatabaseControllerService, private controllerVotacion: DatosVotacionControllerService) {
     this.admin = sessionController.getAdminSession();
-    this.mostrarBotones = true;
-    //TODO MOSTRAR BOTONES
   }
 
   ngOnInit(): void {
-
-    // if (this.admin) {
-    //   this.cerrarVotacion()
-    // }
+    this.controllerVotacion.clearResults();
+    setTimeout(() => {
+      this.mostrarBotones = true;
+    }, 3000);
   }
-
-  cerrarVotacion() {
-    new Promise((res) => {
-     
-      setTimeout(() => {
-        this.controllerBD.cerrarVotacionError(this.codigo).then((res) =>{
-          if (res['status'] == 'ok') {
-            this.mostrarBotones = true;
-          }
-        })
-      }, 1500);
-    });
-  }
-
   
   reiniciarVotacion() {
     new Promise((res) => {
