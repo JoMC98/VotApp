@@ -5,7 +5,6 @@ import { SessionControllerService } from 'src/app/services/authentication/sessio
 import { AdminSocketControllerService } from 'src/app/services/sockets/admin-socket-controller.service';
 import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
 import { CifradoControllerService } from 'src/app/services/cipher/cifrado-controller.service';
-import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-start',
