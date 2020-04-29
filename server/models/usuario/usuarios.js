@@ -16,6 +16,7 @@ exports.obtenerUsuarios = (db, req, res) => {
 }
   
 exports.filtrarUsuarios = (db, req, res) => { 
+  //TODO CHECK FILTROS?
   if (req.body.usuario.admin) {
     var nombre = '%' + req.body.nombre + '%'
     var apellidos = '%' + req.body.apellidos + '%'
@@ -40,6 +41,7 @@ exports.filtrarUsuarios = (db, req, res) => {
 exports.obtenerUsuariosFueraVotacion = (db, req, res) => {
   if (req.body.usuario.admin) {
     var participantes = req.body.participantes;
+    //TODO CHECK FILTROS?
     if (!participantes) {
       participantes = [];
     }

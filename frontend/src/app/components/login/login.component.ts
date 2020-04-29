@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
 
     this.loginController.login(credenciales)
       .then(() => {
-        //TODO CHANGE PASSWORD REDIRECT?? AÑADIR A BD
         new Promise((res) => {
           setTimeout(() => {
             this.activarExplosion = true;

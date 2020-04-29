@@ -24,6 +24,9 @@ export class ResumenComponent implements OnInit {
           res();
         }, 1000);
       })
+    }).catch(err => {
+      //TODO ERRORES 
+      console.log(err);
     });
   }
 

@@ -17,7 +17,7 @@ function gestorSocketVotante(listToSend, userData, references, state) {
     server.wsServer.on('request', function(request) {
         var requestIP = request.remoteAddress;
 
-        //1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
+        //TODO 1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
 
         //if (!state.conexion[ip] && requestIP == ip) {
         if (!state.conexion[ip]) {
@@ -93,6 +93,7 @@ function controlVotos(mess, socketReferences, dataLocal, userData, server, state
     var destino = received.destino
     var message = received.message
     var fase = message.fase
+    console.log("VOTANTE " + userData.ip + " RECIBE FASE " + fase)
 
     if (fase == "END-OK") {
         closeServer(server, dataLocal.connection, userData.port)

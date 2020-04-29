@@ -15,7 +15,7 @@ function gestorSocketAdmin(list, references, state) {
     server.wsServer.on('request', function(request) {
         var requestIP = request.remoteAddress;
 
-        //1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
+        //TODO 1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
         //if (!connected && requestIP == ip) {
         if (!state.conexion.admin) {
             state.conexion.admin = true;

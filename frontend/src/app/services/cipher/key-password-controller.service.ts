@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { KeyGeneratorService } from './key-generator.service';
 import { AESCipherService } from './aes-cipher.service';
-import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'

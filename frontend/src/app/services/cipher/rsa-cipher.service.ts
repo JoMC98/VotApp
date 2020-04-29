@@ -90,12 +90,13 @@ export class RSACipherService {
         vectorBloques.push(bloqueChar);
       }
 
-      var message = "";
-
+      var message = ""; 
+      var partes = [];
       
       for (var i = 0; i < numBloques; i++) {
         var cad = vectorBloques[i]
         var bloque = cifrador.decrypt(cad);
+        partes.push(bloque)
         message += bloque;
       }
 

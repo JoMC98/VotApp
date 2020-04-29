@@ -34,6 +34,7 @@ exports.obtenerVotaciones = (db, req, res) => {
 }
 
 exports.filtrarVotaciones = (db, req, res) => { 
+    //TODO CHECK FILTROS?
     var pregunta = '%' + req.body.pregunta + '%';
     if (req.body.usuario.admin) {
       db.query(

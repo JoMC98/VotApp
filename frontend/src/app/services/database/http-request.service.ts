@@ -41,7 +41,10 @@ export class HttpRequestService {
           resolve(data);
         },
         (error: any[]) => {
-          this.errorControl(error);
+          var res = this.errorControl(error);
+          if (res != null) {
+            reject(res);
+          }
         }
       );
     });
@@ -60,17 +63,25 @@ export class HttpRequestService {
   errorControl(error) {
     if (error.status == 401) {
       this.loginController.logout()
+    } else if (error.status == 404) {
+      this.router.navigate(["/notFound"]);
     } else if (error.status == 403) {
       this.router.navigate(["/restrictedAccess"]);
     } else if (error.status == 500) {
       this.router.navigate(["/serverError"]);
-    } else {
+    } else if (error.status == 406) {
+      return {code: 406, error: error.error.error}
+    } else if (error.status == 409) {
+      return {code: 409, dni: error.error.error.dni, mail: error.error.error.mail}
+    }else {
       if (!navigator.onLine) {
         this.router.navigate(["/connectionError"]);
       } else {
         this.router.navigate(["/serverError"]);
       }
+      
     }
+    return null;
   }
 
 }

@@ -4,7 +4,8 @@
 body {
     background-color: #272343;
     margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    /* font-family: Roboto, "Helvetica Neue", sans-serif !important;  */
+    font-family: 'Titillium Web', "Helvetica Neue", sans-serif !important; 
     color: black;
     /* overflow: hidden; */
     /*background-color: white;*/

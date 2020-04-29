@@ -46,5 +46,5 @@ module.exports = {
 
     MIN_PORT_SOCKET: 4301,
     MAX_PORT_SOCKET: 4400,
-    INITIAL_FREE_PORTS: 100,
+    INITIAL_FREE_PORTS: 100
 };

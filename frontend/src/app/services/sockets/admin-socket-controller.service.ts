@@ -88,14 +88,6 @@ export class AdminSocketControllerService {
   avisarAlteracion() {
     this.alteracion = true;
     this.sendMessageDestino(null, "ALT", "ALTERACION")
-    // var lista = this.controllerVotacion.getLista();
-    // var messages = []
-    // messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
-    // for (var key of Object.keys(lista)) {
-    //   var ip = lista[key]["ip"];
-    //   messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
-    // }
-    // this.sendMessages(messages);
   }
 
   endVotacionError() {

@@ -32,6 +32,9 @@ export class ResumenUserComponent implements OnInit {
           res();
         }, 1000);
       })
+    }).catch(err => {
+      //TODO DUPLICADOS
+      console.log(err);
     });
   }
 

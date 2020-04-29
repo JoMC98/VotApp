@@ -33,7 +33,6 @@ exports.obtenerResultadosVotacion = (db, req, res) => {
 }
 
 exports.addResultadosVotacion = (db, votos) => {
-  console.log(votos)
   var codigo = votos[0][0]
   db.query(
     'INSERT INTO Opcion (codigo, opcion, total_votos) VALUES ? ON DUPLICATE KEY UPDATE total_votos=VALUES(total_votos)',

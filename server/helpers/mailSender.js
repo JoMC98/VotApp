@@ -49,6 +49,7 @@ async function sendNewMail(data) {
     var transporter = createTransporter();
     createOptions(data.destination, data.password, data.name, data.newUser)
       .then(mailOptions => {
+        console.log("SENDING MAIL TO " + data.destination)
         resolve("OK")
         // transporter.sendMail(mailOptions, function(error, info){
         //   if (error) {

@@ -51,7 +51,7 @@ async function sendNotification(listDNI) {
 
 async function addSubscription(req) {
     return await new Promise((resolve, reject) => {
-        //CON LA VPN
+        //TODO CON LA VPN
         //var ip = req.socket.remoteAddress;
 
         var dni = req.body.usuario.DNI;

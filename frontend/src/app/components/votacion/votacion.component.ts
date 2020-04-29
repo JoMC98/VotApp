@@ -110,6 +110,9 @@ export class VotacionComponent implements OnInit, OnDestroy {
     this.votacion.pregunta = this.copyPregunta;
     this.controllerBD.modificarVotacion(this.votacion).then((result) => {
       console.log(result);
+    }).catch(err => {
+      //TODO ERRORES 
+      console.log(err);
     });
     this.modificarPregunta = !this.modificarPregunta;
   }

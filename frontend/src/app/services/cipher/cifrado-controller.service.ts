@@ -50,6 +50,7 @@ export class CifradoControllerService {
       this.lista = l.list;
       this.order = l.order;
       this.adminCPublica = l.adminClavePublica;
+
       this.RSACipher.newCifrador("admin", this.adminCPublica)
         for (var key of Object.keys(this.lista)) {
           var el = this.lista[key];

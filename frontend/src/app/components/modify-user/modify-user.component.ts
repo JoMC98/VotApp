@@ -94,6 +94,10 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
           } else {
             this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
           }
+        }).catch(err => {
+          //TODO ERROR PASSWORD
+          console.log(err);
+          this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
         });
       }).catch(err => {
         console.log(false)
@@ -102,6 +106,10 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     } else {
       if (this.comprobarCopy()) {
         this.controllerBD.modificarUsuario(this.usuario).then((result) =>{ 
+          this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
+        }).catch(err => {
+          //TODO DUPLICADOS
+          console.log(err);
           this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
         });
       } else {

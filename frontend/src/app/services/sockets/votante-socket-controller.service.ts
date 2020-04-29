@@ -107,14 +107,6 @@ export class VotanteSocketControllerService {
   avisarAlteracion() {
     this.alteracion = true;
     this.sendMessageDestino(null, "ALT", "ALTERACION")
-    // this.lista = this.controllerVotacion.getLista().list;
-    // var messages = []
-    // messages.push({ip: "admin", fase: "ALT", data: "ALTERACION"});
-    // for (var key of Object.keys(this.lista)) {
-    //   var ip = this.lista[key]["ip"];
-    //   messages.push({ip: ip, fase: "ALT", data: "ALTERACION"});
-    // }
-    // this.sendMessages(messages);
   }
 
   endVotacionError() {

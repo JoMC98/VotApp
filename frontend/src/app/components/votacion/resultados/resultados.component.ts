@@ -28,6 +28,7 @@ export class ResultadosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.controllerVotacion.clearResults();
     this.sub = this.route.params.subscribe(params => {
       this.codigo = +params['codigo']; 
       this.controllerBD.obtenerResultadosVotacion(this.codigo).then((res) =>{

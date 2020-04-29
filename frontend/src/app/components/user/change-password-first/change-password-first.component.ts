@@ -63,9 +63,9 @@ export class ChangePasswordFirstComponent implements OnInit {
             }, 2500);
           })
         }).catch(err => {
-          console.log(false)
-          //ERROR
-        })
+          //TODO ERROR FIRST
+          console.log(err);
+        });
       })
       
     } else {
