@@ -93,7 +93,6 @@ function controlVotos(mess, socketReferences, dataLocal, userData, server, state
     var destino = received.destino
     var message = received.message
     var fase = message.fase
-    console.log("VOTANTE " + userData.ip + " RECIBE FASE " + fase)
 
     if (fase == "END-OK") {
         closeServer(server, dataLocal.connection, userData.port)
@@ -116,7 +115,7 @@ function controlVotos(mess, socketReferences, dataLocal, userData, server, state
             state.faseZ.users[userData.ip] = true;
             if (state.faseZ.total == state.faseZ.received) {
                 sendMessageToAll(socketReferences, dataLocal, "END", "", state, null)
-                resultadosController.addResultadosVotacion(db, state.faseZ.votos)
+                resultadosController.addResultadosVotacion(db, state.codigo, state.faseZ.votos)
             }
         }
     }

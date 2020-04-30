@@ -18,11 +18,10 @@ export class DatabaseControllerService {
   async obtenerResultadosVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerResultadosVotacion/" + codigo) };
   async obtenerUsuariosFueraVotacion(participantes) { return await this.httpRequest.postRequest("/obtenerUsuariosFueraVotacion", participantes) };
 
-  async modificarOpcionesVotacion(data) { return await this.httpRequest.postRequest("/modificarOpcionesVotacion", data) };
-  async modificarParticipantesVotacion(data) { return await this.httpRequest.postRequest("/modificarParticipantesVotacion", data) };
   async filtrarUsuarios(filtros) { return await this.httpRequest.postRequest("/filtrarUsuarios", filtros) };
   async filtrarVotaciones(filtros) { return await this.httpRequest.postRequest("/filtrarVotaciones", filtros) };
   async obtenerHomeVotaciones() { return await this.httpRequest.getRequest("/obtenerHomeVotaciones")};
+
   async activarVotacion(codigo) { return await this.httpRequest.getRequest("/activarVotacion/" + codigo)};
   async privateKeyAdmin(codigo) { return await this.httpRequest.getRequest("/privateKeyAdmin/" + codigo)};
   async obtenerDatosVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerDatosVotacion/" + codigo)};
@@ -79,7 +78,6 @@ export class DatabaseControllerService {
     })
   };
 
-
   async modificarVotacion(votacion) { 
     return await new Promise((resolve, reject) => {
       this.httpRequest.postRequest("/modificarVotacion", votacion).then(res => {
@@ -88,6 +86,26 @@ export class DatabaseControllerService {
         reject(err);
       })
     })
+  };
+
+  async modificarOpcionesVotacion(data) { 
+    return await new Promise((resolve, reject) => {
+      this.httpRequest.postRequest("/modificarOpcionesVotacion", data).then(res => {
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      })
+    }) 
+  };
+
+  async modificarParticipantesVotacion(data) { 
+    return await new Promise((resolve, reject) => {
+      this.httpRequest.postRequest("/modificarParticipantesVotacion", data).then(res => {
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      })
+    }) 
   };
 
   addTemporalUser(usuario) { 

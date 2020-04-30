@@ -88,7 +88,6 @@ async function checkDuplicateMail(db, DNI, mail) {
     })
 }
 
-
 module.exports = {
     checkNewUser: checkNewUser,
     checkExistentUser: checkExistentUser,

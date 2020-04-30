@@ -110,6 +110,9 @@ export class DesplegableVotacionComponent implements OnInit {
         var datos = {codigo: this.data.votacion.codigo, opciones: this.opciones}
         this.controllerBD.modificarOpcionesVotacion(datos).then((result) => {
           console.log(result);
+        }).catch(err => {
+          //TODO ERRORES 
+          console.log(err);
         });
         break;
       case "editarParticipantes":
@@ -120,6 +123,9 @@ export class DesplegableVotacionComponent implements OnInit {
         var data = {codigo: this.data.votacion.codigo, participantes: p}
         this.controllerBD.modificarParticipantesVotacion(data).then((result) => {
           console.log(result);
+        }).catch(err => {
+          //TODO ERRORES 
+          console.log(err);
         });
         break;
     }

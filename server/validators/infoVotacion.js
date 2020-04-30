@@ -28,7 +28,22 @@ async function checkNewParticipants(db, codigo, participantes) {
     })
 }
 
+async function checkNewResultados(db, codigo, vots) {
+    return await new Promise((resolve, reject) => {
+        votacionValidator.checkExistentVotacion(db, codigo).then(() => {
+            //TODO CHECK RESULTADOS VALIDOS
+            generators.generateListResultados(db, codigo, vots).then(votos => {
+                resolve(votos)
+            })
+        }).catch((err) => {
+            var error = {code: 404, error: "Not Found"}
+            reject(error);
+        })
+    })
+}
+
 module.exports = {
     checkNewOptions: checkNewOptions,
-    checkNewParticipants: checkNewParticipants
+    checkNewParticipants: checkNewParticipants,
+    checkNewResultados: checkNewResultados
 }

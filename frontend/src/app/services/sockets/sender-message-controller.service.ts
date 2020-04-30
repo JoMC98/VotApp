@@ -112,7 +112,8 @@ export class SenderMessageControllerService {
         this.cifradoController.descifrarListaVotosAdminPart(lista).then(async res => {
           var str = JSON.stringify(res)
 
-          let [vots, cifrados] = await Promise.all([this.guardarVotos(res), this.cifradoController.cifrarListaVotosAdmin(str)]);
+          let cifrados = await this.cifradoController.cifrarListaVotosAdmin(str);
+          let vots = this.guardarVotos(res)
           
           cifrados.push({ip: "server", fase: "Y" , data: vots})
           resolve(cifrados)
@@ -125,23 +126,12 @@ export class SenderMessageControllerService {
     })
   }
 
-  guardarVotos(res): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      var vots = []
-      for (var vote of res.datos) {
-        var v = vote.split("###")[0];
-        vots.push(v)
-      }
-      var codigo = this.controllerVotacion.getCodigo();
-      this.controllerBD.obtenerOpcionesVotacion(codigo).then(res => {
-        var votos = []
-        for (var i of Object.keys(res)) {
-          var opt = res[i]
-          var total_votos = vots.filter(x => x == opt.opcion).length
-          votos.push([codigo, opt.opcion, total_votos])
-        }
-        resolve(votos);
-      })
-    })
+  guardarVotos(res) {
+    var vots = []
+    for (var vote of res.datos) {
+      var v = vote.split("###")[0];
+      vots.push(v)
+    }
+    return vots  
   }
 }
