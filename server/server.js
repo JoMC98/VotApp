@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const https = require('https')
 const fs = require('fs')
 
-
 const routes = require('./controllers/routes.js');
 const db = require('./controllers/db.js');
 const middleware = require('./controllers/authentication.js');
