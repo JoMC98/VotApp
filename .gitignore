@@ -49,3 +49,8 @@ Thumbs.db
 server/node_modules
 *.priv
 *.pub
+*.crt
+*.key
+
+# OPENVPN
+/openvpn
