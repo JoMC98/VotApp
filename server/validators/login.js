@@ -4,7 +4,7 @@ async function checkLogin(db, body) {
     return await new Promise((resolve, reject) => {
         //TODO CHECK VALORES
         checkDNI(db, body.dni).then(user => {
-            checkPassword(body.passwd, user.passwd).then(() => {
+            checkPassword(user.passwd, body.passwd).then(() => {
                 resolve(user)
             }).catch((err) => {
                 var error = {code: 401, error: 'Incorrect User or Password'}
@@ -37,6 +37,8 @@ async function checkDNI(db, dni) {
 
 async function checkPassword(password, passwordIntroduced) {
     return await new Promise((resolve, reject) => {
+        console.log(passwordIntroduced)
+        console.log(password)
         encryptor.comparePassword(passwordIntroduced, password).then(equals => {
             if (!equals) {
                 reject(false)
@@ -48,5 +50,6 @@ async function checkPassword(password, passwordIntroduced) {
 }
 
 module.exports = {
-    checkLogin: checkLogin
+    checkLogin: checkLogin,
+    checkDNÍ: checkDNI
 };
