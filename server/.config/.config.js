@@ -1,21 +1,17 @@
 module.exports = {
-    SERVER_HOST: 'localhost',
-    SERVER_PORT: 4400,
-    // SERVER_HOST: '150.128.97.91',
-    // SERVER_PORT: 4300,
+    HTTPS: true,
+    SERVER_HOST: '192.168.1.136',
+    SERVER_HTTPS_PORT: 443,
+    SERVER_HTTP_PORT: 80,
+    SERVER_API_PORT: 4300,
 
-    SERVER_CERTIFICATE: './.config/.server.cert',
+    SERVER_CERTIFICATE: './.config/.server.crt',
     SERVER_KEY: './.config/.server.key',
 
     DB_HOST: "localhost",
     DB_USER: 'root',
     DB_PASSWORD: 'TFG2020patata_',
     DB_DATABASE: 'VotApp',
-
-    // DB_HOST: "127.0.0.1",
-    // DB_USER: 'al361869',
-    // DB_PASSWORD: '',
-    // DB_DATABASE: 'al361869',
 
     JWT_PRIVATE_KEY: './.config/.jwt.priv',
     JWT_PUBLIC_KEY: './.config/.jwt.pub',
@@ -37,6 +33,12 @@ module.exports = {
         filename: 'divider.png',
         path: 'assets/divider.png',
         cid: 'votappDivider'
+    }],
+    OPENVPN_MAIL_ATACHMENTS:
+    [{
+        filename: 'votapp.zip',
+        path: 'votapp.zip',
+        cid: 'votappFiles'
     }],
 
     VAPID_PRIVATE_KEY: './.config/.vapid.priv',

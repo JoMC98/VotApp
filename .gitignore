@@ -47,6 +47,7 @@ Thumbs.db
 
 # SERVER
 server/node_modules
+server/public
 *.priv
 *.pub
 *.crt
@@ -54,3 +55,4 @@ server/node_modules
 
 # OPENVPN
 /openvpn
+*.zip

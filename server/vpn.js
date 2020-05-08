@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 });
 
 https.createServer({
-  key: fs.readFileSync('./.config/server.key'),
+  key: fs.readFileSync(config.SER),
   cert: fs.readFileSync('./.config/server.crt')
 }, app).listen(4300, '192.168.210.6', () => {
   console.log(`Mysql server listening on port 4300`);

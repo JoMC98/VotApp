@@ -5,7 +5,6 @@ var reader = require('./readHTML.js');
 function createTransporter() {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
-    //secure: true,
     secure: false,
     auth: {
       user: config.MAIL_USERNAME,
@@ -66,6 +65,32 @@ async function sendNewMail(data) {
   });
 }
 
+async function sendConfigurationFiles(destination, DNI) {
+  return await new Promise((resolve, reject) => {
+    var subject = "Ficheros de Configuración VotApp";
+    var currentPath = process.cwd();
+
+    mailOptions = {
+      to: destination,
+      subject: subject,
+      text: "Hola, " + DNI + ". Estos son los ficheros de configuración necesarios",
+      attachments: config.OPENVPN_MAIL_ATACHMENTS
+    };
+
+    var transporter = createTransporter();
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error)
+        reject(error)
+      } else {
+        resolve("OK")
+        transport.close();
+      }
+    });
+  });
+}
+
 module.exports = {
-  sendNewMail: sendNewMail
+  sendNewMail: sendNewMail,
+  sendConfigurationFiles: sendConfigurationFiles
 };

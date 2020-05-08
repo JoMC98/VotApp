@@ -1,6 +1,6 @@
 const auxiliar = require("./auxiliarPuertos.js");
 const config = require("../.config/.config.js");
-const https = require('https')
+const spdy = require('spdy')
 const fs = require('fs')
 var WebSocketServer = require('websocket').server;
 
@@ -20,10 +20,10 @@ async function obtenerListaPuertos(result) {
 }
 
 function createServerSocket(port) {
-    var server = https.createServer({
+    var server = spdy.createServer({
         key: fs.readFileSync(config.SERVER_KEY),
         cert: fs.readFileSync(config.SERVER_CERTIFICATE)
-    });
+      })
 
     server.listen(port, config.SERVER_HOST, function() {
         console.log("Server open at " + port)

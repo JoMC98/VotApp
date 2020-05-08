@@ -1,5 +1,5 @@
 const controlAccess = require('../acceso/controlAccessHelpers');
-const validator = require('../../validators/opcionesYparticipantes.js');
+const validator = require('../../validators/infoVotacion.js');
 const votacionValidator = require('../../validators/votacion.js')
 
 async function insertarParticipantes(db, codigo, participantes, res) {
