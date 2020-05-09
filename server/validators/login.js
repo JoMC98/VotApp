@@ -37,8 +37,6 @@ async function checkDNI(db, dni) {
 
 async function checkPassword(password, passwordIntroduced) {
     return await new Promise((resolve, reject) => {
-        console.log(passwordIntroduced)
-        console.log(password)
         encryptor.comparePassword(passwordIntroduced, password).then(equals => {
             if (!equals) {
                 reject(false)
