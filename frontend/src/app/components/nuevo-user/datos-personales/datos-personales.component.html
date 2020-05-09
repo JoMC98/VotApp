@@ -1,25 +1,50 @@
-<mat-form-field class="fieldFormAncho">
-  <mat-label>Nombre</mat-label>
-  <input class="inputForm" matInput [(ngModel)]="data.nombre" name="nombre">
-</mat-form-field>
-<br>
-<mat-form-field class="fieldFormAncho">
-  <mat-label>Apellidos</mat-label>
-  <input class="inputForm" matInput [(ngModel)]="data.apellidos" name="apellidos">
-</mat-form-field>
-<br>
-<mat-form-field class="fieldFormAncho">
-  <mat-label>DNI</mat-label>
-  <input class="inputForm" matInput [(ngModel)]="data.DNI" name="DNI">
-</mat-form-field>
-<br>
-<mat-form-field class="fieldFormPasswd">   
-  <mat-label>Contraseña temporal</mat-label>
-  <div class="divPasswdForm">
-      <input type="password" id="inputPasswd" class="inputForm inputFormMinus" matInput [(ngModel)]="data.passwd" name="passwd">
-      <i class="fas fa-eye eyeIcon" (click)="showHidePasswd()"></i>
-  </div> 
-</mat-form-field>
-<div class="passwdDescrip">
-  <span>La contraseña será usada por el usuario solo para el primer acceso.</span>
+<div class="containerAddUser">
+    <div class="containerAttributeFirstAddUser">
+      <mat-form-field class="fieldFormPasswd" [ngClass]="errors.nombre ? 'errorUser' : ''">
+        <mat-label>Nombre</mat-label>
+        <input class="inputForm" matInput [(ngModel)]="data.nombre" name="nombre" maxlength=20 (change)="removeError('nombre')">
+      </mat-form-field>
+      <div *ngIf="errors.nombre" class="errorDescrip">
+        <span>{{errorTypes.nombre[errors.nombre]}}</span>
+      </div>
+    </div>
+
+    <div class="containerAttributeAddUser">
+      <mat-form-field class="fieldFormPasswd" [ngClass]="errors.apellidos ? 'errorUser' : ''" >
+        <mat-label>Apellidos</mat-label>
+        <input class="inputForm" matInput [(ngModel)]="data.apellidos" name="apellidos" maxlength=40 (change)="removeError('apellidos')">
+      </mat-form-field>
+      <div *ngIf="errors.apellidos" class="errorDescrip">
+        <span>{{errorTypes.apellidos[errors.apellidos]}}</span>
+      </div>
+    </div>
+
+    <div class="containerAttributeAddUser">
+      <mat-form-field class="fieldFormPasswd" [ngClass]="errors.DNI ? 'errorUser' : ''" >
+        <mat-label>DNI</mat-label>
+        <input class="inputForm" matInput [(ngModel)]="data.DNI" name="DNI" maxlength=9 (change)="removeError('DNI')">
+      </mat-form-field>
+      <div *ngIf="errors.DNI" class="errorDescrip">
+        <span>{{errorTypes.DNI[errors.DNI]}}</span>
+      </div>
+    </div>
+
+    <div class="containerAttributeLastAddUser">
+      <mat-form-field class="fieldFormPasswd"  [ngClass]="errors.passwd ? 'errorUser' : ''" >   
+        <mat-label>Contraseña temporal</mat-label>
+        <div class="divPasswdForm">
+            <input type="password" id="inputPasswd" class="inputForm inputFormMinus" matInput [(ngModel)]="data.passwd" name="passwd" maxlength=30 (change)="removeError('passwd')">
+            <i class="fas fa-eye eyeIcon" (click)="showHidePasswd()"></i>
+        </div> 
+      </mat-form-field>
+      <div *ngIf="!errors.passwd" class="passwdDescrip">
+        <span>La contraseña será usada por el usuario solo para el primer acceso.</span>
+      </div>
+      <div *ngIf="errors.passwd" class="errorDescrip">
+        <span>{{errorTypes.passwd[errors.passwd]}}</span>
+      </div>
+    </div>
 </div>
+
+
+

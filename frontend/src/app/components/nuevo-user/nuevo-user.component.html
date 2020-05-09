@@ -10,8 +10,8 @@
   
   <div class="addPanel allContent">
       <div class="addDatosPanelUser">
-        <app-datos-personales [data]="data.personalData" *ngIf="sect[0] == 1"></app-datos-personales>
-        <app-datos-contacto [data]="data.contactData" *ngIf="sect[0] == 2"></app-datos-contacto>
+        <app-datos-personales [data]="data.personalData" [errors]="errors" *ngIf="sect[0] == 1"></app-datos-personales>
+        <app-datos-contacto [data]="data.contactData" [errors]="errors" *ngIf="sect[0] == 2"></app-datos-contacto>
         <app-resumen-user [data]="data" *ngIf="sect[0] == 3"></app-resumen-user>
       </div>
   
@@ -19,7 +19,7 @@
         <div class="rowPuntos-3">
           <i [ngStyle]="sect[0] == 1 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(1)" class="fas fa-angle-left flecha" style="text-align: left"></i>
           <div class="rowPuntos2-3">
-            <div *ngFor="let opt of points" (click)="sect[0] = opt" class="circulo" [ngClass] = "sect[0] == opt ? 'circuloSelected' : ''"></div>
+            <div *ngFor="let opt of points" (click)="changeTo(opt)" class="circulo" [ngClass] = "sect[0] == opt ? 'circuloSelected' : ''"></div>
           </div>
           <i [ngStyle]="sect[0] == 3 ? {'visibility': 'hidden'} : {}" (click)="cambioPag(2)" class="fas fa-angle-right flecha" style="text-align: right"></i>
         </div>

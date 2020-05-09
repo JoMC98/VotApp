@@ -1,0 +1,12 @@
+::ng-deep .mat-snack-bar-container {
+    color: white;
+    background-color: #C25744;
+}
+
+::ng-deep .mat-simple-snackbar-action {
+    color: white;
+}
+
+::ng-deep .mat-snack-bar-handset {
+    margin-bottom: 34% !important;
+}

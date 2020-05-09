@@ -24,7 +24,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -114,6 +116,8 @@ registerLocaleData(localeEs, 'es')
     MatSidenavModule,
     MatBottomSheetModule,
     MatCardModule,
+    MatTooltipModule,
+    MatSnackBarModule,
     MatRadioModule,
     MatProgressSpinnerModule,
     BrowserModule,
