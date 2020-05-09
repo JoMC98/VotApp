@@ -198,6 +198,11 @@
     width: 100% !important;
 }
 
+::ng-deep .fieldFormAnchoUser {
+    margin-bottom: 5%;
+    width: 100% !important;
+}
+
 ::ng-deep .fieldFormAncho {
     margin-top: 5%;
     margin-bottom: 5%;
@@ -916,6 +921,7 @@ select:-webkit-autofill:focus {
     width: 100%;
     font-size: 16px;
     color: #272343;
+    position: relative;
 }
 
 ::ng-deep .iconVotante {

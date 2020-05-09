@@ -24,28 +24,36 @@
         <div class="datosVotante">
             <div class="elementoVotante">
                 <i class="fas fa-id-card iconVotante"></i>
-                <input class="inputModifyUser" [(ngModel)]="usuario.nombre" name="nombre" required/>
+                <input class="inputModifyUser" [(ngModel)]="usuario.nombre" name="nombre" maxlength=20/>        
+                <i *ngIf="errors['nombre']" class="fas fa-exclamation-triangle alertModify" #tooltip="matTooltip" 
+                (click)="tooltip.toggle()" [matTooltip]="errorTypes.nombre[errors['nombre']]" [matTooltipPosition]="'below'"></i>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-font iconVotante"></i>
-                <input class="inputModifyUser" [(ngModel)]="usuario.apellidos" name="apellidos" required/>
+                <input class="inputModifyUser" [(ngModel)]="usuario.apellidos" name="apellidos" maxlength=35/>
+                <i *ngIf="errors['apellidos']" class="fas fa-exclamation-triangle alertModify" #tooltip="matTooltip" 
+                (click)="tooltip.toggle()" [matTooltip]="errorTypes.apellidos[errors['apellidos']]" [matTooltipPosition]="'below'"></i>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-phone iconVotante"></i>
-                <input type="number" class="inputModifyUser" [(ngModel)]="usuario.telefono" name="telefono" required/>
+                <input type="number" class="inputModifyUser" [(ngModel)]="usuario.telefono" name="telefono"/>
+                <i *ngIf="errors['telefono']" class="fas fa-exclamation-triangle alertModify" #tooltip="matTooltip" 
+                (click)="tooltip.toggle()" [matTooltip]="errorTypes.telefono[errors['telefono']]" [matTooltipPosition]="'below'"></i>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-envelope iconVotante"></i>
-                <input type="mail" class="inputModifyUser" [(ngModel)]="usuario.mail" name="mail" required/>
+                <input type="mail" class="inputModifyUser" [(ngModel)]="usuario.mail" name="mail" maxlength=40/>
+                <i *ngIf="errors['mail']" class="fas fa-exclamation-triangle alertModify" #tooltip="matTooltip" 
+                (click)="tooltip.toggle()" [matTooltip]="errorTypes.mail[errors['mail']]" [matTooltipPosition]="'below'"></i>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-building iconVotante"></i>
                 <mat-form-field id="selectModifyUser" class="inputModifyUser selectModifyUser">
-                    <mat-select [(ngModel)]="usuario.departamento" name="departamento" required>  
+                    <mat-select [(ngModel)]="usuario.departamento" name="departamento">  
                         <mat-option *ngFor="let dpt of departamentos" [value]="dpt">{{dpt}}</mat-option>
                     </mat-select>    
                 </mat-form-field>
@@ -53,7 +61,9 @@
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-sitemap iconVotante"></i>
-                <input class="inputModifyUser" [(ngModel)]="usuario.cargo" name="cargo" required/>
+                <input class="inputModifyUser" [(ngModel)]="usuario.cargo" name="cargo" maxlength=40/>
+                <i *ngIf="errors['cargo']" class="fas fa-exclamation-triangle alertModify" #tooltip="matTooltip" 
+                (click)="tooltip.toggle()" [matTooltip]="errorTypes.cargo[errors['cargo']]" [matTooltipPosition]="'below'"></i>
             </div>
         </div>
 
@@ -61,17 +71,17 @@
         <div class="datosVotante">
             <div class="elementoVotante">
                 <i class="fas fa-lock iconVotante"></i>
-                <input type="password" class="inputModifyUser" [(ngModel)]="actual" name="actual" required placeholder="Contraseña actual"/>
+                <input type="password" class="inputModifyUser" [(ngModel)]="actual" name="actual" placeholder="Contraseña actual"/>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-unlock iconVotante"></i>
-                <input type="password" class="inputModifyUser" [(ngModel)]="nueva" name="nueva" required placeholder="Nueva contraseña"/>
+                <input type="password" class="inputModifyUser" [(ngModel)]="nueva" name="nueva" placeholder="Nueva contraseña"/>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-lock-open iconVotante"></i>
-                <input type="password" class="inputModifyUser" [(ngModel)]="repetir" name="repetir" required placeholder="Repetir contraseña"/>
+                <input type="password" class="inputModifyUser" [(ngModel)]="repetir" name="repetir" placeholder="Repetir contraseña"/>
             </div>
         </div>
     </form>

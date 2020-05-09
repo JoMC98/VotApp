@@ -10,12 +10,6 @@
     color: #B9B9B9;
 }
 
-::ng-deep .fieldFormPasswd {
-    margin-top: 4% !important;
-    margin-bottom: 1%;
-    width: 100% !important;
-}
-
 .passwdDescrip{
     margin-top: -15px;
     margin-bottom: 2%;
@@ -35,4 +29,3 @@
         text-align: justify;
     }
 }
-

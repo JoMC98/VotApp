@@ -7,6 +7,15 @@
     width: 80%;
 }
 
+.alertModify {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    color: #C25744;
+    margin: auto !important;
+    text-align: center;
+}
+
 .selectModifyUser {
     height: 1px !important;
 }
@@ -49,3 +58,9 @@
     display: none !important;
 }
 
+::ng-deep .mat-tooltip {
+    background-color: #C25744 !important;
+    font-size: 11px !important;
+    white-space: normal !important;
+    max-width: 1000px !important;
+}

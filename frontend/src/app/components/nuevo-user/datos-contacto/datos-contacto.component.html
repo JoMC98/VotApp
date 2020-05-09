@@ -1,20 +1,42 @@
-<mat-form-field class="fieldFormAncho">
-  <mat-label>Teléfono</mat-label>
-  <input type="tel" class="inputForm" matInput [(ngModel)]="data.telefono" name="telefono">
-</mat-form-field>
-<br>
-<mat-form-field class="fieldFormAncho">
-  <mat-label>Correo electrónico</mat-label>
-  <input type="email" class="inputForm" matInput [(ngModel)]="data.mail" name="mail">
-</mat-form-field>
-<br>
-<mat-form-field class="fieldFormAncho">
-  <mat-select class="inputForm" placeholder="Departamento" [(ngModel)]="data.departamento" name="departamento">  
-    <mat-option *ngFor="let dpt of departamentos" [value]="dpt">{{dpt}}</mat-option>
-  </mat-select>   
-</mat-form-field>
-<br>
-<mat-form-field class="fieldFormAncho">
-  <mat-label>Cargo</mat-label>
-  <input class="inputForm" matInput [(ngModel)]="data.cargo" name="cargo">
-</mat-form-field>
+<div class="containerAddUser">
+  <div class="containerAttributeFirstAddUser">
+    <mat-form-field class="fieldFormPasswd" [ngClass]="errors.telefono ? 'errorUser' : ''">
+      <mat-label>Teléfono</mat-label>
+      <input type="number" class="inputForm" matInput [(ngModel)]="data.telefono" name="telefono" (change)="removeError('telefono')">
+    </mat-form-field>
+    <div *ngIf="errors.telefono" class="errorDescrip">
+      <span>{{errorTypes.telefono[errors.telefono]}}</span>
+    </div>
+  </div>
+
+  <div class="containerAttributeAddUser">
+    <mat-form-field class="fieldFormPasswd" [ngClass]="errors.mail ? 'errorUser' : ''" >
+      <mat-label>Correo electrónico</mat-label>
+      <input type="email" class="inputForm" matInput [(ngModel)]="data.mail" name="mail" maxlength="40" (change)="removeError('mail')">
+    </mat-form-field>
+    <div *ngIf="errors.mail" class="errorDescrip">
+      <span>{{errorTypes.mail[errors.mail]}}</span>
+    </div>
+  </div>
+
+  <div class="containerAttributeAddUser">
+    <mat-form-field class="fieldFormPasswd" [ngClass]="errors.departamento ? 'errorUser' : ''" >
+      <mat-select class="inputForm" placeholder="Departamento" [(ngModel)]="data.departamento" name="departamento" (selectionChange)="removeError('departamento')">  
+        <mat-option *ngFor="let dpt of departamentos" [value]="dpt">{{dpt}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="errors.departamento" class="errorDescrip">
+      <span>{{errorTypes.departamento[errors.departamento]}}</span>
+    </div>
+  </div>
+
+  <div class="containerAttributeLastAddUser">
+    <mat-form-field class="fieldFormPasswd"  [ngClass]="errors.cargo ? 'errorUser' : ''" >   
+      <mat-label>Cargo</mat-label>
+      <input class="inputForm" matInput [(ngModel)]="data.cargo" name="cargo" maxlength="40" (change)="removeError('cargo')">
+    </mat-form-field>
+    <div *ngIf="errors.cargo" class="errorDescrip">
+      <span>{{errorTypes.cargo[errors.cargo]}}</span>
+    </div>
+  </div>
+</div>
