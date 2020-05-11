@@ -35,9 +35,13 @@ const apiApp = express()
   .use(middleware.verificaToken)
   .use(routes(db));
 
-spdy.createServer({
-  key: fs.readFileSync(config.SERVER_KEY),
-  cert: fs.readFileSync(config.SERVER_CERTIFICATE)
-}, apiApp).listen(config.SERVER_API_PORT, config.SERVER_HOST, () => {
-  console.log(`HTTPS Server listening on port ${config.SERVER_API_PORT}`);
+http.createServer(apiApp).listen(config.SERVER_API_PORT, config.SERVER_HOST, () => {
+  console.log(`HTTP Server listening on port ${config.SERVER_API_PORT}`);
 });
+
+// spdy.createServer({
+//   key: fs.readFileSync(config.SERVER_KEY),
+//   cert: fs.readFileSync(config.SERVER_CERTIFICATE)
+// }, apiApp).listen(config.SERVER_API_PORT, config.SERVER_HOST, () => {
+//   console.log(`HTTPS Server listening on port ${config.SERVER_API_PORT}`);
+// });

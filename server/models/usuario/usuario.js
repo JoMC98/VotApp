@@ -1,5 +1,6 @@
 const mail = require('../../helpers/mailSender.js');
 const validator = require('../../validators/usuario.js');
+const passController = require('./password.js');
 
 //NUEVO USUARIO
 exports.nuevoUsuario = (db, req, res) => {
@@ -93,18 +94,30 @@ exports.obtenerUsuario = (db, req, res) => {
 exports.modificarUsuario = (db, req, res) => {
   if (req.body.usuario.admin || req.body.DNI == req.body.usuario.DNI) {
     validator.checkModifyUser(db, req.body)
-      .then(()=> {
-        db.query(
-          'UPDATE Usuario SET nombre=?, apellidos=?, telefono=?, mail=?, cargo=?, departamento=? WHERE DNI=?',
-              [req.body.nombre, req.body.apellidos, req.body.telefono, req.body.mail, req.body.cargo, req.body.departamento, req.body.DNI],
-              (error) => {
-              if (error) {
-                  console.error(error);
-                  res.status(500).json({status: 'error'});
-              } else {
-                  res.status(200).json({status: 'ok'});
-              }
-        });
+      .then(r => {
+        if (r == "both") {
+          modifyUserAction(db, req.body).then(() => {
+            passController.modificarContraseña(db, req.body.passwords, req.body.DNI).then(() => {
+              res.status(200).json({status: 'ok'});
+            }).catch((err) => {
+              res.status(500).json({status: 'error'});
+            }) 
+          }).catch(() => {
+            res.status(500).json({status: 'error'});
+          })
+        } else if (r == "data") {
+          modifyUserAction(db, req.body).then(() => {
+            res.status(200).json({status: 'ok'});
+          }).catch((err) => {
+            res.status(500).json({status: 'error'});
+          }) 
+        } else {
+          passController.modificarContraseña(db, req.body.passwords, req.body.DNI).then(() => {
+            res.status(200).json({status: 'ok'});
+          }).catch((err) => {
+            res.status(500).json({status: 'error'});
+          }) 
+        }
       }).catch((err) => {
         res.status(err.code).json({error: err.error});
       })
@@ -113,4 +126,18 @@ exports.modificarUsuario = (db, req, res) => {
   } 
 }
 
-
+async function modifyUserAction(db, user) {
+  return await new Promise((resolve, reject) => {
+    db.query(
+      'UPDATE Usuario SET nombre=?, apellidos=?, telefono=?, mail=?, cargo=?, departamento=? WHERE DNI=?',
+          [user.nombre, user.apellidos, user.telefono, user.mail, user.cargo, user.departamento, user.DNI],
+          (error) => {
+          if (error) {
+            console.error(error);
+            reject(false)
+          } else {
+            resolve(true)
+          }
+      })
+  })
+}
