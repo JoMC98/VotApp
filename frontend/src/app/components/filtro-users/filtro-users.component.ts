@@ -44,4 +44,14 @@ export class FiltroUsersComponent implements OnInit {
     this._bottomSheetRef.dismiss();
   }
 
+  limpiar() {
+    this.data.nombre.nombre = "";
+    this.data.apellidos.apellidos =  "";
+    this.data.cargo.cargo =  "";
+    for (var dpt of Object.keys(this.copyDepartamentos)) {
+      this.data.departamentos[dpt] = false;
+    }
+    this._bottomSheetRef.dismiss();
+  }
+
 }

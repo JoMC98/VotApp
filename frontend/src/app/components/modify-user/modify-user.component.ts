@@ -5,6 +5,8 @@ import { ListaDepartamentosService } from 'src/app/services/general/lista-depart
 import { KeyPasswordControllerService } from 'src/app/services/cipher/key-password-controller.service';
 import { UserValidatorService } from 'src/app/services/validators/user/user-validator.service';
 import { CheckboxControlValueAccessor } from '@angular/forms';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { PasswordValidatorService } from 'src/app/services/validators/user/password-validator.service';
 
 @Component({
   selector: 'app-modify-user',
@@ -24,6 +26,10 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   nueva: string = "";
   repetir: string = "";
 
+  showActual = false; 
+  showNueva = false; 
+  showRepetir = false; 
+
   profile: boolean;
 
   listaDepartamentos = {};
@@ -41,7 +47,18 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, 
     private listDepartamentos: ListaDepartamentosService,  private kewPasswordController: KeyPasswordControllerService, 
-    private validator: UserValidatorService) { 
+    private userValidator: UserValidatorService, private passwdValidator: PasswordValidatorService, private _snackBar: MatSnackBar) { 
+  }
+
+  openSnackBar() {
+    var message = "Se ha modificado con éxito"
+    var action = "Cerrar"
+
+    let config = new MatSnackBarConfig();
+    config.duration = 2000;
+    config.panelClass = ['confirm-snackbar']
+
+    this._snackBar.open(message, action, config);
   }
 
   ngOnInit(): void {
@@ -103,7 +120,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   checkUser() {
     var changeUser = this.comprobarCopy()
     if (changeUser) {
-      var errors = this.validator.checkUser(this.usuario)
+      var errors = this.userValidator.checkUser(this.usuario)
       if (errors == true) {
         this.usuario.nombre = this.capitalizeFirstLetter(this.usuario.nombre)
         this.usuario.apellidos = this.capitalizeFirstLetter(this.usuario.apellidos)
@@ -126,7 +143,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     return await new Promise((resolve, reject) => {
       var changePasswd = this.comprobarPassword()
       if (changePasswd) {
-        var errors = this.validator.checkNewPassword(this.actual, this.nueva, this.repetir)
+        var errors = this.passwdValidator.checkNewPassword(this.actual, this.nueva, this.repetir)
         if (errors == true) {
           this.kewPasswordController.generateAndEncryptKeyPair(this.nueva).then(claves => {
             this.usuario["passwords"] = {actual: this.actual, nueva: this.nueva, clavePublica: claves["clavePublica"], clavePrivada: claves["clavePrivada"]}
@@ -169,13 +186,16 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
       if (!hasData && !hasErrors) {
         this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
       } else if (hasData && !hasErrors) {
-        console.log("ENVIA PETICION")
-        console.log(this.usuario)
         this.controllerBD.modificarUsuario(this.usuario)
           .then((result) =>{ 
-            this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
+            this.openSnackBar()
+            new Promise((res) => {
+              setTimeout(() => {
+                this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
+                res();
+              }, 2500);
+            })
           }).catch(err => {
-            console.log(err)
             if (err.code == 409) {
               if (err.mail != null) {
                 this.errors["mail"] = "duplicated"
@@ -187,6 +207,30 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
           });
       }
     })
+  }
+
+  showHidePasswd(id) {
+    var variable = null
+    var clase = null
+    if (id == "actual") {
+      this.showActual = !this.showActual
+      variable = this.showActual
+      clase = "inputActual"
+    } else if (id == "nueva") {
+      this.showNueva = !this.showNueva
+      variable = this.showNueva
+      clase = "inputNueva"
+    } else {
+      this.showRepetir = !this.showRepetir
+      variable = this.showRepetir
+      clase = "inputRepetir"
+    }
+
+    if (variable) {
+      (<HTMLInputElement>document.getElementById(clase)).type = "text";
+    } else {
+      (<HTMLInputElement>document.getElementById(clase)).type = "password";
+    }
   }
 
   removeError(att) {

@@ -1,5 +1,12 @@
 <div class="dialogoFiltro">
-    <button mat-stroked-button color="warn" class="buttonFiltro" (click)="filtrar()">Filtrar</button>
+    <div class="grupoBotonesFiltro">
+      <div class="divBotonFiltro">
+        <button mat-stroked-button color="warn" class="buttonFiltro buttonFiltroL" (click)="filtrar()">Filtrar</button>
+      </div>
+      <div class="divBotonFiltro">
+        <button mat-stroked-button color="warn" class="buttonFiltro buttonFiltroR" (click)="limpiar()">Limpiar filtros</button>
+      </div>
+    </div>
     <div class="grupoFiltro">
       <mat-form-field class="inputFiltro">
         <mat-label>Búsqueda por nombre</mat-label>

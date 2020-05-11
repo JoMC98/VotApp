@@ -1,11 +1,15 @@
-<div class="formContainer" *ngFor="let opt of data; let i = index; trackBy:trackByIndex;">
-    <mat-form-field class="fieldForm">
-        <div class="divMinusForm">
-            <input id="inputFormOption{{i}}" class="inputForm" [class]="opciones > 2 ? 'inputFormMinus' : ''" matInput [(ngModel)]="data[i]" placeholder="Opción {{i + 1}}">
-            <i *ngIf="opciones > 2" class="fas fa-minus minusIcon" (click)="deleteOption(i)"></i>
-        </div>
-    </mat-form-field>
-</div>
-<div class="plusButtonDiv">
-    <i (click)="newOption()" class="fas fa-plus plusButton"></i>
+<div class="containerAddVotacion">
+    <i *ngIf="errors['options']" class="fas fa-exclamation-triangle alertOpciones" #tooltip="matTooltip" 
+        (click)="tooltip.toggle()" [matTooltipPosition]="'below'" [matTooltip]="errorTypes.options[errors['options']]"></i>
+    <div class="formContainer" *ngFor="let opt of data; let i = index; trackBy:trackByIndex;">
+        <mat-form-field class="fieldForm">
+            <div class="divMinusForm">
+                <input id="inputFormOption{{i}}" class="inputForm" [class]="opciones > 2 ? 'inputFormMinus' : ''" matInput [(ngModel)]="data[i]" placeholder="Opción {{i + 1}}" (change)="removeError('options')">
+                <i *ngIf="opciones > 2" class="fas fa-minus minusIcon" (click)="deleteOption(i)"></i>
+            </div>
+        </mat-form-field>
+    </div>
+    <div *ngIf="opciones < 6" class="plusButtonDiv">
+        <i (click)="newOption()" class="fas fa-plus plusButton"></i>
+    </div>
 </div>

@@ -73,17 +73,20 @@
         <div class="datosVotante">
             <div class="elementoVotante">
                 <i class="fas fa-lock iconVotante"></i>
-                <input type="password" class="inputModifyUser" [(ngModel)]="actual" name="actual" placeholder="Contraseña actual" (change)="removeError('passwd')"/>
+                <input type="password" id="inputActual" class="inputModifyUser" [(ngModel)]="actual" name="actual" placeholder="Contraseña actual" (change)="removeError('passwd')"/>
+                <i class="fas fa-eye iconEyeModifyPasswd" (click)="showHidePasswd('actual')"></i>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-unlock iconVotante"></i>
-                <input type="password" class="inputModifyUser" [(ngModel)]="nueva" name="nueva" placeholder="Nueva contraseña" (change)="removeError('passwd')"/>
+                <input type="password" id="inputNueva" class="inputModifyUser" [(ngModel)]="nueva" name="nueva" placeholder="Nueva contraseña" (change)="removeError('passwd')"/>
+                <i class="fas fa-eye iconEyeModifyPasswd" (click)="showHidePasswd('nueva')"></i>
             </div>
             <hr class="hrVotante"/>
             <div class="elementoVotante">
                 <i class="fas fa-lock-open iconVotante"></i>
-                <input type="password" class="inputModifyUser" [(ngModel)]="repetir" name="repetir" placeholder="Repetir contraseña" (change)="removeError('passwd')"/>
+                <input type="password" id="inputRepetir" class="inputModifyUser" [(ngModel)]="repetir" name="repetir" placeholder="Repetir contraseña" (change)="removeError('passwd')"/>
+                <i class="fas fa-eye iconEyeModifyPasswd" (click)="showHidePasswd('repetir')"></i>
             </div>
         </div>
     </form>

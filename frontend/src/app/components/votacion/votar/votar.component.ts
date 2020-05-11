@@ -291,28 +291,30 @@ export class VotarComponent implements OnInit, OnDestroy {
   }
 
   votar() {
-    this.activarBoton = true;
+    if (this.selected) {
+      this.activarBoton = true;
 
-    var seleccion = this.seleccion
-
-    for (var i in this.options) {
-      this.options[i]["selected"] = "";
+      var seleccion = this.seleccion
+  
+      for (var i in this.options) {
+        this.options[i]["selected"] = "";
+      }
+      this.selected = false;
+      this.seleccion = null;
+  
+      this.cifradoController.cifrarVoto(this.options[seleccion].pregunta).then(res => {
+        var ip = this.controllerVotacion.getIp(0);
+        this.socketController.sendMessageDestino(ip, 1, res)
+       
+        new Promise((res) => {
+            setTimeout(() => {
+              this.waiting = true;
+              this.controllerVotacion.activateVoted()
+              this.gestionarVotacion();
+            }, 2000);
+          })
+      })
     }
-    this.selected = false;
-    this.seleccion = null;
-
-    this.cifradoController.cifrarVoto(this.options[seleccion].pregunta).then(res => {
-      var ip = this.controllerVotacion.getIp(0);
-      this.socketController.sendMessageDestino(ip, 1, res)
-     
-      new Promise((res) => {
-          setTimeout(() => {
-            this.waiting = true;
-            this.controllerVotacion.activateVoted()
-            this.gestionarVotacion();
-          }, 2000);
-        })
-    })
   }
 
   gestionarVotacion() {

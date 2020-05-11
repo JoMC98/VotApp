@@ -17,17 +17,18 @@ export class ResumenComponent implements OnInit {
   }
 
   confirmVotacion() {
-    this.controllerBD.añadirVotacion(this.data).then((result) =>{
-      new Promise((res) => {
-        setTimeout(() => {
-          this.router.navigate(['/listadoVotaciones']);
-          res();
-        }, 1000);
-      })
-    }).catch(err => {
-      //TODO ERRORES 
-      console.log(err);
-    });
+    console.log(this.data)
+    // this.controllerBD.añadirVotacion(this.data).then((result) =>{
+    //   new Promise((res) => {
+    //     setTimeout(() => {
+    //       this.router.navigate(['/listadoVotaciones']);
+    //       res();
+    //     }, 1000);
+    //   })
+    // }).catch(err => {
+    //   //TODO ERRORES 
+    //   console.log(err);
+    // });
   }
 
   cancelVotacion() {

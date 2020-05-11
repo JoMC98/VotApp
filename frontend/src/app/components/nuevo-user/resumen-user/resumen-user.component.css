@@ -1,6 +1,13 @@
+::ng-deep .error-snackbar {
+    background-color: #C25744;
+}
+
+::ng-deep .confirm-snackbar {
+    background-color: #8AA581;
+}
+
 ::ng-deep .mat-snack-bar-container {
     color: white;
-    background-color: #C25744;
 }
 
 ::ng-deep .mat-simple-snackbar-action {

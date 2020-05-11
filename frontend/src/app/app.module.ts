@@ -12,6 +12,8 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+import * as moment from 'moment';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -64,6 +66,7 @@ import { ServerErrorComponent } from './components/errors/server-error/server-er
 import { ConnectionErrorComponent } from './components/errors/connection-error/connection-error.component';
 import { StopComponent } from './components/votacion/stop/stop.component';
 import { PasswordComponent } from './components/votacion/password/password.component';
+import { DescripcionComponent } from './components/nueva-votacion/descripcion/descripcion.component';
 
 registerLocaleData(localeEs, 'es')
 
@@ -102,7 +105,8 @@ registerLocaleData(localeEs, 'es')
     ServerErrorComponent,
     ConnectionErrorComponent,
     StopComponent,
-    PasswordComponent
+    PasswordComponent,
+    DescripcionComponent
   ],
   imports: [
     MatFormFieldModule, 
@@ -116,6 +120,7 @@ registerLocaleData(localeEs, 'es')
     MatSidenavModule,
     MatBottomSheetModule,
     MatCardModule,
+    MatNativeDateModule,
     MatTooltipModule,
     MatSnackBarModule,
     MatRadioModule,
