@@ -16,8 +16,8 @@ module.exports = {
     JWT_PRIVATE_KEY: './.config/.jwt.priv',
     JWT_PUBLIC_KEY: './.config/.jwt.pub',
     JWT_ALGHORITHM: 'RS256',
-    JWT_MAX_TIME_ADMIN: '1h',
-    JWT_MAX_TIME_VOTANTE: '20m',
+    JWT_MAX_TIME_ADMIN: '1d',
+    JWT_MAX_TIME_VOTANTE: '20h',
     JWT_MAX_TIME_SOCKETS: '5m',
 
     MAIL_USERNAME: 'votapp.noreply@gmail.com',

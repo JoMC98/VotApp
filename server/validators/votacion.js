@@ -26,6 +26,7 @@ async function checkModifyVotacion(db, votacion) {
     return await new Promise((resolve, reject) => {
         checkExistentVotacion(db, votacion.codigo).then(() => {
            //TODO CHECK VALORES y AMBITO; DPTO en LISTA; FECHA > now
+           resolve(true)
         }).catch((err) => {
             var error = {code: 404, error: "Not Found"}
             reject(error);

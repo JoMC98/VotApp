@@ -15,9 +15,9 @@ exports.modificarContraseña = async (db, passwords, DNI) => {
   
 exports.modificarContraseñaFirst = (db, req, res) => {
     if (req.body.DNI == req.body.usuario.DNI) {
-        modifyActions(db, req, res)
+      modifyActions(db, req, res)
     } else {
-        res.status(403).json({status: 'Restricted Access'});
+      res.status(403).json({status: 'Restricted Access'});
     } 
 }
 
