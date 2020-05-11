@@ -39,37 +39,50 @@ export class UserValidatorService {
     })
   }
 
-  async checkUser(usuario) {
-    return await new Promise((resolve, reject) => {
-      var errors = {}
+  checkUser(usuario) {
+    var errors = {}
+    this.checkNameApellidos("nombre", usuario.nombre, errors)
+    this.checkNameApellidos("apellidos", usuario.apellidos, errors)
+    this.checkDNI(usuario.DNI, errors)
+    this.checkTelefono(usuario.telefono, errors)
+    this.checkMail(usuario.mail, errors)
+    this.checkRequired("departamento", usuario.departamento, errors)
+    this.checkRequired("cargo", usuario.cargo, errors)
 
-      this.checkNameApellidos("nombre", usuario.nombre, errors)
-      this.checkNameApellidos("apellidos", usuario.apellidos, errors)
-      this.checkDNI(usuario.DNI, errors)
-      this.checkTelefono(usuario.telefono, errors)
-      this.checkMail(usuario.mail, errors)
-      this.checkRequired("departamento", usuario.departamento, errors)
-      this.checkRequired("cargo", usuario.cargo, errors)
-
-      if (Object.keys(errors).length == 0) {
-        resolve(true)
-      } else {
-        reject(errors)
-      }
-    })
+    if (Object.keys(errors).length == 0) {
+      return true
+    } else {
+      return errors
+    }
   }
 
-  async checkNewPassword(newPassword) {
-    return await new Promise((resolve, reject) => {
-      var errors = {}
-      this.checkPassword(newPassword, errors)
+  checkNewPassword(actual, nueva, repetir) {
+    var errors = {}
+    var res = this.checkPasswordGroup(actual, nueva, repetir, errors)
+    if (res) {
+      this.checkPassword(nueva, errors)
+    }
+    
+    if (Object.keys(errors).length == 0) {
+      return true
+    } else {
+      return errors
+    }
+  }
 
-      if (Object.keys(errors).length == 0) {
-        resolve(true)
-      } else {
-        reject(errors)
-      }
-    })
+  checkPasswordGroup(actual, nueva, repetir, errors) {
+    if (actual == "" || nueva == "" || repetir == "") {
+      errors["passwd"] = "required"
+      return false
+    } else if (nueva == actual) {
+      errors["passwd"] = "notChanged"
+      return false
+    } else if (nueva != repetir) {
+      errors["passwd"] = "notSame" 
+      return false
+    } else {
+      return true
+    }
   }
 
   checkRequired(att, value, errors) {

@@ -48,16 +48,6 @@ export class DatabaseControllerService {
     })
   };
 
-  async modificarContraseña(passwords) { 
-    return await new Promise((resolve, reject) => {
-      this.httpRequest.postRequest("/modificarContrasenya", passwords).then(res => {
-        resolve(res);
-      }).catch(err => {
-        reject(err);
-      })
-    })
-  };
-
   async modificarContraseñaFirst(data) { 
     return await new Promise((resolve, reject) => {
       this.httpRequest.postRequest("/modificarContrasenyaFirst", data).then(res => {

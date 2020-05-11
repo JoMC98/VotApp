@@ -4,6 +4,7 @@ import { DatabaseControllerService } from 'src/app/services/database/database-co
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 import { KeyPasswordControllerService } from 'src/app/services/cipher/key-password-controller.service';
 import { UserValidatorService } from 'src/app/services/validators/user/user-validator.service';
+import { CheckboxControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'app-modify-user',
@@ -33,7 +34,9 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
                 apellidos: {required: "Este campo es obligatorio", badFormed: "Este campo no puede contener números"},
                 telefono: {required: "Este campo es obligatorio", length: "Este campo debe tener entre 7 y 11 carácteres"}, 
                 mail: {required: "Este campo es obligatorio", badFormed: "Este campo debe seguir el formato de un correo (aa@bb.cc)", duplicated: "Este mail ya está en uso"},
-                cargo: {required: "Este campo es obligatorio"}}
+                cargo: {required: "Este campo es obligatorio"}, 
+                passwd: {required: "Los 3 campos son obligatorios", notChanged: "La contraseña nueva debe ser diferente de la actual", notSame: "Las contraseñas no coinciden",
+                badFormed: "La nueva contraseña debe contener letras y números", length: "La nueva contraseña debe contener al menos 8 carácteres", incorrect: "Contraseña incorrecta"}}
 
 
   constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, 
@@ -68,7 +71,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   }
 
   comprobarCopy() {
-    for (var k of Object.keys(this.usuario)) {
+    for (var k of Object.keys(this.copyUsuario)) {
       if (this.copyUsuario[k] != this.usuario[k]) {
         return true;
       }
@@ -77,83 +80,10 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   }
 
   comprobarPassword() {
-    if (this.actual != "" && this.nueva != "" && this.repetir != "") {
-      if (this.nueva == this.repetir && this.nueva != this.actual) {
-        return true;
-      } else {
-        if (this.nueva == this.actual) {
-          this.errors["password"] = "notChanged"
-        } else if (this.nueva != this.repetir) {
-          this.errors["password"] = "notSame"
-        }
-      }
-    } else {
-      this.errors["password"] = "required"
+    if (this.actual == "" && this.nueva == "" && this.repetir == "") {
+      return false
     }
-    return false;
-  }
-
-  async changePassword() {
-    return await new Promise((resolve, reject) => {
-      if (this.comprobarPassword() == true) {
-        this.validator.checkNewPassword(this.nueva).then(() => {
-          this.kewPasswordController.generateAndEncryptKeyPair(this.nueva).then(claves => {
-            var body = {DNI: this.dni, actual: this.actual, nueva: this.nueva, clavePublica: claves["clavePublica"], clavePrivada: claves["clavePrivada"]}
-            console.log("MODIFICANDO ")
-            console.log(body)
-            resolve(true)
-            // this.controllerBD.modificarContraseña(body)
-            //   .then((result) =>{
-            //     resolve(true)
-            //   }).catch(err => {
-            //     if (err.code == 406) {
-            //       this.errors["password"] = "incorrect"
-            //     }
-            //     resolve(true)
-            //   });
-          });
-        }).catch(errors => {
-          console.log(errors)
-          this.errors["passwd"] = errors["passwd"]
-          resolve(true)
-        })
-        
-      } else {
-        resolve(false)
-      }
-    })
-  }
-
-  async changeUser() {
-    return await new Promise((resolve, reject) => {
-      if (this.comprobarCopy()) {
-        this.validator.checkUser(this.usuario).then(() => {
-          this.usuario.nombre = this.capitalizeFirstLetter(this.usuario.nombre)
-          this.usuario.apellidos = this.capitalizeFirstLetter(this.usuario.apellidos)
-          this.usuario.cargo = this.capitalizeFirstLetter(this.usuario.cargo)
-          console.log("MODIFICANDO ")
-          console.log(this.usuario)
-          resolve(true)
-          // this.controllerBD.modificarUsuario(this.usuario)
-          //   .then((result) =>{ 
-          //     resolve(true)
-          //   }).catch(err => {
-          //     if (err.code == 409) {
-          //       if (err.mail != null) {
-          //         this.errors["mail"] = "duplicated"
-          //       }
-          //     }
-          //     resolve(true)
-          //   });
-        }).catch(errors => {
-          this.errors = errors
-          resolve(true)
-        })
-        
-      } else {
-        resolve(false)
-      }
-    })
+    return true;
   }
 
   capitalizeFirstLetter(str) {
@@ -170,19 +100,96 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     // this.subQ.unsubscribe();
   }
 
-  confirmarModify() {
-    var routered = false;
-    this.errors = {}
-    this.changeUser().then(res => {
-      this.changePassword().then(res => {
-        if (Object.keys(this.errors).length == 0) {
-          this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
-        } else {
-          console.log(this.errors)
+  checkUser() {
+    var changeUser = this.comprobarCopy()
+    if (changeUser) {
+      var errors = this.validator.checkUser(this.usuario)
+      if (errors == true) {
+        this.usuario.nombre = this.capitalizeFirstLetter(this.usuario.nombre)
+        this.usuario.apellidos = this.capitalizeFirstLetter(this.usuario.apellidos)
+        this.usuario.cargo = this.capitalizeFirstLetter(this.usuario.cargo)
+        this.usuario["data"] = true
+        return true;
+      } else {
+        for (var k of Object.keys(errors)) {
+          this.errors[k] = errors[k]
         }
-        
-      })
+        return false;
+      }
+    } else {
+      this.usuario["data"] = null
+      return null;
+    }
+  }
+
+  async checkPasswd() {
+    return await new Promise((resolve, reject) => {
+      var changePasswd = this.comprobarPassword()
+      if (changePasswd) {
+        var errors = this.validator.checkNewPassword(this.actual, this.nueva, this.repetir)
+        if (errors == true) {
+          this.kewPasswordController.generateAndEncryptKeyPair(this.nueva).then(claves => {
+            this.usuario["passwords"] = {actual: this.actual, nueva: this.nueva, clavePublica: claves["clavePublica"], clavePrivada: claves["clavePrivada"]}
+           resolve(true)
+          });
+        } else {
+          this.errors["passwd"] = errors["passwd"]
+          resolve(false)
+        }
+      } else {
+        this.usuario["passwords"] = null
+        resolve(null)
+      }
     })
   }
 
+  confirmarModify() {
+    this.errors = {}
+    var hasErrors = false;
+    var hasData = false
+
+    this.checkPasswd().then(res => {
+      if (res != null) {
+        if (res == true) {
+          hasData = true;
+        } else {
+          hasErrors = true;
+        }
+      }
+
+      var res2 = this.checkUser()
+      if (res2 != null) {
+        if (res2 == true) {
+          hasData = true;
+        } else {
+          hasErrors = true;
+        }
+      }
+
+      if (!hasData && !hasErrors) {
+        this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
+      } else if (hasData && !hasErrors) {
+        console.log("ENVIA PETICION")
+        console.log(this.usuario)
+        this.controllerBD.modificarUsuario(this.usuario)
+          .then((result) =>{ 
+            this.router.navigate(['/user',this.dni], { queryParams: {profile: this.profile} });
+          }).catch(err => {
+            console.log(err)
+            if (err.code == 409) {
+              if (err.mail != null) {
+                this.errors["mail"] = "duplicated"
+              }
+              if (err.passwd != null) {
+                this.errors["passwd"] = "incorrect"
+              }
+            }
+          });
+      }
+    })
+  }
+
+  removeError(att) {
+    delete this.errors[att];
+  }
 }

@@ -16,6 +16,15 @@
     text-align: center;
 }
 
+.alertModifyPasswd {
+    float: right;
+    color: #C25744;
+    padding-top: 9px;
+    padding-right: 20px;
+    margin: auto !important;
+    text-align: center;
+}
+
 .selectModifyUser {
     height: 1px !important;
 }

@@ -69,10 +69,8 @@ export class HttpRequestService {
       this.router.navigate(["/restrictedAccess"]);
     } else if (error.status == 500) {
       this.router.navigate(["/serverError"]);
-    } else if (error.status == 406) {
-      return {code: 406, error: error.error.error}
     } else if (error.status == 409) {
-      return {code: 409, dni: error.error.error.dni, mail: error.error.error.mail}
+      return {code: 409, dni: error.error.error.dni, mail: error.error.error.mail, passwd: error.error.error.passwd}
     }else {
       if (!navigator.onLine) {
         this.router.navigate(["/connectionError"]);
