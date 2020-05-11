@@ -42,15 +42,15 @@
 }
 
 ::ng-deep .rowPuntos {
-    width: 60%; 
+    width: 65%; 
     margin-top: 3%;
     display: flex;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 17.5%;
+    margin-right: 17.5%;
 }
 
 ::ng-deep .rowPuntos2 {
-    width: 60%;
+    width: 65%;
     display: grid;
     margin: auto;
     grid-template-columns: repeat( auto-fit, minmax(16%, 1fr) );    
@@ -684,19 +684,42 @@ select:-webkit-autofill:focus {
     stroke: #272343 !important;
 }
 
+::ng-deep .grupoBotonesFiltro {
+    display: flex;
+    width: 100%;
+}
+
+::ng-deep .divBotonFiltro {
+    width: 50%;
+}
+
 ::ng-deep .buttonFiltro{
-    width: 40% !important;
-    margin-left: 30% !important;
-    margin-right: 30% !important;
+    width: 70% !important;
     margin-bottom: 20px !important;
-    color: #D9D9D9 !important;
-    background-color: #272343;
-    border: 1px solid #272343 !important;
 }
 
 ::ng-deep .buttonFiltro:focus {
     outline: 0;
 }
+
+::ng-deep .buttonFiltroL {
+    margin-left: 20% !important;
+    margin-right: 10% !important;
+    background-color: #D1967D;
+    border: 1px solid #D1967D !important;
+    color: #272343 !important;
+}
+
+::ng-deep .buttonFiltroR {
+    margin-left: 10% !important;
+    margin-right: 20% !important;
+    background-color: #272343;
+    border: 1px solid #272343 !important;
+    color: #D9D9D9 !important;
+}
+
+
+
 
 ::ng-deep .userDiv {
     color: white;

@@ -7,9 +7,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class OpcionesComponent implements OnInit {
   opciones = 0;
+  errorTypes = {options: {required2: "Debes introducir al menos dos opciones"}} 
+
   @Input() data;
+  @Input() errors;
 
   constructor() { }
+
+  removeError(att) {
+    delete this.errors[att];
+  }
 
   ngOnInit(): void {
     this.calculateOpciones();
@@ -24,8 +31,21 @@ export class OpcionesComponent implements OnInit {
   }
 
   newOption() {
-    this.data.push("")
-    this.calculateOpciones();
+    if (this.opciones < 6) {
+      if (this.check2Options()) {
+        this.data.push("")
+        this.calculateOpciones();
+      }
+    }
+  }
+
+  check2Options() {
+    if (this.data[0] == "" || this.data[1] == "") {
+      this.errors["options"] = "required2";
+      return false;
+    } else {
+      return true;
+    }
   }
 
   deleteOption(ind) {

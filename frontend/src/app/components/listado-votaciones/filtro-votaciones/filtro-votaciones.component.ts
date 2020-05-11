@@ -45,4 +45,18 @@ export class FiltroVotacionesComponent implements OnInit {
     }
     this._bottomSheetRef.dismiss();
   }
+
+  limpiar() {
+    this.data.pregunta.pregunta = "";
+    for (var st of Object.keys(this.copyEstados)) {
+      this.data.estados[st] = false;
+    }
+    for (var amb of Object.keys(this.copyAmbitos)) {
+      this.data.ambitos[amb] = false;
+    }
+    for (var dpt of Object.keys(this.copyDepartamentos)) {
+      this.data.departamentos[dpt] = false;
+    }
+    this._bottomSheetRef.dismiss();
+  }
 }

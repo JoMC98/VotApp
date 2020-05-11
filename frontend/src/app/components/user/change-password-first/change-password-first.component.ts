@@ -5,6 +5,7 @@ import { KeyPasswordControllerService } from 'src/app/services/cipher/key-passwo
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { UserValidatorService } from 'src/app/services/validators/user/user-validator.service';
+import { PasswordValidatorService } from 'src/app/services/validators/user/password-validator.service';
 
 @Component({
   selector: 'app-change-password-first',
@@ -26,7 +27,7 @@ export class ChangePasswordFirstComponent implements OnInit {
 
   constructor(private router: Router, private loginController: LoginControllerService, 
     private kewPasswordController: KeyPasswordControllerService, private sessionController: SessionControllerService,
-    private controllerBD: DatabaseControllerService, private validator: UserValidatorService) { }
+    private controllerBD: DatabaseControllerService, private passwdValidator: PasswordValidatorService) { }
 
   ngOnInit(): void {
   }
@@ -57,7 +58,8 @@ export class ChangePasswordFirstComponent implements OnInit {
   }
 
   change() {
-    var errors = this.validator.checkNewPassword(null, this.newPasswd, this.repPasswd)
+    this.errors = {}
+    var errors = this.passwdValidator.checkNewPassword(null, this.newPasswd, this.repPasswd)
     if (errors == true) {
       this.kewPasswordController.generateAndEncryptKeyPair(this.newPasswd).then(claves => {
         var dni = this.sessionController.getDNISession()

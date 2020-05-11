@@ -2,15 +2,10 @@
     margin-top: 1%;
 }
 
-.ambitoDescrip{
-    margin-top: -15px;
-    margin-bottom: 2%;
-    display: block;
-    color: #B9B9B9;
-    font-size: 11px;
-    text-align: justify;
-}
-
 ::ng-deep .mat-datepicker-toggle:focus {
     outline: none !important;
+}
+
+::ng-deep .mat-calendar-body-selected {
+    background-color: #272343 !important;
 }

@@ -57,8 +57,11 @@
                             <div class="firstTextElementoVotacion">
                                 Descripción
                             </div>
-                            <div class="secondTextElementoVotacionDescripcion">
+                            <div *ngIf="votacion.descripcion != ''" class="secondTextElementoVotacionDescripcion">
                                 {{votacion.descripcion}}
+                            </div>
+                            <div *ngIf="votacion.descripcion == ''" class="secondTextElementoVotacionDescripcion">
+                                <i>Sin descripción</i>
                             </div>
                         </div>
                         <div class="actionElementoVotacion">

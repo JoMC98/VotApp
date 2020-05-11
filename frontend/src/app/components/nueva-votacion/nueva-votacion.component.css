@@ -2,3 +2,57 @@
     width: 100%;
     height: 100%;
 }
+
+::ng-deep .containerAddVotacion {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+::ng-deep .containerAttributeAddVotacion {
+    width: 100%;
+    height: 22.5%;
+}
+
+::ng-deep .containerAttributeFirstAddVotacion {
+    width: 100%;
+    height: 25%;
+    margin-top: 7.5%;
+}
+
+::ng-deep .containerAttributeLastAddVotacion {
+    width: 100%;
+    height: 22.5%;
+}
+
+::ng-deep .containerDescripVotacion {
+    width: 100%;
+    height: 80%;
+}
+
+::ng-deep .containerEmptyDescripVotacion {
+    width: 100%;
+    height: 10%;
+}
+
+::ng-deep .fieldFormVotacion {
+    width: 100% !important;
+}
+
+::ng-deep .errorDescrip {
+    margin-top: -15px;
+    margin-bottom: 2%;
+    display: block;
+    color: #C25744;
+    font-size: 11px;
+    text-align: justify;
+}
+
+::ng-deep .ambitoDescrip{
+    margin-top: -15px;
+    margin-bottom: 2%;
+    display: block;
+    color: #B9B9B9;
+    font-size: 11px;
+    text-align: justify;
+}

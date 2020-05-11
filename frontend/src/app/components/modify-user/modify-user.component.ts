@@ -6,6 +6,7 @@ import { KeyPasswordControllerService } from 'src/app/services/cipher/key-passwo
 import { UserValidatorService } from 'src/app/services/validators/user/user-validator.service';
 import { CheckboxControlValueAccessor } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { PasswordValidatorService } from 'src/app/services/validators/user/password-validator.service';
 
 @Component({
   selector: 'app-modify-user',
@@ -46,7 +47,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, 
     private listDepartamentos: ListaDepartamentosService,  private kewPasswordController: KeyPasswordControllerService, 
-    private validator: UserValidatorService, private _snackBar: MatSnackBar) { 
+    private userValidator: UserValidatorService, private passwdValidator: PasswordValidatorService, private _snackBar: MatSnackBar) { 
   }
 
   openSnackBar() {
@@ -119,7 +120,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
   checkUser() {
     var changeUser = this.comprobarCopy()
     if (changeUser) {
-      var errors = this.validator.checkUser(this.usuario)
+      var errors = this.userValidator.checkUser(this.usuario)
       if (errors == true) {
         this.usuario.nombre = this.capitalizeFirstLetter(this.usuario.nombre)
         this.usuario.apellidos = this.capitalizeFirstLetter(this.usuario.apellidos)
@@ -142,7 +143,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     return await new Promise((resolve, reject) => {
       var changePasswd = this.comprobarPassword()
       if (changePasswd) {
-        var errors = this.validator.checkNewPassword(this.actual, this.nueva, this.repetir)
+        var errors = this.passwdValidator.checkNewPassword(this.actual, this.nueva, this.repetir)
         if (errors == true) {
           this.kewPasswordController.generateAndEncryptKeyPair(this.nueva).then(claves => {
             this.usuario["passwords"] = {actual: this.actual, nueva: this.nueva, clavePublica: claves["clavePublica"], clavePrivada: claves["clavePrivada"]}
