@@ -4,6 +4,7 @@ import { LoginControllerService } from 'src/app/services/authentication/login-co
 import { KeyPasswordControllerService } from 'src/app/services/cipher/key-password-controller.service';
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
+import { UserValidatorService } from 'src/app/services/validators/user/user-validator.service';
 
 @Component({
   selector: 'app-change-password-first',
@@ -18,15 +19,24 @@ export class ChangePasswordFirstComponent implements OnInit {
   newPasswd: string = "";
   repPasswd: string = "";
 
+  errors = {}
+
+  errorTypes = {nueva: {required: "Este campo es obligatorio",  badFormed: "La nueva contraseña debe contener letras y números", length: "La nueva contraseña debe contener al menos 8 carácteres"}, 
+                repetir: {required: "Este campo es obligatorio", notSame: "Las contraseñas no coinciden"}}
+
   constructor(private router: Router, private loginController: LoginControllerService, 
     private kewPasswordController: KeyPasswordControllerService, private sessionController: SessionControllerService,
-    private controllerBD: DatabaseControllerService) { }
+    private controllerBD: DatabaseControllerService, private validator: UserValidatorService) { }
 
   ngOnInit(): void {
   }
 
   logout() {
     this.loginController.logout();
+  }
+
+  removeError(att) {
+    delete this.errors[att];
   }
 
   showHidePasswd(id) {
@@ -47,11 +57,11 @@ export class ChangePasswordFirstComponent implements OnInit {
   }
 
   change() {
-    if (this.newPasswd != "" && this.repPasswd != "" && this.newPasswd == this.repPasswd) {
-     
+    var errors = this.validator.checkNewPassword(null, this.newPasswd, this.repPasswd)
+    if (errors == true) {
       this.kewPasswordController.generateAndEncryptKeyPair(this.newPasswd).then(claves => {
         var dni = this.sessionController.getDNISession()
-        var body = {password: this.newPasswd, DNI: dni, clavePublica: claves["clavePublica"], clavePrivada: claves["clavePrivada"]}
+        var body = {nueva: this.newPasswd, DNI: dni, clavePublica: claves["clavePublica"], clavePrivada: claves["clavePrivada"]}
 
         this.controllerBD.modificarContraseñaFirst(body).then(result => {
           this.changed = true;
@@ -63,18 +73,16 @@ export class ChangePasswordFirstComponent implements OnInit {
             }, 2500);
           })
         }).catch(err => {
-          //TODO ERROR FIRST
           console.log(err);
         });
       })
-      
     } else {
-      console.log(false)
-      //ERROR
+      if (errors["nueva"]) {
+        this.errors["nueva"] = errors["nueva"]
+      }
+      if (errors["repetir"]) {
+        this.errors["repetir"] = errors["repetir"]
+      }
     }
-    
-
-    
   }
-
 }

@@ -25,6 +25,14 @@
     text-align: center;
 }
 
+.iconEyeModifyPasswd {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    margin: auto !important;
+    text-align: center;
+}
+
 .selectModifyUser {
     height: 1px !important;
 }
@@ -72,4 +80,20 @@
     font-size: 11px !important;
     white-space: normal !important;
     max-width: 1000px !important;
+}
+
+::ng-deep .confirm-snackbar {
+    background-color: #8AA581;
+}
+
+::ng-deep .mat-snack-bar-container {
+    color: white;
+}
+
+::ng-deep .mat-simple-snackbar-action {
+    color: white;
+}
+
+::ng-deep .mat-snack-bar-handset {
+    margin-bottom: 44% !important;
 }

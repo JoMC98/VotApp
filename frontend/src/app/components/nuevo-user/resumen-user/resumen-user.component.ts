@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { UserValidatorService } from 'src/app/services/validators/user/user-validator.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-resumen-user',
@@ -20,20 +20,27 @@ export class ResumenUserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openSnackBar() {
+  openSnackBar(confirmed) {
     var message = ""
-    if (this.errors["DNI"] && this.errors["mail"]) {
-      message = "El DNI y el mail ya están en uso"
-    } else if (this.errors["DNI"]) {
-      message = "El DNI ya está en uso"
+    if (confirmed) {
+      message = "Se ha creado con éxito"
     } else {
-      message = "El mail ya está en uso"
+      if (this.errors["DNI"] && this.errors["mail"]) {
+        message = "El DNI y el mail ya están en uso"
+      } else if (this.errors["DNI"]) {
+        message = "El DNI ya está en uso"
+      } else {
+        message = "El mail ya está en uso"
+      }
     }
     
     var action = "Cerrar"
-    this._snackBar.open(message, action, {
-      duration: 5000,
-    });
+
+    let config = new MatSnackBarConfig();
+    config.duration = confirmed ? 2000 : 5000;
+    config.panelClass = confirmed ? ['confirm-snackbar'] : ['error-snackbar']
+
+    this._snackBar.open(message, action, config);
   }
 
   confirmUser() {
@@ -46,11 +53,12 @@ export class ResumenUserComponent implements OnInit {
       usuario[k] = this.data.contactData[k]
     }
     this.controllerBD.añadirUsuario(usuario).then((result) =>{
+      this.openSnackBar(true)
       new Promise((res) => {
         setTimeout(() => {
           this.router.navigate(['/users']);
           res();
-        }, 1000);
+        }, 2500);
       })
     }).catch(err => {
       if (err.code == 409) {
@@ -60,7 +68,7 @@ export class ResumenUserComponent implements OnInit {
         if (err.mail != null) {
           this.errors["mail"] = "duplicated"
         }
-        this.openSnackBar()
+        this.openSnackBar(false)
       }
     })
   }

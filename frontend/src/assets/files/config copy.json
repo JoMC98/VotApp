@@ -1,5 +1,5 @@
 {
-   "DB_API_SERVER" : "http://192.168.1.136:4300",
+   "DB_API_SERVER" : "https://jordi.tfg:4300",
    "VAPID_PUBLIC_KEY" : "BOUQrtff-2Gkh5mmc_H2_WmxLITgvkGFvDSf0JyQn5aDbTCj-4HnsCp2nP_d68zZpqOBrphbvMW9vuByvftqBTs",
    "TOKEN_KEY" : "auth-token",
    "DNI_KEY" : "auth-dni",
@@ -7,7 +7,7 @@
    "SURNAME_KEY" : "auth-apellidos",
    "ADMIN_KEY" : "auth-admin",
    "CHANGEPASSWD_KEY" : "auth-changePasswd",
-   "SOCKET_URL" : "ws://192.168.1.136:",
+   "SOCKET_URL" : "wss://jordi.tfg:",
    "PBKDF2_KEY_BIT_LENGTH" : 128,
    "PBKDF2_ITERATIONS" : 10000,
    "PBKDF2_SALT_BYTES" : 16,
