@@ -1,27 +1,31 @@
 const encryptor = require('../../helpers/passwordEncryptor.js');
 const validator = require('../../validators/password.js');
 
-exports.modificarContraseña = (db, req, res) => {
-    if (req.body.usuario.admin || req.body.DNI == req.body.usuario.DNI) {
-        modifyActions(db, req, res, false)
-    } else {
-        res.status(403).json({status: 'Restricted Access'});
-    } 
+exports.modificarContraseña = async (db, passwords, DNI) => {
+  return await new Promise((resolve, reject) => {
+    encryptor.encryptPassword(passwords.nueva).then(hash => {
+      modifyPassword(db, hash, passwords, DNI).then(() => {
+        resolve(true)
+      }).catch((err) => {
+        reject(false)
+      })
+    })
+  })
 }
   
 exports.modificarContraseñaFirst = (db, req, res) => {
     if (req.body.DNI == req.body.usuario.DNI) {
-        modifyActions(db, req, res, true)
+        modifyActions(db, req, res)
     } else {
         res.status(403).json({status: 'Restricted Access'});
     } 
 }
 
-function modifyActions(db, req, res, first) {
-    validator.checkModifyPassword(db, req.body, first)
+function modifyActions(db, req, res) {
+    validator.checkModifyPassword(db, req.body)
         .then(()=> {
             encryptor.encryptPassword(req.body.nueva).then(hash => {
-                modifyPassword(db, hash, req.body).then(() => {
+                modifyPassword(db, hash, req.body, req.body.DNI).then(() => {
                     res.status(200).json({status: 'ok'});
                 }).catch((err) => {
                     res.status(500).json({error: "error"});
@@ -32,11 +36,11 @@ function modifyActions(db, req, res, first) {
         })
 }
 
-async function modifyPassword(db, hash, body) {
+async function modifyPassword(db, hash, passwords, DNI) {
   return await new Promise((resolve, reject) => {
     db.query(
       'UPDATE Usuario SET passwd=?, clavePublica = ?, clavePrivada = ? WHERE DNI=?',
-        [hash, body.clavePublica, body.clavePrivada, body.DNI],
+        [hash, passwords.clavePublica, passwords.clavePrivada, DNI],
         (error) => {
         if (error) {
           reject(error)

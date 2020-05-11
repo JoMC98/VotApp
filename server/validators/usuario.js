@@ -1,3 +1,7 @@
+const encryptor = require('../helpers/passwordEncryptor.js')
+const controlAccess = require('../models/acceso/controlAccessHelpers.js')
+
+
 async function checkExistentUser(db, dni) {
     return await new Promise((resolve, reject) => {
         db.query(
@@ -56,18 +60,65 @@ async function checkDuplicateKeys(db, DNI, mail) {
 async function checkModifyUser(db, user) {
     return await new Promise((resolve, reject) => {
         checkExistentUser(db, user.DNI).then(() => {
-            checkDuplicateMail(db, user.DNI, user.mail).then(() => {
-                //TODO CHECK VALORES
-                resolve(true)
-            }).catch((err) => {
-                var error = {code: 409, error: err}
-                reject(error);
-            })
+            if (user.data != null) {
+                checkModifyUserData(db, user).then(() => {
+                    if (user.passwords != null) {
+                        checkModifyPasswdData(db, user).then(() => {
+                            resolve("both")
+                        }).catch(err => {
+                            reject(err)
+                        })
+                    } else {
+                        resolve("data")
+                    }
+                }).catch(err => {
+                    if (user.passwords != null) {
+                        checkModifyPasswdData(db, user).then(() => {
+                            reject(err)
+                        }).catch(error => {
+                            err.error["passwd"] = "Incorrect password"
+                            reject(err)
+                        })
+                    } else {
+                        reject(err)
+                    }
+                })
+            } else {
+                checkModifyPasswdData(db, user).then(() => {
+                    resolve("passwd")
+                }).catch(err => {
+                    reject(err)
+                })
+            }
         }).catch((err) => {
             var error = {code: 404, error: "Not Found"}
             reject(error);
         })
        
+    })
+}
+
+async function checkModifyUserData(db, user) {
+    return await new Promise((resolve, reject) => {
+        checkDuplicateMail(db, user.DNI, user.mail).then(() => {
+            //CHECK VALORES
+            resolve(true)
+        }).catch((err) => {
+            var error = {code: 409, error: err}
+            reject(error);
+        })
+    })
+}
+
+async function checkModifyPasswdData(db, user) {
+    return await new Promise((resolve, reject) => {
+        checkPassword(db, user.passwords, user.DNI).then(() => {
+            //CHECK VALORES
+            resolve(true)
+        }).catch(err => {
+            var error = {code: 409, error: err}
+            reject(error);
+        })
     })
 }
 
@@ -87,6 +138,23 @@ async function checkDuplicateMail(db, DNI, mail) {
         })
     })
 }
+
+async function checkPassword(db, passwords, DNI) {
+    return await new Promise((resolve, reject) => {
+        controlAccess.obtenerContrasenya(db, DNI).then((results) => {
+            encryptor.comparePassword(passwords.actual, results[0].passwd).then(equals => {
+                if (!equals) {
+                    var error = {code: 409, passwd: 'Incorrect password'}
+                    reject(error);
+                } else {
+                    //TODO CHECK VALORES
+                    resolve(true)
+                }
+            })
+        })
+    })
+}
+
 
 module.exports = {
     checkNewUser: checkNewUser,
