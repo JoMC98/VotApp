@@ -21,6 +21,7 @@ export class VotarComponent implements OnInit, OnDestroy {
   
   opciones = [];
 
+
   seleccion = null;
   selected = false;
   options = [];
@@ -314,7 +315,16 @@ export class VotarComponent implements OnInit, OnDestroy {
             }, 2000);
           })
       })
+    } else {
+      this.showError()
     }
+  }
+
+  showError() {
+    (<HTMLDivElement>document.getElementById("botonVotar")).classList.add("shake-little")
+    setTimeout(() => {
+      (<HTMLDivElement>document.getElementById("botonVotar")).classList.remove("shake-little")
+    }, 500);
   }
 
   gestionarVotacion() {

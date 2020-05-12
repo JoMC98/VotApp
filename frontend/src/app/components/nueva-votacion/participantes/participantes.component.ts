@@ -3,6 +3,7 @@ import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet'
 import { FiltroUsersComponent } from '../../filtro-users/filtro-users.component';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-participantes',
@@ -16,6 +17,7 @@ export class ParticipantesComponent implements OnInit {
   usuarios = [];
   users = {};
   selected = {};
+  disabled = false;
 
   nombre = {"nombre":""};
   apellidos = {"apellidos":""};
@@ -26,7 +28,7 @@ export class ParticipantesComponent implements OnInit {
 
   @Input() data;
 
-  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService) {
+  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService, private _snackBar: MatSnackBar) {
     this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
     this.departamentos = this.listDepartamentos.getDepartamentosJSONFalse();
 
@@ -37,6 +39,18 @@ export class ParticipantesComponent implements OnInit {
       this.generarListado(this.usuarios);
     });
   }
+
+  openSnackBar() {
+    var message = "Se ha alcanzado el máximo de participantes (6)"
+    var action = "Cerrar"
+
+    let config = new MatSnackBarConfig();
+    config.duration = 3000;
+    config.panelClass = ['alert-snackbar']
+
+    this._snackBar.open(message, action, config);
+  }
+
 
   ngOnInit(): void {
     this.generarListado(this.usuarios);
@@ -68,13 +82,24 @@ export class ParticipantesComponent implements OnInit {
 
   calcularTotal() {
     this.total = this.data.length;
+    if (this.total == 6) {
+      setTimeout(() => {
+        this.disabled = true
+      }, 500)
+    } else {
+      this.disabled = false;
+    } 
   }
 
   selection(dni) {
     if (this.isSelected(dni)) {
       this.data.splice(this.data.indexOf(dni), 1)
     } else {
-      this.data.push(dni)
+      if (this.total < 6) {
+        this.data.push(dni)
+      } else {
+        this.openSnackBar()
+      }
     }
     this.calcularTotal();
   }

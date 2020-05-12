@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoginControllerService } from 'src/app/services/authentication/login-controller.service';
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { error } from 'protractor';
 
 @Component({
   selector: 'app-login',
@@ -18,20 +19,17 @@ export class LoginComponent implements OnInit {
   dni: string = "";
   passwd: string = "";
 
+  errorLogin= false;
+  errorServer= false;
+
   constructor(private router: Router, private loginController: LoginControllerService, private sessionController: SessionControllerService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
 
-  openSnackBar() {
-    var message = "Credenciales incorrectas"
-    var action = "Cerrar"
-
-    let config = new MatSnackBarConfig();
-    config.duration = 5000;
-    config.panelClass = ['error-snackbar']
-
-    this._snackBar.open(message, action, config);
+  borrarError() {
+    this.errorLogin = false;
+    this.errorServer = false;
   }
 
   showHidePasswd() {
@@ -45,13 +43,12 @@ export class LoginComponent implements OnInit {
 
   rutar() {
     if(this.checkCredentials()) {
-      this.activarBoton = true
-
       var credenciales = {dni : this.dni, passwd : this.passwd}
 
       this.loginController.login(credenciales)
       .then(() => {
         new Promise((res) => {
+          this.activarBoton = true
           setTimeout(() => {
             this.activarExplosion = true;
           }, 2000);
@@ -70,16 +67,11 @@ export class LoginComponent implements OnInit {
       })
       .catch((wrongCredentials) => {
         if (wrongCredentials) {
-          new Promise((res) => {
-            setTimeout(() => {
-              this.activarBoton = false;
-              this.openSnackBar()
-              this.passwd = ""
-            }, 2000);
-          })
+          this.passwd = ""
+          this.showError()
         } else {
-          //MOSTRAR ERROR SERVIDOR
-          console.log("MOSTRAR ERROR SERVIDOR")
+          this.passwd = ""
+          this.showErrorServer()
         }
       })
     }
@@ -87,11 +79,27 @@ export class LoginComponent implements OnInit {
 
   checkCredentials() {
     if (this.dni == "" || this.passwd == "") {
-      this.openSnackBar()
+      this.showError()
       return false;
     } else {
       return true;
     }
+  }
+
+  showError() {
+    this.errorLogin = true;
+    (<HTMLDivElement>document.getElementById("botonLogin")).classList.add("shake-little")
+    setTimeout(() => {
+      (<HTMLDivElement>document.getElementById("botonLogin")).classList.remove("shake-little")
+    }, 500);
+  }
+
+  showErrorServer() {
+    this.errorServer = true;
+    (<HTMLDivElement>document.getElementById("botonLogin")).classList.add("shake-little")
+    setTimeout(() => {
+      (<HTMLDivElement>document.getElementById("botonLogin")).classList.remove("shake-little")
+    }, 500);
   }
 
 }

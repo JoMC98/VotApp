@@ -40,7 +40,13 @@ export class NuevoUserComponent implements OnInit {
 
   changeTo(opt) {
     this.checkSect().then(() => {
-      this.sect[0] = opt
+      if (opt == 3) {
+        if (this.data.contactData.cargo != "") {
+          this.sect[0] = opt
+        }
+      } else {
+        this.sect[0] = opt
+      }
     })
   }
 

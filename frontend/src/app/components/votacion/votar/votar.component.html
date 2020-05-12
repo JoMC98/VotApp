@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="panelBotonVotar" *ngIf="canVote">
-              <div (click)="votar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
+              <div id="botonVotar" (click)="votar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
                 <div class="buttonLabelDiv" *ngIf="!activarBoton">
                     <div class="buttonLabel">
                       Votar

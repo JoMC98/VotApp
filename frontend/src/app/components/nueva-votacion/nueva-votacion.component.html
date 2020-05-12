@@ -5,7 +5,11 @@
   <div class="subtitlePanelSmall allContent">
     <label class="subtitlePanelH3" *ngIf="sect[0] == 1">Datos básicos</label>
     <label class="subtitlePanelH3" *ngIf="sect[0] == 2">Descripción</label>
-    <label class="subtitlePanelH3" *ngIf="sect[0] == 3">Opciones</label>
+    <label class="subtitlePanelH3" *ngIf="sect[0] == 3">
+      Opciones
+      <i *ngIf="errors['options']" class="fas fa-exclamation-triangle alertOpciones" #tooltip="matTooltip" 
+        (click)="tooltip.toggle()" [matTooltipPosition]="'below'" [matTooltip]="errorTypes.options[errors['options']]"></i>
+    </label>
     <label class="subtitlePanelH3" *ngIf="sect[0] == 4">Participantes</label>
     <label class="subtitlePanelH3-Res" *ngIf="sect[0] == 5">Comprueba que los datos sean correctos</label><br>
   </div>
@@ -14,7 +18,7 @@
     <div *ngIf="sect[0] != 4" class="addDatosPanelVotacion allContent">
       <app-datos [data]="data.datos" [errors]="errors" *ngIf="sect[0] == 1"></app-datos>
       <app-descripcion [data]="data.datos" *ngIf="sect[0] == 2"></app-descripcion>
-      <app-opciones [data]="data.opciones" [errors]="errors" *ngIf="sect[0] == 3"></app-opciones>
+      <app-opciones [data]="data.opciones" *ngIf="sect[0] == 3"></app-opciones>
       <app-resumen [data]="data" *ngIf="sect[0] == 5"></app-resumen>
     </div>
   
