@@ -4,18 +4,20 @@ const votacionValidator = require('../../validators/votacion.js')
 
 async function insertarParticipantes(db, codigo, participantes, res) {
     return await new Promise((resolve, reject) => {
-        validator.checkNewParticipants(db, codigo, opciones)
-            .then(options => {
+        validator.checkNewParticipants(db, codigo, participantes)
+            .then(participants => {
                 db.query(
                     'INSERT INTO Participa (DNI, codigo) VALUES ?', [participants],
                     (error) => {
                     if (error) {
+                        console.log(error)
                         res.status(500).json({status: 'error'});
                     } else {
                         resolve("ok")
                     }
                 });
             }).catch((err) => {
+                console.log(err)
                 res.status(err.code).json({error: err.error});
             })
     });

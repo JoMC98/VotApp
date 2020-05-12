@@ -9,13 +9,14 @@ exports.nuevaVotacion = (db, req, res) => {
         var votacion = req.body.datos;
         validator.checkNewVotacion(db, votacion)
             .then(()=> {
-                insertVotacion(db, votacion).then(codigo => {
+                insertVotacion(db, votacion, req.body.usuario.DNI).then(codigo => {
                     opciones.insertarOpciones(db, codigo, req.body.opciones, res).then(() => {
                         participantes.insertarParticipantes(db, codigo, req.body.participantes, res).then(() => {
                             res.status(200).json({status: 'ok'});
                         });
                     });
                 }).catch((err) => {
+                    console.log(err)
                     res.status(500).json({error: err});
                 })
             }).catch((err) => {
@@ -26,13 +27,14 @@ exports.nuevaVotacion = (db, req, res) => {
     }
 }
 
-async function insertVotacion(db, votacion) {
+async function insertVotacion(db, votacion, DNI_admin) {
     return await new Promise((resolve, reject) => {
         db.query(
             'INSERT INTO Votacion (pregunta, descripcion, estado, departamento, f_votacion, ambito, DNI_admin) VALUES (?,?,"Creada",?,?,?,?)',
-            [votacion.pregunta, votacion.descripcion, votacion.departamento, new Date(votacion.f_votacion), votacion.ambito, req.body.usuario.DNI],
+            [votacion.pregunta, votacion.descripcion, votacion.departamento, new Date(votacion.f_votacion), votacion.ambito, DNI_admin],
             (error, results) => {
                 if (error) {
+                    console.log(error)
                     reject(error)
                 } else {
                     resolve(results.insertId)
