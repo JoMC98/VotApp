@@ -56,3 +56,31 @@
     font-size: 11px;
     text-align: justify;
 }
+
+::ng-deep .alertOpciones {
+    color: #C25744;
+    margin: auto !important;
+    text-align: center;
+    font-size: 17px;
+    padding-left: 20px;
+}
+
+::ng-deep .mat-tooltip {
+    background-color: #C25744 !important;
+    font-size: 11px !important;
+    white-space: normal !important;
+    max-width: 1000px !important;
+}
+
+::ng-deep .error-snackbar {
+    background-color: #C25744;
+    color: white !important;
+  }
+  
+  ::ng-deep .error-snackbar .mat-simple-snackbar-action {
+    color: white;
+  }
+
+  ::ng-deep .mat-snack-bar-handset {
+    margin-bottom: 30% !important;
+  }

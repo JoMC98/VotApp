@@ -19,20 +19,18 @@
     text-align: center;
 }
 
-.alertOpciones {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    color: #C25744;
-    margin: auto !important;
-    text-align: center;
-    z-index: 100;
-}
-
-
-::ng-deep .mat-tooltip {
-    background-color: #C25744 !important;
-    font-size: 11px !important;
-    white-space: normal !important;
-    max-width: 1000px !important;
-}
+::ng-deep .alert-snackbar {
+    background-color: #FAC242;
+  }
+  
+  ::ng-deep .mat-snack-bar-container {
+    color: #272343;
+  }
+  
+  ::ng-deep .mat-simple-snackbar-action {
+    color: #272343;
+  }
+  
+  ::ng-deep .mat-snack-bar-handset {
+    margin-bottom: 80% !important;
+  }

@@ -10,17 +10,23 @@
         <mat-label>
           DNI
         </mat-label>
-        <input class="inputForm" matInput [(ngModel)]="dni" name="dni">
+        <input class="inputForm" matInput [(ngModel)]="dni" name="dni" (change)="borrarError()">
       </mat-form-field>
       <mat-form-field class="divInputsLogin PasswordLogin">   
         <mat-label>Contraseña</mat-label>
         <div class="divPasswdForm">
-            <input type="password" id="inputPasswd" class="inputForm inputFormMinus" matInput [(ngModel)]="passwd" name="passwd">
+            <input type="password" id="inputPasswd" class="inputForm inputFormMinus" matInput [(ngModel)]="passwd" name="passwd" (change)="borrarError()">
             <i class="fas fa-eye eyeIcon" (click)="showHidePasswd()"></i>
         </div> 
       </mat-form-field>
     </div>
     <div class="panelBotonLogin">
+      <div *ngIf="errorLogin" class="messageErrorLogin">
+        <span class="textErrorLogin">Credenciales incorrectas</span>
+      </div>
+      <div *ngIf="errorServer" class="messageErrorServer">
+        <span class="textErrorLogin">El servidor no responde</span>
+      </div>
       <div *ngIf="!activarExplosion" id="botonLogin" (click)="rutar()" [ngClass]="activarBoton ? 'activeBotonLogin' : 'botonLogin'">
         <div class="buttonLabelDiv" *ngIf="!activarBoton">
           <div class="buttonLabel">

@@ -26,6 +26,7 @@ export class VotacionComponent implements OnInit, OnDestroy {
 
   modificarPregunta: boolean = false;
   copyPregunta: string = "";
+  editing = false;
 
   listaDepartamentos = {};
 
@@ -104,6 +105,7 @@ export class VotacionComponent implements OnInit, OnDestroy {
   modifyPregunta() {
     this.modificarPregunta = !this.modificarPregunta;
     this.copyPregunta = this.votacion.pregunta;
+    this.editing = true;
   }
 
   guardarPregunta() {
@@ -115,10 +117,12 @@ export class VotacionComponent implements OnInit, OnDestroy {
       console.log(err);
     });
     this.modificarPregunta = !this.modificarPregunta;
+    this.editing = false;
   }
 
   cancelarPregunta() {
     this.modificarPregunta = !this.modificarPregunta;
+    this.editing = false;
   }
 
   openDialog(page){
@@ -126,10 +130,18 @@ export class VotacionComponent implements OnInit, OnDestroy {
     datos["votacion"] = this.votacion
     datos["copyParticipantes"] = this.participantes
     datos["copyOpciones"] = this.opciones
+
+    if (page.startsWith("editar")) {
+      this.editing = true;
+    }
+
     const filterRef = this._bottomSheet.open(DesplegableVotacionComponent, 
       {data: datos});
 
     filterRef.afterDismissed().subscribe(result => {
+      if (page.startsWith("editar")) {
+        this.editing = false;
+      }
       switch (page) {
         case "editarOpciones":
         case "editarParticipantes":

@@ -5,7 +5,10 @@
         </div>
         <div class="panelWelcomeHome">
             <div class="welcomeHome">
-                Bienvenido, {{nombre}}
+                Bienvenido,
+            </div>
+            <div class="welcomeNameHome" [ngClass]="longitud > 10 ? 'welcomeNameLong' : 'welcomeNameShort'">
+                {{nombre}}
             </div>
         </div>
     </div>

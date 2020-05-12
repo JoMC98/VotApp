@@ -16,7 +16,7 @@
         </div>
         <div class="containerValores" id="usersDpt{{inicial.key}}">
             <div *ngFor="let user of inicial.value; let i = index">
-                <mat-checkbox id="checkbox-{{inicial.key}}-{{i}}" class="userDivVotacion" (click)="selection(user.dni)" [(ngModel)]="selected[user.dni]">
+                <mat-checkbox id="checkbox-{{inicial.key}}-{{i}}" class="userDivVotacion" (click)="selection(user.dni)" [(ngModel)]="selected[user.dni]" [disabled]="disabled">
                     <div class="userData">
                         <div class="iconDptVotacion">
                             <div class="iconDptSquareVotacion" [ngStyle]="{'background-color': listaDepartamentos[user.departamento].color}">

@@ -25,12 +25,31 @@
     width: 70%;
     height: 100%;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .welcomeHome {
-    margin: auto;
-    font-size: 30px;
+    margin-top: 40px;
+    margin-left: 20px;
+    width: 100%;
+    font-size: 28px;
     color: #DCF6F5;
+}
+
+.welcomeNameHome {
+    margin: auto;
+    width: 100%;
+    color: #DCF6F5;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.welcomeNameShort {
+    font-size: 28px;
+}
+
+.welcomeNameLong {
+    font-size: 25px;
 }
 
 .hrHome {

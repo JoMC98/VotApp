@@ -916,6 +916,9 @@ select:-webkit-autofill:focus {
     font-weight: bold;
     color: white;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 ::ng-deep .datosVotante {
@@ -1178,11 +1181,6 @@ select:-webkit-autofill:focus {
     vertical-align: middle;
     border-radius: 15px;
     margin-right: 0px;
-}
-
-::ng-deep .nameUser {
-    width: 100%;
-    font-weight: bold;
 }
 
 ::ng-deep .cargoUser {
@@ -1837,7 +1835,6 @@ select:-webkit-autofill:focus {
     height: 30% !important;
     display: flex;
     position: relative;
-    /* z-index: 100; */
   }
   
   ::ng-deep .botonLogin {

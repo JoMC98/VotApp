@@ -25,13 +25,13 @@
         </div>
 
         <div *ngIf="data.page == 'descripcion'">
-            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="20" 
-            class="modifyDescripcionVotacion" [(ngModel)]="copyDescripcion" [readonly]="true"></textarea>
+            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="15" maxlength="500"
+            class="modifyDescripcionVotacion" [(ngModel)]="copyDescripcion" [readonly]="true" placeholder="Sin descripción"></textarea>
         </div>
 
         <div *ngIf="data.page == 'editarDescripcion'"> 
-            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="20" 
-            class="modifyDescripcionVotacion" [(ngModel)]="copyDescripcion"></textarea>
+            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="15" maxlength="500"
+            class="modifyDescripcionVotacion" [(ngModel)]="copyDescripcion" placeholder="Introduce la descripción"></textarea>
         </div>
 
         <mat-radio-group *ngIf="data.page == 'editarDepartamento'" class="gridRadioButtonsVotacion" [(ngModel)]="copyDepartamento">

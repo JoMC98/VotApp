@@ -1,0 +1,20 @@
+::ng-deep .mat-checkbox-disabled .mat-checkbox-label .nameUser {
+    color: white;
+    font-weight: bold;
+}
+
+::ng-deep .alert-snackbar {
+    background-color: #FAC242;
+  }
+  
+  ::ng-deep .mat-snack-bar-container {
+    color: #272343;
+  }
+  
+  ::ng-deep .mat-simple-snackbar-action {
+    color: #272343;
+  }
+
+  ::ng-deep .mat-snack-bar-handset {
+    margin-bottom: 30% !important;
+  }

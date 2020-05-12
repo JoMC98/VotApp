@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   nombre: string;
   admin: boolean;
+  longitud: number;
 
   votaciones = [];
 
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService) {
     this.admin = sessionController.getAdminSession();
     this.nombre = sessionController.getNombreSession();
+    this.longitud = this.nombre.length
     this.loopDataQuery();
   }
 

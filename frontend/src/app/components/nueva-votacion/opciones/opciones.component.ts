@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-opciones',
@@ -7,16 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class OpcionesComponent implements OnInit {
   opciones = 0;
-  errorTypes = {options: {required2: "Debes introducir al menos dos opciones"}} 
+  errorTypes = {options: {required: "Debes introducir al menos dos opciones"}} 
 
   @Input() data;
-  @Input() errors;
 
-  constructor() { }
-
-  removeError(att) {
-    delete this.errors[att];
-  }
+  constructor(private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.calculateOpciones();
@@ -41,11 +37,22 @@ export class OpcionesComponent implements OnInit {
 
   check2Options() {
     if (this.data[0] == "" || this.data[1] == "") {
-      this.errors["options"] = "required2";
+      this.openSnackBar()
       return false;
     } else {
       return true;
     }
+  }
+
+  openSnackBar() {
+    var message = "Debes introducir al menos dos opciones"
+    var action = "Cerrar"
+
+    let config = new MatSnackBarConfig();
+    config.duration = 3000;
+    config.panelClass = ['alert-snackbar']
+
+    this._snackBar.open(message, action, config);
   }
 
   deleteOption(ind) {
