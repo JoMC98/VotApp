@@ -112,14 +112,13 @@ export class NuevaVotacionComponent implements OnInit, OnDestroy {
 
   async checkDatos() {
     return await new Promise((resolve, reject) => {
-      resolve(true)
-      // this.validator.checkDatos(this.data.datos).then(() => {
-      //   resolve(true)
-      // }).catch(errors => {
-      //   for (var k of Object.keys(errors)) {
-      //     this.errors[k] = errors[k]
-      //   }
-      // })
+      this.validator.checkDatos(this.data.datos).then(() => {
+        resolve(true)
+      }).catch(errors => {
+        for (var k of Object.keys(errors)) {
+          this.errors[k] = errors[k]
+        }
+      })
     })
   }
 

@@ -21,6 +21,8 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   votes = [];
   votaciones = {};
   meses = [];
+  activas = [];
+  week = [];
 
   pregunta = {"pregunta":""};
   estados = {"Activa":false,"Creada":false,"Finalizada":false}
@@ -30,8 +32,14 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   order = 'Descendente';
   interval;
 
+  actual;
+  next;
+
   constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) {
     this.departamentos = this.listDepartamentos.getDepartamentosJSONFalse();
+    this.actual = new Date()
+    this.next = new Date()
+    this.next.setDate(this.next.getDate() + 7)
     this.loopDataQuery();
   }
 
@@ -52,16 +60,24 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   generarListado(listado) {
     this.votaciones = {};
     this.meses = [];
+    this.week = []
+    this.activas = []
     for (let vote of listado) {
       var f = new Date(vote.f_votacion);
-      var mes = f.getFullYear() + "-" + (f.getMonth()+1) + "-01";
-      if (this.meses.includes(mes)) {
-        this.votaciones[mes].push(vote);
+      if(vote.estado == "Activa") {
+        this.activas.push(vote)
+      } else if (f >= this.actual && f < this.next) {
+        this.week.push(vote)
+      } else {
+        var mes = f.getFullYear() + "-" + (f.getMonth()+1) + "-01";
+        if (this.meses.includes(mes)) {
+          this.votaciones[mes].push(vote);
+        }
+        else {
+          this.votaciones[mes] = [vote];
+          this.meses.push(mes)
+        } 
       }
-      else {
-        this.votaciones[mes] = [vote];
-        this.meses.push(mes)
-      } 
     }
     this.ordenarListado();
   }
@@ -71,6 +87,24 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   }
 
   ordenarListado() {
+    this.activas.sort((a: any, b: any) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    this.week.sort((a: any, b: any) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     this.meses.sort((a: any, b: any) => {
       if (a < b) {
         return -1;

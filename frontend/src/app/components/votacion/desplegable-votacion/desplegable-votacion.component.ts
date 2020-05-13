@@ -7,6 +7,7 @@ import { formatDate } from '@angular/common';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import { Moment } from 'moment';
 import { VotacionValidatorService } from 'src/app/services/validators/votacion/votacion-validator.service';
+import { MatSnackBarConfig, MatSnackBar } from '@angular/material/snack-bar';
 
 class PickDateAdapter extends MomentDateAdapter {
   format(date: any): string {
@@ -75,7 +76,7 @@ export class DesplegableVotacionComponent implements OnInit {
 
   constructor(private _bottomSheetRef: MatBottomSheetRef<DesplegableVotacionComponent>, 
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: DesplegableData, private controllerBD: DatabaseControllerService, 
-    private listDepartamentos: ListaDepartamentosService, private adapter: DateAdapter<any>, private validator: VotacionValidatorService) {
+    private listDepartamentos: ListaDepartamentosService, private adapter: DateAdapter<any>, private validator: VotacionValidatorService, private _snackBar: MatSnackBar) {
       this.departamentos = this.listDepartamentos.getDepartamentosOnlyName();
       this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
       this.adapter.setLocale('es');
@@ -270,7 +271,7 @@ export class DesplegableVotacionComponent implements OnInit {
   changeOptions(opt) {
     this.opciones = []
     for (var k of Object.keys(opt)) {
-      this.opciones[k] = opt[k]
+      this.opciones[k] = this.capitalizeString(opt[k])
     }
   }
 
@@ -363,6 +364,21 @@ export class DesplegableVotacionComponent implements OnInit {
     this.obtenerUsuarios();
   }
 
+  capitalizeString(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+
+  openSnackBar() {
+    var message = "Se ha alcanzado el máximo de participantes (6)"
+    var action = "Cerrar"
+
+    let config = new MatSnackBarConfig();
+    config.duration = 3000000;
+    config.panelClass = ['alert-snackbar']
+
+    this._snackBar.open(message, action, config);
+  }
+
   selection(user) {
     if (this.isSelected(user)) {
       this.freeParticipants++;
@@ -372,6 +388,7 @@ export class DesplegableVotacionComponent implements OnInit {
         this.freeParticipants--;
         this.selected.push(user)
       } else {
+        this.openSnackBar()
         setTimeout(() => {
           this.disabled = true
         }, 500)
