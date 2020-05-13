@@ -10,6 +10,7 @@ async function insertarOpciones(db, codigo, opciones, res) {
                     'INSERT INTO Opcion (codigo, opcion) VALUES ?', [options],
                     (error) => {
                     if (error) {
+                        console.log(error)
                         res.status(500).json({status: 'error'});
                     } else {
                         resolve("ok")
