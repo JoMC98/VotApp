@@ -5,7 +5,6 @@ import { formatDate } from '@angular/common';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import { Moment } from 'moment';
 
-
 class PickDateAdapter extends MomentDateAdapter {
   format(date: any): string {
     var d = formatDate(date, 'EEEE, d' + "' de '" + 'MMMM', this.locale)
@@ -31,6 +30,7 @@ class PickDateAdapter extends MomentDateAdapter {
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ]
 })
+
 export class DatosComponent implements OnInit {
 
   departamentos = [];

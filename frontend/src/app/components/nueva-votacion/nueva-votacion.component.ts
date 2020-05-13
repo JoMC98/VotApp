@@ -18,6 +18,7 @@ export class NuevaVotacionComponent implements OnInit, OnDestroy {
 
   data = {datos: {pregunta: "", departamento: "", f_votacion: "", ambito: "", descripcion: ""}, opciones: ["", ""], participantes: []};
   errors = {}
+  errorOptions = [false, false]
 
   errorTypes = {options: {required: "Debes introducir al menos dos opciones", duplicated: "No se pueden repetir opciones"}}
 
@@ -111,13 +112,14 @@ export class NuevaVotacionComponent implements OnInit, OnDestroy {
 
   async checkDatos() {
     return await new Promise((resolve, reject) => {
-      this.validator.checkDatos(this.data.datos).then(() => {
-        resolve(true)
-      }).catch(errors => {
-        for (var k of Object.keys(errors)) {
-          this.errors[k] = errors[k]
-        }
-      })
+      resolve(true)
+      // this.validator.checkDatos(this.data.datos).then(() => {
+      //   resolve(true)
+      // }).catch(errors => {
+      //   for (var k of Object.keys(errors)) {
+      //     this.errors[k] = errors[k]
+      //   }
+      // })
     })
   }
 
@@ -132,6 +134,7 @@ export class NuevaVotacionComponent implements OnInit, OnDestroy {
         var opt = res[1]
         this.errors["options"] = errors["options"]
         this.changeOptions(opt)
+        this.markOptionErrors()
       })
     })
   }
@@ -163,6 +166,36 @@ export class NuevaVotacionComponent implements OnInit, OnDestroy {
     this.data.opciones = []
     for (var k of Object.keys(opt)) {
       this.data.opciones[k] = opt[k]
+    }
+  }
+
+  markOptionErrors() {
+    for (var k of Object.keys(this.data.opciones)) {
+      this.errorOptions[k] = false;
+    }
+    if (this.errors["options"] == "duplicated") {
+      var opt = []
+      for (var op of this.data.opciones) {
+        if (opt.includes(op)) {
+          for (var k of Object.keys(this.data.opciones)) {
+          var op2 = this.data.opciones[k]
+            if (op2 == op) {
+              this.errorOptions[k] = true;
+            }
+          }
+        } 
+        else {
+          opt.push(op)
+        }
+      }
+    } else {
+      for (var k of Object.keys(this.data.opciones)) {
+        if (this.data.opciones[k] == "") {
+          this.errorOptions[k] = true;
+        } else {
+          this.errorOptions[k] = false;
+        }
+      }
     }
   }
 }

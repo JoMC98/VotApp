@@ -24,6 +24,32 @@ export class VotacionValidatorService {
     })
   }
 
+  async checkPregunta(pregunta) {
+    return await new Promise((resolve, reject) => {
+      var errors = {}
+      this.generalValidator.checkRequired("pregunta", pregunta, errors)
+      
+      if (Object.keys(errors).length == 0) {
+        resolve(true)
+      } else {
+        reject(false)
+      }
+    })
+  }
+
+  async checkFecha(f_votacion) {
+    return await new Promise((resolve, reject) => {
+      var errors = {}
+      this.generalValidator.checkRequired("f_votacion", f_votacion, errors)
+      
+      if (Object.keys(errors).length == 0) {
+        resolve(true)
+      } else {
+        reject(errors)
+      }
+    })
+  }
+
   async checkParticipants(participants) {
     return await new Promise((resolve, reject) => {
       var errors = {}
@@ -41,10 +67,14 @@ export class VotacionValidatorService {
       var errors = {}
 
       var opt = this.check2Options(options, errors)
-      this.checkDuplicatedOptions(opt, errors)
-      
+
       if (Object.keys(errors).length == 0) {
-        resolve(opt)
+        this.checkDuplicatedOptions(opt, errors)
+        if (Object.keys(errors).length == 0) {
+          resolve(opt)
+        } else {
+          reject([errors, opt])
+        }
       } else {
         reject([errors, opt])
       }

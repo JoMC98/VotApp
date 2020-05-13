@@ -59,4 +59,19 @@
     color: #272343;
 }
 
+.alertPregunta {
+    color: #C25744;
+    margin: auto !important;
+    text-align: center;
+    font-size: 20px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
 
+::ng-deep .mat-tooltip {
+    background-color: #C25744 !important;
+    font-size: 11px !important;
+    white-space: normal !important;
+    max-width: 1000px !important;
+}

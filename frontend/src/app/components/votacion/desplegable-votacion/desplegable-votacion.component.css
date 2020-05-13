@@ -1,0 +1,64 @@
+::ng-deep .errorVotacion .mat-form-field-underline {
+    background-color: #C25744 !important;
+}
+
+::ng-deep .errorDescrip {
+    margin-top: -15px;
+    margin-bottom: 2%;
+    display: block;
+    color: #C25744;
+    font-size: 11px;
+    text-align: justify;
+}
+
+.modifyFechaDiv {
+    height: 65px;
+}
+
+.labelOpcionesModify {
+    position: relative;
+}
+
+::ng-deep .errorOpciones {
+    color: #C25744;
+    position: absolute;
+    top: 0;
+    margin: auto !important;
+    text-align: center;
+    font-size: 17px;
+    padding-left: 15px;
+}
+
+::ng-deep .alertOpciones {
+    color: #E8A929 !important;
+}
+
+::ng-deep .alertToolTipOpciones {
+    background-color: #E8A929 !important;
+    font-size: 11px !important;
+    white-space: normal !important;
+    max-width: 1000px !important;
+}
+
+::ng-deep .errorToolTipOpciones {
+    background-color: #C25744 !important;
+    font-size: 11px !important;
+    white-space: normal !important;
+    max-width: 1000px !important;
+}
+
+.errorOptionModifyVotacion {
+    color: #C25744;
+}
+
+::ng-deep .mat-checkbox-disabled .mat-checkbox-label {
+    opacity: 1 !important;
+}
+
+::ng-deep .mat-checkbox-disabled .mat-checkbox-label .nameUserAddUser {
+    color: black;
+}
+
+::ng-deep .mat-checkbox-disabled .mat-checkbox-label .cargoUserAddUser {
+    color: #999696;
+}

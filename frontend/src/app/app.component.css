@@ -910,8 +910,7 @@ select:-webkit-autofill:focus {
 }
 
 ::ng-deep .nombreVotante{
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 15px 20px;
     font-size: 23px;
     font-weight: bold;
     color: white;

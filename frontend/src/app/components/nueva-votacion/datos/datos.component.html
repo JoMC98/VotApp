@@ -1,6 +1,6 @@
 <div class="containerAddVotacion">
   <div class="containerAttributeFirstAddVotacion">
-    <mat-form-field class="fieldFormVotacion">
+    <mat-form-field class="fieldFormVotacion" [ngClass]="errors.pregunta ? 'errorVotacion' : ''">
       <textarea class="inputForm" style="resize: none;" matInput placeholder="Pregunta" rows=2 [(ngModel)]="data.pregunta" name="pregunta" maxlength="58" (change)="removeError('pregunta')"></textarea>
     </mat-form-field>
     <div *ngIf="errors.pregunta" class="errorDescrip">
@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="containerAttributeAddVotacion">
-    <mat-form-field class="fieldFormVotacion">
+    <mat-form-field class="fieldFormVotacion" [ngClass]="errors.departamento ? 'errorVotacion' : ''">
       <mat-select class="inputForm" placeholder="Departamento" [(ngModel)]="data.departamento" name="departamento" (selectionChange)="removeError('departamento')">  
         <mat-option *ngFor="let dpt of departamentos" [value]="dpt">{{dpt}}</mat-option>
       </mat-select>    
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="containerAttributeAddVotacion">
-    <mat-form-field class="fieldFormVotacion">
+    <mat-form-field class="fieldFormVotacion" [ngClass]="errors.f_votacion ? 'errorVotacion' : ''">
       <mat-label>Fecha de votación</mat-label>
       <input matInput [matDatepicker]="picker" [min]="minDate" [matDatepickerFilter]="myFilter"
       [(ngModel)]="data.f_votacion" name="f_votacion" (dateInput)="removeError('f_votacion')">
@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="containerAttributeLastAddVotacion">
-    <mat-form-field class="fieldFormVotacion">
+    <mat-form-field class="fieldFormVotacion" [ngClass]="errors.ambito ? 'errorVotacion' : ''">
       <mat-select class="inputForm" [(value)]="selected" placeholder="Ámbito" [(ngModel)]="data.ambito" name="ambito" (selectionChange)="removeError('ambito')">
         <mat-option value="Pública">Pública</mat-option>
         <mat-option value="Departamento">Departamento</mat-option>
