@@ -51,7 +51,7 @@ function obtenerOpcionesVotacion(db, req, res) {
 
 function modificarOpcionesVotacion(db, req, res) {
     if (req.body.usuario.admin) {
-        votacionValidator.checkExistentVotacion(db, req.params.codigo)
+        votacionValidator.checkExistentVotacion(db, req.body.codigo)
             .then(() => {
                 db.query(
                     'DELETE FROM Opcion WHERE codigo = ?', [req.body.codigo], 

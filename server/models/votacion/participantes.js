@@ -52,10 +52,10 @@ function obtenerParticipantesVotacion(db, req, res) {
 
 function modificarParticipantesVotacion(db, req, res) {
     if (req.body.usuario.admin) {
-        votacionValidator.checkExistentVotacion(db, req.params.codigo)
+        votacionValidator.checkExistentVotacion(db, req.body.codigo)
             .then(() => {
                 db.query(
-                    'DELETE FROM Opcion WHERE codigo = ?', [req.body.codigo], 
+                    'DELETE FROM Participa WHERE codigo = ?', [req.body.codigo], 
                     (error, results) => {
                         if (error) {
                             res.status(500).json({status: 'error'});
