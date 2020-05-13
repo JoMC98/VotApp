@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
     (<HTMLDivElement>document.getElementById("botonLogin")).classList.add("shake-little")
     setTimeout(() => {
       (<HTMLDivElement>document.getElementById("botonLogin")).classList.remove("shake-little")
-    }, 500000000);
+    }, 500);
   }
 
   showErrorServer() {
