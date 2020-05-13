@@ -14,12 +14,14 @@
                 <div *ngIf="admin && votacion.estado == 'Activa'" class="divBotonPlayVotacion" [routerLink]="['/iniciarVotacion', codigo]">
                     <i class="fas fa-play botonPlayVotacion"></i>
                 </div>
+                <i *ngIf="errorPregunta" class="fas fa-exclamation-triangle alertPregunta" #tooltip="matTooltip" 
+                    (click)="tooltip.toggle()" [matTooltipPosition]="'below'" [matTooltip]="'Este campo es obligatorio'"></i>
             </div>
             <mat-card class="panelPreguntaVotacion">
                 <textarea *ngIf="!modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
                 class="preguntaVotacion" [(ngModel)]="votacion.pregunta" [readonly]="true"></textarea>
                 <textarea *ngIf="modificarPregunta" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="3" 
-                class="preguntaVotacion" [(ngModel)]="copyPregunta"></textarea>
+                class="preguntaVotacion" [(ngModel)]="copyPregunta" maxlength="58" (change)="removeErrorPregunta()"></textarea>
                 <div *ngIf="admin && votacion.estado == 'Creada' && !modificarPregunta" class="modifyPreguntaVotacion" (click)="modifyPregunta()">
                     <i class="fas fa-pen actionVotacionPen"></i>
                 </div>

@@ -5,8 +5,7 @@ import { DesplegableVotacionComponent } from './desplegable-votacion/desplegable
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
-import { AdminSocketControllerService } from 'src/app/services/sockets/admin-socket-controller.service';
-import { DatosVotacionControllerService } from 'src/app/services/sockets/datos-votacion-controller.service';
+import { VotacionValidatorService } from 'src/app/services/validators/votacion/votacion-validator.service';
 
 @Component({
   selector: 'app-votacion',
@@ -37,10 +36,11 @@ export class VotacionComponent implements OnInit, OnDestroy {
 
   interval;
 
+  errorPregunta = false;
+
   constructor(private route: ActivatedRoute, private _bottomSheet: MatBottomSheet, private router: Router, 
     private controllerBD: DatabaseControllerService,  private listDepartamentos: ListaDepartamentosService, 
-    private sessionController: SessionControllerService, private socketController: AdminSocketControllerService,
-    private votacionController: DatosVotacionControllerService) { 
+    private sessionController: SessionControllerService, private validator: VotacionValidatorService) { 
     this.admin = sessionController.getAdminSession();
     this.dni = sessionController.getDNISession();
   }
@@ -102,6 +102,23 @@ export class VotacionComponent implements OnInit, OnDestroy {
     });
   }
 
+  capitalizePregunta(str) {
+    if (str.length == 0) {
+      return str 
+    } else {
+      var first = str.charAt(0)
+      var last = str.charAt(str.length - 1)
+      if (first != "¿") {
+        str = "¿" + str
+      }
+      if (last != "?") {
+        str = str + "?"
+      }
+      str = "¿" + str.charAt(1).toUpperCase() + str.slice(2)
+      return str
+    }
+  }
+
   modifyPregunta() {
     this.modificarPregunta = !this.modificarPregunta;
     this.copyPregunta = this.votacion.pregunta;
@@ -109,20 +126,28 @@ export class VotacionComponent implements OnInit, OnDestroy {
   }
 
   guardarPregunta() {
-    this.votacion.pregunta = this.copyPregunta;
-    this.controllerBD.modificarVotacion(this.votacion).then((result) => {
-      console.log(result);
-    }).catch(err => {
-      //TODO ERRORES 
-      console.log(err);
-    });
-    this.modificarPregunta = !this.modificarPregunta;
-    this.editing = false;
+    this.validator.checkPregunta(this.copyPregunta).then(() => {
+      this.votacion.pregunta = this.capitalizePregunta(this.copyPregunta);
+      this.controllerBD.modificarVotacion(this.votacion).then((result) => {
+        console.log(result);
+      }).catch(err => {
+        console.log(err);
+      });
+      this.modificarPregunta = !this.modificarPregunta;
+      this.editing = false;
+    }).catch(() => {
+      this.errorPregunta = true;
+    })
+  }
+
+  removeErrorPregunta() {
+    this.errorPregunta = false;
   }
 
   cancelarPregunta() {
     this.modificarPregunta = !this.modificarPregunta;
     this.editing = false;
+    this.errorPregunta = false;
   }
 
   openDialog(page){

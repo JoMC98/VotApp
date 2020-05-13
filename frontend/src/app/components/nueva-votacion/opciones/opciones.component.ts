@@ -11,6 +11,7 @@ export class OpcionesComponent implements OnInit {
   errorTypes = {options: {required: "Debes introducir al menos dos opciones"}} 
 
   @Input() data;
+  @Input() errorOptions;
 
   constructor(private _snackBar: MatSnackBar) { }
 
@@ -26,10 +27,20 @@ export class OpcionesComponent implements OnInit {
     return index;
   }
 
+  removeError(i) {
+    this.errorOptions[i] = false;
+    for (var k of Object.keys(this.data)) {
+      if (this.data[k] == this.data[i]) {
+        this.errorOptions[k] = false;
+      }
+    }
+  }
+
   newOption() {
     if (this.opciones < 6) {
       if (this.check2Options()) {
         this.data.push("")
+        this.errorOptions.push(false);
         this.calculateOpciones();
       }
     }
@@ -56,7 +67,9 @@ export class OpcionesComponent implements OnInit {
   }
 
   deleteOption(ind) {
+    this.removeError(ind)
     this.data.splice(ind, 1);
     this.calculateOpciones();
+    this.errorOptions.splice(ind, 1)
   }
 }

@@ -2,7 +2,12 @@
     <div class="titleDialogoDesplegable">
         <label *ngIf="data.page == 'editarFecha'">Fecha</label>
         <label *ngIf="data.page == 'descripcion' || data.page == 'editarDescripcion'">Descripción</label>
-        <label *ngIf="data.page == 'opciones' || data.page == 'editarOpciones'">Opciones</label>
+        <label *ngIf="data.page == 'opciones' || data.page == 'editarOpciones'" class="labelOpcionesModify">
+            Opciones
+            <i *ngIf="data.page == 'editarOpciones' && errors['options']" class="fas fa-exclamation-triangle errorOpciones" [ngClass]="errors['options'] == 'requiredAlert' ? 'alertOpciones' : ''" 
+            #tooltip="matTooltip" (click)="tooltip.toggle()" [matTooltipPosition]="'below'" [matTooltip]="errorTypes.options[errors['options']]" 
+            [matTooltipClass]="errors['options'] == 'requiredAlert' ? 'alertToolTipOpciones' : 'errorToolTipOpciones'"></i>
+        </label>
         <label *ngIf="data.page == 'resultados'">Resultados</label>
         <label *ngIf="data.page == 'participantes' || data.page == 'editarParticipantes'">Participantes</label>
         <label *ngIf="data.page == 'editarAmbito'">Ámbito</label>
@@ -16,12 +21,15 @@
     </div>
     <div class="contentDialogoDesplegable">
 
-        <div *ngIf="data.page == 'editarFecha'">
-            <mat-form-field class="fieldForm modificarFechaVotacion">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="copyFecha">
+        <div class="modifyFechaDiv" *ngIf="data.page == 'editarFecha'">
+            <mat-form-field class="fieldForm modificarFechaVotacion" [ngClass]="errorFecha ? 'errorVotacion' : ''">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="copyFecha" [min]="minDate" [matDatepickerFilter]="myFilter" (dateInput)="removeErrorFecha()">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
+              <div class="errorDescrip">
+                <span *ngIf="errorFecha">Este campo es obligatorio</span>
+              </div>
         </div>
 
         <div *ngIf="data.page == 'descripcion'">
@@ -79,15 +87,15 @@
             <div class="divOpcionDialogoDesplegable" *ngFor="let opcion of opciones; let i = index; trackBy:trackByIndex;">
                 <div class="opcionDialogoDesplegable" id="opcionDialogoDesplegable{{i}}">
                     <b class="numeroOpcionDialogoDesplegable">{{i + 1}}. </b>
-                    <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="2" 
-                    class="inputOpcionDialogoDesplegableModify" id="inputOpcionDialogoDesplegableModify{{i}}" [(ngModel)]="opciones[i]"></textarea>
+                    <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="2" [ngClass]="errorOptions[i] ? 'errorOptionModifyVotacion' : ''"
+                    class="inputOpcionDialogoDesplegableModify" id="inputOpcionDialogoDesplegableModify{{i}}" [(ngModel)]="opciones[i]" (change)="removeErrorOption(i)"></textarea>
                     <div class="botonEliminarOpcionDialogoDesplegable">
-                        <i class="fas fa-minus iconMinusDialogoDesplegable" (click)="deleteOption(i)"></i>
+                        <i *ngIf="opciones.length > 2" class="fas fa-minus iconMinusDialogoDesplegable" (click)="deleteOption(i)"></i>
                     </div>
                 </div>
                 <hr *ngIf="i != (opciones.length - 1)" class="hrDialogoDesplegable"/>
             </div>
-            <div class="plusButtonDivDialogoDesplegable">
+            <div *ngIf="opciones.length < 6" class="plusButtonDivDialogoDesplegable">
                 <i (click)="addOption()" class="fas fa-plus plusButtonDialogoDesplegable"></i>
             </div>
         </div>
@@ -109,13 +117,13 @@
                         </div>
                     </div>
                     <div class="botonEliminarOpcionDialogoDesplegable">
-                        <i class="fas fa-minus iconMinusDialogoDesplegable" (click)="deleteUser(i)"></i>
+                        <i *ngIf="participantes.length > 3" class="fas fa-minus iconMinusDialogoDesplegable" (click)="deleteUser(i)"></i>
                     </div>
                 </div>
                 <hr *ngIf="i != (participantes.length - 1)" class="hrDialogoDesplegable"/>
             </div>
-            <div class="plusButtonDivDialogoDesplegable">
-                <i (click)="addUser()" class="fas fa-plus plusButtonDialogoDesplegable"></i>
+            <div *ngIf="participantes.length < 6" class="plusButtonDivDialogoDesplegable">
+                <i  (click)="addUser()" class="fas fa-plus plusButtonDialogoDesplegable"></i>
             </div>
         </div>
     </div>
@@ -140,7 +148,7 @@
                 <div id="usersDpt{{inicial.key}}">
                     <div class="divOpcionDialogoDesplegable" *ngFor="let user of inicial.value">
                         
-                        <mat-checkbox class="opcionDialogoDesplegable" (click)="selection(user)" [(ngModel)]="boolSelected[user.dni]">
+                        <mat-checkbox class="opcionDialogoDesplegable" (click)="selection(user)" [(ngModel)]="boolSelected[user.dni]" [disabled]="disabled">
                             <div class="iconDptDivDialogoDesplegableAddUser">
                                 <div class="iconDptSquareDialogoDesplegable" [ngStyle]="{'background-color': listaDepartamentos[user.departamento].color}">
                                     <i class="fas" [ngClass]="[listaDepartamentos[user.departamento].icon, listaDepartamentos[user.departamento].iconDpt+'DialogoDesplegable']"></i>

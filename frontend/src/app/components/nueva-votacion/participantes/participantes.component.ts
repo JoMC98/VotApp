@@ -85,7 +85,7 @@ export class ParticipantesComponent implements OnInit {
     if (this.total == 6) {
       setTimeout(() => {
         this.disabled = true
-      }, 500)
+      }, 100)
     } else {
       this.disabled = false;
     } 

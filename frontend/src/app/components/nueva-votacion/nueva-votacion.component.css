@@ -84,3 +84,7 @@
   ::ng-deep .mat-snack-bar-handset {
     margin-bottom: 30% !important;
   }
+
+  ::ng-deep .errorVotacion .mat-form-field-underline {
+    background-color: #C25744 !important;
+}

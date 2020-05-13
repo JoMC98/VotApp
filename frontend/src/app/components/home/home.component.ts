@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private controllerBD: DatabaseControllerService, private sessionController: SessionControllerService) {
     this.admin = sessionController.getAdminSession();
     this.nombre = sessionController.getNombreSession();
-    this.longitud = this.nombre.length
+    
     this.loopDataQuery();
   }
 
@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.longitud = this.nombre.length
   }
 
 }
