@@ -7,6 +7,7 @@ import { UserValidatorService } from 'src/app/services/validators/user/user-vali
 import { CheckboxControlValueAccessor } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { PasswordValidatorService } from 'src/app/services/validators/user/password-validator.service';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 
 @Component({
   selector: 'app-modify-user',
@@ -34,6 +35,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
 
   listaDepartamentos = {};
 
+  showPasswdField: boolean;
   errors = {}
 
   errorTypes = {nombre: {required: "Este campo es obligatorio", badFormed: "Este campo no puede contener números"}, 
@@ -47,7 +49,19 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, 
     private listDepartamentos: ListaDepartamentosService,  private kewPasswordController: KeyPasswordControllerService, 
-    private userValidator: UserValidatorService, private passwdValidator: PasswordValidatorService, private _snackBar: MatSnackBar) { 
+    private userValidator: UserValidatorService, private passwdValidator: PasswordValidatorService, private _snackBar: MatSnackBar,
+    private sessionController: SessionControllerService) { 
+      var admin = sessionController.getAdminSession();
+      if (admin) {
+        var myDNI = sessionController.getDNISession();
+        if (this.dni == myDNI) {
+          this.showPasswdField = true;
+        } else {
+          this.showPasswdField = false;
+        }
+      } else {
+        this.showPasswdField = true;
+      }
   }
 
   openSnackBar() {
@@ -188,6 +202,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
       } else if (hasData && !hasErrors) {
         this.controllerBD.modificarUsuario(this.usuario)
           .then((result) =>{ 
+            this.sessionController.updateNombreSession(this.usuario.nombre, this.usuario.apellidos)
             this.openSnackBar()
             new Promise((res) => {
               setTimeout(() => {

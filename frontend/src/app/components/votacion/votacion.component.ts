@@ -67,20 +67,21 @@ export class VotacionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    clearInterval(this.interval)
+    this.interval = null;
     this.sub.unsubscribe();
     this.subQ.unsubscribe();
-    clearInterval(this.interval)
   }
 
   loopDataQuery() {
     this.controllerBD.obtenerVotacion(this.codigo).then((result) =>{
       this.votacion = result[0];
-    });
-    this.interval = setInterval(() => {
-      this.controllerBD.obtenerVotacion(this.codigo).then((result) =>{
-        this.votacion = result[0];
-      });
-    }, 5000);
+      this.interval = setInterval(() => {
+        this.controllerBD.obtenerVotacion(this.codigo).then((result) =>{
+          this.votacion = result[0];
+        })
+      }, 5000);
+    })
   }
 
   getDatos() {

@@ -1,0 +1,11 @@
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: #A26850 !important;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: #D1967D !important;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked .mat-ripple-element {
+    background-color: #D1967D !important;
+}

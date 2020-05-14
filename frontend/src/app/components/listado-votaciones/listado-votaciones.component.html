@@ -3,7 +3,7 @@
 </div>
 <div class="subtitlePanel allContent85">
     <div class="formContainer menuZonaFiltro">
-        <div class="menuOrden">
+        <div class="menuOrdenListado">
             <mat-form-field class="fieldForm">
               <mat-select class="inputForm" placeholder="Orden" [(ngModel)]="order" (selectionChange)=select()>
                 <mat-option value="Descendente">Descendente</mat-option>
@@ -11,7 +11,15 @@
               </mat-select>
             </mat-form-field>
         </div>
-        <div class="menuFiltro">
+        <div class="menuPropiasListado">
+            <div *ngIf="!admin" class="divLabelMenuPropias">
+                <span class="labelMenuPropias">Solo propias</span>
+            </div>
+            <div *ngIf="!admin" class="divButtonMenuPropias">
+                <mat-slide-toggle class="buttonMenuPropias" (change)="togglePropias()"></mat-slide-toggle>
+            </div>
+        </div>
+        <div class="menuFiltroListado">
             <i class="fas fa-sliders-h filterIcon" (click)="openDialog()"></i>
         </div>
     </div>

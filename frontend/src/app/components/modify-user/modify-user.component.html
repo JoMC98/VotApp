@@ -67,10 +67,10 @@
             </div>
         </div>
 
-        <label class="headerDatosVotante">Contraseña</label>
-        <i *ngIf="errors['passwd']" class="fas fa-exclamation-triangle alertModifyPasswd" #tooltip="matTooltip" 
+        <label *ngIf="showPasswdField" class="headerDatosVotante">Contraseña</label>
+        <i *ngIf="showPasswdField && errors['passwd']" class="fas fa-exclamation-triangle alertModifyPasswd" #tooltip="matTooltip" 
                 (click)="tooltip.toggle()" [matTooltip]="errorTypes.passwd[errors['passwd']]" [matTooltipPosition]="'below'"></i>
-        <div class="datosVotante">
+        <div *ngIf="showPasswdField" class="datosVotante">
             <div class="elementoVotante">
                 <i class="fas fa-lock iconVotante"></i>
                 <input type="password" id="inputActual" class="inputModifyUser" [(ngModel)]="actual" name="actual" placeholder="Contraseña actual" (change)="removeError('passwd')"/>

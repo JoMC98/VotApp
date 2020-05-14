@@ -61,6 +61,11 @@ export class SessionControllerService {
     window.sessionStorage.setItem(this.config.CHANGEPASSWD_KEY, <any>false);
   }
 
+  updateNombreSession(name, surname) {
+    window.sessionStorage.setItem(this.config.NAME_KEY, name);
+    window.sessionStorage.setItem(this.config.SURNAME_KEY, surname);
+  }
+
   deleteSession() {
     for (var key of this.config.SESSION_KEYS) {
       window.sessionStorage.removeItem(key);

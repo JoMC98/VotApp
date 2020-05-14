@@ -69,10 +69,27 @@
     display: flex;
 }
 
+.divCardsHomeVotanteActivas {
+    width: 90%;
+    height: 24.8%;
+    margin: 0 5%;
+    display: flex;
+}
+
 .divTitleCardsHomeAdmin {
     width: 90%;
     margin: 5%;
     margin-bottom: 0px;
+    height: 10%;
+    font-weight: bold;
+    font-size: 25px;
+    color: #DCF6F5;
+    display: flex;
+}
+
+.divTitleCardsHomeAdminActivas {
+    width: 90%;
+    margin: 3% 5% 0px 5%;
     height: 10%;
     font-weight: bold;
     font-size: 25px;
