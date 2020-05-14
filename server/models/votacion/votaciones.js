@@ -15,11 +15,12 @@ exports.obtenerVotaciones = (db, req, res) => {
   } else {
     controlAccess.obtenerDepartamentoUsuario(db, req.body.usuario.DNI).then((departamento) => {
       db.query(
-        'SELECT codigo, pregunta, estado, departamento, f_votacion, ambito FROM Votacion AS v WHERE ambito = "Publica" ' +
+        'SELECT codigo, pregunta, estado, departamento, f_votacion, ambito, (SELECT COUNT(*) FROM Participa AS p WHERE v.codigo = p.codigo AND p.DNI = ?) AS participa ' + 
+        'FROM Votacion AS v WHERE ambito = "Publica" ' +
         'OR ambito = "Privada" AND ? IN (SELECT DNI FROM Participa AS p WHERE v.codigo = p.codigo) ' +
         'OR ambito = "Departamento" AND ? = (SELECT departamento FROM Votacion AS v2 WHERE v.codigo = v2.codigo) ' +
         'OR ambito = "Oculta" AND estado = "Activa" AND ? IN (SELECT DNI FROM Participa AS p WHERE v.codigo = p.codigo)', 
-        [req.body.usuario.DNI, departamento ,req.body.usuario.DNI]    
+        [req.body.usuario.DNI, req.body.usuario.DNI, departamento ,req.body.usuario.DNI]    
         ,(error, results) => {
           if (error) {
             console.log(error);
@@ -52,12 +53,13 @@ exports.filtrarVotaciones = (db, req, res) => {
     } else {
       controlAccess.obtenerDepartamentoUsuario(db, req.body.usuario.DNI).then((departamento) => {
         db.query(
-          'SELECT codigo, pregunta, estado, departamento, f_votacion, ambito FROM Votacion AS v WHERE (ambito = "Publica" ' +
+          'SELECT codigo, pregunta, estado, departamento, f_votacion, ambito, (SELECT COUNT(*) FROM Participa AS p WHERE v.codigo = p.codigo AND p.DNI = ?) AS participa ' +
+            'FROM Votacion AS v WHERE (ambito = "Publica" ' +
             'OR (ambito = "Privada" AND ? IN (SELECT DNI FROM Participa AS p WHERE v.codigo = p.codigo)) ' +
             'OR (ambito = "Departamento" AND ? = (SELECT departamento FROM Votacion AS v2 WHERE v.codigo = v2.codigo)) ' +
             'OR (ambito = "Oculta" AND estado = "Activa" AND ? IN (SELECT DNI FROM Participa AS p WHERE v.codigo = p.codigo))) AND ' +
             'pregunta LIKE ? AND estado IN (?) AND ambito IN (?) AND departamento IN (?)', 
-          [req.body.usuario.DNI, departamento ,req.body.usuario.DNI, pregunta, req.body.estados, req.body.ambitos, req.body.departamentos],
+          [req.body.usuario.DNI, req.body.usuario.DNI, departamento ,req.body.usuario.DNI, pregunta, req.body.estados, req.body.ambitos, req.body.departamentos],
           (error, results) => {
             if (error) {
               console.log(error);

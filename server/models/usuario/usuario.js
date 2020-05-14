@@ -74,7 +74,7 @@ exports.obtenerUsuario = (db, req, res) => {
         }
         
         db.query(
-          'SELECT DNI, nombre, apellidos, mail, telefono, cargo, departamento, ' + tabla.column + ' FROM Usuario JOIN ' + tabla.tabla + ' USING(dni) WHERE dni = ?' , 
+          'SELECT DNI, nombre, apellidos, mail, telefono, cargo, departamento, clavePublica, ' + tabla.column + ' FROM Usuario JOIN ' + tabla.tabla + ' USING(dni) WHERE dni = ?' , 
           [req.params.dni], (error, results) => {
             if (error) {
               console.log(error);
