@@ -12,8 +12,6 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-import * as moment from 'moment';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -25,6 +23,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -123,6 +122,7 @@ registerLocaleData(localeEs, 'es')
     MatNativeDateModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
     MatRadioModule,
     MatProgressSpinnerModule,
     BrowserModule,

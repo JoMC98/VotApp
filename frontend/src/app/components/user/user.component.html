@@ -60,10 +60,14 @@
     </div>
     
     <label class="headerDatosVotante">Contraseña</label>
-    <div class="datosVotante">
-        <div class="elementoVotante">
+    <div class="datosVotante" [ngClass]="showPasswdState && usuario.clavePublica == null ? 'errorPasswdState' : ''">
+        <div *ngIf="!showPasswdState || usuario.clavePublica != null" class="elementoVotante">
             <i class="fas fa-key iconVotante"></i>
             ********
+        </div>
+        <div *ngIf="showPasswdState && usuario.clavePublica == null" class="elementoVotante">
+            <i class="fas fa-key iconVotante"></i>
+            <span>Todavia no ha cambiado su contraseña</span>
         </div>
     </div>
 </div>

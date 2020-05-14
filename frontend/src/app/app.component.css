@@ -533,19 +533,65 @@ select:-webkit-autofill:focus {
     margin-bottom: 10px;
 }
 
-::ng-deep .menuOrden {
-    width: 50%;
+::ng-deep .menuOrdenListado {
+    width: 37.5%;
+}
+
+::ng-deep .menuPropiasListado {
+    width: 37.5%;
+    margin-left: 10%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+::ng-deep .divLabelMenuPropias {
+    width: 100%;
+    height: 10%;
+    display: flex;
+}
+
+::ng-deep .labelMenuPropias {
+    line-height: 10px;
+    color: #ADADAD !important;
+    font-size: 12px;
+    font-family: 'Roboto' !important;
+    margin: auto;
+}
+
+::ng-deep .divButtonMenuPropias {
+    width: 100%;
+    height: 90%;
+    display: flex;
+}
+
+::ng-deep .buttonMenuPropias {
+    margin: auto;
 }
 
 ::ng-deep .menuOrdenNewVotacion {
     width: 60%;
 }
 
+::ng-deep .menuFiltroListado {
+    color: #B9B9B9; 
+    font-size: 16px;
+    text-align: right;
+    width: 15%;
+    margin: auto;
+}
+
+::ng-deep .menuFiltroUsuarios {
+    color: #B9B9B9; 
+    font-size: 16px;
+    text-align: right;
+    width: 62.5%;
+    margin: auto;
+}
+
 ::ng-deep .menuFiltro {
     color: #B9B9B9; 
     font-size: 16px;
     text-align: right;
-
     width: 50%;
     margin: auto;
 }
@@ -927,6 +973,10 @@ select:-webkit-autofill:focus {
     background-color: rgba(224,222,237,1);
     border-radius: 10px;
     box-shadow: 0px 5px 1px -1px rgba(0, 0, 0, 0.2), 0px 5px 1px 0px rgba(0, 0, 0, 0.14), 0px 5px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+::ng-deep .errorPasswdState {
+    background-color: #E2A3A3 !important;
 }
 
 ::ng-deep .headerDatosVotante {

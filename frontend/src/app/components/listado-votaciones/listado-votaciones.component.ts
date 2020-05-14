@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import { DatabaseControllerService } from 'src/app/services/database/database-controller.service';
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
+import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
 
 export interface FilterData {
   pregunta;
@@ -21,6 +22,10 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   votes = [];
   votaciones = {};
   meses = [];
+  activas = [];
+  week = [];
+  propias = false;
+  admin: boolean;
 
   pregunta = {"pregunta":""};
   estados = {"Activa":false,"Creada":false,"Finalizada":false}
@@ -30,8 +35,16 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   order = 'Descendente';
   interval;
 
-  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService, private listDepartamentos: ListaDepartamentosService) {
+  actual;
+  next;
+
+  constructor(private _bottomSheet: MatBottomSheet, private controllerBD: DatabaseControllerService, 
+    private listDepartamentos: ListaDepartamentosService, private sessionController: SessionControllerService) {
+    this.admin = sessionController.getAdminSession();
     this.departamentos = this.listDepartamentos.getDepartamentosJSONFalse();
+    this.actual = new Date()
+    this.next = new Date()
+    this.next.setDate(this.next.getDate() + 7)
     this.loopDataQuery();
   }
 
@@ -52,16 +65,26 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   generarListado(listado) {
     this.votaciones = {};
     this.meses = [];
+    this.week = []
+    this.activas = []
     for (let vote of listado) {
       var f = new Date(vote.f_votacion);
-      var mes = f.getFullYear() + "-" + (f.getMonth()+1) + "-01";
-      if (this.meses.includes(mes)) {
-        this.votaciones[mes].push(vote);
+      if (!this.propias || this.propias && vote.participa) {
+        if(vote.estado == "Activa") {
+          this.activas.push(vote)
+        } else if (f >= this.actual && f < this.next) {
+          this.week.push(vote)
+        } else {
+          var mes = f.getFullYear() + "-" + (f.getMonth()+1) + "-01";
+          if (this.meses.includes(mes)) {
+            this.votaciones[mes].push(vote);
+          }
+          else {
+            this.votaciones[mes] = [vote];
+            this.meses.push(mes)
+          } 
+        }
       }
-      else {
-        this.votaciones[mes] = [vote];
-        this.meses.push(mes)
-      } 
     }
     this.ordenarListado();
   }
@@ -71,6 +94,24 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
   }
 
   ordenarListado() {
+    this.activas.sort((a: any, b: any) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    this.week.sort((a: any, b: any) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     this.meses.sort((a: any, b: any) => {
       if (a < b) {
         return -1;
@@ -127,6 +168,11 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
     })
   }
 
+  togglePropias() {
+    this.propias = !this.propias;
+    this.generarListado(this.votes)
+  }
+
   filtrarResultados() {
     var dpts = []
     for (var dpt of Object.keys(this.departamentos)) {
@@ -148,11 +194,7 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
     }
     if (this.pregunta.pregunta == "" && dpts.length == 0 && states.length == 0 && ambs.length == 0) {
       this.controllerBD.obtenerVotaciones().then((result) =>{
-        this.votes = []
-        for (let i of Object.keys(result)) {
-          this.votes.push(result[i])
-        }
-        this.generarListado(this.votes);
+        this.recibeVotaciones(result)
       });
     } else {
       if (dpts.length == 0) {
@@ -172,13 +214,17 @@ export class ListadoVotacionesComponent implements OnInit, OnDestroy {
       }
       var filtros = {pregunta:this.pregunta.pregunta, estados:states, ambitos:ambs, departamentos:dpts}
       this.controllerBD.filtrarVotaciones(filtros).then((result) => {
-        this.votes = [];
-        for (let i of Object.keys(result)) {
-          this.votes.push(result[i])
-        }
-        this.generarListado(this.votes);
+        this.recibeVotaciones(result)
       });
     }
+  }
+
+  recibeVotaciones(result) {
+    this.votes = [];
+    for (let i of Object.keys(result)) {
+      this.votes.push(result[i])
+    }
+    this.generarListado(this.votes);
   }
 
   marcadoDepartamento() {

@@ -3,7 +3,7 @@
 </div>
 <div class="subtitlePanel allContent85">
     <div class="formContainer menuZonaFiltro">
-        <div class="menuOrden">
+        <div class="menuOrdenListado">
             <mat-form-field class="fieldForm">
               <mat-select class="inputForm" placeholder="Orden" [(ngModel)]="order" (selectionChange)=select()>
                 <mat-option value="Descendente">Descendente</mat-option>
@@ -11,13 +11,57 @@
               </mat-select>
             </mat-form-field>
         </div>
-        <div class="menuFiltro">
+        <div class="menuPropiasListado">
+            <div *ngIf="!admin" class="divLabelMenuPropias">
+                <span class="labelMenuPropias">Solo propias</span>
+            </div>
+            <div *ngIf="!admin" class="divButtonMenuPropias">
+                <mat-slide-toggle class="buttonMenuPropias" (change)="togglePropias()"></mat-slide-toggle>
+            </div>
+        </div>
+        <div class="menuFiltroListado">
             <i class="fas fa-sliders-h filterIcon" (click)="openDialog()"></i>
         </div>
     </div>
 </div>
 
 <div class="listadoPanel allContent90">
+    <div *ngIf="activas.length > 0" class="formContainer">
+        <div class="containerDptoNewParticipante" (click)="mostrarOcultar('Activas')">
+            <i class="fas flechaNewParticipante fa-chevron-down" id="flechaActivas"></i>
+            <label class="mesListaVotacion">Activas</label>
+        </div>
+        <div id="votacionesMesActivas">
+            <mat-card *ngFor="let vot of activas" class="elementoListaVotacion" 
+            [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.codigo]" [queryParams]="{home: false}">
+                <div class="preguntaListaVotacion">
+                    {{vot.pregunta}}
+                </div>
+                <div class="datosListaVotacion" [class]="'datosListaVotacion' + vot.estado">
+                    <label class="dptoListaVotacion">{{vot.departamento}}</label><br>
+                    {{vot.f_votacion | date: 'EEEE dd' | titlecase}}
+                </div><br>
+            </mat-card>
+        </div>
+    </div>
+    <div *ngIf="week.length > 0" class="formContainer">
+        <div class="containerDptoNewParticipante" (click)="mostrarOcultar('Week')">
+            <i class="fas flechaNewParticipante fa-chevron-down" id="flechaWeek"></i>
+            <label class="mesListaVotacion">Esta semana</label>
+        </div>
+        <div id="votacionesMesWeek">
+            <mat-card *ngFor="let vot of week" class="elementoListaVotacion" 
+            [class]="'elementoListaVotacion' + vot.estado" [routerLink]="['/votacion', vot.codigo]" [queryParams]="{home: false}">
+                <div class="preguntaListaVotacion">
+                    {{vot.pregunta}}
+                </div>
+                <div class="datosListaVotacion" [class]="'datosListaVotacion' + vot.estado">
+                    <label class="dptoListaVotacion">{{vot.departamento}}</label><br>
+                    {{vot.f_votacion | date: 'EEEE dd' | titlecase}}
+                </div><br>
+            </mat-card>
+        </div>
+    </div>
     <div class="formContainer" *ngFor="let mes of meses">
         <div class="containerDptoNewParticipante" (click)="mostrarOcultar(mes)">
             <i class="fas flechaNewParticipante fa-chevron-down" id="flecha{{mes}}"></i>

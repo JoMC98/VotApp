@@ -62,3 +62,30 @@
 ::ng-deep .mat-checkbox-disabled .mat-checkbox-label .cargoUserAddUser {
     color: #999696;
 }
+
+::ng-deep .alert-snackbar {
+    background-color: #FAC242;
+  }
+  
+  ::ng-deep .mat-snack-bar-container {
+    margin-left: 7.5% !important;
+    margin-right: 7.5% !important;
+    color: #272343;
+  }
+
+  ::ng-deep .mat-simple-snackbar {
+    font-size: 12px !important;
+  }
+  
+  ::ng-deep .mat-simple-snackbar-action {
+    color: #272343;
+  }
+
+  ::ng-deep .alert-snackbar .mat-button-wrapper {
+    font-size: 12px !important;
+  }
+
+
+  ::ng-deep .mat-snack-bar-handset {
+    margin-bottom: 30% !important;
+  }

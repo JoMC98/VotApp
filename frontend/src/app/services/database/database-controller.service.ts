@@ -10,23 +10,21 @@ export class DatabaseControllerService {
   constructor(private httpRequest: HttpRequestService) {}
 
   async obtenerVotaciones() { return await this.httpRequest.getRequest("/obtenerVotaciones") };
-  async obtenerVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerVotacion/" + codigo) };
   async obtenerUsuarios() { return await this.httpRequest.getRequest("/obtenerUsuarios") };
   async obtenerUsuario(dni) { return await this.httpRequest.getRequest("/obtenerUsuario/" + dni) };
-  async obtenerOpcionesVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerOpcionesVotacion/" + codigo) };
-  async obtenerParticipantesVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerParticipantesVotacion/" + codigo) };
   async obtenerResultadosVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerResultadosVotacion/" + codigo) };
   async obtenerUsuariosFueraVotacion(participantes) { return await this.httpRequest.postRequest("/obtenerUsuariosFueraVotacion", participantes) };
-
   async filtrarUsuarios(filtros) { return await this.httpRequest.postRequest("/filtrarUsuarios", filtros) };
   async filtrarVotaciones(filtros) { return await this.httpRequest.postRequest("/filtrarVotaciones", filtros) };
   async obtenerHomeVotaciones() { return await this.httpRequest.getRequest("/obtenerHomeVotaciones")};
-
   async activarVotacion(codigo) { return await this.httpRequest.getRequest("/activarVotacion/" + codigo)};
   async privateKeyAdmin(codigo) { return await this.httpRequest.getRequest("/privateKeyAdmin/" + codigo)};
   async obtenerDatosVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerDatosVotacion/" + codigo)};
   async cerrarVotacionError(codigo) { return await this.httpRequest.getRequest("/cerrarVotacionError/" + codigo)};
   async obtenerEstadoVotacionVotante(codigo) { return await this.httpRequest.getRequest("/obtenerEstadoVotacionVotante/" + codigo)};
+  async obtenerVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerVotacion/" + codigo) };
+  async obtenerOpcionesVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerOpcionesVotacion/" + codigo) };
+  async obtenerParticipantesVotacion(codigo) { return await this.httpRequest.getRequest("/obtenerParticipantesVotacion/" + codigo) };
 
   async añadirUsuario(usuario) { 
     return await new Promise((resolve, reject) => {
