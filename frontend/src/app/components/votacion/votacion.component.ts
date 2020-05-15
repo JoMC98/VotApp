@@ -69,8 +69,8 @@ export class VotacionComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     clearInterval(this.interval)
     this.interval = null;
-    this.sub.unsubscribe();
-    this.subQ.unsubscribe();
+    // this.sub.unsubscribe();
+    // this.subQ.unsubscribe();
   }
 
   loopDataQuery() {
