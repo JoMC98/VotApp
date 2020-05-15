@@ -284,7 +284,6 @@ export class DesplegableVotacionComponent implements OnInit {
     this.controllerBD.modificarVotacion(this.data.votacion).then((result) => {
       console.log(result);
     }).catch(err => {
-      //TODO ERRORES 
       console.log(err);
     });
   }

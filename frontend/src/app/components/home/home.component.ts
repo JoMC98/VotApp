@@ -40,7 +40,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.controllerBD.obtenerHomeVotaciones().then((result) =>{
       this.votaciones = []
       this.activas = []
-      console.log(result)
       for (let i of Object.keys(result)) {
         var vot = result[i]
         if (vot.estado == "Activa") {

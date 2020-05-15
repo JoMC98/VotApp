@@ -1864,6 +1864,9 @@ select:-webkit-autofill:focus {
     background-color: #CE6C47;
 }
 
+::ng-deep .notShowPasswd {
+    -webkit-text-security: disc;
+}
 
   ::ng-deep .pageLogin {
     height: 100%;

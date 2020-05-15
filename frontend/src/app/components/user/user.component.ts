@@ -25,22 +25,12 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private router: Router, private controllerBD: DatabaseControllerService, 
     private listDepartamentos: ListaDepartamentosService, private loginController: LoginControllerService, private sessionController: SessionControllerService) { 
-      var admin = sessionController.getAdminSession();
-      if (admin) {
-        var myDNI = sessionController.getDNISession();
-        if (this.dni == myDNI) {
-          this.showPasswdState = false;
-        } else {
-          this.showPasswdState = true;
-        }
-      } else {
-        this.showPasswdState = false;
-      }
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.dni = params['dni']; 
+      this.checkAdmin()
       this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
       this.controllerBD.obtenerUsuario(this.dni).then((result) =>{
         this.usuario = result[0];
@@ -49,6 +39,20 @@ export class UserComponent implements OnInit, OnDestroy {
     this.subQ = this.route.queryParams.subscribe(params => {
       this.profile = JSON.parse(params['profile']); 
     });
+  }
+
+  checkAdmin() {
+    var admin = this.sessionController.getAdminSession();
+    if (admin) {
+      var myDNI = this.sessionController.getDNISession();
+      if (this.dni == myDNI) {
+        this.showPasswdState = false;
+      } else {
+        this.showPasswdState = true;
+      }
+    } else {
+      this.showPasswdState = false;
+    }
   }
 
   ngOnDestroy() {

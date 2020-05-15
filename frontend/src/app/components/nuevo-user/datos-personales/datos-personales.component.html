@@ -33,7 +33,7 @@
       <mat-form-field class="fieldFormPasswd"  [ngClass]="errors.passwd ? 'errorUser' : ''" >   
         <mat-label>Contraseña temporal</mat-label>
         <div class="divPasswdForm">
-            <input type="password" id="inputPasswd" class="inputForm inputFormMinus" matInput [(ngModel)]="data.passwd" name="passwd" maxlength=30 (change)="removeError('passwd')">
+            <input type="text" id="inputPasswd" autocomplete="off" class="inputForm inputFormMinus notShowPasswd" matInput [(ngModel)]="data.passwd" name="passwd" maxlength=30 (change)="removeError('passwd')">
             <i class="fas fa-eye eyeIcon" (click)="showHidePasswd()"></i>
         </div> 
       </mat-form-field>

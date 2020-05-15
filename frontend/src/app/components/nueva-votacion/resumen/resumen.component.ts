@@ -38,7 +38,6 @@ export class ResumenComponent implements OnInit {
         }, 2500);
       })
     }).catch(err => {
-      //TODO ERRORES 
       console.log(err);
     });
   }

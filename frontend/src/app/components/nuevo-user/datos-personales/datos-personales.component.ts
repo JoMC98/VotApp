@@ -25,9 +25,9 @@ export class DatosPersonalesComponent implements OnInit {
   showHidePasswd() {
     this.showPasswd = !this.showPasswd;
     if (this.showPasswd) {
-      (<HTMLInputElement>document.getElementById("inputPasswd")).type = "text";
+      (<HTMLInputElement>document.getElementById("inputPasswd")).classList.remove('notShowPasswd')
     } else {
-      (<HTMLInputElement>document.getElementById("inputPasswd")).type = "password";
+      (<HTMLInputElement>document.getElementById("inputPasswd")).classList.add('notShowPasswd')
     }
   }
 

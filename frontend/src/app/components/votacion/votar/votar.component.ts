@@ -321,9 +321,9 @@ export class VotarComponent implements OnInit, OnDestroy {
   }
 
   showError() {
-    (<HTMLDivElement>document.getElementById("botonVotar")).classList.add("shake-little")
+    (<HTMLDivElement>document.getElementById("botonVotar")).classList.add("shake")
     setTimeout(() => {
-      (<HTMLDivElement>document.getElementById("botonVotar")).classList.remove("shake-little")
+      (<HTMLDivElement>document.getElementById("botonVotar")).classList.remove("shake")
     }, 500);
   }
 

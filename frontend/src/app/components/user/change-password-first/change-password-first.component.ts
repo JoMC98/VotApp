@@ -51,9 +51,9 @@ export class ChangePasswordFirstComponent implements OnInit {
     }
     
     if (aux) {
-      (<HTMLInputElement>document.getElementById("inputPasswd" + id)).type = "text";
+      (<HTMLInputElement>document.getElementById("inputPasswd" + id)).classList.remove('notShowPasswd')
     } else {
-      (<HTMLInputElement>document.getElementById("inputPasswd" + id)).type = "password";
+      (<HTMLInputElement>document.getElementById("inputPasswd" + id)).classList.add('notShowPasswd')
     }
   }
 

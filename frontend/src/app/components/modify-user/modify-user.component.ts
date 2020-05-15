@@ -4,7 +4,6 @@ import { DatabaseControllerService } from 'src/app/services/database/database-co
 import { ListaDepartamentosService } from 'src/app/services/general/lista-departamentos.service';
 import { KeyPasswordControllerService } from 'src/app/services/cipher/key-password-controller.service';
 import { UserValidatorService } from 'src/app/services/validators/user/user-validator.service';
-import { CheckboxControlValueAccessor } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { PasswordValidatorService } from 'src/app/services/validators/user/password-validator.service';
 import { SessionControllerService } from 'src/app/services/authentication/session-controller.service';
@@ -51,17 +50,6 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     private listDepartamentos: ListaDepartamentosService,  private kewPasswordController: KeyPasswordControllerService, 
     private userValidator: UserValidatorService, private passwdValidator: PasswordValidatorService, private _snackBar: MatSnackBar,
     private sessionController: SessionControllerService) { 
-      var admin = sessionController.getAdminSession();
-      if (admin) {
-        var myDNI = sessionController.getDNISession();
-        if (this.dni == myDNI) {
-          this.showPasswdField = true;
-        } else {
-          this.showPasswdField = false;
-        }
-      } else {
-        this.showPasswdField = true;
-      }
   }
 
   openSnackBar() {
@@ -81,6 +69,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
       this.listaDepartamentos = this.listDepartamentos.getDepartamentos();
       this.departamentos = this.listDepartamentos.getDepartamentosOnlyName();
       this.usuario = this.controllerBD.getTemporalUser();
+      this.checkAdmin()
       this.makeCopy();
       if (this.usuario.DNI == "" || this.usuario.DNI != this.dni) {
         this.controllerBD.obtenerUsuario(this.dni).then((result) =>{
@@ -92,6 +81,20 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     this.subQ = this.route.queryParams.subscribe(params => {
       this.profile = JSON.parse(params['profile']); 
     });
+  }
+
+  checkAdmin() {
+    var admin = this.sessionController.getAdminSession();
+    if (admin) {
+      var myDNI = this.sessionController.getDNISession();
+      if (this.dni == myDNI) {
+        this.showPasswdField = true;
+      } else {
+        this.showPasswdField = false;
+      }
+    } else {
+      this.showPasswdField = true;
+      }
   }
 
   makeCopy() {
@@ -242,9 +245,9 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
     }
 
     if (variable) {
-      (<HTMLInputElement>document.getElementById(clase)).type = "text";
+      (<HTMLInputElement>document.getElementById(clase)).classList.remove('notShowPasswd')
     } else {
-      (<HTMLInputElement>document.getElementById(clase)).type = "password";
+      (<HTMLInputElement>document.getElementById(clase)).classList.add('notShowPasswd')
     }
   }
 

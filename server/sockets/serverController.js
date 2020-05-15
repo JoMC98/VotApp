@@ -21,12 +21,12 @@ async function obtenerListaPuertos(result) {
 }
 
 function createServerSocket(port) {
-    // var server = spdy.createServer({
-    //     key: fs.readFileSync(config.SERVER_KEY),
-    //     cert: fs.readFileSync(config.SERVER_CERTIFICATE)
-    //   })
+    var server = spdy.createServer({
+        key: fs.readFileSync(config.SERVER_KEY),
+        cert: fs.readFileSync(config.SERVER_CERTIFICATE)
+      })
 
-    var server = http.createServer()
+    // var server = http.createServer()
 
     server.listen(port, config.SERVER_HOST, function() {
         console.log("Server open at " + port)
