@@ -1,6 +1,6 @@
 const encryptor = require('../helpers/passwordEncryptor.js')
 const controlAccess = require('../models/acceso/controlAccessHelpers.js')
-
+const generalValidator = require('./general.js')
 
 async function checkExistentUser(db, dni) {
     return await new Promise((resolve, reject) => {
@@ -22,14 +22,22 @@ async function checkExistentUser(db, dni) {
 async function checkNewUser(db, user) {
     return await new Promise((resolve, reject) => {
         checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
-              //TODO CHECK VALORES
-            resolve(true)
+            var res = checkValues(user)
+            if (res) {
+                resolve(true)
+            } else {
+                //TODO VALUES
+                var error = {code: 409, error: res}
+                reject(error);
+            }
         }).catch((err) => {
             var error = {code: 409, error: err}
             reject(error);
         })
     })
 }
+
+
 
 async function checkDuplicateKeys(db, DNI, mail) {
     return await new Promise((resolve, reject) => {
@@ -101,7 +109,7 @@ async function checkModifyUser(db, user) {
 async function checkModifyUserData(db, user) {
     return await new Promise((resolve, reject) => {
         checkDuplicateMail(db, user.DNI, user.mail).then(() => {
-            //CHECK VALORES
+            //TODO CHECK VALORES
             resolve(true)
         }).catch((err) => {
             var error = {code: 409, error: err}
@@ -113,7 +121,7 @@ async function checkModifyUserData(db, user) {
 async function checkModifyPasswdData(db, user) {
     return await new Promise((resolve, reject) => {
         checkPassword(db, user.passwords, user.DNI).then(() => {
-            //CHECK VALORES
+            //TODO CHECK VALORES
             resolve(true)
         }).catch(err => {
             var error = {code: 409, error: err}

@@ -1,4 +1,4 @@
-const WEB_URL = 'https://al361869.al.nisu.org';
+const WEB_URL = 'https://jordi.tfg';
 const BADGE = "assets/icons/icon.ico";
 const ACTIONS = [{action: 'openVotApp', title: 'Abrir VotApp'}];
 const ICON = "assets/icons/icon-512x512.png";

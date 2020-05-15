@@ -9,6 +9,7 @@ if [ $tun -gt 0 -a $ip -gt 0 ]; then
 else
 	echo "Encendiendo"
 	systemctl start openvpn@VotApp
+	cp ./public/assets/files/ngsw-worker.js ./public/ngsw-worker.js
 	cp ./openvpn/DNS/DNS_VPN /etc/resolv.conf 
 	node server.js
 fi
