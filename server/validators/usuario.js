@@ -114,11 +114,11 @@ async function checkModifyUserData(db, user) {
 async function checkModifyPasswdData(db, user) {
     return await new Promise((resolve, reject) => {
         auxiliarPasswd.checkPasswordCorrect(db, user.passwords, user.DNI).then(() => {
-            var res = auxiliarPasswd.checkModifyPassword(user.passwords, errors)
+            var res = auxiliarPasswd.checkModifyPassword(user.passwords)
             if (res == true) {
                 resolve(true)
             } else {
-                var error = {code: 409, error: errors}
+                var error = {code: 409, error: res}
                 reject(error);
             }
         }).catch(err => {
