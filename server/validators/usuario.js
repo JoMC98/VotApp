@@ -114,11 +114,11 @@ async function checkModifyUserData(db, user) {
 async function checkModifyPasswdData(db, user) {
     return await new Promise((resolve, reject) => {
         auxiliarPasswd.checkPasswordCorrect(db, user.passwords, user.DNI).then(() => {
-            var res = auxiliarPasswd.checkModifyPassword(user.passwords, errors)
+            var res = auxiliarPasswd.checkModifyPassword(user.passwords)
             if (res == true) {
                 resolve(true)
             } else {
-                var error = {code: 409, error: errors}
+                var error = {code: 409, error: res}
                 reject(error);
             }
         }).catch(err => {
@@ -127,10 +127,6 @@ async function checkModifyPasswdData(db, user) {
         })
     })
 }
-
------BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArzpQY43FP9KJQpA0Rom470FNR3WsTJ/hR7E1B5jOEvy+CfrARc6/WccrpASGPxiZrxIEn1Gfyg1ork4kfcn5DWo7cxi8asL7bNDpIg8Ei7TkL5NTBe2RsqeOAuG68Kd6LVWlEXG4nsflNVkHI5NBrdVuQXAfxk7HVxw9ZV4Lh/OjWLiwvzYYNWRJw/BgrETXiQlLmYxvYdyf59C0c03RLCsyQf2YT7Ty77920g64LKWes8JiJrR2qTjPqnHAoSDjmop8HdAo1gkUndvJJO/2Vm5C7JqILx//Gw4Pk8CZiA4DHkpAOS3pzIqlR15vtOekqzlOS7LnJYGNDf832PGJcQIDAQAB
------END PUBLIC KEY-----
 
 
 module.exports = {
