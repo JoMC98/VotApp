@@ -17,7 +17,7 @@ export class KeyPasswordControllerService {
         var credentials = {password: password, salt: salt, iv: iv}
         var datos = this.AESCipher.encrypt(credentials, keyPair["private"])
   
-        var claves = {clavePublica: keyPair["public"], clavePrivada: JSON.stringify(datos)}
+        var claves = {clavePublica: keyPair["public"], clavePrivada: datos}
   
         resolve(claves)
       })
