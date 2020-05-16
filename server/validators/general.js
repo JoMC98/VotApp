@@ -1,15 +1,20 @@
-exports.checkValues = (object) => {
-    var res = {}
-    var error = false;
-    for (var k of Object.keys(object)) {
-        res[k] = object[k] ? true : false
-        if (!res[k]) {
-            error = true;
-        }
+exports.checkRequired = (att, value, errors) => {
+    if (!value) {
+      errors[att] = "required"
+      return false
     }
-    if (!error) {
-        return(true)
-    } else {
-        return(error)
-    }
+    return true
 }
+
+exports.checkStringsNumbers = (value, res) => {
+    for (var i = 0; i<value.length; i++) {
+      var c = value.charAt(i)
+      if (c != " ") {
+        if (isNaN(c)) {
+          res.str = true
+        } else {
+          res.numb = true
+        }
+      }
+    }
+  }

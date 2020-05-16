@@ -1,6 +1,6 @@
 const encryptor = require('../helpers/passwordEncryptor.js')
 const controlAccess = require('../models/acceso/controlAccessHelpers.js')
-const generalValidator = require('./general.js')
+const auxiliar = require('./auxiliares/auxiliarUsuario.js')
 
 async function checkExistentUser(db, dni) {
     return await new Promise((resolve, reject) => {
@@ -22,11 +22,10 @@ async function checkExistentUser(db, dni) {
 async function checkNewUser(db, user) {
     return await new Promise((resolve, reject) => {
         checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
-            var res = checkValues(user)
-            if (res) {
+            var res = auxiliar.checkNewUser(user, true)
+            if (res == true) {
                 resolve(true)
             } else {
-                //TODO VALUES
                 var error = {code: 409, error: res}
                 reject(error);
             }
