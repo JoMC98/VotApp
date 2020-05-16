@@ -70,7 +70,7 @@ export class HttpRequestService {
     } else if (error.status == 500) {
       this.router.navigate(["/serverError"]);
     } else if (error.status == 409) {
-      return {code: 409, dni: error.error.error.dni, mail: error.error.error.mail, passwd: error.error.error.passwd}
+      return {code: 409, error: error.error.error}
     }else {
       if (!navigator.onLine) {
         this.router.navigate(["/connectionError"]);

@@ -62,11 +62,8 @@ export class ResumenUserComponent implements OnInit {
       })
     }).catch(err => {
       if (err.code == 409) {
-        if (err.dni != null) {
-          this.errors["DNI"] = "duplicated"
-        }
-        if (err.mail != null) {
-          this.errors["mail"] = "duplicated"
+        for (var k of Object.keys(err.error)) {
+          this.errors[k] = err.error[k]
         }
         this.openSnackBar(false)
       }
