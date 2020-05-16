@@ -16,6 +16,7 @@ function gestorSocketVotante(listToSend, userData, references, state) {
 
     server.wsServer.on('request', function(request) {
         var requestIP = request.remoteAddress;
+        console.log(requestIP)
 
         //TODO 1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
 

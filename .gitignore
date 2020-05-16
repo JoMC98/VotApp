@@ -50,9 +50,8 @@ server/node_modules
 server/public
 *.priv
 *.pub
-*.crt
+.crt
 *.key
 
 # OPENVPN
-/openvpn
 *.zip

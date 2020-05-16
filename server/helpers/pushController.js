@@ -21,7 +21,7 @@ function createPayload() {
 
 async function sendNotification(listDNI) {
     return await new Promise((resolve, reject) => {
-        //TODO QUITAR IF ELSE PARA ACTIVAR PUSH
+        //TODO ACTIVAR PUSH (quitar if else)
         if (true) {
             console.log("SENDING PUSH TO " + listDNI)
             resolve(true)
@@ -51,9 +51,6 @@ async function sendNotification(listDNI) {
 
 async function addSubscription(req) {
     return await new Promise((resolve, reject) => {
-        //TODO CON LA VPN
-        //var ip = req.socket.remoteAddress;
-
         var dni = req.body.usuario.DNI;
         var subscription = req.body.subscription;
 
