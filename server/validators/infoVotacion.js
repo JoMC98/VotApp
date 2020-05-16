@@ -1,12 +1,19 @@
 const generators = require('../helpers/listGenerator.js');
 const votacionValidator = require('./votacion.js')
+const auxiliarOpt = require('./auxiliares/auxiliarOpciones.js')
+const auxiliarPart = require('./auxiliares/auxiliarParticipantes.js')
 
 async function checkNewOptions(db, codigo, opciones) {
     return await new Promise((resolve, reject) => {
         votacionValidator.checkExistentVotacion(db, codigo).then(() => {
-            //TODO CHECK VALORES, opciones distintas, minimo de opciones y maximo, etc
-            var options = generators.generateListOptions(codigo, opciones)
-            resolve(options)
+            var res = auxiliarOpt.checkOptions(opciones)
+            if (res.valid == true) {
+                var options = generators.generateListOptions(codigo, res.options)
+                resolve(options)
+            } else {
+                var error = {code: 409, error: res.errors}
+                reject(error)
+            }
         }).catch((err) => {
             var error = {code: 404, error: "Not Found"}
             reject(error);
@@ -17,10 +24,13 @@ async function checkNewOptions(db, codigo, opciones) {
 async function checkNewParticipants(db, codigo, participantes) {
     return await new Promise((resolve, reject) => {
         votacionValidator.checkExistentVotacion(db, codigo).then(() => {
-            //TODO CHECK VALORES, participantes minimos, maximos, dnis validos existentes usar checkExistentUsuario, etc
-            var participants = generators.generateListParticipants(codigo, participantes)
-            resolve(participants)
-            
+            auxiliarPart.checkParticipants(db, participantes).then(part => {
+                var participants = generators.generateListParticipants(codigo, part)
+                resolve(participants)
+            }).catch(errors => {
+                var error = {code: 409, error: errors}
+                reject(error)
+            })
         }).catch((err) => {
             var error = {code: 404, error: "Not Found"}
             reject(error);

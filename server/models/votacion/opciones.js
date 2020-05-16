@@ -51,6 +51,7 @@ function obtenerOpcionesVotacion(db, req, res) {
 
 function modificarOpcionesVotacion(db, req, res) {
     if (req.body.usuario.admin) {
+        //TODO CHECK
         votacionValidator.checkExistentVotacion(db, req.body.codigo)
             .then(() => {
                 db.query(

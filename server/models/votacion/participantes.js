@@ -52,6 +52,7 @@ function obtenerParticipantesVotacion(db, req, res) {
 
 function modificarParticipantesVotacion(db, req, res) {
     if (req.body.usuario.admin) {
+        //TODO CHECK
         votacionValidator.checkExistentVotacion(db, req.body.codigo)
             .then(() => {
                 db.query(
