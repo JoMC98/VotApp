@@ -20,9 +20,9 @@ exports.obtenerUsuarios = (db, req, res) => {
   
 exports.filtrarUsuarios = (db, req, res) => { 
   if (req.body.usuario.admin) {
-    var nombre = '%' + req.body.nombre + '%'
-    var apellidos = '%' + req.body.apellidos + '%'
-    var cargo = '%' + req.body.cargo + '%'
+    var nombre = req.body.nombre ? '%' + req.body.nombre + '%' : '%%'
+    var apellidos = req.body.apellidos ? '%' + req.body.apellidos + '%' : '%%'
+    var cargo = req.body.cargo ? '%' + req.body.cargo + '%' : '%%'
     var departamentos = req.body.departamentos.length == 0 ? listaDepartamentos : req.body.departamentos
     db.query(
       'SELECT dni, nombre, apellidos, departamento, cargo FROM Usuario JOIN Votante USING(dni) WHERE nombre LIKE ? AND apellidos LIKE ? AND cargo LIKE ? AND departamento IN (?)', 
