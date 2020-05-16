@@ -31,7 +31,7 @@ function checkNumberParticipantes(participants, errors) {
     }
     if (part.length > 6) {
         errors["participants"] = "maximum"
-    } else if (opt.length >= 3) {
+    } else if (part.length >= 3) {
         return part
     } else {
         errors["participants"] = "required"
@@ -53,7 +53,7 @@ function checkDuplicatedParticipants(participants, errors) {
 async function checkValidParticipants(db, participants) {
     return await new Promise((resolve, reject) => {
         db.query(
-            'SELECT COUNT(*) AS total FROM Usuario WHERE DNI IN (?)', [participants], (error, result) => {
+            'SELECT COUNT(*) AS total FROM Usuario JOIN Votante USING(DNI) WHERE DNI IN (?)', [participants], (error, result) => {
                 if (error) {
                     reject(false)
                 } else {

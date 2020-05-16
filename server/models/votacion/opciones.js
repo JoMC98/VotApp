@@ -1,24 +1,22 @@
 const controlAccess = require('../acceso/controlAccessHelpers');
 const validator = require('../../validators/infoVotacion.js');
 const votacionValidator = require('../../validators/votacion.js')
+const generators = require('../../helpers/listGenerator.js');
 
 async function insertarOpciones(db, codigo, opciones, res) {
     return await new Promise((resolve, reject) => {
-        validator.checkNewOptions(db, codigo, opciones)
-            .then(options => {
-                db.query(
-                    'INSERT INTO Opcion (codigo, opcion) VALUES ?', [options],
-                    (error) => {
-                    if (error) {
-                        console.log(error)
-                        res.status(500).json({status: 'error'});
-                    } else {
-                        resolve("ok")
-                    }
-                });
-            }).catch((err) => {
-                res.status(err.code).json({error: err.error});
-            })
+        var options = generators.generateListOptions(codigo, opciones)
+        db.query(
+            'INSERT INTO Opcion (codigo, opcion) VALUES ?', [options],
+            (error) => {
+            if (error) {
+                console.log(error)
+                res.status(500).json({status: 'error'});
+            } else {
+                resolve("ok")
+            }
+        });
+        
     });
 }
   
@@ -51,23 +49,25 @@ function obtenerOpcionesVotacion(db, req, res) {
 
 function modificarOpcionesVotacion(db, req, res) {
     if (req.body.usuario.admin) {
-        //TODO CHECK
-        votacionValidator.checkExistentVotacion(db, req.body.codigo)
-            .then(() => {
+        votacionValidator.checkExistentVotacion(db, req.body.codigo).then(() => {
+            validator.checkNewOptions(req.body.opciones).then(options => {
                 db.query(
                     'DELETE FROM Opcion WHERE codigo = ?', [req.body.codigo], 
                     (error, results) => {
                         if (error) {
                             res.status(500).json({status: 'error'});
                         } else {
-                            insertarOpciones(db, req.body.codigo, req.body.opciones, res).then(() => {
+                            insertarOpciones(db, req.body.codigo, options, res).then(() => {
                                 res.status(200).json({status: 'ok'});
                             });
                         }
                 });
-            }).catch(err => {
-                res.status(404).json({error: "Not Found"});
+            }).catch((err) => {
+                res.status(err.code).json({error: err.error});
             })
+        }).catch(err => {
+            res.status(404).json({error: "Not Found"});
+        })
     } else {
         res.status(403).json({status: 'Restricted Access'});
     }

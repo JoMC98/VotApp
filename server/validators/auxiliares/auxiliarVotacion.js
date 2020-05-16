@@ -1,7 +1,7 @@
 const generalValidator = require('../general.js')
 const dptos = require('../../public/assets/files/departamentos.json')
 const departamentos = Object.keys(dptos)
-const ambitos = require('../../public/assets/files/ambitos.json').ambitos
+const ambitos = require('../../public/assets/files/listas.json').ambitos
 
 exports.checkNewVotacion = (votacion) => {
     var errors = {}

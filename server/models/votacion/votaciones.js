@@ -1,4 +1,8 @@
 const controlAccess = require('../acceso/controlAccessHelpers');
+const dptos = require('../../public/assets/files/departamentos.json')
+const listaDepartamentos = Object.keys(dptos)
+const listaAmbitos = require('../../public/assets/files/listas.json').ambitos
+const listaEstados = require('../../public/assets/files/listas.json').estados
 
 exports.obtenerVotaciones = (db, req, res) => {
   if (req.body.usuario.admin) {
@@ -35,12 +39,14 @@ exports.obtenerVotaciones = (db, req, res) => {
 }
 
 exports.filtrarVotaciones = (db, req, res) => { 
-    //TODO CHECK FILTROS?
     var pregunta = '%' + req.body.pregunta + '%';
+    var estados = req.body.estados.length == 0 ? listaEstados : req.body.estados
+    var ambitos = req.body.ambitos.length == 0 ? listaAmbitos : req.body.ambitos
+    var departamentos = req.body.departamentos.length == 0 ? listaDepartamentos : req.body.departamentos
     if (req.body.usuario.admin) {
       db.query(
         'SELECT codigo, pregunta, estado, departamento, f_votacion FROM Votacion WHERE pregunta LIKE ? AND estado IN (?) AND ambito IN (?) AND departamento IN (?)',
-        [pregunta, req.body.estados, req.body.ambitos, req.body.departamentos],
+        [pregunta, estados, ambitos, departamentos],
         (error, results) => {
           if (error) {
             console.log(error);
