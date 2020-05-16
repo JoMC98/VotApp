@@ -66,3 +66,52 @@ exports.checkNewUser = (usuario, newUser) => {
     }
   }
   
+  exports.checkDuplicateKeys = async (db, DNI, mail) => {
+    return await new Promise((resolve, reject) => {
+        db.query(
+            'SELECT DNI FROM Usuario WHERE DNI = ?', [DNI], (error, resDni) => {
+                if (error) {
+                    reject(false)
+                } else {
+                    db.query(
+                    'SELECT DNI FROM Usuario WHERE mail = ?', [mail], (error, resMail) => {
+                        if (error) {
+                            reject(false)
+                        } else {
+                            var duplicate = {}
+                            if (resDni.length > 0) {
+                                duplicate["DNI"] = "duplicated"
+                            }
+                            if (resMail.length > 0) {
+                                duplicate["mail"] = "duplicated"
+                            }
+
+                            if (Object.keys(duplicate).length > 0) {
+                                reject(duplicate)
+                            } else {
+                                resolve(true)
+                            }
+                        }
+                    })
+                }
+        })
+    })
+}
+
+exports.checkDuplicateMail = async (db, DNI, mail) => {
+  return await new Promise((resolve, reject) => {
+      db.query(
+          'SELECT DNI FROM Usuario WHERE mail = ?', [mail], (error, resMail) => {
+              if (error) {
+                  reject(false)
+              } else {
+                  if (resMail.length == 0 || resMail[0].DNI == DNI) {
+                      resolve(true)
+                  } else {
+                      reject({"mail" : "duplicated"})
+                  }
+              }
+      })
+  })
+}
+

@@ -1,6 +1,5 @@
-const encryptor = require('../helpers/passwordEncryptor.js')
-const controlAccess = require('../models/acceso/controlAccessHelpers.js')
 const auxiliar = require('./auxiliares/auxiliarUsuario.js')
+const auxiliarPasswd = require('./auxiliares/auxiliarPassword.js')
 
 async function checkExistentUser(db, dni) {
     return await new Promise((resolve, reject) => {
@@ -23,7 +22,7 @@ async function checkNewUser(db, user) {
     return await new Promise((resolve, reject) => {
         var res = auxiliar.checkNewUser(user, true)
         if (res == true) {
-            checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
+            auxiliar.checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
                 resolve(true)
             }).catch((err) => {
                 var error = {code: 409, error: err}
@@ -31,7 +30,7 @@ async function checkNewUser(db, user) {
             })
         } else {
             var error = {code: 409, error: res}
-            checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
+            auxiliar.checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
                 reject(error);
             }).catch((err) => {
                 if (err["DNI"]) {
@@ -44,38 +43,6 @@ async function checkNewUser(db, user) {
             })
         }
         
-    })
-}
-
-async function checkDuplicateKeys(db, DNI, mail) {
-    return await new Promise((resolve, reject) => {
-        db.query(
-            'SELECT DNI FROM Usuario WHERE DNI = ?', [DNI], (error, resDni) => {
-                if (error) {
-                    reject(false)
-                } else {
-                    db.query(
-                    'SELECT DNI FROM Usuario WHERE mail = ?', [mail], (error, resMail) => {
-                        if (error) {
-                            reject(false)
-                        } else {
-                            var duplicate = {}
-                            if (resDni.length > 0) {
-                                duplicate["DNI"] = "duplicated"
-                            }
-                            if (resMail.length > 0) {
-                                duplicate["mail"] = "duplicated"
-                            }
-
-                            if (Object.keys(duplicate).length > 0) {
-                                reject(duplicate)
-                            } else {
-                                resolve(true)
-                            }
-                        }
-                    })
-                }
-        })
     })
 }
 
@@ -98,7 +65,7 @@ async function checkModifyUser(db, user) {
                         checkModifyPasswdData(db, user).then(() => {
                             reject(err)
                         }).catch(error => {
-                            err.error["passwd"] = "Incorrect password"
+                            err.error["passwd"] = error.error["passwd"]
                             reject(err)
                         })
                     } else {
@@ -122,21 +89,38 @@ async function checkModifyUser(db, user) {
 
 async function checkModifyUserData(db, user) {
     return await new Promise((resolve, reject) => {
-        checkDuplicateMail(db, user.DNI, user.mail).then(() => {
-            //TODO CHECK VALORES
-            resolve(true)
-        }).catch((err) => {
-            var error = {code: 409, error: err}
-            reject(error);
-        })
+        var res = auxiliar.checkNewUser(user, false)
+        if (res == true) {
+            auxiliar.checkDuplicateMail(db, user.DNI, user.mail).then(() => {
+                resolve(true)
+            }).catch((err) => {
+                var error = {code: 409, error: err}
+                reject(error);
+            })
+        } else {
+            var error = {code: 409, error: res}
+            auxiliar.checkDuplicateMail(db, user.DNI, user.mail).then(() => {
+                reject(error)
+            }).catch((err) => {
+                if (err["mail"]) {
+                    error.error["mail"] = err["mail"]
+                }
+                reject(error);
+            })
+        }   
     })
 }
 
 async function checkModifyPasswdData(db, user) {
     return await new Promise((resolve, reject) => {
-        checkPassword(db, user.passwords, user.DNI).then(() => {
-            //TODO CHECK VALORES
-            resolve(true)
+        auxiliarPasswd.checkPasswordCorrect(db, user.passwords, user.DNI).then(() => {
+            var res = auxiliarPasswd.checkModifyPassword(user.passwords, errors)
+            if (res == true) {
+                resolve(true)
+            } else {
+                var error = {code: 409, error: errors}
+                reject(error);
+            }
         }).catch(err => {
             var error = {code: 409, error: err}
             reject(error);
@@ -144,38 +128,9 @@ async function checkModifyPasswdData(db, user) {
     })
 }
 
-async function checkDuplicateMail(db, DNI, mail) {
-    return await new Promise((resolve, reject) => {
-        db.query(
-            'SELECT DNI FROM Usuario WHERE mail = ?', [mail], (error, resMail) => {
-                if (error) {
-                    reject(false)
-                } else {
-                    if (resMail.length == 0 || resMail[0].DNI == DNI) {
-                        resolve(true)
-                    } else {
-                        reject({"mail" : mail})
-                    }
-                }
-        })
-    })
-}
-
-async function checkPassword(db, passwords, DNI) {
-    return await new Promise((resolve, reject) => {
-        controlAccess.obtenerContrasenya(db, DNI).then((results) => {
-            encryptor.comparePassword(passwords.actual, results[0].passwd).then(equals => {
-                if (!equals) {
-                    var error = {code: 409, passwd: 'Incorrect password'}
-                    reject(error);
-                } else {
-                    //TODO CHECK VALORES
-                    resolve(true)
-                }
-            })
-        })
-    })
-}
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArzpQY43FP9KJQpA0Rom470FNR3WsTJ/hR7E1B5jOEvy+CfrARc6/WccrpASGPxiZrxIEn1Gfyg1ork4kfcn5DWo7cxi8asL7bNDpIg8Ei7TkL5NTBe2RsqeOAuG68Kd6LVWlEXG4nsflNVkHI5NBrdVuQXAfxk7HVxw9ZV4Lh/OjWLiwvzYYNWRJw/BgrETXiQlLmYxvYdyf59C0c03RLCsyQf2YT7Ty77920g64LKWes8JiJrR2qTjPqnHAoSDjmop8HdAo1gkUndvJJO/2Vm5C7JqILx//Gw4Pk8CZiA4DHkpAOS3pzIqlR15vtOekqzlOS7LnJYGNDf832PGJcQIDAQAB
+-----END PUBLIC KEY-----
 
 
 module.exports = {
