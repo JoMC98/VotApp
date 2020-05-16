@@ -151,7 +151,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
         return false;
       }
     } else {
-      this.usuario["data"] = null
+      this.usuario["data"] = false
       return null;
     }
   }
@@ -171,7 +171,7 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
           resolve(false)
         }
       } else {
-        this.usuario["passwords"] = null
+        this.usuario["passwords"] = false
         resolve(null)
       }
     })
