@@ -7,7 +7,7 @@
    "SURNAME_KEY" : "auth-apellidos",
    "ADMIN_KEY" : "auth-admin",
    "CHANGEPASSWD_KEY" : "auth-changePasswd",
-   "SOCKET_URL" : "ws://jordi.tfg:",
+   "SOCKET_URL" : "wss://jordi.tfg:",
    "PBKDF2_KEY_BIT_LENGTH" : 128,
    "PBKDF2_ITERATIONS" : 10000,
    "PBKDF2_SALT_BYTES" : 16,

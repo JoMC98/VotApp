@@ -17,8 +17,6 @@ exports.generarListasVotacion = (participantes, ports, admin_IP, admin_clavePubl
 }
 
 exports.getFreePorts = (total) => {
-    console.log(freePorts)
-    console.log(usedPorts)
     if (freePorts < total) {
         return "Wait";
     } else {
