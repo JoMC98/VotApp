@@ -1,3 +1,5 @@
+const auxiliar = require('./auxiliares/auxiliarVotacion.js')
+
 async function checkExistentVotacion(db, codigo) {
     return await new Promise((resolve, reject) => {
         db.query(
@@ -17,8 +19,13 @@ async function checkExistentVotacion(db, codigo) {
 
 async function checkNewVotacion(db, votacion) {
     return await new Promise((resolve, reject) => {
-        //TODO CHECK VALORES y AMBITO; DPTO en LISTA; FECHA > now
-        resolve(true)
+        var res = auxiliar.checkNewVotacion(votacion)
+        if (res == true) {
+            resolve(true)
+        } else {
+            var error = {code: 409, error: res}
+            reject(error)
+        }
     })
 }
 
