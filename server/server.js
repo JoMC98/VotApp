@@ -31,8 +31,8 @@ http.createServer(httpApp).listen(config.SERVER_HTTP_PORT, config.SERVER_HOST, (
 
 const apiApp = express()
   .use(cors())
-  .use(middleware.verificaJSON)
   .use(bodyParser.json())
+  .use(middleware.verificaJSON)
   .use(middleware.verificaToken)
   .use(routes(db));
 

@@ -1,4 +1,5 @@
 const tokenController = require('../helpers/tokenJWT.js');
+const bodyParser = require('body-parser');
 
 exports.verificaToken = (req, res, next) => {
     if (req.url == "/login") {
@@ -15,6 +16,10 @@ exports.verificaToken = (req, res, next) => {
     }
 }
 
-exports.verificaJSON = (req, res, next) => {
-    console.log(req)
+exports.verificaJSON = (err, req, res, next) => {
+    if (err) {
+        res.status(400).send({error: "Error Parsing JSON"})
+    } else {
+        next()
+    }
 }
