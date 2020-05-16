@@ -7,8 +7,11 @@ async function checkNewOptions(db, codigo, opciones) {
     return await new Promise((resolve, reject) => {
         votacionValidator.checkExistentVotacion(db, codigo).then(() => {
             var res = auxiliarOpt.checkOptions(opciones)
+            console.log("OPTIONS")
+            console.log(res)
             if (res.valid == true) {
                 var options = generators.generateListOptions(codigo, res.options)
+                console.log(options)
                 resolve(options)
             } else {
                 var error = {code: 409, error: res.errors}
@@ -24,10 +27,13 @@ async function checkNewOptions(db, codigo, opciones) {
 async function checkNewParticipants(db, codigo, participantes) {
     return await new Promise((resolve, reject) => {
         votacionValidator.checkExistentVotacion(db, codigo).then(() => {
+            console.log("PARTICIPANTS")
             auxiliarPart.checkParticipants(db, participantes).then(part => {
+                console.log(part)
                 var participants = generators.generateListParticipants(codigo, part)
                 resolve(participants)
             }).catch(errors => {
+                console.log(errors)
                 var error = {code: 409, error: errors}
                 reject(error)
             })

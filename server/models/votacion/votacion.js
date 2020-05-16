@@ -9,16 +9,17 @@ exports.nuevaVotacion = (db, req, res) => {
         var votacion = req.body.datos;
         validator.checkNewVotacion(votacion)
             .then(()=> {
-                insertVotacion(db, votacion, req.body.usuario.DNI).then(codigo => {
-                    opciones.insertarOpciones(db, codigo, req.body.opciones, res).then(() => {
-                        participantes.insertarParticipantes(db, codigo, req.body.participantes, res).then(() => {
-                            res.status(200).json({status: 'ok'});
-                        });
-                    });
-                }).catch((err) => {
-                    console.log(err)
-                    res.status(500).json({error: err});
-                })
+                res.status(200).json({status: "ok"});
+                // insertVotacion(db, votacion, req.body.usuario.DNI).then(codigo => {
+                //     opciones.insertarOpciones(db, codigo, req.body.opciones, res).then(() => {
+                //         participantes.insertarParticipantes(db, codigo, req.body.participantes, res).then(() => {
+                //             res.status(200).json({status: 'ok'});
+                //         });
+                //     });
+                // }).catch((err) => {
+                //     console.log(err)
+                //     res.status(500).json({error: err});
+                // })
             }).catch((err) => {
                 res.status(err.code).json({error: err.error});
             })
