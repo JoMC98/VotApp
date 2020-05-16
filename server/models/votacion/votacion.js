@@ -7,19 +7,18 @@ const validator = require('../../validators/votacion.js');
 exports.nuevaVotacion = (db, req, res) => {
     if (req.body.usuario.admin) {
         var votacion = req.body.datos;
-        validator.checkNewVotacion(db, votacion)
+        validator.checkNewVotacion(votacion)
             .then(()=> {
-                res.status(200).json({status: "ok"})
-                // insertVotacion(db, votacion, req.body.usuario.DNI).then(codigo => {
-                //     opciones.insertarOpciones(db, codigo, req.body.opciones, res).then(() => {
-                //         participantes.insertarParticipantes(db, codigo, req.body.participantes, res).then(() => {
-                //             res.status(200).json({status: 'ok'});
-                //         });
-                //     });
-                // }).catch((err) => {
-                //     console.log(err)
-                //     res.status(500).json({error: err});
-                // })
+                insertVotacion(db, votacion, req.body.usuario.DNI).then(codigo => {
+                    opciones.insertarOpciones(db, codigo, req.body.opciones, res).then(() => {
+                        participantes.insertarParticipantes(db, codigo, req.body.participantes, res).then(() => {
+                            res.status(200).json({status: 'ok'});
+                        });
+                    });
+                }).catch((err) => {
+                    console.log(err)
+                    res.status(500).json({error: err});
+                })
             }).catch((err) => {
                 res.status(err.code).json({error: err.error});
             })

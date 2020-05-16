@@ -17,7 +17,7 @@ async function checkExistentVotacion(db, codigo) {
     })
 }
 
-async function checkNewVotacion(db, votacion) {
+async function checkNewVotacion(votacion) {
     return await new Promise((resolve, reject) => {
         var res = auxiliar.checkNewVotacion(votacion)
         if (res == true) {
@@ -32,8 +32,13 @@ async function checkNewVotacion(db, votacion) {
 async function checkModifyVotacion(db, votacion) {
     return await new Promise((resolve, reject) => {
         checkExistentVotacion(db, votacion.codigo).then(() => {
-           //TODO CHECK VALORES y AMBITO; DPTO en LISTA; FECHA > now
-           resolve(true)
+            var res = auxiliar.checkNewVotacion(votacion)
+            if (res == true) {
+                resolve(true)
+            } else {
+                var error = {code: 409, error: res}
+                reject(error)
+            }
         }).catch((err) => {
             var error = {code: 404, error: "Not Found"}
             reject(error);
