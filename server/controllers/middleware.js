@@ -14,3 +14,7 @@ exports.verificaToken = (req, res, next) => {
             })
     }
 }
+
+exports.verificaJSON = (req, res, next) => {
+    console.log(req)
+}

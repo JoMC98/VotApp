@@ -7,7 +7,7 @@ const fs = require('fs')
 
 const routes = require('./controllers/routes.js');
 const db = require('./controllers/db.js');
-const middleware = require('./controllers/authentication.js');
+const middleware = require('./controllers/middleware.js');
 const config = require("./.config/.config.js");
 
 const httpsApp = express()
@@ -31,6 +31,7 @@ http.createServer(httpApp).listen(config.SERVER_HTTP_PORT, config.SERVER_HOST, (
 
 const apiApp = express()
   .use(cors())
+  .use(middleware.verificaJSON)
   .use(bodyParser.json())
   .use(middleware.verificaToken)
   .use(routes(db));
