@@ -21,18 +21,24 @@ async function checkExistentUser(db, dni) {
 
 async function checkNewUser(db, user) {
     return await new Promise((resolve, reject) => {
-        checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
-            var res = auxiliar.checkNewUser(user, true)
-            if (res == true) {
+        var res = auxiliar.checkNewUser(user, true)
+        if (res == true) {
+            checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
                 resolve(true)
-            } else {
-                var error = {code: 409, error: res}
+            }).catch((err) => {
+                var error = {code: 409, error: err}
                 reject(error);
-            }
-        }).catch((err) => {
-            var error = {code: 409, error: err}
-            reject(error);
-        })
+            })
+        } else {
+            var error = {code: 409, error: res}
+            checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
+                reject(error);
+            }).catch((err) => {
+                console.log(err)
+                reject(error);
+            })
+        }
+        
     })
 }
 
