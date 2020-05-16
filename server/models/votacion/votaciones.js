@@ -39,10 +39,10 @@ exports.obtenerVotaciones = (db, req, res) => {
 }
 
 exports.filtrarVotaciones = (db, req, res) => { 
-    var pregunta = '%' + req.body.pregunta + '%';
-    var estados = req.body.estados.length == 0 ? listaEstados : req.body.estados
-    var ambitos = req.body.ambitos.length == 0 ? listaAmbitos : req.body.ambitos
-    var departamentos = req.body.departamentos.length == 0 ? listaDepartamentos : req.body.departamentos
+    var pregunta = req.body.pregunta ? '%' + req.body.pregunta + '%' : '%%'
+    var departamentos = !req.body.departamentos || req.body.departamentos.length == 0 ? listaDepartamentos : req.body.departamentos
+    var estados = !req.body.estados || req.body.estados.length == 0 ? listaEstados : req.body.estados
+    var ambitos = !req.body.ambitos || req.body.ambitos.length == 0 ? listaAmbitos : req.body.ambitos
     if (req.body.usuario.admin) {
       db.query(
         'SELECT codigo, pregunta, estado, departamento, f_votacion FROM Votacion WHERE pregunta LIKE ? AND estado IN (?) AND ambito IN (?) AND departamento IN (?)',

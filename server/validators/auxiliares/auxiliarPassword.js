@@ -61,16 +61,21 @@ function checkPassword(passwd, errors) {
 
   async function checkPasswordCorrect(db, passwords, DNI) {
     return await new Promise((resolve, reject) => {
+      var errors = {}
+      if (generalValidator.checkRequired("actual", passwords.actual, errors)) {
         controlAccess.obtenerContrasenya(db, DNI).then((results) => {
             encryptor.comparePassword(passwords.actual, results[0].passwd).then(equals => {
-                if (!equals) {
-                    var error = {passwd: "incorrect"}
-                    reject(error);
-                } else {
-                    resolve(true)
-                }
+              if (!equals) {
+                  errors = {passwd: "incorrect"}
+                  reject(errors);
+              } else {
+                  resolve(true)
+              }
             })
         })
+      } else {
+        reject(errors);
+      }
     })
   }
 

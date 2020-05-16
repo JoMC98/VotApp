@@ -1,31 +1,38 @@
 const mail = require('../../helpers/mailSender.js');
 const validator = require('../../validators/usuario.js');
 const passController = require('./password.js');
+const encryptor = require('../../helpers/passwordEncryptor.js');
 
 //NUEVO USUARIO
 exports.nuevoUsuario = (db, req, res) => {
   if (req.body.usuario.admin) {
     var user = req.body.nuevoUsuario;
-    validator.checkNewUser(db, user)
-      .then(()=> {
-        insertUsuario(db, user).then(() => {
-          insertVotante(db, user.DNI, req.body.usuario.DNI).then(() => {
-            data = {destination: user.mail, password: user.passwd, name: user.nombre, newUser: true}
-            mail.sendNewMail(data)
-              .then(() => {
-                res.status(200).json({status: 'ok'});
-              }).catch((err) => {
-                res.status(500).json({error: err});
-              })    
+    if (user) {
+      validator.checkNewUser(db, user).then(()=> {
+        encryptor.encryptPassword(req.body.nuevoUsuario.passwd).then(hash => {
+          user.hashPasswd = hash
+          insertUsuario(db, user).then(() => {
+            insertVotante(db, user.DNI, req.body.usuario.DNI).then(() => {
+              data = {destination: user.mail, password: user.passwd, name: user.nombre, newUser: true}
+              mail.sendNewMail(data)
+                .then(() => {
+                  res.status(200).json({status: 'ok'});
+                }).catch((err) => {
+                  res.status(500).json({error: err});
+                })    
+            }).catch((err) => {
+              res.status(500).json({error: err});
+            })
           }).catch((err) => {
             res.status(500).json({error: err});
-          })
-        }).catch((err) => {
-          res.status(500).json({error: err});
-        })  
+          })  
+        })
       }).catch((err) => {
         res.status(err.code).json({error: err.error});
       })
+    } else {
+      res.status(409).json({status: 'Bad format'});
+    }
   } else {
     res.status(403).json({status: 'Restricted Access'});
   }
@@ -93,8 +100,7 @@ exports.obtenerUsuario = (db, req, res) => {
 
 exports.modificarUsuario = (db, req, res) => {
   if (req.body.usuario.admin || req.body.DNI == req.body.usuario.DNI) {
-    validator.checkModifyUser(db, req.body)
-      .then(r => {
+    validator.checkModifyUser(db, req.body).then(r => {
         if (r == "both") {
           modifyUserAction(db, req.body).then(() => {
             passController.modificarContraseña(db, req.body.passwords, req.body.DNI).then(() => {

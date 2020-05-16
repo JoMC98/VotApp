@@ -50,21 +50,25 @@ function obtenerParticipantesVotacion(db, req, res) {
 function modificarParticipantesVotacion(db, req, res) {
     if (req.body.usuario.admin) {
         votacionValidator.checkExistentVotacion(db, req.body.codigo).then(() => {
-            validator.checkNewParticipants(db, req.body.participantes).then(participants => {
-                db.query(
-                    'DELETE FROM Participa WHERE codigo = ?', [req.body.codigo], 
-                    (error, results) => {
-                        if (error) {
-                            res.status(500).json({status: 'error'});
-                        } else {
-                            insertarParticipantes(db, req.body.codigo, participants, res).then(() => {
-                                res.status(200).json({status: 'ok'});
-                            });
-                        }
-                });
-            }).catch((err) => {
-                res.status(err.code).json({error: err.error});
-            })
+            if (req.body.participantes) {
+                validator.checkNewParticipants(db, req.body.participantes).then(participants => {
+                    db.query(
+                        'DELETE FROM Participa WHERE codigo = ?', [req.body.codigo], 
+                        (error, results) => {
+                            if (error) {
+                                res.status(500).json({status: 'error'});
+                            } else {
+                                insertarParticipantes(db, req.body.codigo, participants, res).then(() => {
+                                    res.status(200).json({status: 'ok'});
+                                });
+                            }
+                    });
+                }).catch((err) => {
+                    res.status(err.code).json({error: err.error});
+                })
+            } else {
+                res.status(409).json({status: 'Bad format'});
+            }
         }).catch(err => {
             res.status(404).json({error: "Not Found"});
         })

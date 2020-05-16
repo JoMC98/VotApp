@@ -20,7 +20,7 @@ exports.checkStringsNumbers = (value, res) => {
 }
 
 exports.checkLength = (att, value, longitud, errors) => {
-  if (value.length != longitud) {
+  if (value.length > longitud) {
     errors[att] = "length"
     return false
   }
