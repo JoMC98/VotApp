@@ -5,7 +5,8 @@ const ambitos = require('../../public/assets/files/listas.json').ambitos
 
 exports.checkNewVotacion = (votacion) => {
     var errors = {}
-    generalValidator.checkRequired("pregunta", votacion.pregunta, errors)
+    checkPregunta(votacion.pregunta, errors)
+    checkDescripcion(votacion.descripcion, errors)
     checkDepartamento(votacion.departamento, errors)
     checkAmbito(votacion.ambito, errors)
     checkFecha(votacion.f_votacion, errors)
@@ -14,6 +15,18 @@ exports.checkNewVotacion = (votacion) => {
         return true
     } else {
         return errors
+    }
+}
+
+function checkPregunta(value, errors) {
+    if (generalValidator.checkRequired("pregunta", value, errors)) {
+      generalValidator.checkLength("pregunta", value, 60, errors)
+    }
+}
+
+function checkDescripcion(value, errors) {
+    if (value) {
+        generalValidator.checkLength("descripcion", value, 500, errors)
     }
 }
 

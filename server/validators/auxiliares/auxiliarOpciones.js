@@ -1,3 +1,5 @@
+const generalValidator = require('../general.js')
+
 exports.checkOptions = (options) => {
     var errors = {}
 
@@ -25,6 +27,9 @@ function checkNumberOptions(options, errors) {
     if (opt.length > 6) {
         errors["options"] = "maximum"
     } else if (opt.length >= 2) {
+        for (var op of opt) {
+            generalValidator.checkLength("options", op, 40, errors)
+        }
         return opt
     } else {
         errors["options"] = "required"

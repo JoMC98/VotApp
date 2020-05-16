@@ -1,15 +1,17 @@
 const generalValidator = require('../general.js')
 const passwordAux = require('./auxiliarPassword.js')
+const dptos = require('../../public/assets/files/departamentos.json')
+const departamentos = Object.keys(dptos)
 
 exports.checkNewUser = (usuario, newUser) => {
     var errors = {}
-    checkNameApellidos("nombre", usuario.nombre, errors)
-    checkNameApellidos("apellidos", usuario.apellidos, errors)
+    checkName(usuario.nombre, errors)
+    checkApellidos(usuario.apellidos, errors)
     checkDNI(usuario.DNI, errors)
     checkTelefono(usuario.telefono, errors)
     checkMail(usuario.mail, errors)
-    generalValidator.checkRequired("departamento", usuario.departamento, errors)
-    generalValidator.checkRequired("cargo", usuario.cargo, errors)
+    checkDepartamento(usuario.departamento, errors)
+    checkCargo(usuario.cargo, errors)
     if (newUser) {
         passwordAux.checkPassword(usuario.passwd, errors)
     }
@@ -21,12 +23,26 @@ exports.checkNewUser = (usuario, newUser) => {
     }
 }
 
-  function checkNameApellidos(att, value, errors) {
-    if (generalValidator.checkRequired(att, value, errors)) {
-      var res = {numb: false, str: false}
-      generalValidator.checkStringsNumbers(value, res)
-      if (res.numb) {
-        errors[att] = "badFormed"
+  function checkName(value, errors) {
+    if (generalValidator.checkRequired("nombre", value, errors)) {
+      if (generalValidator.checkLength("nombre", value, 20, errors)) {
+        var res = {numb: false, str: false}
+        generalValidator.checkStringsNumbers(value, res)
+        if (res.numb) {
+          errors[att] = "badFormed"
+        }
+      }
+    }
+  }
+
+  function checkApellidos(value, errors) {
+    if (generalValidator.checkRequired("apellidos", value, errors)) {
+      if (generalValidator.checkLength("apellidos", value, 40, errors)) {
+        var res = {numb: false, str: false}
+        generalValidator.checkStringsNumbers(value, res)
+        if (res.numb) {
+          errors[att] = "badFormed"
+        }
       }
     }
   }
@@ -59,12 +75,28 @@ exports.checkNewUser = (usuario, newUser) => {
 
   function checkMail(mail, errors) {
     if (generalValidator.checkRequired("mail", mail, errors)) {
-      var patt = /\S+@\S+\.\S+/
-      if (!patt.test(mail)) {
-        errors["mail"] = "badFormed"
+      if (generalValidator.checkLength("mail", mail, 40, errors)) {
+        var patt = /\S+@\S+\.\S+/
+        if (!patt.test(mail)) {
+          errors["mail"] = "badFormed"
+        }
       }
     }
   }
+
+  function checkCargo(value, errors) {
+    if (generalValidator.checkRequired("cargo", value, errors)) {
+      generalValidator.checkLength("cargo", value, 40, errors)
+    }
+  }
+
+  function checkDepartamento(departamento, errors) {
+    if (generalValidator.checkRequired("departamento", departamento, errors)) {
+        if (!departamentos.includes(departamento)) {
+            errors["departamento"] = "notValid"
+        }
+    }
+}
   
   exports.checkDuplicateKeys = async (db, DNI, mail) => {
     return await new Promise((resolve, reject) => {
