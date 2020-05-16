@@ -1,0 +1,4 @@
+{
+    "ambitos": ["Pública", "Privada", "Departamento", "Oculta"],
+    "estados": ["Activa", "Creada", "Finalizada"]
+}
