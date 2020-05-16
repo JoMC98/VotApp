@@ -1,11 +1,17 @@
 const usuarioValidator = require('./usuario.js')
+const auxiliarPasswd = require('./auxiliares/auxiliarPassword.js')
 
 async function checkModifyPassword(db, body) {
     return await new Promise((resolve, reject) => {
         usuarioValidator.checkExistentUser(db, body.DNI).then(() => {
             checkFirstPassword(db, body.usuario.DNI).then(() => {
-                //TODO CHECK VALORES
-                resolve(true)
+                var res = auxiliarPasswd.checkModifyPassword(body)
+                if (res == true) {
+                    resolve(true)
+                } else {
+                    var error = {code: 409, error: res}
+                    reject(error);
+                }
             }).catch(err => {
                 var error = {code: 403, error: 'Restricted Access'}
                 reject(error);

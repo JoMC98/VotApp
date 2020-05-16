@@ -65,7 +65,9 @@ async function checkModifyUser(db, user) {
                         checkModifyPasswdData(db, user).then(() => {
                             reject(err)
                         }).catch(error => {
-                            err.error["passwd"] = error.error["passwd"]
+                            for (var k of Object.keys(error.error)) {
+                                err.error[k] = error.error[k]
+                            }
                             reject(err)
                         })
                     } else {

@@ -2,7 +2,6 @@ const encryptor = require('../helpers/passwordEncryptor.js');
 
 async function checkLogin(db, body) {
     return await new Promise((resolve, reject) => {
-        //TODO CHECK VALORES
         checkDNI(db, body.dni).then(user => {
             checkPassword(user.passwd, body.passwd).then(() => {
                 resolve(user)
