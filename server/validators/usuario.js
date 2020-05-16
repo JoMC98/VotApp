@@ -130,7 +130,6 @@ async function checkModifyPasswdData(db, user) {
     })
 }
 
-
 module.exports = {
     checkNewUser: checkNewUser,
     checkExistentUser: checkExistentUser,
