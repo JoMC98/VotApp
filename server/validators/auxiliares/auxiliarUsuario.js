@@ -29,7 +29,7 @@ exports.checkNewUser = (usuario, newUser) => {
         var res = {numb: false, str: false}
         generalValidator.checkStringsNumbers(value, res)
         if (res.numb) {
-          errors[att] = "badFormed"
+          errors["nombre"] = "badFormed"
         }
       }
     }
@@ -41,7 +41,7 @@ exports.checkNewUser = (usuario, newUser) => {
         var res = {numb: false, str: false}
         generalValidator.checkStringsNumbers(value, res)
         if (res.numb) {
-          errors[att] = "badFormed"
+          errors["apellidos"] = "badFormed"
         }
       }
     }

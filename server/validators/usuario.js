@@ -49,37 +49,47 @@ async function checkNewUser(db, user) {
 async function checkModifyUser(db, user) {
     return await new Promise((resolve, reject) => {
         checkExistentUser(db, user.DNI).then(() => {
-            if (user.data != null) {
-                checkModifyUserData(db, user).then(() => {
-                    if (user.passwords != null) {
+            if (user.data != undefined && user.passwords != undefined) {
+                if (user.data) {
+                    checkModifyUserData(db, user).then(() => {
+                        if (user.passwords) {
+                            checkModifyPasswdData(db, user).then(() => {
+                                resolve("both")
+                            }).catch(err => {
+                                reject(err)
+                            })
+                        } else {
+                            resolve("data")
+                        }
+                    }).catch(err => {
+                        if (user.passwords) {
+                            checkModifyPasswdData(db, user).then(() => {
+                                reject(err)
+                            }).catch(error => {
+                                for (var k of Object.keys(error.error)) {
+                                    err.error[k] = error.error[k]
+                                }
+                                reject(err)
+                            })
+                        } else {
+                            reject(err)
+                        }
+                    })
+                } else {
+                    if (user.passwords) {
                         checkModifyPasswdData(db, user).then(() => {
-                            resolve("both")
+                            resolve("passwd")
                         }).catch(err => {
                             reject(err)
                         })
                     } else {
-                        resolve("data")
+                        var error = {code: 409, error: "Bad format"}
+                        reject(error);
                     }
-                }).catch(err => {
-                    if (user.passwords != null) {
-                        checkModifyPasswdData(db, user).then(() => {
-                            reject(err)
-                        }).catch(error => {
-                            for (var k of Object.keys(error.error)) {
-                                err.error[k] = error.error[k]
-                            }
-                            reject(err)
-                        })
-                    } else {
-                        reject(err)
-                    }
-                })
+                }
             } else {
-                checkModifyPasswdData(db, user).then(() => {
-                    resolve("passwd")
-                }).catch(err => {
-                    reject(err)
-                })
+                var error = {code: 409, error: "Bad format"}
+                reject(error);
             }
         }).catch((err) => {
             var error = {code: 404, error: "Not Found"}

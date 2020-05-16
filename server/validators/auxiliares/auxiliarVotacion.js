@@ -27,6 +27,10 @@ function checkPregunta(value, errors) {
 function checkDescripcion(value, errors) {
     if (value) {
         generalValidator.checkLength("descripcion", value, 500, errors)
+    } else {
+        if (value != "") {
+            errors["descripcion"] = "required"
+        }
     }
 }
 

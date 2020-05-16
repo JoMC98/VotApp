@@ -7,28 +7,31 @@ const validatorInfo = require('../../validators/infoVotacion.js');
 exports.nuevaVotacion = (db, req, res) => {
     if (req.body.usuario.admin) {
         var votacion = req.body.datos;
-        validator.checkNewVotacion(votacion).then(()=> {
-            validatorInfo.checkNewOptions(req.body.opciones).then(options => {
-                validatorInfo.checkNewParticipants(db, req.body.participantes).then(participants => {
-                    insertVotacion(db, votacion, req.body.usuario.DNI).then(codigo => {
-                        opciones.insertarOpciones(db, codigo, options, res).then(() => {
-                            participantes.insertarParticipantes(db, codigo, participants, res).then(() => {
-                                res.status(200).json({status: 'ok'});
+        if (votacion && req.body.opciones && req.body.participantes) {
+            validator.checkNewVotacion(votacion).then(()=> {
+                validatorInfo.checkNewOptions(req.body.opciones).then(options => {
+                    validatorInfo.checkNewParticipants(db, req.body.participantes).then(participants => {
+                        insertVotacion(db, votacion, req.body.usuario.DNI).then(codigo => {
+                            opciones.insertarOpciones(db, codigo, options, res).then(() => {
+                                participantes.insertarParticipantes(db, codigo, participants, res).then(() => {
+                                    res.status(200).json({status: 'ok'});
+                                });
                             });
-                        });
+                        }).catch((err) => {
+                            res.status(500).json({error: err});
+                        })
                     }).catch((err) => {
-                        res.status(500).json({error: err});
+                        res.status(err.code).json({error: err.error});
                     })
                 }).catch((err) => {
                     res.status(err.code).json({error: err.error});
                 })
             }).catch((err) => {
-                console.log(err)
                 res.status(err.code).json({error: err.error});
-            })
-        }).catch((err) => {
-            res.status(err.code).json({error: err.error});
-        })   
+            })   
+        } else {
+            res.status(409).json({status: 'Bad format'});
+        }
     } else {
         res.status(403).json({status: 'Restricted Access'});
     }
@@ -79,22 +82,21 @@ exports.obtenerVotacion = (db, req, res) => {
 
 exports.modificarVotacion = (db, req, res) => {
     if (req.body.usuario.admin) {
-        validator.checkModifyVotacion(db, req.body)
-            .then(()=> {
-                db.query(
-                'UPDATE Votacion SET pregunta=?, f_votacion=?, descripcion=?, departamento=?, ambito=? WHERE codigo=?',
-                    [req.body.pregunta, new Date(req.body.f_votacion), req.body.descripcion, req.body.departamento, req.body.ambito, req.body.codigo],
-                    (error) => {
-                        if (error) {
-                            console.error(error);
-                            res.status(500).json({status: 'error'});
-                        } else {
-                            res.status(200).json({status: 'ok'});
-                        }
-                });
-            }).catch((err) => {
-                res.status(err.code).json({error: err.error});
-            })    
+        validator.checkModifyVotacion(db, req.body).then(()=> {
+            db.query(
+            'UPDATE Votacion SET pregunta=?, f_votacion=?, descripcion=?, departamento=?, ambito=? WHERE codigo=?',
+                [req.body.pregunta, new Date(req.body.f_votacion), req.body.descripcion, req.body.departamento, req.body.ambito, req.body.codigo],
+                (error) => {
+                    if (error) {
+                        console.error(error);
+                        res.status(500).json({status: 'error'});
+                    } else {
+                        res.status(200).json({status: 'ok'});
+                    }
+            });
+        }).catch((err) => {
+            res.status(err.code).json({error: err.error});
+        })    
     } else {
         res.status(403).json({status: 'Restricted Access'});
     }
