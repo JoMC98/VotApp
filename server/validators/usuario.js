@@ -34,15 +34,18 @@ async function checkNewUser(db, user) {
             checkDuplicateKeys(db, user.DNI, user.mail).then(() => {
                 reject(error);
             }).catch((err) => {
-                console.log(err)
+                if (err["DNI"]) {
+                    error.error["DNI"] = err["DNI"]
+                }
+                if (err["mail"]) {
+                    error.error["mail"] = err["mail"]
+                }
                 reject(error);
             })
         }
         
     })
 }
-
-
 
 async function checkDuplicateKeys(db, DNI, mail) {
     return await new Promise((resolve, reject) => {
@@ -56,9 +59,15 @@ async function checkDuplicateKeys(db, DNI, mail) {
                         if (error) {
                             reject(false)
                         } else {
-                            var duplicate = {dni: resDni.length > 0 ? DNI : null, mail: resMail.length > 0 ? mail : null}
+                            var duplicate = {}
+                            if (resDni.length > 0) {
+                                duplicate["DNI"] = "duplicated"
+                            }
+                            if (resMail.length > 0) {
+                                duplicate["mail"] = "duplicated"
+                            }
 
-                            if (duplicate["dni"] != null || duplicate["mail"] != null) {
+                            if (Object.keys(duplicate).length > 0) {
                                 reject(duplicate)
                             } else {
                                 resolve(true)

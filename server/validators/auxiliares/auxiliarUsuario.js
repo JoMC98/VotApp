@@ -21,7 +21,7 @@ exports.checkNewUser = (usuario, newUser) => {
     }
 }
 
-checkNameApellidos(att, value, errors) {
+  function checkNameApellidos(att, value, errors) {
     if (generalValidator.checkRequired(att, value, errors)) {
       var res = {numb: false, str: false}
       generalValidator.checkStringsNumbers(value, res)
@@ -31,7 +31,7 @@ checkNameApellidos(att, value, errors) {
     }
   }
 
-  checkDNI(DNI, errors) {
+  function checkDNI(DNI, errors) {
     if (generalValidator.checkRequired("DNI", DNI, errors)) {
       if (DNI.length != 9) {
         errors["DNI"] = "length"
@@ -43,15 +43,21 @@ checkNameApellidos(att, value, errors) {
     } 
   }
 
-  checkTelefono(telefono, errors) {
+  function checkTelefono(telefono, errors) {
     if (generalValidator.checkRequired("telefono", telefono, errors)) {
-      if (telefono.toString().length < 7 || telefono.toString().length > 11) {
-        errors["telefono"] = "length"
+      var res = {numb: false, str: false}
+      generalValidator.checkStringsNumbers(telefono, res)
+      if (res.str) {
+        errors["telefono"] = "badFormed"
+      } else {
+        if (telefono.toString().length < 7 || telefono.toString().length > 11) {
+          errors["telefono"] = "length"
+        }
       }
     }
   }
 
-  checkMail(mail, errors) {
+  function checkMail(mail, errors) {
     if (generalValidator.checkRequired("mail", mail, errors)) {
       var patt = /\S+@\S+\.\S+/
       if (!patt.test(mail)) {
@@ -59,3 +65,4 @@ checkNameApellidos(att, value, errors) {
       }
     }
   }
+  
