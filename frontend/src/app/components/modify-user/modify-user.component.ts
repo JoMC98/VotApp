@@ -215,11 +215,8 @@ export class ModifyUserComponent implements OnInit, OnDestroy {
             })
           }).catch(err => {
             if (err.code == 409) {
-              if (err.mail != null) {
-                this.errors["mail"] = "duplicated"
-              }
-              if (err.passwd != null) {
-                this.errors["passwd"] = "incorrect"
+              for (var k of Object.keys(err.error)) {
+                this.errors[k] = err.error[k]
               }
             }
           });
