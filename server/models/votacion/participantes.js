@@ -1,25 +1,22 @@
 const controlAccess = require('../acceso/controlAccessHelpers');
 const validator = require('../../validators/infoVotacion.js');
 const votacionValidator = require('../../validators/votacion.js')
+const generators = require('../../helpers/listGenerator.js');
 
 async function insertarParticipantes(db, codigo, participantes, res) {
     return await new Promise((resolve, reject) => {
-        validator.checkNewParticipants(db, codigo, participantes)
-            .then(participants => {
-                db.query(
-                    'INSERT INTO Participa (DNI, codigo) VALUES ?', [participants],
-                    (error) => {
-                    if (error) {
-                        console.log(error)
-                        res.status(500).json({status: 'error'});
-                    } else {
-                        resolve("ok")
-                    }
-                });
-            }).catch((err) => {
-                console.log(err)
-                res.status(err.code).json({error: err.error});
-            })
+        var participants = generators.generateListParticipants(codigo, participantes)
+         db.query(
+            'INSERT INTO Participa (DNI, codigo) VALUES ?', [participants],
+            (error) => {
+            if (error) {
+                console.log(error)
+                res.status(500).json({status: 'error'});
+            } else {
+                resolve("ok")
+            }
+        });
+        
     });
 }
   
@@ -52,23 +49,25 @@ function obtenerParticipantesVotacion(db, req, res) {
 
 function modificarParticipantesVotacion(db, req, res) {
     if (req.body.usuario.admin) {
-        //TODO CHECK
-        votacionValidator.checkExistentVotacion(db, req.body.codigo)
-            .then(() => {
+        votacionValidator.checkExistentVotacion(db, req.body.codigo).then(() => {
+            validator.checkNewParticipants(db, req.body.participantes).then(participants => {
                 db.query(
                     'DELETE FROM Participa WHERE codigo = ?', [req.body.codigo], 
                     (error, results) => {
                         if (error) {
                             res.status(500).json({status: 'error'});
                         } else {
-                            insertarParticipantes(db, req.body.codigo, req.body.participantes, res).then(() => {
+                            insertarParticipantes(db, req.body.codigo, participants, res).then(() => {
                                 res.status(200).json({status: 'ok'});
                             });
                         }
                 });
-            }).catch(err => {
-                res.status(404).json({error: "Not Found"});
+            }).catch((err) => {
+                res.status(err.code).json({error: err.error});
             })
+        }).catch(err => {
+            res.status(404).json({error: "Not Found"});
+        })
     } else {
         res.status(403).json({status: 'Restricted Access'});
     }

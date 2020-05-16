@@ -1,3 +1,6 @@
+const dptos = require('../../public/assets/files/departamentos.json')
+const listaDepartamentos = Object.keys(dptos)
+
 exports.obtenerUsuarios = (db, req, res) => {
   if (req.body.usuario.admin) {
     db.query(
@@ -16,14 +19,14 @@ exports.obtenerUsuarios = (db, req, res) => {
 }
   
 exports.filtrarUsuarios = (db, req, res) => { 
-  //TODO CHECK FILTROS?
   if (req.body.usuario.admin) {
     var nombre = '%' + req.body.nombre + '%'
     var apellidos = '%' + req.body.apellidos + '%'
     var cargo = '%' + req.body.cargo + '%'
+    var departamentos = req.body.departamentos.length == 0 ? listaDepartamentos : req.body.departamentos
     db.query(
       'SELECT dni, nombre, apellidos, departamento, cargo FROM Usuario JOIN Votante USING(dni) WHERE nombre LIKE ? AND apellidos LIKE ? AND cargo LIKE ? AND departamento IN (?)', 
-      [nombre, apellidos, cargo, req.body.departamentos],
+      [nombre, apellidos, cargo, departamentos],
       (error, results) => {
         if (error) {
           console.log(error);
@@ -41,7 +44,6 @@ exports.filtrarUsuarios = (db, req, res) => {
 exports.obtenerUsuariosFueraVotacion = (db, req, res) => {
   if (req.body.usuario.admin) {
     var participantes = req.body.participantes;
-    //TODO CHECK FILTROS?
     if (!participantes) {
       participantes = [];
     }
