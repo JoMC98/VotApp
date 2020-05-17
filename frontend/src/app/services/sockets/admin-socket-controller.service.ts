@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '../general/configuration.service';
 import { DatosVotacionControllerService } from './datos-votacion-controller.service';
@@ -17,11 +18,15 @@ export class AdminSocketControllerService {
   stop = false;
 
   constructor(private config: ConfigurationService, private controllerVotacion: DatosVotacionControllerService, 
-    private senderController: SenderMessageControllerService, private controllerBD: DatabaseControllerService) {}
+    private senderController: SenderMessageControllerService, private controllerBD: DatabaseControllerService, private router: Router) {}
 
   createSocketAdmin(port, token) {
     this.cerrado = false;
     this.ws = new WebSocket(this.config.SOCKET_URL + port);
+    this.ws.onerror = (event) => {
+      this.clearData()
+      this.router.navigate(["/restrictedAccess"]);
+    }
     this.sendToken(token);
     this.controlMessages();
   }

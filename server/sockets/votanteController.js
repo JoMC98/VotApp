@@ -10,17 +10,14 @@ function gestorSocketVotante(listToSend, userData, references, state) {
     var serverReferences = references.serverReferences
 
     var server = serverController.createServerSocket(userData.port);
-    var ip = userData.ip 
 
-    serverReferences[ip].server = server
+    serverReferences[userData.ip].server = server
 
     server.wsServer.on('request', function(request) {
-        var requestIP = request.remoteAddress;
-        console.log(requestIP)
-
-        //TODO 1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
-
-        //if (!state.conexion[ip] && requestIP == ip) {
+        //TODO VALIDAR IP
+        // var requestIP = request.remoteAddress;
+        // var ip = userData.ip 
+        // if (!state.conexion[ip] && requestIP == ip) {
         if (!state.conexion[ip]) {
             state.conexion[ip] = true;
             aceptarConexion(request, socketReferences, userData, server, state, listToSend)

@@ -10,14 +10,12 @@ function gestorSocketAdmin(list, references, state) {
     var serverReferences = references.serverReferences
 
     var server = serverController.createServerSocket(list.adminPort);
-    var ip = list.adminIP
-
+    
     server.wsServer.on('request', function(request) {
-        var requestIP = request.remoteAddress;
-        console.log(requestIP)
-        
-        //TODO 1st VALIDAR IP con VPN y validar QUE VIENE DEL NISU
-        //if (!connected && requestIP == ip) {
+        //TODO VALIDAR IP
+        //var requestIP = request.remoteAddress;
+        //var ip = list.adminIP
+        //if (!state.conexion.admin && requestIP == ip) {
         if (!state.conexion.admin) {
             state.conexion.admin = true;
             aceptarConexion(request, socketReferences, serverReferences, server, state, list)

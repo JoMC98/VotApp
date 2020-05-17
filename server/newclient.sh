@@ -37,9 +37,8 @@ do
     if [ "$IP" != "" ]; then
         node ../storeIP.js $DNI $IP
         res=$(echo $?)
-
-        if [[ "$res" == '0' ]]; then
-            break
+        if [ $res == '0' ]; then
+            break;
         fi
     fi
     echo "***** ERROR AL INTRODUCIR EL DNI *****"
