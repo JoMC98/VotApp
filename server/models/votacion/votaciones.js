@@ -82,7 +82,7 @@ exports.filtrarVotaciones = (db, req, res) => {
 exports.obtenerHomeVotaciones = (db, req, res) => { 
   if (req.body.usuario.admin) {
     db.query(
-      'SELECT codigo, pregunta, estado, f_votacion FROM Votacion WHERE estado IN ("Activa", "Creada") AND f_votacion > CURRENT_DATE ORDER BY f_votacion ASC LIMIT 4',
+      'SELECT codigo, pregunta, estado, f_votacion FROM Votacion WHERE estado IN ("Activa", "Creada") AND f_votacion >= CURRENT_DATE ORDER BY f_votacion ASC LIMIT 4',
       (error, results) => {
         if (error) {
           console.log(error);
@@ -94,7 +94,7 @@ exports.obtenerHomeVotaciones = (db, req, res) => {
     ); 
   } else {
     db.query(
-      'SELECT codigo, pregunta, estado, f_votacion FROM Votacion AS v WHERE (? IN (SELECT DNI FROM Participa AS p WHERE v.codigo = p.codigo) AND f_votacion > CURRENT_DATE) AND ' +
+      'SELECT codigo, pregunta, estado, f_votacion FROM Votacion AS v WHERE (? IN (SELECT DNI FROM Participa AS p WHERE v.codigo = p.codigo) AND f_votacion >= CURRENT_DATE) AND ' +
       '((estado IN ("Activa", "Creada") AND ambito IN ("Publica", "Privada", "Departamento")) OR (estado = "Activa" AND ambito = "Oculta")) ORDER BY f_votacion ASC LIMIT 6',
       [req.body.usuario.DNI],
       (error, results) => {

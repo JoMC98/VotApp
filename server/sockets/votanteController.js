@@ -11,12 +11,13 @@ function gestorSocketVotante(listToSend, userData, references, state) {
 
     var server = serverController.createServerSocket(userData.port);
 
-    serverReferences[userData.ip].server = server
+    var ip = userData.ip 
+
+    serverReferences[ip].server = server
 
     server.wsServer.on('request', function(request) {
         //TODO VALIDAR IP
         // var requestIP = request.remoteAddress;
-        // var ip = userData.ip 
         // if (!state.conexion[ip] && requestIP == ip) {
         if (!state.conexion[ip]) {
             state.conexion[ip] = true;

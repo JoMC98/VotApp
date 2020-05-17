@@ -125,6 +125,7 @@ async function checkModifyUserData(db, user) {
 
 async function checkModifyPasswdData(db, user) {
     return await new Promise((resolve, reject) => {
+        user.passwords.clavePrivada = JSON.stringify(user.passwords.clavePrivada)
         auxiliarPasswd.checkPasswordCorrect(db, user.passwords, user.DNI).then(() => {
             var res = auxiliarPasswd.checkModifyPassword(user.passwords)
             if (res == true) {

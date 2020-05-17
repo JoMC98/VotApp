@@ -5,6 +5,7 @@ async function checkModifyPassword(db, body) {
     return await new Promise((resolve, reject) => {
         usuarioValidator.checkExistentUser(db, body.DNI).then(() => {
             checkFirstPassword(db, body.usuario.DNI).then(() => {
+                body.clavePrivada = JSON.stringify(body.clavePrivada)
                 var res = auxiliarPasswd.checkModifyPassword(body)
                 if (res == true) {
                     resolve(true)

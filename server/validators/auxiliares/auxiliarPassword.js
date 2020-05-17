@@ -20,7 +20,7 @@ function checkPassword(passwd, errors) {
     var errors = {}
     checkPassword(passwords.nueva, errors)
     checkClavePublica(passwords.clavePublica, errors)
-    checkClavePrivada(JSON.stringify(passwords.clavePrivada), errors)
+    checkClavePrivada(passwords.clavePrivada, errors)
 
     if (Object.keys(errors).length == 0) {
       return true

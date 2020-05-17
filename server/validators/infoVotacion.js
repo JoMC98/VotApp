@@ -2,6 +2,7 @@
 const votacionValidator = require('./votacion.js')
 const auxiliarOpt = require('./auxiliares/auxiliarOpciones.js')
 const auxiliarPart = require('./auxiliares/auxiliarParticipantes.js')
+const generators = require('../helpers/listGenerator.js')
 
 async function checkNewOptions(opciones) {
     return await new Promise((resolve, reject) => {
@@ -33,6 +34,8 @@ async function checkNewResultados(db, codigo, vots) {
                 resolve(votos)
             })
         }).catch((err) => {
+            console.log(err)
+            console.log("NOT EXIST ADD")
             var error = {code: 404, error: "Not Found"}
             reject(error);
         })

@@ -22,10 +22,10 @@ function createPayload() {
 async function sendNotification(listDNI) {
     return await new Promise((resolve, reject) => {
         //TODO ACTIVAR PUSH (quitar if else)
-        if (true) {
-            console.log("SENDING PUSH TO " + listDNI)
-            resolve(true)
-        } else {
+        // if (true) {
+        //     console.log("SENDING PUSH TO " + listDNI)
+        //     resolve(true)
+        // } else {
             let PUBLIC_KEY = readFile(config.VAPID_PUBLIC_KEY).toString('utf8')
             let PRIVATE_KEY = readFile(config.VAPID_PRIVATE_KEY).toString('utf8')
 
@@ -45,7 +45,7 @@ async function sendNotification(listDNI) {
             ))
             .then(() => resolve(true))
             .catch(() =>reject(true));   
-        }
+        // }
     })
 }
 

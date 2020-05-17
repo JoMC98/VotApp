@@ -5,13 +5,14 @@ const model = require('../../helpers/pushController.js');
 
 function rutado() {
     router.post('/subscription', (req, res) => {
-        res.status(200).json({status: 'ok'});
-        // model.addSubscription(req)
-        //     .then(() => {
-        //         res.status(200).json({status: 'ok'});
-        //     }).catch((err) => {
-        //         res.status(500).json({error: err});
-        //     })
+        //TODO PUSH subscription
+        //res.status(200).json({status: 'ok'});
+        model.addSubscription(req)
+            .then(() => {
+                res.status(200).json({status: 'ok'});
+            }).catch((err) => {
+                res.status(500).json({error: err});
+            })
     })
 
     return router;

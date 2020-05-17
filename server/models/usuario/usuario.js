@@ -125,6 +125,7 @@ exports.modificarUsuario = (db, req, res) => {
           }) 
         }
       }).catch((err) => {
+        console.log(err)
         res.status(err.code).json({error: err.error});
       })
   } else {

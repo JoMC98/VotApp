@@ -26,9 +26,9 @@ function modifyActions(db, req, res) {
         .then(()=> {
             encryptor.encryptPassword(req.body.nueva).then(hash => {
                 modifyPassword(db, hash, req.body, req.body.DNI).then(() => {
-                    res.status(200).json({status: 'ok'});
+                  res.status(200).json({status: 'ok'});
                 }).catch((err) => {
-                    res.status(500).json({error: "error"});
+                  res.status(500).json({error: "error"});
                 })
             })
         }).catch((err) => {

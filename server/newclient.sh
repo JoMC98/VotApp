@@ -28,32 +28,36 @@ chmod 777 votapp.zip
 rm *.ovpn
 echo -e "---- Zip generado ----\n"
 
-echo "---- Guardando datos en BBDD ----"
+# echo "---- Guardando datos en BBDD ----"
+# while true
+# do
+#     echo "Introduce el DNI: "
+#     read DNI
+#     IP=$(cat $rutaIP/$DNI | cut -d" " -f2)
+#     if [ "$IP" != "" ]; then
+#         node ../storeIP.js $DNI $IP
+#         res=$(echo $?)
+#         if [ $res == '0' ]; then
+#             break;
+#         fi
+#     fi
+#     echo "***** ERROR AL INTRODUCIR EL DNI *****"
+# done
+# echo -e "---- Datos guardados en BBDD ----\n"
+
+echo "---- Enviando correo ----"
+
 while true
 do
     echo "Introduce el DNI: "
     read DNI
-    IP=$(cat $rutaIP/$DNI | cut -d" " -f2)
-    if [ "$IP" != "" ]; then
-        node ../storeIP.js $DNI $IP
-        res=$(echo $?)
-        if [ $res == '0' ]; then
-            break;
-        fi
-    fi
-    echo "***** ERROR AL INTRODUCIR EL DNI *****"
-done
-echo -e "---- Datos guardados en BBDD ----\n"
-
-echo "---- Enviando correo ----"
-while true
-do
     node ../mail.js $DNI
     res=$(echo $?)
 
     if [[ "$res" == '0' ]]; then
         break
     fi
+    echo "***** ERROR AL INTRODUCIR EL DNI *****"
 done
 echo -e "---- Correo enviado ----\n"
 

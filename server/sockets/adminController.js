@@ -9,12 +9,12 @@ function gestorSocketAdmin(list, references, state) {
     var socketReferences = references.socketReferences
     var serverReferences = references.serverReferences
 
+    var ip = list.adminIP
     var server = serverController.createServerSocket(list.adminPort);
     
     server.wsServer.on('request', function(request) {
         //TODO VALIDAR IP
         //var requestIP = request.remoteAddress;
-        //var ip = list.adminIP
         //if (!state.conexion.admin && requestIP == ip) {
         if (!state.conexion.admin) {
             state.conexion.admin = true;
