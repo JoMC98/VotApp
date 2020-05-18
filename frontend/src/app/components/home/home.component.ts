@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.activas = []
       for (let i of Object.keys(result)) {
         var vot = result[i]
-        if (vot.estado == "Activa") {
+        if (!this.admin && vot.estado == "Activa") {
           this.activas.push(vot)
         } else {
           this.votaciones.push(vot)

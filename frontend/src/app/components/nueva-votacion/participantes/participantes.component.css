@@ -18,3 +18,15 @@
   ::ng-deep .mat-snack-bar-handset {
     margin-bottom: 30% !important;
   }
+
+  .divNoVotacion {
+    display: flex;
+    margin: 30px 0px;
+}
+
+.textNoVotacion {
+    color: #ADADAD;
+    font-size: 18px;
+    font-style: italic;
+    margin: auto;
+}

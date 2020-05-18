@@ -18,6 +18,9 @@
 </div>
 
 <div class="listadoPanel">
+    <div *ngIf="iniciales.length == 0" class="divNoVotacion">
+        <span class="textNoVotacion">No hay ningún usuario</span>
+    </div>
     <div class="formContainer divLetra" *ngFor="let inicial of iniciales">
         <div class="containerDptoNewParticipante">
             <label class="inicialListaUsers">{{inicial | uppercase}}</label>

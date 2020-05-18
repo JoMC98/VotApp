@@ -43,8 +43,13 @@
             <mat-card *ngIf="admin" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + votacion.estado">
                 <label class="fechaVotacion">{{votacion.estado}}</label>
             </mat-card>
-            <mat-card *ngIf="!admin && votacion.estado == 'Activa' && participa" 
-            class="panelBotonParticiparVotacion" (click)="rutar()">
+            <mat-card *ngIf="!admin && votacion.estado == 'Creada' || votacion.estado == 'Finalizada'" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + votacion.estado">
+                <label class="fechaVotacion">{{votacion.estado}}</label>
+            </mat-card>
+            <mat-card *ngIf="!admin && votacion.estado == 'Activa' && !participa" class="panelEstadoVotacion" [class]="'panelEstadoVotacion' + votacion.estado">
+                <label class="fechaVotacion">{{votacion.estado}}</label>
+            </mat-card>
+            <mat-card *ngIf="!admin && votacion.estado == 'Activa' && participa" class="panelBotonParticiparVotacion" (click)="rutar()">
                 <label class="fechaVotacion">Participar</label>
             </mat-card>
             <div class="containerElementosVotacion">

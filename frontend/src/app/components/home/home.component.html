@@ -33,12 +33,17 @@
             </mat-card>
         </div>
         <hr class="hrHome"/>
-        <div class="divTitleCardsHomeAdmin">
-            <div class="titleCardsHomeAdmin">
+        <div *ngIf="votaciones.length > 0" class="divTitleCardsHomeAdmin">
+            <div  class="titleCardsHomeAdmin">
                 Votaciones cercanas
             </div>
         </div>
-        <div class="divCardsHomeAdmin">
+        <div *ngIf="votaciones.length == 0" class="divTitleCardsHomeAdminNoVotacion">
+            <div *ngIf="votaciones.length == 0" class="titleCardsHomeAdminNoVotacion">
+                Sin votaciones cercanas
+            </div>
+        </div>
+        <div *ngIf="votaciones.length > 0" class="divCardsHomeAdmin">
             <div class="subdivCardsHomeAdmin">
                 <mat-card *ngFor="let vot of votaciones; let i = index" class="cardHomeAdmin" 
                 [ngClass]="votaciones[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.codigo]" [queryParams]="{home: true}">
@@ -50,12 +55,17 @@
     </div>
 
     <div class="panelCardsHome" *ngIf="!admin && activas.length == 0">
-        <div class="divTitleCardsHomeAdmin">
-            <div class="titleCardsHomeAdmin">
+        <div *ngIf="votaciones.length > 0" class="divTitleCardsHomeAdmin">
+            <div  class="titleCardsHomeAdmin">
                 Votaciones cercanas
             </div>
         </div>
-        <div class="divCardsHomeVotante">
+        <div *ngIf="votaciones.length == 0" class="divTitleCardsHomeVotNoVotacion">
+            <div *ngIf="votaciones.length == 0" class="titleCardsHomeAdminNoVotacion">
+                Sin votaciones cercanas
+            </div>
+        </div>
+        <div *ngIf="votaciones.length > 0" class="divCardsHomeVotante">
             <div class="subdivCardsHomeVotante">
                 <mat-card *ngFor="let vot of votaciones; let i = index" class="cardHomeAdmin" 
                 [ngClass]="votaciones[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.codigo]" [queryParams]="{home: true}">
@@ -73,18 +83,18 @@
             </div>
         </div>
         <div class="divCardsHomeVotanteActivas">
-            <mat-card *ngFor="let vot of activas; let i = index" class="cardHomeAdmin" 
-                [ngClass]="votaciones[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',vot.codigo]" [queryParams]="{home: true}">
-                    <div class="preguntaAdminHome">{{vot.pregunta}}</div>
-                    <div class="fechaAdminHome">{{vot.f_votacion | date: 'd MMMM'}}</div>
+            <mat-card *ngFor="let act of activas; let i = index" class="cardHomeAdmin" 
+                [ngClass]="activas[i] ? 'cardColorOpcion' + i : 'cardNotDisplay'" [routerLink]="['/votacion',act.codigo]" [queryParams]="{home: true}">
+                    <div class="preguntaAdminHome">{{act.pregunta}}</div>
+                    <div class="fechaAdminHome">{{act.f_votacion | date: 'd MMMM'}}</div>
             </mat-card>
         </div>
-        <div class="divTitleCardsHomeAdmin">
+        <div *ngIf="votaciones.length > 0" class="divTitleCardsHomeAdmin">
             <div class="titleCardsHomeAdmin">
                 Votaciones cercanas
             </div>
         </div>
-        <div class="divCardsHomeAdmin">
+        <div *ngIf="votaciones.length > 0" class="divCardsHomeAdmin">
             <div class="subdivCardsHomeAdmin">
                 <mat-card *ngFor="let vot of votaciones; let i = index" class="cardHomeAdmin" 
                 [ngClass]="votaciones[i] ? 'cardColorOpcion' + (i + 2) : 'cardNotDisplay'" [routerLink]="['/votacion',vot.codigo]" [queryParams]="{home: true}">

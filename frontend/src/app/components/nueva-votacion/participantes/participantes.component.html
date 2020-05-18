@@ -10,6 +10,9 @@
 </div>
 
 <div class="addDatosPanelParticipantesLista">
+    <div *ngIf="usuarios.length == 0" class="divNoVotacion">
+        <span class="textNoVotacion">No hay ningún usuario</span>
+    </div>
     <div class="divLetra" *ngFor="let inicial of users | keyvalue">
         <div class="containerDptoNewParticipante">
             <label class="inicialListaUsers">{{inicial.key | uppercase}}</label>

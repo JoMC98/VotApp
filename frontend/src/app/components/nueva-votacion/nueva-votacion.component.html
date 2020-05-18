@@ -3,14 +3,14 @@
     <label class="titlePanelH2">Nueva votación</label>
   </div>
   <div class="subtitlePanelSmall allContent">
-    <label class="subtitlePanelH3" *ngIf="sect[0] == 1">Datos básicos</label>
-    <label class="subtitlePanelH3" *ngIf="sect[0] == 2">Descripción</label>
+    <label class="subtitlePanelH3" *ngIf="sect[0] == 1">Paso 1 - Datos básicos</label>
+    <label class="subtitlePanelH3" *ngIf="sect[0] == 2">Paso 2 - Descripción</label>
     <label class="subtitlePanelH3" *ngIf="sect[0] == 3">
-      Opciones
+      Paso 3 - Opciones
       <i *ngIf="errors['options']" class="fas fa-exclamation-triangle alertOpciones" #tooltip="matTooltip" 
         (click)="tooltip.toggle()" [matTooltipPosition]="'below'" [matTooltip]="errorTypes.options[errors['options']]"></i>
     </label>
-    <label class="subtitlePanelH3" *ngIf="sect[0] == 4">Participantes</label>
+    <label class="subtitlePanelH3" *ngIf="sect[0] == 4">Paso 4 - Participantes</label>
     <label class="subtitlePanelH3-Res" *ngIf="sect[0] == 5">Comprueba que los datos sean correctos</label><br>
   </div>
   

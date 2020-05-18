@@ -44,7 +44,10 @@ export class FooterComponent implements OnInit, OnDestroy {
                    pagina.startsWith("/users") || 
                    pagina == "/nuevoUser") {
           this.page = 3;
-        } else {
+        } else if (pagina =="/serverError" || pagina == "/notFound" || pagina == "/restrictedAccess" || pagina == "/connectionError") {
+          this.page = 5;
+        }
+        else {
           this.page = 1;
         }
       }

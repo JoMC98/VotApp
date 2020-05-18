@@ -26,6 +26,9 @@
 </div>
 
 <div class="listadoPanel allContent90">
+    <div *ngIf="activas.length == 0 && week.length == 0 && meses.length == 0" class="divNoVotacion">
+        <span class="textNoVotacion">No hay ninguna votación</span>
+    </div>
     <div *ngIf="activas.length > 0" class="formContainer">
         <div class="containerDptoNewParticipante" (click)="mostrarOcultar('Activas')">
             <i class="fas flechaNewParticipante fa-chevron-down" id="flechaActivas"></i>

@@ -1,0 +1,11 @@
+.divNoVotacion {
+    display: flex;
+    margin: 30px 0px;
+}
+
+.textNoVotacion {
+    color: #ADADAD;
+    font-size: 18px;
+    font-style: italic;
+    margin: auto;
+}

@@ -87,6 +87,28 @@
     display: flex;
 }
 
+.divTitleCardsHomeAdminNoVotacion {
+    width: 90%;
+    margin: 30% 5%;
+    margin-bottom: 0px;
+    height: 10%;
+    font-size: 20px;
+    font-style: italic;
+    color: #ADADAD;
+    display: flex;
+}
+
+.divTitleCardsHomeVotNoVotacion {
+    width: 90%;
+    margin: 50% 5%;
+    margin-bottom: 0px;
+    height: 10%;
+    font-size: 20px;
+    font-style: italic;
+    color: #ADADAD;
+    display: flex;
+}
+
 .divTitleCardsHomeAdminActivas {
     width: 90%;
     margin: 3% 5% 0px 5%;
@@ -95,6 +117,10 @@
     font-size: 25px;
     color: #DCF6F5;
     display: flex;
+}
+
+.titleCardsHomeAdminNoVotacion {
+    margin: auto;
 }
 
 .titleCardsHomeAdmin {

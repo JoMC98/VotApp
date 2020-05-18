@@ -84,7 +84,7 @@
 }
 
 ::ng-deep .flecha {
-    font-size: 30px;
+    font-size: 40px;
     color: #D1967D;
     margin-left: 10px;
     margin-right: 10px;
@@ -138,8 +138,9 @@
 
 ::ng-deep .listadoPanel {
     height: 75%;
-    width: 90%;
+    width: 80%;
     margin-left: 10%;
+    margin-right: 10%;
     overflow: scroll;
 }
 
@@ -163,8 +164,9 @@
 }
 
 ::ng-deep .addDatosPanelParticipantesLista {
-    width: 90%;
+    width: 80%;
     margin-left: 10%;
+    margin-right: 10%;
     overflow: scroll;
     height: 88%;
 }
@@ -1674,8 +1676,14 @@ select:-webkit-autofill:focus {
     top: -21.5px !important;
     left: 30px !important;
     padding: 0px !important;
-    background: #cb4e4e !important;
-    box-shadow: 0 8px #ab3c3c !important;
+    /* background: #cb4e4e !important; */
+    /* background: #8FA7AA !important; */
+    /* background: #AC88B6 !important; */
+    background: #6FB7C1 !important;
+    /* box-shadow: 0 8px #ab3c3c !important; */
+    /* box-shadow: 0 8px #708284 !important; */
+    /* box-shadow: 0 8px #806388 !important; */
+    box-shadow: 0 8px #3B7E87 !important;
     border: none !important;
     outline: none !important;
     -webkit-transition: all 0.3s !important;
