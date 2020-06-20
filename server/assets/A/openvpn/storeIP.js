@@ -1,4 +1,4 @@
-const db = require('../controllers/db.js');
+const db = require('../../../controllers/db.js');
 
 if (process.argv[2] && process.argv[3]) {
     var DNI = process.argv[2]

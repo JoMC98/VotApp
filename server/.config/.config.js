@@ -1,6 +1,6 @@
 module.exports = {
     HTTPS: true,
-    SERVER_HOST: '192.168.1.136',
+    SERVER_HOST: '192.168.210.1',
     SERVER_HTTPS_PORT: 443,
     SERVER_HTTP_PORT: 80,
     SERVER_API_PORT: 4300,
