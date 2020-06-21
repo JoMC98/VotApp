@@ -50,15 +50,15 @@ async function sendNewMail(data) {
       .then(mailOptions => {
         //TODO ACTIVAR MAIL
         console.log("SENDING MAIL TO " + data.destination)
-        resolve("OK")
-        // transporter.sendMail(mailOptions, function(error, info){
-        //   if (error) {
-        //     reject(error)
-        //   } else {
-        //     resolve("OK")
-        //     transport.close();
-        //   }
-        // });
+        // resolve("OK")
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            reject(error)
+          } else {
+            resolve("OK")
+            transport.close();
+          }
+        });
       })
       .catch(err => {
         reject(err)
