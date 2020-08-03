@@ -5,6 +5,9 @@ const resultadosController = require('../models/votacion/resultados.js')
 const errorController = require('../models/acceso/errorVotacion.js')
 const db = require('../controllers/db.js');
 
+var alteracion = { cifrado: 'fofnAKWbCzAqEKWYs27PhkaEZCwlzyu9GxGf4j/vdW56sJZEEnOiNRnYXBVLc+0OObB4t5b0rxrpXza5qJGbMc6Nq8xARQNegmFkzJsz1icyPwLfEGmJs6Y11lR1piCxp27FJReIv3BtMn+jheRbNLaWt+gkJ8iE/fEm1GpC40uf4rCg0//H9n4CYQkeDiRd3tmOjvJKJJBzV+Om+oG5e702CrqoZA2OUCbw6+V6vKjVt7Dq25CFyMwW2IKZo0dSO5VVBW67KPyOAEecZ9rXbJhqvLWxSeyoLqpa79+/sRFU1gLOYjjp0+OOpYDJdMTxNOr1RBvErLA9BebOYPrXqA==pxpYsB9hBksmNGDscNBcXmRkVVmAAx1tDYBfTAs6zYrKxN1HP+Ikg1VVJaQGCgsBR7f+CiE2gfoilDnE/0eDePwutqhEmPcbRrm1IPEZCB3fG9eEbldWIAdv2PmSCfBrpElB9pyiOTSjPhk7X18g30FbKwb3kvuMwZ4+64XWasySlaSJbvIHqVSHaJ5Z+jxw9zCKghw6CaxwtZ7mwTTbDVCmBHjsU4JSxXVpoFgYyR+q5vm/pAcXhzIv5MNq4HFfR61YMqrLUqppFfAP8mpzZhJmxS/zPzCS1OXHR90l61ExWq1qmUHpB3uol+ShC7n6mvKzh8OLRu6bw7vI19e+hA==aMXWIy757/6Y5wK3nDdBfzKtR0OC3rE078XQoZWADiE37Ivbq7Qp0llRJTOU/4NwOU2KDLDM9hPX4B5BWyisLgVGc31FeCSI+iI+PZkVjeb9OVb4hslUWHunx+YJj3Ip9nxBPhorGUbaGfvxByRam9MlxdYybjMHdgj3S2q71uo3DdgwpMbLEnwP6tHsLturme+JVqNlGmhyu2jNZwhFg5bhh+sCuLre8O/yfiJUIi41lxDAPtc/ADWJ2HwmQtGAECELsOh6+zQ5EJx44JTqiM2s00mvzxCsAI0bdepKhJBWvcdBxLDG6ZGk//L0+5RoDhWH5VzNeN28P/EXtw5Ncw==',
+       signature: 'dGrksvGYnmowvbWxnLxAM7A0zrqr9bEmnne462Yc7YjPgo4aJs/0VPv4qGfjsnMtH7EM2nzbxfasMOOVrxNRsPbmrutklofLyu2dDLOixk6oD7pNO3jSUNMGVjMqE1oh2hvm9fTas5rMysyHhSvM0RNKiJIJYhdEayxd8aVDYISkUe28L8ROBvMWPzrY6R0r3XAsfmEcIGhG0SU0RCTyP84tv9QYs2N+LfZmN7IXOelDvNw0Bocd2dKtH4eTjYjv1WYdivgoQldX8ZQGTw0wJQNNzN54z8v+/bNLh44tlZkCBPPvOmt4KvZKqtnASKHHlUQFAiIlI0vOXPaHhWTAUg==' }
+
 function gestorSocketVotante(listToSend, userData, references, state) {
     var socketReferences = references.socketReferences
     var serverReferences = references.serverReferences
@@ -108,6 +111,9 @@ function controlVotos(mess, socketReferences, dataLocal, userData, server, state
                 state.firsts = null
             }
         }
+    } else if (fase == "4") {
+        //message.data.list[0] = alteracion
+        serverController.sendMessage(socketReferences[destino], message)
     } else if (fase == "Z") {
         if (!state.faseZ.users[userData.ip]) {
             state.faseZ.received = state.faseZ.received + 1;
